@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 //import 'package:simple_slider/simple_slider.dart';
@@ -94,107 +95,57 @@ class _MyHomePageState extends State<MyHomePage> {
 
 //TODO:add scrolling for all body items
     return new Scaffold(
+//      body: ListView(
+//        children: <Widget>[
+//          ListTile(
+//            title: Text('Sun'),
+//          ),
+//          ListTile(
+//            title: Text('Moon'),
+//          ),
+//          ListTile(
+//            title: Text('Star'),
+//          ),
+//        ],
+//      ),
       body: new Stack(
-          children: <Widget>[ Container( //My container or any other widget
+          children: <Widget>[
+//      ListView(
+//      children: <Widget>[
+            Container( //My container or any other widget
             color: Color.fromRGBO(14, 11, 38, 1),
-            child: Column(
+            child: ListView(
+              padding: const EdgeInsets.all(0.0),
               children: <Widget>[
-                SizedBox(
-                    height: 250.0,
-                    child: Carousel(
-                      images: [
-//                    NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-//                    NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
-                        ExactAssetImage("extreme2.jpg"),
-                        ExactAssetImage("extreme2.jpg"),
-                        ExactAssetImage("extreme2.jpg"),
-                        ExactAssetImage("extreme2.jpg"),
-                        ExactAssetImage("extreme2.jpg"),
-                      ],
-                      dotSize: 4.0,
-                      dotSpacing: 15.0,
-                      dotColor: Color.fromRGBO(255, 255, 255, 0.7),
-                      indicatorBgPadding: 1.0,
-                      dotBgColor: Colors.purple.withOpacity(0.0),
-                      borderRadius: false,
-                      moveIndicatorFromBottom: 180.0,
-                      noRadiusForIndicator: true,
-                    )
-                ),
-//                SingleChildScrollView(
-//                  // this is the first scroll
-//                  scrollDirection: Axis.vertical,
-//                  controller: firstScroll, // THIS IS THE FIRST SCROLL CONTROLLER
-//                  child: Container(
-//                    //TODO: add your content here here
-//                    padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
-//                    child: Column(
-//                      children: [
-//
-//                      ],
-//                  ),
+                _carouselOfMainVideos(context),
+//                Container(
+//                  padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+//                  child: Text(
+//                    'Интересные виды спорта',
+//                    style: TextStyle(
+//                      fontFamily: 'RobotoMono',
+//                      fontSize: 20.0,
+//                      color: Colors.white,
+//                    ),
 //                  ),
 //                ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
-                  child: Column(
-                    children: [
-                    Text(
-                      'Рекомендуемые видео',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      child: Card(
-                        color: Colors.transparent,
-                        child: Column(
-                          children: <Widget>[
-                          ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                              child: Image(
-                                image:
-                                ExactAssetImage("extreme2.jpg"),
-                              ),
-                          ),
-                          ],
-                        ),
-                    ),
-                    ),
-                      Text(
-                        'Формула 1. Россия',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(
-                        child: Card(
-                          color: Colors.transparent,
-                          child: Column(
-                            children: <Widget>[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image(
-                                  image:
-                                  ExactAssetImage("extreme2.jpg"),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Text(
-                        'Формула 1. Италия',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                  ],
+//                _interestingVideo(context),
+              Container(
+                padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                child: Text(
+                  'Рекомендуемые видео',
+                  style: TextStyle(
+                    fontFamily: 'RobotoMono',
+                    fontSize: 20.0,
+                    color: Colors.white,
+                  ),
                 ),
-                ),
+              ),
+                _recommendedVideo(context),
               ],
             ),
-          ),
+      ),
+            //------------------------------------
             new Positioned( //Place it at the top, and not use the entire screen
               top: 0.0,
               left: 0.0,
@@ -212,14 +163,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 elevation: 0.0, //Shadow gone
               ),
             ),
-//            new Container(
-//              child: ImageSliderWidget(
-//                imageUrls: _imageUrls,
-//                imageBorderRadius: BorderRadius.circular(10.0),
-//                imageHeight: 8,
-//              ),
-//            ),
-
           ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -273,4 +216,196 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
     );
   }
+}
+
+Widget _carouselOfMainVideos(BuildContext context) {
+  return SizedBox(
+      height: 250.0,
+      child: Carousel(
+        images: [
+//                    NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
+//                    NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+          ExactAssetImage("extreme2.jpg"),
+          ExactAssetImage("extreme2.jpg"),
+          ExactAssetImage("extreme2.jpg"),
+          ExactAssetImage("extreme2.jpg"),
+          ExactAssetImage("extreme2.jpg"),
+        ],
+        dotSize: 4.0,
+        dotSpacing: 15.0,
+        dotColor: Color.fromRGBO(255, 255, 255, 0.7),
+        indicatorBgPadding: 10.0,
+        dotBgColor: Colors.purple.withOpacity(0.0),
+        borderRadius: false,
+        moveIndicatorFromBottom: 180.0,
+        noRadiusForIndicator: true,
+        overlayShadow: true,
+        overlayShadowColors:  Color.fromRGBO(14, 11, 38, 1),
+        overlayShadowSize: 0.7,
+      )
+  );
+}
+
+Widget _interestingVideo(BuildContext context) {
+  return Container(
+    padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
+    child: Column(
+      children: [
+//        Text(
+//          'Рекомендуемые видео',
+//          style: TextStyle(
+//            color: Colors.white,
+//          ),
+//        ),
+        SizedBox(
+          child: Card(
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image:
+                    ExactAssetImage("extreme2.jpg"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          'Формула 1. Россия',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(
+          child: Card(
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image:
+                    ExactAssetImage("extreme2.jpg"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          'Формула 1. Италия',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(
+          child: Card(
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image:
+                    ExactAssetImage("extreme2.jpg"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          'Формула 1. Абу-Даби',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _recommendedVideo(BuildContext context) {
+  return Container(
+    padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
+    child: Column(
+      children: [
+//        Text(
+//          'Рекомендуемые видео',
+//          style: TextStyle(
+//            color: Colors.white,
+//          ),
+//        ),
+        SizedBox(
+          child: Card(
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image:
+                    ExactAssetImage("extreme2.jpg"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          'Формула 1. Россия',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(
+          child: Card(
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image:
+                    ExactAssetImage("extreme2.jpg"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          'Формула 1. Италия',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(
+          child: Card(
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    image:
+                    ExactAssetImage("extreme2.jpg"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          'Формула 1. Абу-Даби',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ],
+    ),
+  );
 }

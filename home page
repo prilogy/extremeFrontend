@@ -82,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedIndex = index;
     });
   }
-
+  ScrollController firstScroll = ScrollController();
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -92,34 +92,154 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-
+//TODO:add scrolling for all body items
     return new Scaffold(
+//      body: ListView(
+//        children: <Widget>[
+//          ListTile(
+//            title: Text('Sun'),
+//          ),
+//          ListTile(
+//            title: Text('Moon'),
+//          ),
+//          ListTile(
+//            title: Text('Star'),
+//          ),
+//        ],
+//      ),
       body: new Stack(
-          children: <Widget>[ Container( //My container or any other widget
+          children: <Widget>[
+//      ListView(
+//      children: <Widget>[
+            Container( //My container or any other widget
             color: Color.fromRGBO(14, 11, 38, 1),
-          ),
-            SizedBox(
-                height: 250.0,
-                child: Carousel(
-                  images: [
+            child: ListView(
+              padding: const EdgeInsets.all(0.0),
+              children: <Widget>[
+
+                SizedBox(
+                    height: 250.0,
+                    child: Carousel(
+                      images: [
 //                    NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
 //                    NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
-                    ExactAssetImage("extreme2.jpg"),
-                    ExactAssetImage("extreme1.jpg"),
-                    ExactAssetImage("extreme2.jpg"),
-                    ExactAssetImage("extreme1.jpg"),
-                    AssetImage('extreme1.jpg'),
+                        ExactAssetImage("extreme2.jpg"),
+                        ExactAssetImage("extreme2.jpg"),
+                        ExactAssetImage("extreme2.jpg"),
+                        ExactAssetImage("extreme2.jpg"),
+                        ExactAssetImage("extreme2.jpg"),
+                      ],
+                      dotSize: 4.0,
+                      dotSpacing: 15.0,
+                      dotColor: Color.fromRGBO(255, 255, 255, 0.7),
+                      indicatorBgPadding: 1.0,
+                      dotBgColor: Colors.purple.withOpacity(0.0),
+                      borderRadius: false,
+                      moveIndicatorFromBottom: 180.0,
+                      noRadiusForIndicator: true,
+                    )
+                ),
+//                SingleChildScrollView(
+//                  // this is the first scroll
+//                  scrollDirection: Axis.vertical,
+//                  controller: firstScroll, // THIS IS THE FIRST SCROLL CONTROLLER
+//                  child: Container(
+//                    //TODO: add your content here here
+//                    padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
+//                    child: Column(
+//                      children: [
+//
+//                      ],
+//                  ),
+//                  ),
+//                ),
+//              ListView(
+//                children: <Widget>[
+                Container(
+                  padding: EdgeInsets.fromLTRB(5, 20, 5, 0),
+                  child: Column(
+                    children: [
+                    Text(
+                      'Рекомендуемые видео',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      child: Card(
+                        color: Colors.transparent,
+                        child: Column(
+                          children: <Widget>[
+                          ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                              child: Image(
+                                image:
+                                ExactAssetImage("extreme2.jpg"),
+                              ),
+                          ),
+                          ],
+                        ),
+                    ),
+                    ),
+                      Text(
+                        'Формула 1. Россия',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        child: Card(
+                          color: Colors.transparent,
+                          child: Column(
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image(
+                                  image:
+                                  ExactAssetImage("extreme2.jpg"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Формула 1. Италия',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(
+                        child: Card(
+                          color: Colors.transparent,
+                          child: Column(
+                            children: <Widget>[
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image(
+                                  image:
+                                  ExactAssetImage("extreme2.jpg"),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Формула 1. Абу-Даби',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                   ],
-                  dotSize: 4.0,
-                  dotSpacing: 15.0,
-                  dotColor: Colors.indigo,
-                  indicatorBgPadding: 1.0,
-                  dotBgColor: Colors.purple.withOpacity(0.0),
-                  borderRadius: true,
-                  moveIndicatorFromBottom: 180.0,
-                  noRadiusForIndicator: true,
-                )
+                ),
+                ),
+              ],
             ),
+//          ),
+//            ],
+      ),
+            //------------------------------------
             new Positioned( //Place it at the top, and not use the entire screen
               top: 0.0,
               left: 0.0,
