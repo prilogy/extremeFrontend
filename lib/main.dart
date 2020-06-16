@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:flutter/painting.dart';
+
 //import 'package:simple_slider/simple_slider.dart';
 //import 'package:carousel_slider/carousel_slider.dart';
 
@@ -56,6 +58,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   int _selectedIndex = 0;
+
 //  final _imageUrls = [
 //    "https://png.pngtree.com/thumb_back/fw800/back_pic/00/03/35/09561e11143119b.jpg",
 //    "https://png.pngtree.com/thumb_back/fw800/back_pic/04/61/87/28586f2eec77c26.jpg",
@@ -83,7 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedIndex = index;
     });
   }
+
   ScrollController firstScroll = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -93,127 +98,113 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
 
-//TODO:add scrolling for all body items
     return new Scaffold(
-//      body: ListView(
-//        children: <Widget>[
-//          ListTile(
-//            title: Text('Sun'),
-//          ),
-//          ListTile(
-//            title: Text('Moon'),
-//          ),
-//          ListTile(
-//            title: Text('Star'),
-//          ),
-//        ],
-//      ),
-      body: new Stack(
+      body: Container(
+        color: Color.fromRGBO(14, 11, 38, 1),
+        child: ListView(
+          padding: const EdgeInsets.all(0.0),
           children: <Widget>[
-//      ListView(
-//      children: <Widget>[
-            Container( //My container or any other widget
-            color: Color.fromRGBO(14, 11, 38, 1),
-            child: ListView(
-              padding: const EdgeInsets.all(0.0),
+            new Stack(
               children: <Widget>[
-                _carouselOfMainVideos(context),
-//                Container(
-//                  padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-//                  child: Text(
-//                    'Интересные виды спорта',
-//                    style: TextStyle(
-//                      fontFamily: 'RobotoMono',
-//                      fontSize: 20.0,
-//                      color: Colors.white,
-//                    ),
-//                  ),
-//                ),
-//                _interestingVideo(context),
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-                child: Text(
-                  'Рекомендуемые видео',
-                  style: TextStyle(
-                    fontFamily: 'RobotoMono',
-                    fontSize: 20.0,
-                    color: Colors.white,
+                Container(
+                  //My container or any other widget
+                  color: Color.fromRGBO(14, 11, 38, 1),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _carouselOfMainVideos(context),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                        child: Text(
+                          'Интересные виды спорта',
+                          style: TextStyle(
+                            fontFamily: 'RobotoMono',
+                            fontSize: 20.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      _interestingVideo(context),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
+                        child: Text(
+                          'Рекомендуемые видео',
+                          style: TextStyle(
+                            fontFamily: 'RobotoMono',
+                            fontSize: 20.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      _recommendedVideo(context),
+                    ],
                   ),
                 ),
-              ),
-                _recommendedVideo(context),
+                new Positioned(
+                  //Place it at the top, and not use the entire screen
+                  top: 0.0,
+                  left: 0.0,
+                  right: 0.0,
+                  child: AppBar(
+                    title: Text('Extreme'),
+                    actions: <Widget>[
+                      new IconButton(
+                        icon: new Icon(Icons.search),
+                        onPressed: _searchIconAction,
+                      ),
+                    ],
+                    backgroundColor: Colors.transparent, //No more green
+                    elevation: 0.0, //Shadow gone
+                  ),
+                ),
               ],
-            ),
-      ),
-            //------------------------------------
-            new Positioned( //Place it at the top, and not use the entire screen
-              top: 0.0,
-              left: 0.0,
-              right: 0.0,
-              child:
-              AppBar(
-                title: Text('Extreme'),
-                actions: <Widget>[
-                  new IconButton(
-                    icon: new Icon(Icons.search),
-                    onPressed: _searchIconAction,
-                  ),
-                ],
-                backgroundColor: Colors.transparent, //No more green
-                elevation: 0.0, //Shadow gone
-              ),
-            ),
-          ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Color.fromRGBO(47, 44, 71, 1),
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.white,
-          onTap: _onItemTapped,
-          items: const < BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text("Home"),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.playlist_play,
-                color: Color.fromRGBO(182, 181, 189, 1)
-                ),
-              title: Text(
-                'Browse',
-                style: TextStyle(
-                  color: Color.fromRGBO(182, 181, 189, 1),
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.library_books,
-                color: Color.fromRGBO(182, 181, 189, 1)
-                ),
-              title: Text(
-                'News',
-                style: TextStyle(
-                  color: Color.fromRGBO(182, 181, 189, 1),
-                ),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.account_box,
-                color: Color.fromRGBO(182, 181, 189, 1)
-                ),
-              title: Text(
-                  'Account',
-                  style: TextStyle(
-                    color: Color.fromRGBO(182, 181, 189, 1),
-                  ),
-              ),
             ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color.fromRGBO(47, 44, 71, 1),
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.white,
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text("Home"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.playlist_play,
+                color: Color.fromRGBO(182, 181, 189, 1)),
+            title: Text(
+              'Browse',
+              style: TextStyle(
+                color: Color.fromRGBO(182, 181, 189, 1),
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_books,
+                color: Color.fromRGBO(182, 181, 189, 1)),
+            title: Text(
+              'News',
+              style: TextStyle(
+                color: Color.fromRGBO(182, 181, 189, 1),
+              ),
+            ),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_box,
+                color: Color.fromRGBO(182, 181, 189, 1)),
+            title: Text(
+              'Account',
+              style: TextStyle(
+                color: Color.fromRGBO(182, 181, 189, 1),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -240,87 +231,103 @@ Widget _carouselOfMainVideos(BuildContext context) {
         moveIndicatorFromBottom: 180.0,
         noRadiusForIndicator: true,
         overlayShadow: true,
-        overlayShadowColors:  Color.fromRGBO(14, 11, 38, 1),
+        overlayShadowColors: Color.fromRGBO(14, 11, 38, 1),
         overlayShadowSize: 0.7,
-      )
-  );
+      ));
 }
 
 Widget _interestingVideo(BuildContext context) {
   return Container(
-    padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
-    child: Column(
-      children: [
-//        Text(
-//          'Рекомендуемые видео',
-//          style: TextStyle(
-//            color: Colors.white,
-//          ),
-//        ),
+    color: Color.fromRGBO(14, 11, 38, 1),
+//                  color: Colors.white,
+    margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
+    height: 110,
+    child: ListView(
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
         SizedBox(
           child: Card(
+            elevation: 0.0,
             color: Colors.transparent,
             child: Column(
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
-                    image:
-                    ExactAssetImage("extreme2.jpg"),
+                    width: 200,
+                    image: ExactAssetImage("extreme2.jpg"),
                   ),
                 ),
               ],
             ),
           ),
         ),
-        Text(
-          'Формула 1. Россия',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
         SizedBox(
           child: Card(
+            elevation: 0.0,
             color: Colors.transparent,
             child: Column(
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
-                    image:
-                    ExactAssetImage("extreme2.jpg"),
+                    width: 200,
+                    image: ExactAssetImage("extreme2.jpg"),
                   ),
                 ),
               ],
             ),
           ),
         ),
-        Text(
-          'Формула 1. Италия',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
         SizedBox(
           child: Card(
+            elevation: 0.0,
             color: Colors.transparent,
             child: Column(
               children: <Widget>[
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
-                    image:
-                    ExactAssetImage("extreme2.jpg"),
+                    width: 200,
+                    image: ExactAssetImage("extreme2.jpg"),
                   ),
                 ),
               ],
             ),
           ),
         ),
-        Text(
-          'Формула 1. Абу-Даби',
-          style: TextStyle(
-            color: Colors.white,
+        SizedBox(
+          child: Card(
+            elevation: 0.0,
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    width: 200,
+                    image: ExactAssetImage("extreme2.jpg"),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        SizedBox(
+          child: Card(
+            elevation: 0.0,
+            color: Colors.transparent,
+            child: Column(
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image(
+                    width: 200,
+                    image: ExactAssetImage("extreme2.jpg"),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -330,8 +337,9 @@ Widget _interestingVideo(BuildContext context) {
 
 Widget _recommendedVideo(BuildContext context) {
   return Container(
-    padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
+    padding: EdgeInsets.fromLTRB(5, 5, 5, 0),
     child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
 //        Text(
 //          'Рекомендуемые видео',
@@ -347,8 +355,7 @@ Widget _recommendedVideo(BuildContext context) {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
-                    image:
-                    ExactAssetImage("extreme2.jpg"),
+                    image: ExactAssetImage("extreme2.jpg"),
                   ),
                 ),
               ],
@@ -369,8 +376,7 @@ Widget _recommendedVideo(BuildContext context) {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
-                    image:
-                    ExactAssetImage("extreme2.jpg"),
+                    image: ExactAssetImage("extreme2.jpg"),
                   ),
                 ),
               ],
@@ -391,8 +397,7 @@ Widget _recommendedVideo(BuildContext context) {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image(
-                    image:
-                    ExactAssetImage("extreme2.jpg"),
+                    image: ExactAssetImage("extreme2.jpg"),
                   ),
                 ),
               ],
