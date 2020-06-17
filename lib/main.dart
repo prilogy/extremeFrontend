@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
@@ -137,6 +139,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       _recommendedVideo(context),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                        child: Text(
+                          'Последние обновления',
+                          style: TextStyle(
+                            fontFamily: 'RobotoMono',
+                            fontSize: 20.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      _latestUpdates(context),
                     ],
                   ),
                 ),
@@ -233,6 +247,7 @@ Widget _carouselOfMainVideos(BuildContext context) {
         overlayShadow: true,
         overlayShadowColors: Color.fromRGBO(14, 11, 38, 1),
         overlayShadowSize: 0.7,
+
       ));
 }
 
@@ -245,91 +260,11 @@ Widget _interestingVideo(BuildContext context) {
     child: ListView(
       scrollDirection: Axis.horizontal,
       children: <Widget>[
-        SizedBox(
-          child: Card(
-            elevation: 0.0,
-            color: Colors.transparent,
-            child: Column(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    width: 200,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          child: Card(
-            elevation: 0.0,
-            color: Colors.transparent,
-            child: Column(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    width: 200,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          child: Card(
-            elevation: 0.0,
-            color: Colors.transparent,
-            child: Column(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    width: 200,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          child: Card(
-            elevation: 0.0,
-            color: Colors.transparent,
-            child: Column(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    width: 200,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        SizedBox(
-          child: Card(
-            elevation: 0.0,
-            color: Colors.transparent,
-            child: Column(
-              children: <Widget>[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image(
-                    width: 200,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        _interestingVideoCard(context, "Мотогонки"),
+        _interestingVideoCard(context, "Спорткары"),
+        _interestingVideoCard(context, "Мотогонки"),
+        _interestingVideoCard(context, "Спорткары"),
+        _interestingVideoCard(context, "Мотогонки"),
       ],
     ),
   );
@@ -412,5 +347,175 @@ Widget _recommendedVideo(BuildContext context) {
         ),
       ],
     ),
+  );
+}
+
+Widget _latestUpdates(BuildContext context) {
+  return Container(
+    color: Color.fromRGBO(14, 11, 38, 1),
+//                  color: Colors.white,
+    margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
+    height: 110,
+    child: ListView(
+      scrollDirection: Axis.horizontal,
+      children: <Widget>[
+        _latestUpdatesCard(context, "Мотогонки"),
+        _latestUpdatesCard(context, "Спорткары"),
+        _latestUpdatesCard(context, "Мотогонки"),
+        _latestUpdatesCard(context, "Спорткары"),
+        _latestUpdatesCard(context, "Мотогонки"),
+      ],
+    ),
+  );
+}
+
+Widget _interestingVideoCard(BuildContext context, String _title) {
+  return Stack(
+    alignment: Alignment.center,
+    children: <Widget>[
+      SizedBox(
+        child: Card(
+          elevation: 0.0,
+          color: Colors.transparent,
+          child: Column(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image(
+                  width: 200,
+                  image: ExactAssetImage("extreme2.jpg"),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      new Positioned(
+        width: 208,
+        height: 108,
+        top: 0,
+        child: Container(
+          color: Color.fromRGBO(14, 11, 38, 0.53),
+        ),
+      ),
+      new Positioned(
+        top: 32.5,
+        child: Container(
+          color: Colors.transparent,
+          padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+          child: Text(
+            _title,
+            style: TextStyle(
+              fontFamily: 'RobotoMono',
+              fontSize: 16.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _latestUpdatesCard(BuildContext context, String _title) {
+  return Stack(
+    alignment: Alignment.center,
+    children: <Widget>[
+      SizedBox(
+        child: Card(
+          elevation: 0.0,
+          color: Colors.transparent,
+          child: Column(
+            children: <Widget>[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image(
+                  width: 200,
+                  image: ExactAssetImage("extreme2.jpg"),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+
+      new Positioned(
+        width: 208,
+        height: 108,
+        top: 0,
+        child: Container(
+          color: Color.fromRGBO(14, 11, 38, 0.4),
+        ),
+      ),
+      new Positioned(
+        bottom: 0,
+        left: 0,
+        child: Container(
+          color: Colors.transparent,
+          child: Row(
+            children: <Widget>[
+              IconButton(
+                icon: Icon(
+                    Icons.playlist_play,
+                    color: Color.fromRGBO(182, 181, 189, 1),
+                ),
+                tooltip: 'Placeholder',
+                onPressed: () {},
+              ),
+              Text(
+                "10",
+                style: TextStyle(
+                  fontFamily: 'RobotoMono',
+                  fontSize: 15.0,
+                    color: Color.fromRGBO(182, 181, 189, 1),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      new Positioned(
+        bottom: 0,
+        right: 0,
+        child: Container(
+          color: Colors.transparent,
+          child: Row(
+            children: <Widget>[
+              Text(
+                "89",
+                style: TextStyle(
+                  fontFamily: 'RobotoMono',
+                  fontSize: 15.0,
+                  color: Color.fromRGBO(182, 181, 189, 1),
+                ),
+              ),
+              IconButton(
+                icon: Icon(
+                    Icons.local_movies,
+                    color: Color.fromRGBO(182, 181, 189, 1)
+                ),
+                tooltip: 'Placeholder',
+                onPressed: () {},
+              ),
+            ],
+          ),
+        ),
+      ),
+      new Positioned(
+        top: 32.5,
+        child: Container(
+          color: Colors.transparent,
+          padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+          child: Text(
+            _title,
+            style: TextStyle(
+              fontFamily: 'RobotoMono',
+              fontSize: 16.0,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    ],
   );
 }
