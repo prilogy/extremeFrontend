@@ -1,150 +1,89 @@
 import 'dart:ffi';
 
-import 'package:extreme/homePage.dart';
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/painting.dart';
 
-import 'AccountPage.dart';
-import 'browsePage.dart';
-import 'newsPage.dart';
+class HomeScreen extends StatelessWidget {
 
-//import 'package:simple_slider/simple_slider.dart';
-//import 'package:carousel_slider/carousel_slider.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter App',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.indigo,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Extreme'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _selectedIndex = 0;
-  List<Widget> widgets = [
-    HomeScreen(),
-    BrowseScreen(text:"Hello"),
-    NewsScreen(text:"Hello"),
-    AccountScreen(text:"Hello"),
-  ];
   void _searchIconAction() {
     // Search some video function
   }
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    print(_selectedIndex);
-    print(widgets[_selectedIndex]);
-
-//    if (_selectedIndex == 1){
-//      Navigator.push(context, MaterialPageRoute(
-//        builder: (context) => BrowseScreen(text: "Текст",),
-//      ));
-//    }
-//    if (_selectedIndex == 2){
-//      Navigator.push(context, MaterialPageRoute(
-//        builder: (context) => NewsScreen(text: "Текст",),
-//      ));
-//    }
-//    if (_selectedIndex == 3){
-//      Navigator.push(context, MaterialPageRoute(
-//        builder: (context) => AccountScreen(text: "Текст",),
-//      ));
-//    }
-  }
-
-  ScrollController firstScroll = ScrollController();
-
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: widgets[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Color.fromRGBO(47, 44, 71, 1),
-        currentIndex: _selectedIndex,
-        unselectedItemColor: Color.fromRGBO(182, 181, 189, 1),
-        selectedLabelStyle: TextStyle(
-          color: Color.fromRGBO(182, 181, 189, 1),
-        ),
-        selectedItemColor: Colors.white,
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text("Home"),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.playlist_play),
-            title: Text(
-              'Browse',
-              style: TextStyle(
-//                color: Color.fromRGBO(182, 181, 189, 1),
+    return Container(
+      color: Color.fromRGBO(14, 11, 38, 1),
+      child: ListView(
+        padding: const EdgeInsets.all(0.0),
+        children: <Widget>[
+          new Stack(
+            children: <Widget>[
+              Container(
+                //My container or any other widget
+                color: Color.fromRGBO(14, 11, 38, 1),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    _carouselOfMainVideos(context),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                      child: Text(
+                        'Интересные виды спорта',
+                        style: TextStyle(
+                          fontFamily: 'RobotoMono',
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    _interestingVideo(context),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
+                      child: Text(
+                        'Рекомендуемые видео',
+                        style: TextStyle(
+                          fontFamily: 'RobotoMono',
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    _recommendedVideo(context),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                      child: Text(
+                        'Последние обновления',
+                        style: TextStyle(
+                          fontFamily: 'RobotoMono',
+                          fontSize: 20.0,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    _latestUpdates(context),
+                  ],
+                ),
               ),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            title: Text(
-              'News',
-              style: TextStyle(
-//                color: Color.fromRGBO(182, 181, 189, 1),
+              new Positioned(
+                //Place it at the top, and not use the entire screen
+                top: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: AppBar(
+                  title: Text('Extreme'),
+                  actions: <Widget>[
+                    new IconButton(
+                      icon: new Icon(Icons.search),
+                      onPressed: _searchIconAction,
+                    ),
+                  ],
+                  backgroundColor: Colors.transparent, //No more green
+                  elevation: 0.0, //Shadow gone
+                ),
               ),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_box),
-            title: Text(
-              'Account',
-              style: TextStyle(
-//                color: Color.fromRGBO(182, 181, 189, 1),
-              ),
-            ),
+            ],
           ),
         ],
       ),
@@ -378,8 +317,8 @@ Widget _latestUpdatesCard(BuildContext context, String _title) {
             children: <Widget>[
               IconButton(
                 icon: Icon(
-                    Icons.playlist_play,
-                    color: Color.fromRGBO(182, 181, 189, 1),
+                  Icons.playlist_play,
+                  color: Color.fromRGBO(182, 181, 189, 1),
                 ),
                 tooltip: 'Placeholder',
                 onPressed: () {},
@@ -389,7 +328,7 @@ Widget _latestUpdatesCard(BuildContext context, String _title) {
                 style: TextStyle(
                   fontFamily: 'RobotoMono',
                   fontSize: 15.0,
-                    color: Color.fromRGBO(182, 181, 189, 1),
+                  color: Color.fromRGBO(182, 181, 189, 1),
                 ),
               ),
             ],
@@ -442,22 +381,3 @@ Widget _latestUpdatesCard(BuildContext context, String _title) {
   );
 }
 
-//class SecondScreen extends StatelessWidget {
-//  final String text;
-//
-//  // receive data from the FirstScreen as a parameter
-//  SecondScreen({Key key, @required this.text}) : super(key: key);
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return Scaffold(
-//      appBar: AppBar(title: Text('Second screen')),
-//      body: Center(
-//        child: Text(
-//          text,
-//          style: TextStyle(fontSize: 24),
-//        ),
-//      ),
-//    );
-//  }
-//}
