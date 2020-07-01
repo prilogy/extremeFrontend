@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
 class HomeScreen extends StatelessWidget {
-
   void _searchIconAction() {
     // Search some video function
   }
@@ -24,48 +23,14 @@ class HomeScreen extends StatelessWidget {
               Container(
                 //My container or any other widget
                 color: Color.fromRGBO(14, 11, 38, 1),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                child:
+//                Column(
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                  children: <Widget>[
                     _carouselOfMainVideos(context),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-                      child: Text(
-                        'Интересные виды спорта',
-                        style: TextStyle(
-                          fontFamily: 'RobotoMono',
-                          fontSize: 20.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    _interestingVideo(context),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
-                      child: Text(
-                        'Рекомендуемые видео',
-                        style: TextStyle(
-                          fontFamily: 'RobotoMono',
-                          fontSize: 20.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    _recommendedVideo(context),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-                      child: Text(
-                        'Последние обновления',
-                        style: TextStyle(
-                          fontFamily: 'RobotoMono',
-                          fontSize: 20.0,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    _latestUpdates(context),
-                  ],
-                ),
+
+//                  ],
+//                ),
               ),
               new Positioned(
                 //Place it at the top, and not use the entire screen
@@ -86,6 +51,56 @@ class HomeScreen extends StatelessWidget {
               ),
             ],
           ),
+
+//          Container(
+//            //My container or any other widget
+//            color: Color.fromRGBO(14, 11, 38, 1),
+//            child: Column(
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: <Widget>[
+          Container(
+            padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+            child: Text(
+              'Интересные виды спорта',
+              style: TextStyle(
+                fontFamily: 'RobotoMono',
+                fontSize: 20.0,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          _interestingVideo(context),
+          Container(
+            padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
+            child: Text(
+              'Рекомендуемые видео',
+              style: TextStyle(
+                fontFamily: 'RobotoMono',
+                fontSize: 20.0,
+                color: Colors.white,
+              ),
+            ),
+          ),
+//                _recommendedVideo(context),
+        //TODO:название видео не может быть слишком длинным (переделать)
+          VideoCard(),
+          VideoCard(),
+          VideoCard(),
+          Container(
+            padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
+            child: Text(
+              'Последние обновления',
+              style: TextStyle(
+                fontFamily: 'RobotoMono',
+                fontSize: 20.0,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          _latestUpdates(context),
+//              ],
+//            ),
+//          ),
         ],
       ),
     );
@@ -116,7 +131,6 @@ Widget _carouselOfMainVideos(BuildContext context) {
         overlayShadow: true,
         overlayShadowColors: Color.fromRGBO(14, 11, 38, 1),
         overlayShadowSize: 0.7,
-
       ));
 }
 
@@ -300,7 +314,6 @@ Widget _latestUpdatesCard(BuildContext context, String _title) {
           ),
         ),
       ),
-
       new Positioned(
         width: 208,
         height: 108,
@@ -352,10 +365,8 @@ Widget _latestUpdatesCard(BuildContext context, String _title) {
                 ),
               ),
               IconButton(
-                icon: Icon(
-                    Icons.local_movies,
-                    color: Color.fromRGBO(182, 181, 189, 1)
-                ),
+                icon: Icon(Icons.local_movies,
+                    color: Color.fromRGBO(182, 181, 189, 1)),
                 tooltip: 'Placeholder',
                 onPressed: () {},
               ),
@@ -381,4 +392,3 @@ Widget _latestUpdatesCard(BuildContext context, String _title) {
     ],
   );
 }
-

@@ -1,4 +1,5 @@
 import 'package:extreme/browsePage.dart';
+import 'package:extreme/videoViewPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -295,10 +296,7 @@ class RecommendationFilms extends StatelessWidget {
 class VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final double screenWigth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final double screenWigth = MediaQuery.of(context).size.width;
     final double cardHeigth = 200;
     return Card(
       elevation: 0.0,
@@ -307,6 +305,11 @@ class VideoCard extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => VideoViewScreen(),
+              ));
           print('Card tapped.');
         },
         child: Container(
@@ -373,30 +376,30 @@ class VideoCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                child: Text(
-                                  'Blancpain GT3 - 3 hours Monza Race / Replay',
-                                  style: TextStyle(
-                                    fontFamily: 'RobotoMono',
-                                    fontSize: 14.0,
-                                    color: Color.fromRGBO(182, 181, 189, 1),
-                                  ),
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              child: Text(
+                                'Blancpain GT3 - 3 hours Monza Race / Replay',
+                                style: TextStyle(
+                                  fontFamily: 'RobotoMono',
+                                  fontSize: 14.0,
+                                  color: Colors.white,
                                 ),
                               ),
-                              Container(
-                                child: Text(
-                                  '5 дней назад',
-                                  style: TextStyle(
-                                    fontFamily: 'RobotoMono',
-                                    fontSize: 12.0,
-                                    color: Color.fromRGBO(182, 181, 189, 1),
-                                  ),
+                            ),
+                            Container(
+                              child: Text(
+                                '5 дней назад',
+                                style: TextStyle(
+                                  fontFamily: 'RobotoMono',
+                                  fontSize: 12.0,
+                                  color: Color.fromRGBO(182, 181, 189, 1),
                                 ),
                               ),
-                            ],
+                            ),
+                          ],
                         ),
                         IconButton(
                           padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -457,8 +460,8 @@ class HeaderKindOfSport extends StatelessWidget {
                     const Color.fromRGBO(14, 11, 38, 0)
                   ],
                   // whitish to gray
-                  tileMode: TileMode
-                      .repeated, // repeats the gradient over the canvas
+                  tileMode:
+                      TileMode.repeated, // repeats the gradient over the canvas
                 ),
               ),
             )),
@@ -478,7 +481,7 @@ class HeaderKindOfSport extends StatelessWidget {
                     "Вид спорта",
                     style: TextStyle(
                       fontFamily: 'RobotoMono',
-                      fontSize: 22.0,
+                      fontSize: 26.0,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
@@ -491,7 +494,7 @@ class HeaderKindOfSport extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: 'RobotoMono',
                       fontSize: 16.0,
-                      color: Color.fromRGBO(182, 181, 189, 1),
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -503,7 +506,7 @@ class HeaderKindOfSport extends StatelessWidget {
                       icon: Icon(
                         Icons.thumb_up,
                         size: 20,
-                        color: Color.fromRGBO(182, 181, 189, 1),
+                        color: Colors.white,
                       ),
                       tooltip: 'Placeholder',
                       onPressed: () {},
@@ -513,14 +516,14 @@ class HeaderKindOfSport extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'RobotoMono',
                         fontSize: 14.0,
-                        color: Color.fromRGBO(182, 181, 189, 1),
+                        color: Colors.white,
                       ),
                     ),
                     IconButton(
                       icon: Icon(
                         Icons.local_movies,
                         size: 20,
-                        color: Color.fromRGBO(182, 181, 189, 1),
+                        color: Colors.white,
                       ),
                       tooltip: 'Placeholder',
                       onPressed: () {},
@@ -530,14 +533,14 @@ class HeaderKindOfSport extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'RobotoMono',
                         fontSize: 14.0,
-                        color: Color.fromRGBO(182, 181, 189, 1),
+                        color: Colors.white,
                       ),
                     ),
                     IconButton(
                       icon: Icon(
                         Icons.playlist_play,
                         size: 20,
-                        color: Color.fromRGBO(182, 181, 189, 1),
+                        color: Colors.white,
                       ),
                       tooltip: 'Placeholder',
                       onPressed: () {},
@@ -547,7 +550,7 @@ class HeaderKindOfSport extends StatelessWidget {
                       style: TextStyle(
                         fontFamily: 'RobotoMono',
                         fontSize: 14.0,
-                        color: Color.fromRGBO(182, 181, 189, 1),
+                        color: Colors.white,
                       ),
                     ),
                   ],
