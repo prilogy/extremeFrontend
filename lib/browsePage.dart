@@ -2,6 +2,7 @@ import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:extreme/kindOfSport.dart';
+import 'package:extreme/playList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -130,6 +131,9 @@ class PopularPlayListCard extends StatelessWidget {
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
           print('Card tapped.');
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) => PlaylistScreen(),
+          ));
         },
         child: Container(
           width: screenWigth / 2,

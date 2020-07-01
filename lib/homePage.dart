@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:extreme/kindOfSport.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
