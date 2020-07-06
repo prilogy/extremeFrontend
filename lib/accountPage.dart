@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:extreme/settingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -10,10 +11,11 @@ class AccountScreen extends StatelessWidget {
   // receive data from the FirstScreen as a parameter
   AccountScreen({Key key, @required this.text}) : super(key: key);
 
+
   void _searchIconAction() {
     // Search some video function
+    print('tapped');
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +26,11 @@ class AccountScreen extends StatelessWidget {
         actions: <Widget>[
           new IconButton(
             icon: new Icon(Icons.settings),
-            onPressed: _searchIconAction,
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) => SettingsScreen(),
+              ));
+            },
           ),
         ],
       ),

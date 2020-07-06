@@ -15,6 +15,7 @@ class BrowseScreen extends StatelessWidget {
 
   void _searchIconAction() {
     // Search some video function
+    print('tapped');
   }
 
   @override
@@ -58,7 +59,7 @@ class BrowseScreen extends StatelessWidget {
                         },
                       ),
                       Text(
-                        "Плейлист",
+                        "Плейлисты",
                         style: TextStyle(
                           fontFamily: 'RobotoMono',
                           fontSize: 15.0,

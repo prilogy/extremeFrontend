@@ -1,12 +1,13 @@
 import 'dart:ffi';
 
 import 'package:extreme/homePage.dart';
+import 'package:extreme/settingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/painting.dart';
 
-import 'AccountPage.dart';
+import 'accountPage.dart';
 import 'browsePage.dart';
 import 'newsPage.dart';
 
