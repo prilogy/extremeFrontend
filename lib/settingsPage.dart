@@ -1,7 +1,8 @@
-import 'package:extreme/kindOfSport.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+
+// Экран настроек
 
 class SettingsScreen extends StatelessWidget {
   // receive data from the FirstScreen as a parameter
@@ -29,6 +30,8 @@ class SettingsScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(0.0),
           children: <Widget>[
+
+            // Карточка язык и локализация
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -52,6 +55,8 @@ class SettingsScreen extends StatelessWidget {
                   ),
               ),
             ),
+
+            // Карточка управление уведомлениями
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -75,6 +80,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка качество видео
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -98,6 +105,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка очистить историю просмотров
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -121,6 +130,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка очистить историю поиска
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -144,6 +155,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             Container(
               padding: EdgeInsets.fromLTRB(20, 25, 10, 0),
               child: Text(
@@ -156,6 +168,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка политика конфиденциальности
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -179,6 +193,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка обратная связь
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -202,6 +218,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка обратиться в поддержку
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -225,6 +243,8 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка о приложении
             Card(
               elevation: 0.0,
               margin: EdgeInsets.fromLTRB(20, 20, 10, 0),
@@ -248,6 +268,7 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             Container(
               padding: EdgeInsets.fromLTRB(20, 35, 10, 0),
               child: Text(

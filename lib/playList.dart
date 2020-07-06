@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-
 import 'kindOfSport.dart';
+
+// Экран просмотра плейлиста
 
 class PlaylistScreen extends StatelessWidget {
 //  final String text;
@@ -35,7 +36,10 @@ class PlaylistScreen extends StatelessWidget {
         child: ListView(
             padding: const EdgeInsets.all(0.0),
             children: <Widget>[
+
+              // Карточка плейлиста в самом верху страницы
               HeaderPlaylist(),
+
               Container(
                 padding: EdgeInsets.fromLTRB(10, 0, 5, 5),
                 child: Text(
@@ -47,9 +51,14 @@ class PlaylistScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // Карточка с видео и для просмотра видео
               VideoCard(),
+              // Карточка с видео и для просмотра видео
               VideoCard(),
+              // Карточка с видео и для просмотра видео
               VideoCard(),
+
               Container(
                 padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
                 child: Text(
@@ -61,6 +70,8 @@ class PlaylistScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // Список для скроллинга - Другие плейлисты
               OtherPlaylistList(),
             ],
         ),
@@ -69,6 +80,7 @@ class PlaylistScreen extends StatelessWidget {
   }
 }
 
+// Карточка плейлиста в самом верху страницы
 class HeaderPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -98,12 +110,10 @@ class HeaderPlaylist extends StatelessWidget {
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
-                  // 10% of the width, so there are ten blinds.
                   colors: [
                     const Color.fromRGBO(14, 11, 38, 1),
                     const Color.fromRGBO(14, 11, 38, 0)
                   ],
-                  // whitish to gray
                   tileMode:
                       TileMode.repeated, // repeats the gradient over the canvas
                 ),

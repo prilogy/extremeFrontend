@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+// Домашняя страница пользователя - Главная
+
 class HomeScreen extends StatelessWidget {
   void _searchIconAction() {
     // Search some video function
@@ -19,19 +21,13 @@ class HomeScreen extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(0.0),
         children: <Widget>[
+          // Карусель + appBar
           new Stack(
             children: <Widget>[
               Container(
-                //My container or any other widget
                 color: Color.fromRGBO(14, 11, 38, 1),
                 child:
-//                Column(
-//                  crossAxisAlignment: CrossAxisAlignment.start,
-//                  children: <Widget>[
                     _carouselOfMainVideos(context),
-
-//                  ],
-//                ),
               ),
               new Positioned(
                 //Place it at the top, and not use the entire screen
@@ -53,12 +49,7 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
 
-//          Container(
-//            //My container or any other widget
-//            color: Color.fromRGBO(14, 11, 38, 1),
-//            child: Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
+          // Список для горизонтального скроллинга - Интересные видео
           Container(
             padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
             child: Text(
@@ -70,7 +61,11 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+
+          // Список интересных видео
           InterestingCardList(),
+
+          // Список с рекомендуемыми видео
           Container(
             padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
             child: Text(
@@ -82,11 +77,13 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
-//                _recommendedVideo(context),
-        //TODO:название видео не может быть слишком длинным (переделать)
+
+          // Карточка для рекомендуемого видео
           VideoCard(),
           VideoCard(),
           VideoCard(),
+
+          // Список для горизонтального скроллинга - Последние обновления
           Container(
             padding: EdgeInsets.fromLTRB(10, 0, 5, 0),
             child: Text(
@@ -98,16 +95,16 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+
+          // Список последних обновлений
           LatestUpdatesCardList(),
-//              ],
-//            ),
-//          ),
         ],
       ),
     );
   }
 }
 
+// Виджет с каруселью
 Widget _carouselOfMainVideos(BuildContext context) {
   return SizedBox(
       height: 250.0,
@@ -136,125 +133,7 @@ Widget _carouselOfMainVideos(BuildContext context) {
   );
 }
 
-Widget _latestUpdates(BuildContext context) {
-  return Container(
-    color: Color.fromRGBO(14, 11, 38, 1),
-//                  color: Colors.white,
-    margin: EdgeInsets.fromLTRB(5, 5, 5, 0),
-    height: 110,
-    child: ListView(
-      scrollDirection: Axis.horizontal,
-      children: <Widget>[
-        _latestUpdatesCard(context, "Мотогонки"),
-        _latestUpdatesCard(context, "Спорткары"),
-        _latestUpdatesCard(context, "Мотогонки"),
-        _latestUpdatesCard(context, "Спорткары"),
-        _latestUpdatesCard(context, "Мотогонки"),
-      ],
-    ),
-  );
-}
-
-Widget _latestUpdatesCard(BuildContext context, String _title) {
-  return Stack(
-    alignment: Alignment.center,
-    children: <Widget>[
-      SizedBox(
-        child: Card(
-          elevation: 0.0,
-          color: Colors.transparent,
-          child: Column(
-            children: <Widget>[
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image(
-                  width: 200,
-                  image: ExactAssetImage("extreme2.jpg"),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      new Positioned(
-        width: 208,
-        height: 108,
-        top: 0,
-        child: Container(
-          color: Color.fromRGBO(14, 11, 38, 0.4),
-        ),
-      ),
-      new Positioned(
-        bottom: 0,
-        left: 0,
-        child: Container(
-          color: Colors.transparent,
-          child: Row(
-            children: <Widget>[
-              IconButton(
-                icon: Icon(
-                  Icons.playlist_play,
-                  color: Color.fromRGBO(182, 181, 189, 1),
-                ),
-                tooltip: 'Placeholder',
-                onPressed: () {},
-              ),
-              Text(
-                "10",
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 15.0,
-                  color: Color.fromRGBO(182, 181, 189, 1),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-      new Positioned(
-        bottom: 0,
-        right: 0,
-        child: Container(
-          color: Colors.transparent,
-          child: Row(
-            children: <Widget>[
-              Text(
-                "89",
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 15.0,
-                  color: Color.fromRGBO(182, 181, 189, 1),
-                ),
-              ),
-              IconButton(
-                icon: Icon(Icons.local_movies,
-                    color: Color.fromRGBO(182, 181, 189, 1)),
-                tooltip: 'Placeholder',
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ),
-      ),
-      new Positioned(
-        top: 32.5,
-        child: Container(
-          color: Colors.transparent,
-          padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-          child: Text(
-            _title,
-            style: TextStyle(
-              fontFamily: 'RobotoMono',
-              fontSize: 16.0,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    ],
-  );
-}
-
+// Список для горизонтального скроллинга - Интересные видео
 class InterestingCardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -278,13 +157,13 @@ class InterestingCardList extends StatelessWidget {
   }
 }
 
+// Карточка для интересных видео
 class InterestingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double screenWigth = MediaQuery.of(context).size.width;
     final double cardHeigth = 110;
     return Card(
-//      margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
       elevation: 0.0,
       color: Colors.transparent,
       child: InkWell(
@@ -339,6 +218,7 @@ class InterestingCard extends StatelessWidget {
   }
 }
 
+// Список для горизонтального скроллинга - Последние обновления
 class LatestUpdatesCardList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -362,6 +242,7 @@ class LatestUpdatesCardList extends StatelessWidget {
   }
 }
 
+// Карточка для последних обновлений
 class LatestUpdateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

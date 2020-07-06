@@ -1,9 +1,9 @@
-import 'dart:ffi';
-
 import 'package:extreme/settingsPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+
+// Экран профиля пользователя - Профиль
 
 class AccountScreen extends StatelessWidget {
   final String text;
@@ -45,6 +45,8 @@ class AccountScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
+
+                  // Первый блок - имя, фамилия + почта
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -86,6 +88,8 @@ class AccountScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+
+                  // Первый блок - кнопка редактирования
                   Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -106,6 +110,8 @@ class AccountScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Второй блок - подписка
             Container(
               margin: EdgeInsets.fromLTRB(17, 15, 10, 0),
               child: Row(
@@ -145,6 +151,8 @@ class AccountScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Третий блок - подписка на месяц
             Container(
               margin: EdgeInsets.fromLTRB(17, 15, 10, 0),
 //              padding: EdgeInsets.all(15.0),
@@ -234,6 +242,8 @@ class AccountScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Четвертый блок - подписка на полгода
             Container(
               margin: EdgeInsets.fromLTRB(17, 15, 10, 0),
 //              padding: EdgeInsets.all(15.0),
@@ -260,7 +270,7 @@ class AccountScreen extends StatelessWidget {
                         Container(
                           margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                           child: Text(
-                            'Подписка на пол года',
+                            'Подписка на полгода',
                             style: TextStyle(
                               fontFamily: 'RobotoMono',
                               fontSize: 20.0,
@@ -323,6 +333,8 @@ class AccountScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Пятый блок - подписка на год
             Container(
               margin: EdgeInsets.fromLTRB(17, 15, 10, 0),
 //              padding: EdgeInsets.all(15.0),
@@ -412,6 +424,8 @@ class AccountScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+
             Container(
               padding: EdgeInsets.fromLTRB(17, 15, 10, 0),
               child: Text(
@@ -424,6 +438,9 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Подключенные аккаунты
+            // Google
             Container(
               margin: EdgeInsets.fromLTRB(17, 15, 10, 0),
               child: Row(
@@ -491,6 +508,8 @@ class AccountScreen extends StatelessWidget {
                   ],
               ),
             ),
+
+            // Vk
             Container(
               margin: EdgeInsets.fromLTRB(17, 15, 10, 0),
               child: Row(
@@ -558,6 +577,8 @@ class AccountScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Facebook
             Container(
               margin: EdgeInsets.fromLTRB(17, 15, 10, 15),
               child: Row(

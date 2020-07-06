@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+// Экран вида спорта - Вид спорта
+
 class KindOfSportScreen extends StatelessWidget {
 //  final String text;
 
@@ -36,7 +38,10 @@ class KindOfSportScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(0.0),
           children: <Widget>[
+
+            // Карточка вида спорта в самом верху страницы
             HeaderKindOfSport(),
+
             Container(
               padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
               child: Text(
@@ -48,7 +53,10 @@ class KindOfSportScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Список рекомендуемых фильмов
             RecommendationFilmsList(),
+
             Container(
               padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
               child: Text(
@@ -60,10 +68,13 @@ class KindOfSportScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка лучшего плейлиста
             Container(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
               child: PopularPlayListCard(),
             ),
+
             Container(
               padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
               child: Text(
@@ -75,7 +86,10 @@ class KindOfSportScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Список для скроллинга - Другие плейлисты
             OtherPlaylistList(),
+
             Container(
               padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
               child: Text(
@@ -87,7 +101,10 @@ class KindOfSportScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Картока - Лучшее видео
             VideoCard(),
+
           ],
         ),
       ),
@@ -95,6 +112,7 @@ class KindOfSportScreen extends StatelessWidget {
   }
 }
 
+// Список рекомендуемых фильмов
 class RecommendationFilmsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -118,6 +136,7 @@ class RecommendationFilmsList extends StatelessWidget {
   }
 }
 
+// Список для скроллинга - Другие плейлисты
 class OtherPlaylistList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -141,6 +160,7 @@ class OtherPlaylistList extends StatelessWidget {
   }
 }
 
+// Карточка для плейлистов
 class OtherPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -210,6 +230,7 @@ class OtherPlaylist extends StatelessWidget {
   }
 }
 
+// Карточка для рекомендуемых фильмов
 class RecommendationFilms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -293,6 +314,7 @@ class RecommendationFilms extends StatelessWidget {
   }
 }
 
+// Карточка с видео и для просмотра видео (используется во многих местах)
 class VideoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -425,6 +447,7 @@ class VideoCard extends StatelessWidget {
   }
 }
 
+// Карточка вида спорта в самом верху страницы
 class HeaderKindOfSport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

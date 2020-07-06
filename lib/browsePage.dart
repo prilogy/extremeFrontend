@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:ui';
 
 import 'package:extreme/kindOfSport.dart';
@@ -6,6 +5,8 @@ import 'package:extreme/playList.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+
+// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
 class BrowseScreen extends StatelessWidget {
   final String text;
@@ -20,13 +21,9 @@ class BrowseScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    return Container(
-//      color: Colors.indigo,
-//    );
     double screenWigth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-//        automaticallyImplyLeading: false,
         backgroundColor: Color.fromRGBO(47, 44, 71, 1),
         title: Text('Просмотр'),
         actions: <Widget>[
@@ -38,12 +35,14 @@ class BrowseScreen extends StatelessWidget {
       ),
       body: Container(
         color: Color.fromRGBO(14, 11, 38, 1),
-        child: ListView(
+        child: ListView( // Горизонтальный скролл
           padding: const EdgeInsets.all(0.0),
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+
+                // Кнопка плейлистов с подписью
                 Container(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -69,6 +68,8 @@ class BrowseScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+
+                // Кнопка фильмы с подписью
                 Container(
                   padding: const EdgeInsets.all(10.0),
                   child: Column(
@@ -96,9 +97,15 @@ class BrowseScreen extends StatelessWidget {
                 ),
               ],
             ),
+
+            // Карточки с видами спорта
             RowKindCard(),
+            // Карточки с видами спорта
             RowKindCard(),
+            // Карточки с видами спорта
             RowKindCard(),
+
+
             Container(
               padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
               child: Text(
@@ -110,9 +117,14 @@ class BrowseScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка с популярным плейлистом
             PopularPlayListCard(),
+            // Карточка с популярным плейлистом
             PopularPlayListCard(),
+            // Карточка с популярным плейлистом
             PopularPlayListCard(),
+
           ],
         ),
       ),
@@ -120,6 +132,7 @@ class BrowseScreen extends StatelessWidget {
   }
 }
 
+// Карточка с популярным плейлистом
 class PopularPlayListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -264,6 +277,7 @@ class PopularPlayListCard extends StatelessWidget {
   }
 }
 
+// Карточка с видом спорта
 class KindCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -385,6 +399,7 @@ class KindCard extends StatelessWidget {
   }
 }
 
+// Строка с карточками видов спорта
 class RowKindCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

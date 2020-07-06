@@ -1,10 +1,10 @@
-//import 'dart:html';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-
+import 'package:vimeoplayer/vimeoplayer.dart';
 import 'kindOfSport.dart';
+
+// Экран просмотра видео
 
 class VideoViewScreen extends StatelessWidget {
 //  final String text;
@@ -40,8 +40,11 @@ class VideoViewScreen extends StatelessWidget {
           padding: const EdgeInsets.all(0.0),
           children: <Widget>[
             // -----------------------------
-            // Здесь идет контейнер с видео
+            // Видео
+            VimeoPlayer(id: '395212534'),
             // -----------------------------
+
+            // Название видео + название спорта и плейлиста
             Container(
               margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: Column(
@@ -72,6 +75,8 @@ class VideoViewScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Кнопки располагающиеся под видео
             Container(
               margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: Row(
@@ -181,14 +186,14 @@ class VideoViewScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-
-//                      Icons.favorite_border,
                       ],
                     ),
                   ),
                 ],
               ),
             ),
+
+            // Описание к видео
             Container(
               margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
               child: Column(
@@ -209,6 +214,7 @@ class VideoViewScreen extends StatelessWidget {
                 ],
               ),
             ),
+
             Container(
               padding: EdgeInsets.fromLTRB(10, 15, 5, 5),
               child: Text(
@@ -220,9 +226,14 @@ class VideoViewScreen extends StatelessWidget {
                 ),
               ),
             ),
+
+            // Карточка с видео и для просмотра видео из этого же плейлиста
             VideoCard(),
+            // Карточка с видео и для просмотра видео из этого же плейлиста
             VideoCard(),
+            // Карточка с видео и для просмотра видео из этого же плейлиста
             VideoCard(),
+
           ],
         ),
       ),
