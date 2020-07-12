@@ -16,7 +16,7 @@ class VideoViewScreen extends StatelessWidget {
   }) : super(key: key);
 
   void _searchIconAction() {
-    // Search some video function
+    //TODO: Search some video function
   }
 
   @override
@@ -25,7 +25,7 @@ class VideoViewScreen extends StatelessWidget {
 //    final double cardHeigth = 240;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Название видео'),
+        title: Text('Название видео'), // TODO: Title
         backgroundColor: Color.fromRGBO(47, 44, 71, 1),
         actions: <Widget>[
           new IconButton(
@@ -77,118 +77,25 @@ class VideoViewScreen extends StatelessWidget {
             ),
 
             // Кнопки располагающиеся под видео
+              
             Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
+              margin: EdgeInsets.fromLTRB(10, 10, 10, 10), // entire container with icons margin
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          alignment: Alignment.centerRight,
-                          icon: Icon(
-                            Icons.thumb_up,
-                            size: 45,
-                            color: Color.fromRGBO(34, 163, 210, 1),
-                          ),
-                          tooltip: 'Placeholder',
-                          onPressed: () {
-                            print("Button tapped");
-                          },
-                        ),
-
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Text(
-                            '244',
-                            style: TextStyle(
-                              fontFamily: 'RobotoMono',
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                          ),
-                        ),
-
-//                      Icons.favorite_border,
-                      ],
-                    ),
+                  ActionIcon(
+                    icon: Icons.thumb_up, iconColor: Color.fromRGBO(34, 163, 210, 1), signText: '244', 
+                    onPressed: () => {print('Like button tapped')},
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 15, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          alignment: Alignment.centerRight,
-                          icon: Icon(
-                            Icons.favorite,
-                            size: 45,
-                            color: Color.fromRGBO(235, 87, 87, 1),
-                          ),
-                          tooltip: 'Placeholder',
-                          onPressed: () {
-                            print("Button tapped");
-                          },
-                        ),
-
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Text(
-                            'В избранное',
-                            style: TextStyle(
-                              fontFamily: 'RobotoMono',
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                          ),
-                        ),
-
-//                      Icons.favorite_border,
-                      ],
-                    ),
+                  ActionIcon(
+                    icon: Icons.favorite, iconColor: Color.fromRGBO(235, 87, 87, 1), signText: 'В избранное',
+                    onPressed: () => {print('Fav icon tapped')},
                   ),
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          alignment: Alignment.centerRight,
-                          icon: Icon(
-                            Icons.share,
-                            size: 45,
-                            color: Color.fromRGBO(182, 181, 189, 1),
-                          ),
-                          tooltip: 'Placeholder',
-                          onPressed: () {
-                            print("Button tapped");
-                          },
-                        ),
-
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
-                          child: Text(
-                            'Поделиться',
-                            style: TextStyle(
-                              fontFamily: 'RobotoMono',
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  ActionIcon(
+                    icon:  Icons.share, iconColor: Color.fromRGBO(182, 181, 189, 1), signText: 'Поделиться',
+                    onPressed: () => {print('Share icon tapped')},
+                  ),                 
                 ],
               ),
             ),
@@ -238,5 +145,52 @@ class VideoViewScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+class ActionIcon extends StatelessWidget {
+
+final IconData icon; 
+//EdgeInsets margin; // margin container
+final Color iconColor; // цвет icon
+final Function onPressed; // функция-обработчик нажатия на icon
+final String signText; 
+
+  ActionIcon({this.icon,this.iconColor,this.onPressed, this.signText });
+  @override
+  Widget build(BuildContext context) {
+    return Container( // Like
+                    margin: EdgeInsets.fromLTRB(0, 0, 15, 0), // like container margin
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0), // like Icon padding
+                          alignment: Alignment.centerRight,
+                          icon: Icon(
+                            icon, //Icons.thumb_up,
+                            size: 45,
+                            color: iconColor//Color.fromRGBO(34, 163, 210, 1),
+                          ),
+                          tooltip: 'Placeholder',
+                          onPressed: onPressed,
+                        ),
+
+                        Container(
+                          margin: EdgeInsets.fromLTRB(0, 5, 0, 0), // Sign below like icon margin 
+                          child: Text(
+                            signText, //'244',
+                            style: TextStyle(
+                              fontFamily: 'RobotoMono',
+                              fontSize: 14.0,
+                              color: Color.fromRGBO(182, 181, 189, 1),
+                            ),
+                          ),
+                        ),
+
+//                      Icons.favorite_border,
+                      ],
+                    ),
+                  );
   }
 }
