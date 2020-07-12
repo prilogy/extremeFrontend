@@ -99,28 +99,8 @@ class VideoViewScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             // Описание к видео
-            Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Text(
-                      'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...',
-                      style: TextStyle(
-                        fontFamily: 'RobotoMono',
-                        fontSize: 16.0,
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            VideoDescription(text: 'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...'),
 
             Container(
               padding: EdgeInsets.fromLTRB(10, 15, 5, 5),
@@ -147,7 +127,7 @@ class VideoViewScreen extends StatelessWidget {
     );
   }
 }
-class ActionIcon extends StatelessWidget {
+class ActionIcon extends StatelessWidget { // TODO: convert to stateful Widget
 
 final IconData icon; 
 //EdgeInsets margin; // margin container
@@ -192,5 +172,34 @@ final String signText;
                       ],
                     ),
                   );
+  }
+}
+
+class VideoDescription extends StatelessWidget {
+  final String text; // текст описания
+  const VideoDescription({Key key, this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+              margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                    child: Text(
+                      text,//'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...',
+                      style: TextStyle(
+                        fontFamily: 'RobotoMono',
+                        fontSize: 16.0,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
   }
 }
