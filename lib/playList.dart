@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'kindOfSport.dart';
+import 'widgets/stats.dart';
 
 // Экран просмотра плейлиста
 
@@ -130,69 +131,29 @@ class HeaderPlaylist extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 5, 0, 3),
+                  margin: EdgeInsets.only(bottom: 5),
                   child: Text(
                     "Название плейлиста",
-                    style: TextStyle(
-                      fontFamily: 'RobotoMono',
-                      fontSize: 26.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                     style: Theme.of(context).textTheme.headline6
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  margin: EdgeInsets.only(bottom: 5),
                   child: Text(
                     "Описание данного плейлиста",
-                    style: TextStyle(
-                      fontFamily: 'RobotoMono',
-                      fontSize: 14.0,
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context).textTheme.bodyText2
                   ),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Stats(icon: Icons.thumb_up, text: '1555'),
-                    Stats(icon: Icons.local_movies, text: '89',),
+                    Stats(icon: Icons.thumb_up, text: 105.toString(), iconMarginRight: 5,),
+                    Stats(icon: Icons.local_movies, text: 354.toString(),),
                   ],
                 ),
               ],
             ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-// иконка + количество 
-class Stats extends StatelessWidget {
-  final IconData icon;
-  final String text;
-  const Stats({Key key, this.icon, this.text}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.thumb_up,
-            size: 20,
-            color: Colors.white,
-          ),
-          tooltip: 'Placeholder',
-          onPressed: () {},
-        ),
-        Text(
-          text,
-          style: TextStyle(
-            fontFamily: 'RobotoMono',
-            fontSize: 14.0,
-            color: Colors.white,
           ),
         ),
       ],

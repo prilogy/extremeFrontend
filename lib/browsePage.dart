@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+import 'widgets/sport_card.dart';
+import 'widgets/stats.dart';
+
 // Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
 class BrowseScreen extends StatelessWidget {
@@ -100,7 +103,7 @@ class BrowseScreen extends StatelessWidget {
           mainAxisSpacing: 10,
           shrinkWrap: true,
           crossAxisCount: 2,
-          children: <Widget>[KindCard(), KindCard(), KindCard()],
+          children: <Widget>[SportCard(), SportCard(), SportCard()],
         ),
 
         Container(
@@ -197,10 +200,18 @@ class PopularPlayListCard extends StatelessWidget {
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
-                                    PlayListStats(
-                                        icon: Icons.thumb_up, text: '1555'),
-                                    PlayListStats(
-                                        icon: Icons.local_movies, text: '89'),
+                                    Container(
+                                      margin: EdgeInsets.only(right: 12),
+                                      child: Stats(
+                                        icon: Icons.thumb_up,
+                                        text: '1555',
+                                        iconMarginRight: 5,
+                                      ),
+                                    ),
+                                    Stats(
+                                        icon: Icons.local_movies,
+                                        text: '89',
+                                        iconMarginRight: 5),
                                   ],
                                 ),
                                 Text(
@@ -237,174 +248,3 @@ class PopularPlayListCard extends StatelessWidget {
   }
 }
 
-class KindCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-        clipBehavior: Clip.antiAlias,
-        margin: EdgeInsets.all(0),
-        child: Stack(
-          children: <Widget>[
-            Positioned.fill(
-              child: Container(
-                padding: EdgeInsets.all(5.0),
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    colors: [Color(0x2709042c), Color(0x8309042c)],
-                    center: Alignment.center,
-                    radius: 2,
-                    stops: <double>[0, 0.8],
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
-                ),
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Expanded(
-                        child: Center(
-                          child: Text("Вид спорта",
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.subtitle1),
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Icon(Icons.playlist_play),
-                                Text(
-                                  "10",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      .merge(TextStyle(
-                                          fontWeight: FontWeight.w500)),
-                                )
-                              ],
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  "10",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyText2
-                                      .merge(TextStyle(
-                                          fontWeight: FontWeight.w500)),
-                                ),
-                                Icon(Icons.local_movies),
-                              ],
-                            )
-                          ],
-                        ),
-                      )
-                    ]),
-              ),
-            ),
-            Positioned.fill(
-                child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => KindOfSportScreen(),
-                      ));
-                },
-              ),
-            )),
-          ],
-        ));
-  }
-}
-
-/*
-// Карточка с видом спорта
-class KindCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    final double cardHeight = 90;
-    return Card(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: () {
-          print('Card tapped.');
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => KindOfSportScreen(),
-              ));
-        },
-        child: Container(
-          width: screenWidth / 2 - 30,
-          height: cardHeight,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: ExactAssetImage("extreme2.jpg"),
-            ),
-          ),
-          child: Stack(
-            children: <Widget>[
-              Container(
-                height: cardHeight,
-                padding: EdgeInsets.all(5),
-
-
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-*/
-
-// Иконка + количество
-class PlayListStats extends StatelessWidget {
-  final IconData icon;
-  final String text;
-
-  const PlayListStats({Key key, this.icon, this.text}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        IconButton(
-          alignment: Alignment.bottomCenter,
-          padding: EdgeInsets.all(0),
-          icon: Icon(
-            icon,
-            size: 20,
-            color: Colors.white,
-          ),
-          tooltip: 'Placeholder',
-          onPressed: () {},
-        ),
-        Text(
-          text,
-          style: TextStyle(
-            fontFamily: 'RobotoMono',
-            fontSize: 14.0,
-            color: Colors.white,
-          ),
-        ),
-      ],
-    );
-  }
-}

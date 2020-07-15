@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/kindOfSport.dart';
+import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -26,8 +27,7 @@ class HomeScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 color: Color.fromRGBO(14, 11, 38, 1),
-                child:
-                    _carouselOfMainVideos(context),
+                child: _carouselOfMainVideos(context),
               ),
               new Positioned(
                 //Place it at the top, and not use the entire screen
@@ -98,7 +98,7 @@ class HomeScreen extends StatelessWidget {
 
           // Список последних обновлений
           LatestUpdatesCardList(),
-                        // TODO: check how redux work on Text(widget.store.state.likesCOunt.toString())
+          // TODO: check how redux work on Text(widget.store.state.likesCOunt.toString())
         ],
       ),
     );
@@ -130,8 +130,7 @@ Widget _carouselOfMainVideos(BuildContext context) {
         overlayShadow: true,
         overlayShadowColors: Color.fromRGBO(14, 11, 38, 1),
         overlayShadowSize: 0.7,
-      )
-  );
+      ));
 }
 
 // Список для горизонтального скроллинга - Интересные видео
@@ -147,11 +146,21 @@ class InterestingCardList extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          InterestingCard(),
-          InterestingCard(),
-          InterestingCard(),
-          InterestingCard(),
-          InterestingCard(),
+          Container(
+              margin: EdgeInsets.only(right: 12),
+              child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
+          Container(
+              margin: EdgeInsets.only(right: 12),
+              child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
+          Container(
+              margin: EdgeInsets.only(right: 12),
+              child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
+          Container(
+              margin: EdgeInsets.only(right: 12),
+              child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
+          Container(
+              margin: EdgeInsets.only(right: 12),
+              child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
         ],
       ),
     );
@@ -159,65 +168,65 @@ class InterestingCardList extends StatelessWidget {
 }
 
 // Карточка для интересных видео
-class InterestingCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final double screenWigth = MediaQuery.of(context).size.width;
-    final double cardHeigth = 110;
-    return Card(
-      elevation: 0.0,
-      color: Colors.transparent,
-      child: InkWell(
-        splashColor: Colors.blue.withAlpha(30),
-        onTap: () {
-          print('Card tapped.');
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) => KindOfSportScreen(),
-          ));
-        },
-        child: Container(
-          width: screenWigth / 2,
-          height: cardHeigth,
-          color: Colors.transparent,
-          child: Stack(
-            children: <Widget>[
-              Container(
-                width: screenWigth / 2,
-                height: cardHeigth,
-                margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
-                ),
-              ),
-              Positioned(
-                width: screenWigth / 2,
-                height: cardHeigth,
-                top: 0,
-                left: 0,
-                child: Container(
-                  alignment: Alignment.center,
-                  color: Color.fromRGBO(14, 11, 38, 0.4),
-                  child: Text(
-                    "Вид спорта",
-                    style: TextStyle(
-                      fontFamily: 'RobotoMono',
-                      fontSize: 18.0,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class SportCard extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     final double screenWigth = MediaQuery.of(context).size.width;
+//     final double cardHeigth = 110;
+//     return Card(
+//       elevation: 0.0,
+//       color: Colors.transparent,
+//       child: InkWell(
+//         splashColor: Colors.blue.withAlpha(30),
+//         onTap: () {
+//           print('Card tapped.');
+//           Navigator.push(context, MaterialPageRoute(
+//             builder: (context) => KindOfSportScreen(),
+//           ));
+//         },
+//         child: Container(
+//           width: screenWigth / 2,
+//           height: cardHeigth,
+//           color: Colors.transparent,
+//           child: Stack(
+//             children: <Widget>[
+//               Container(
+//                 width: screenWigth / 2,
+//                 height: cardHeigth,
+//                 margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+//                 decoration: BoxDecoration(
+//                   borderRadius: BorderRadius.all(Radius.circular(5)),
+//                   image: DecorationImage(
+//                     fit: BoxFit.cover,
+//                     image: ExactAssetImage("extreme2.jpg"),
+//                   ),
+//                 ),
+//               ),
+//               Positioned(
+//                 width: screenWigth / 2,
+//                 height: cardHeigth,
+//                 top: 0,
+//                 left: 0,
+//                 child: Container(
+//                   alignment: Alignment.center,
+//                   color: Color.fromRGBO(14, 11, 38, 0.4),
+//                   child: Text(
+//                     "Вид спорта",
+//                     style: TextStyle(
+//                       fontFamily: 'RobotoMono',
+//                       fontSize: 18.0,
+//                       color: Colors.white,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // Список для горизонтального скроллинга - Последние обновления
 class LatestUpdatesCardList extends StatelessWidget {
@@ -257,9 +266,11 @@ class LatestUpdateCard extends StatelessWidget {
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
           print('Card tapped.');
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) => KindOfSportScreen(),
-          ));
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => KindOfSportScreen(),
+              ));
         },
         child: Container(
           width: screenWigth / 2,
