@@ -1,11 +1,11 @@
 import 'package:extreme/homePage.dart';
+import 'package:extreme/screens/browse_screen.dart';
 import 'package:extreme/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
 import 'accountPage.dart';
-import 'browsePage.dart';
 import 'redux.dart';
 import 'screens/news_screen.dart';
 

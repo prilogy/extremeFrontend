@@ -1,4 +1,3 @@
-import 'package:extreme/browsePage.dart';
 import 'package:extreme/videoViewPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

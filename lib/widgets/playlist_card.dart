@@ -1,18 +1,14 @@
-// Карточка с популярным плейлистом
 import 'package:flutter/material.dart';
 
 import '../playList.dart';
 import 'stats.dart';
 
 class PlayListCard extends StatelessWidget {
+  // TODO: Добавить рипл эффект как на sport_card
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
-    TextTheme partialTheme = TextTheme(caption: TextStyle(color: Colors.white));
-    theme = theme.copyWith(textTheme: theme.textTheme.merge(partialTheme));
-    double screenWigth = MediaQuery.of(context).size.width;
-    final double cardHeigth = 200;
     return Card(
       margin: EdgeInsets.fromLTRB(0, 12, 0, 8),
       color: Colors.transparent,
@@ -34,18 +30,18 @@ class PlayListCard extends StatelessWidget {
               image: ExactAssetImage("extreme2.jpg"),
             ),
           ),
-          child: Stack(
-            children: <Widget>[
-              Container(
+          child: Container(
                 child: Stack(
                   children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: RadialGradient(
-                          colors: [Color(0x5009042c), Color(0xA209042c)],
-                          center: Alignment.center,
-                          radius: 1,
-                          stops: <double>[0, 1],
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: RadialGradient(
+                            colors: [Color(0x5009042c), Color(0xA209042c)],
+                            center: Alignment.center,
+                            radius: 1,
+                            stops: <double>[0, 1],
+                          ),
                         ),
                       ),
                     ),
@@ -56,6 +52,7 @@ class PlayListCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               IconButton(
+                                // TODO: выделить в отдельный компонент и состояние когда кнопка активна(иконка залита красным цветом(объект в избранном))
                                 alignment: Alignment.topRight,
                                 padding: EdgeInsets.all(12),
                                 icon: Icon(
@@ -112,11 +109,8 @@ class PlayListCard extends StatelessWidget {
                   ],
                 ),
               ),
-            ],
-          ),
         ),
       ),
     );
   }
 }
-

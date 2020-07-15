@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../kindOfSport.dart';
 
 class SportCard extends StatelessWidget {
+  // TODO: Добавить градиент как на playlist_card
   @override
   Widget build(BuildContext context) {
     return Card(
