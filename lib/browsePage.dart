@@ -164,43 +164,63 @@ class PopularPlayListCard extends StatelessWidget {
                     stops: <double>[0, 1],
                     ),
           ),
-            
-          //color: Colors.transparent,
           child: Stack(
             children: <Widget>[
               Container(
+                padding: EdgeInsets.all(20),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[                
-                    Row(
-                      children: <Widget>[
-                        PlayListStats(icon: Icons.thumb_up, text: '1555'),
-                        PlayListStats(icon: Icons.local_movies, text: '89'),
-                      ],
-                    ),
-                    Text(
-                      "Название плейлиста",
-                      style: TextStyle(
-                        letterSpacing: 0.8,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Roboto',
-                        fontSize: 20.0,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                     Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            IconButton(
+                            alignment: Alignment.topRight,
+                            padding: EdgeInsets.all(0),
+                            icon: Icon(
+                              Icons.favorite_border,
+                              size: 30,
+                              color: Color.fromRGBO(182, 181, 189, 1),
+                            ),
+                            tooltip: 'Placeholder',
+                            onPressed: () {},
+                          ),
+                          ] 
+                        ),          
+                    Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[  
+                          Row(
+                            children: <Widget>[
+                              PlayListStats(icon: Icons.thumb_up, text: '1555'),
+                              PlayListStats(icon: Icons.local_movies, text: '89'),
+                            ],
+                          ),
+                          Text(
+                            "Название плейлиста",
+                            style: TextStyle(
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w600,
+                              fontFamily: 'Roboto',
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          Text(
+                          "Краткое описание плейлиста",
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .merge(new TextStyle(color: Colors.white)),
+                          ),
+                        ]
                       ),
                     ),
-                    Text(
-                    "Краткое описание плейлиста",
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .merge(new TextStyle(color: Colors.white)),
-                    ),
-                  ]
-              ),
+                  ],
+                ),
                 width: screenWigth,
                 height: cardHeigth,
-                decoration: BoxDecoration(
-                  
+                decoration: BoxDecoration( 
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   image: DecorationImage(
                     fit: BoxFit.cover,
