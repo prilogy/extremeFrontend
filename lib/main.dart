@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print('_MyHomePageState builder: ' + widget.store.state.likesCount.toString());
     return Scaffold(
       body: Container(
-          padding: EdgeInsets.all(12),
+          //padding: EdgeInsets.all(12),
           child: widgets[_selectedIndex]),
       backgroundColor: Color.fromRGBO(21, 22, 43, 1),
       bottomNavigationBar: BottomNavigationBar(
