@@ -138,7 +138,7 @@ class AccountScreen extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                         child: Text(
-                          'До истечения подписки 39 дней',
+                          'До истечения подписки 38 дней',
                           style: TextStyle(
                             fontFamily: 'RobotoMono',
                             fontSize: 14.0,

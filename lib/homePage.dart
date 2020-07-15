@@ -98,6 +98,7 @@ class HomeScreen extends StatelessWidget {
 
           // Список последних обновлений
           LatestUpdatesCardList(),
+                        // TODO: check how redux work on Text(widget.store.state.likesCOunt.toString())
         ],
       ),
     );
@@ -112,7 +113,7 @@ Widget _carouselOfMainVideos(BuildContext context) {
         images: [
 //        NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
 //        NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
-          ExactAssetImage("extreme2.jpg"),
+          ExactAssetImage("extreme2.jpg"), // TODO: fetch photos with rest api
           ExactAssetImage("extreme2.jpg"),
           ExactAssetImage("extreme2.jpg"),
           ExactAssetImage("extreme2.jpg"),

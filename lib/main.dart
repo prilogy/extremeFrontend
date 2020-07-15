@@ -2,36 +2,69 @@ import 'package:extreme/homePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
+
 
 import 'accountPage.dart';
 import 'browsePage.dart';
 import 'newsPage.dart';
+import 'redux.dart';
+
+import 'package:redux/redux.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+
+
+const List<String> assetNames = <String>[
+  'svg/home.svg',
+  'svg/nothing.svg'
+];
 
 // Главный модуль
 
 void main() {
-  runApp(MyApp());
+  // TODO: implement get initialState from rest API
+  final store = Store<Info>(infoReducer,
+  initialState: Info(likesCount: 100  )); 
+  print(store.state.likesCount.toString()); // likesCount = 100
+  runApp(MyApp(
+    store: store,
+  ));
 }
+
+
+
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+  final Store<Info> store; // redux store
+
+  MyApp({Key key, this.store});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter App',
-      theme: ThemeData(
-        primarySwatch: Colors.indigo,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    print('MyApp builder: ' + store.state.likesCount.toString());
+    return StoreProvider<Info>(
+      store: store,
+      child: MaterialApp(
+        title: 'Flutter App',
+        theme: ThemeData(
+          primarySwatch: Colors.indigo,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: MyHomePage(title: 'Extreme', store: store),
       ),
-      home: MyHomePage(title: 'Extreme'),
     );
+    
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
+  final Store<Info> store;
   final String title;
+
+  MyHomePage({Key key, this.title, this.store}) : super(key: key);
+
+ 
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -39,6 +72,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
+ // Store<Info> store; // store is null (why?)
+
   // роутинг по bottomNavigationBar
   List<Widget> widgets = [
     HomeScreen(),
@@ -58,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print('_MyHomePageState builder: ' + widget.store.state.likesCount.toString());
     return new Scaffold(
       body: widgets[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -72,7 +108,11 @@ class _MyHomePageState extends State<MyHomePage> {
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home)/*Icon(SvgPicture.asset(assetNames[0],
+            width: 50,
+            height: 50,
+            matchTextDirection: true,
+            ))*/,
             title: Text("Home"),
           ),
           BottomNavigationBarItem(

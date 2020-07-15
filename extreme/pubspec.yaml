@@ -21,6 +21,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  redux: ^4.0.0
+  flutter_redux: ^0.6.0
   flutter:
     sdk: flutter
   carousel_pro: ^1.0.0

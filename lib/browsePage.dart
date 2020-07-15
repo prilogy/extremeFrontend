@@ -34,7 +34,7 @@ class BrowseScreen extends StatelessWidget {
         ],
       ),
       body: Container(
-        color: Color.fromRGBO(14, 11, 38, 1),
+        color: Color.fromRGBO(21, 22, 43, 1),
         child: ListView( // Горизонтальный скролл
           padding: const EdgeInsets.all(0.0),
           children: <Widget>[
@@ -107,7 +107,7 @@ class BrowseScreen extends StatelessWidget {
 
 
             Container(
-              padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+              padding: EdgeInsets.fromLTRB(20, 10, 5, 0),
               child: Text(
                 'Популярные плейлисты',
                 style: TextStyle(
@@ -136,10 +136,18 @@ class BrowseScreen extends StatelessWidget {
 class PopularPlayListCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
+    // This partialTheme is incomplete: it only has the title style
+    // defined. Just replacing theme.textTheme with partialTheme would
+    // set the title, but everything else would be null. This isn't very
+    // useful, so merge it with the existing theme to keep all of the
+    // preexisting definitions for the other styles.
+    TextTheme partialTheme = TextTheme(caption: TextStyle(color: Colors.white));
+    theme = theme.copyWith(textTheme: theme.textTheme.merge(partialTheme));
     double screenWigth = MediaQuery.of(context).size.width;
     final double cardHeigth = 200;
     return Card(
-      margin: EdgeInsets.fromLTRB(10, 5, 10, 5),
+      margin: EdgeInsets.fromLTRB(20, 12, 20, 8),
       color: Colors.transparent,
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
@@ -158,7 +166,7 @@ class PopularPlayListCard extends StatelessWidget {
                 width: screenWigth,
                 height: cardHeigth,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: ExactAssetImage("extreme2.jpg"),
@@ -171,7 +179,7 @@ class PopularPlayListCard extends StatelessWidget {
                 top: 0,
                 left: 0,
                 child: Container(
-                  color: Color.fromRGBO(14, 11, 38, 0.53),
+                  color: Color.fromRGBO(21, 22, 43, 0.53),
                 ),
               ),
 
@@ -180,47 +188,16 @@ class PopularPlayListCard extends StatelessWidget {
                 bottom: 20,
                 child: Container(
                   color: Colors.transparent,
-                  padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                  padding: EdgeInsets.fromLTRB(0, 10, 5, 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          IconButton(
-                            icon: Icon(
-                              Icons.thumb_up,
-                              size: 20,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                            tooltip: 'Placeholder',
-                            onPressed: () {},
-                          ),
-                          Text(
-                            "1555",
-                            style: TextStyle(
-                              fontFamily: 'RobotoMono',
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.local_movies,
-                              size: 20,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                            tooltip: 'Placeholder',
-                            onPressed: () {},
-                          ),
-                          Text(
-                            "89",
-                            style: TextStyle(
-                              fontFamily: 'RobotoMono',
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                          ),
+                          PlayListStats(icon: Icons.thumb_up, text:'1555'),
+                          PlayListStats(icon: Icons.local_movies, text:'89'),
                         ],
                       ),
                       Container(
@@ -232,18 +209,18 @@ class PopularPlayListCard extends StatelessWidget {
                             Text(
                               "Название плейлиста",
                               style: TextStyle(
-                                fontFamily: 'RobotoMono',
+                                letterSpacing: 0.8,
+                                fontWeight: FontWeight.w600,
+                                fontFamily: 'Roboto',
                                 fontSize: 20.0,
                                 color: Colors.white,
+                                
                               ),
                             ),
                             Text(
                               "Краткое описание плейлиста",
-                              style: TextStyle(
-                                fontFamily: 'RobotoMono',
-                                fontSize: 16.0,
-                                color: Color.fromRGBO(182, 181, 189, 1),
-                              ),
+                              style: Theme(data: theme, child: null),
+                              
                             ),
                           ],
                         ),
@@ -284,7 +261,7 @@ class KindCard extends StatelessWidget {
     double screenWigth = MediaQuery.of(context).size.width;
     final double cardHeigth = 90;
     return Card(
-      margin: EdgeInsets.fromLTRB(5, 5, 5, 5),
+      margin: EdgeInsets.fromLTRB(10, 10, 10, 10),
       color: Colors.transparent,
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
@@ -295,7 +272,7 @@ class KindCard extends StatelessWidget {
       ));
         },
         child: Container(
-          width: screenWigth / 2 - 15,
+          width: screenWigth / 2 - 30,
           height: cardHeigth,
           color: Colors.transparent,
           child: Stack(
@@ -304,7 +281,7 @@ class KindCard extends StatelessWidget {
                 width: screenWigth / 2 - 15,
                 height: cardHeigth,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: ExactAssetImage("extreme2.jpg"),
@@ -320,27 +297,24 @@ class KindCard extends StatelessWidget {
                   color: Color.fromRGBO(14, 11, 38, 0.5),
                 ),
               ),
-              Positioned(
+              Positioned( 
                 bottom: 0,
                 left: 0,
                 child: Container(
                   color: Colors.transparent,
                   child: Row(
                     children: <Widget>[
-                      IconButton(
-                        icon: Icon(
-                          Icons.playlist_play,
-                          color: Color.fromRGBO(182, 181, 189, 1),
-                        ),
-                        tooltip: 'Placeholder',
-                        onPressed: () {},
+                      Container(
+                        margin: EdgeInsets.fromLTRB(4, 4, 0, 4),
+                        child: Icon(Icons.playlist_play,
+                            color: Colors.white),
                       ),
                       Text(
                         "10",
                         style: TextStyle(
                           fontFamily: 'RobotoMono',
                           fontSize: 15.0,
-                          color: Color.fromRGBO(182, 181, 189, 1),
+                          color: Colors.white,
                         ),
                       ),
                     ],
@@ -355,20 +329,19 @@ class KindCard extends StatelessWidget {
                   child: Row(
                     children: <Widget>[
                       Text(
-                        "89",
+                        "189",
                         style: TextStyle(
                           fontFamily: 'RobotoMono',
                           fontSize: 15.0,
-                          color: Color.fromRGBO(182, 181, 189, 1),
+                          color: Colors.white,
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.local_movies,
-                            color: Color.fromRGBO(182, 181, 189, 1)),
-                        tooltip: 'Placeholder',
-                        onPressed: () {},
+                      Container(
+                        margin: EdgeInsets.all(4),
+                        child: Icon(Icons.local_movies,
+                            color: Colors.white),
                       ),
-                    ],
+                    ],                        
                   ),
                 ),
               ),
@@ -403,12 +376,46 @@ class KindCard extends StatelessWidget {
 class RowKindCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          KindCard(),
+          KindCard(), //
+        ],
+    );
+  }
+}
+// Иконка + количество
+class PlayListStats extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  const PlayListStats({Key key, this.icon, this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        KindCard(),
-        KindCard(), //
-      ],
+        IconButton(
+          alignment: Alignment.bottomCenter,
+          padding: EdgeInsets.all(0),
+          icon: Icon(
+            icon,
+            size: 20,
+            color: Colors.white,
+          ),
+          tooltip: 'Placeholder',
+          onPressed: () {},
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            fontFamily: 'RobotoMono',
+            fontSize: 14.0,
+            color: Colors.white,
+          ),
+        ),
+      ], 
     );
   }
 }

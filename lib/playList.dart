@@ -25,8 +25,8 @@ class PlaylistScreen extends StatelessWidget {
         backgroundColor: Color.fromRGBO(47, 44, 71, 1),
         title: Text('Название плейлиста'),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.search),
+          IconButton(
+            icon: Icon(Icons.search),
             onPressed: _searchIconAction,
           ),
         ],
@@ -156,44 +156,43 @@ class HeaderPlaylist extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.thumb_up,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      tooltip: 'Placeholder',
-                      onPressed: () {},
-                    ),
-                    Text(
-                      "1555",
-                      style: TextStyle(
-                        fontFamily: 'RobotoMono',
-                        fontSize: 14.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.local_movies,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      tooltip: 'Placeholder',
-                      onPressed: () {},
-                    ),
-                    Text(
-                      "89",
-                      style: TextStyle(
-                        fontFamily: 'RobotoMono',
-                        fontSize: 14.0,
-                        color: Colors.white,
-                      ),
-                    ),
+                    Stats(icon: Icons.thumb_up, text: '1555'),
+                    Stats(icon: Icons.local_movies, text: '89',),
                   ],
                 ),
               ],
             ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+// иконка + количество 
+class Stats extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  const Stats({Key key, this.icon, this.text}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.thumb_up,
+            size: 20,
+            color: Colors.white,
+          ),
+          tooltip: 'Placeholder',
+          onPressed: () {},
+        ),
+        Text(
+          text,
+          style: TextStyle(
+            fontFamily: 'RobotoMono',
+            fontSize: 14.0,
+            color: Colors.white,
           ),
         ),
       ],

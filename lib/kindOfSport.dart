@@ -27,8 +27,8 @@ class KindOfSportScreen extends StatelessWidget {
         title: Text('Вид спорта'),
         backgroundColor: Color.fromRGBO(47, 44, 71, 1),
         actions: <Widget>[
-          new IconButton(
-            icon: new Icon(Icons.search),
+          IconButton(
+            icon: Icon(Icons.search),
             onPressed: _searchIconAction,
           ),
         ],
@@ -42,32 +42,12 @@ class KindOfSportScreen extends StatelessWidget {
             // Карточка вида спорта в самом верху страницы
             HeaderKindOfSport(),
 
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-              child: Text(
-                'Рекомендуем',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            TextSign(text:'Рекомендуем'),
 
             // Список рекомендуемых фильмов
             RecommendationFilmsList(),
 
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-              child: Text(
-                'Лучший плейлист',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            TextSign(text: 'Лучший плейлист'),
 
             // Карточка лучшего плейлиста
             Container(
@@ -75,33 +55,12 @@ class KindOfSportScreen extends StatelessWidget {
               child: PopularPlayListCard(),
             ),
 
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-              child: Text(
-                'Другие плейлисты',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            TextSign(text:'Другие плейлисты'),
 
             // Список для скроллинга - Другие плейлисты
             OtherPlaylistList(),
 
-            Container(
-              padding: EdgeInsets.fromLTRB(10, 5, 5, 0),
-              child: Text(
-                'Лучшее видео',
-                style: TextStyle(
-                  fontFamily: 'RobotoMono',
-                  fontSize: 20.0,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-
+            TextSign(text:'Лучшее видео'),
             // Картока - Лучшее видео
             VideoCard(),
 
@@ -525,57 +484,9 @@ class HeaderKindOfSport extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.thumb_up,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      tooltip: 'Placeholder',
-                      onPressed: () {},
-                    ),
-                    Text(
-                      "1555",
-                      style: TextStyle(
-                        fontFamily: 'RobotoMono',
-                        fontSize: 14.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.local_movies,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      tooltip: 'Placeholder',
-                      onPressed: () {},
-                    ),
-                    Text(
-                      "89",
-                      style: TextStyle(
-                        fontFamily: 'RobotoMono',
-                        fontSize: 14.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.playlist_play,
-                        size: 20,
-                        color: Colors.white,
-                      ),
-                      tooltip: 'Placeholder',
-                      onPressed: () {},
-                    ),
-                    Text(
-                      "21",
-                      style: TextStyle(
-                        fontFamily: 'RobotoMono',
-                        fontSize: 14.0,
-                        color: Colors.white,
-                      ),
-                    ),
+                    KindOfSportStats(text:'1555', icon: Icons.thumb_up),
+                    KindOfSportStats(text:'89', icon: Icons.local_movies),
+                    KindOfSportStats(text:'21', icon: Icons.playlist_play)
                   ],
                 ),
                 Container(
@@ -632,5 +543,60 @@ class HeaderKindOfSport extends StatelessWidget {
         ),
       ],
     );
+  }
+}
+
+class TextSign extends StatelessWidget {
+  final String text;
+  TextSign({this.text});
+  @override
+  Widget build(BuildContext context) {
+    return 
+    Container(
+              padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+              child: Text(
+                text,//'Другие плейлисты',
+                style: TextStyle(
+                  fontFamily: 'RobotoMono',
+                  fontSize: 20.0,
+                  color: Colors.white,
+                ),
+              ),
+    );
+  }
+}
+
+// Иконка + количество
+class KindOfSportStats extends StatelessWidget {
+  final String text;
+  final IconData icon;
+
+  KindOfSportStats({this.text, this.icon});
+
+  @override
+  
+  Widget build(BuildContext context) {
+    return Row(
+      children: <Widget>[
+        IconButton(
+          icon: Icon(
+            icon,
+            size: 20,
+            color: Colors.white,
+          ),
+          tooltip: 'Placeholder',
+          onPressed: () {},
+          ),
+          Text(
+            text,
+            style: TextStyle(
+              fontFamily: 'RobotoMono',
+              fontSize: 14.0,
+              color: Colors.white,
+              ),
+          ),
+      ]
+    );
+      
   }
 }
