@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+import 'widgets/playlist_card.dart';
+
 // Экран вида спорта - Вид спорта
 
 class KindOfSportScreen extends StatelessWidget {
@@ -52,7 +54,7 @@ class KindOfSportScreen extends StatelessWidget {
             // Карточка лучшего плейлиста
             Container(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: PopularPlayListCard(),
+              child: PlayListCard(),
             ),
 
             TextSign(text:'Другие плейлисты'),

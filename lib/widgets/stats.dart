@@ -6,7 +6,7 @@ class Stats extends StatelessWidget {
   final String text;
   final double iconMarginRight;
   final double widgetMarginRight;
-  const Stats({Key key, this.icon, this.text, this.iconMarginRight = 0, this.widgetMarginRight = 12})
+  const Stats({Key key, this.icon, this.text, this.iconMarginRight = 5, this.widgetMarginRight = 12})
       : super(key: key);
 
   @override
