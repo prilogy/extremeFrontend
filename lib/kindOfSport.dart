@@ -84,11 +84,11 @@ class RecommendationFilmsList extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          RecommendationFilms(),
-          RecommendationFilms(),
-          RecommendationFilms(),
-          RecommendationFilms(),
-          RecommendationFilms(),
+          Container(child: AspectRatio(aspectRatio: 1/1,child: RecommendationFilms())),
+          AspectRatio(aspectRatio: 9/16,child: RecommendationFilms()),
+          AspectRatio(aspectRatio: 1/1,child: RecommendationFilms()),
+          AspectRatio(aspectRatio: 9/16,child: RecommendationFilms()),
+          AspectRatio(aspectRatio: 9/16,child: RecommendationFilms()),
         ],
       ),
     );
@@ -208,14 +208,11 @@ class RecommendationFilms extends StatelessWidget {
 //          ));
         },
         child: Container(
-          width: screenWigth / 2,
-          height: cardHeigth,
+          
           color: Colors.transparent,
           child: Stack(
             children: <Widget>[
               Container(
-                width: screenWigth / 2,
-                height: cardHeigth,
                 margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -226,8 +223,6 @@ class RecommendationFilms extends StatelessWidget {
                 ),
               ),
               Positioned(
-                width: screenWigth / 2,
-                height: cardHeigth,
                 top: 0,
                 left: 0,
                 child: Container(
@@ -252,7 +247,6 @@ class RecommendationFilms extends StatelessWidget {
               Positioned(
                 bottom: 30,
                 child: Container(
-                  width: screenWigth / 2,
                   alignment: Alignment.center,
                   color: Colors.transparent,
                   child: Text(
