@@ -7,8 +7,8 @@ import 'package:flutter/painting.dart';
 
 import 'accountPage.dart';
 import 'browsePage.dart';
-import 'newsPage.dart';
 import 'redux.dart';
+import 'screens/news_screen.dart';
 
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -48,8 +48,13 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter App',
         theme: ThemeData(
+          brightness: Brightness.dark,
           primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: new TextTheme(
+            subtitle1: TextStyle(fontWeight: FontWeight.w500),
+            caption: TextStyle(color: Colors.white)
+          )
         ),
         home: MyHomePage(title: 'Extreme', store: store),
       ),
@@ -77,8 +82,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // роутинг по bottomNavigationBar
   List<Widget> widgets = [
     HomeScreen(),
-    BrowseScreen(text: "Hello"),
-    NewsScreen(text: "Hello"),
+    BrowseScreen(),
+    NewsScreen(),
     AccountScreen(text: "Hello"),
   ];
 
@@ -94,8 +99,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     print('_MyHomePageState builder: ' + widget.store.state.likesCount.toString());
-    return new Scaffold(
-      body: widgets[_selectedIndex],
+    return Scaffold(
+      body: Container(
+          padding: EdgeInsets.all(12),
+          child: widgets[_selectedIndex]),
+      backgroundColor: Color.fromRGBO(21, 22, 43, 1),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Color.fromRGBO(47, 44, 71, 1),
