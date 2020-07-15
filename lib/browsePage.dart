@@ -100,10 +100,7 @@ class BrowseScreen extends StatelessWidget {
           mainAxisSpacing: 10,
           shrinkWrap: true,
           crossAxisCount: 2,
-          children: <Widget>[
-            KindCard(),
-            KindCard(),
-            KindCard()],
+          children: <Widget>[KindCard(), KindCard(), KindCard()],
         ),
 
         Container(
@@ -153,163 +150,85 @@ class PopularPlayListCard extends StatelessWidget {
               ));
         },
         child: Container(
-          decoration: BoxDecoration (
-            gradient: RadialGradient(
-                    colors: [
-                      Color(0x5009042c),
-                      Color(0xA209042c)
-                      ], 
-                    center: Alignment.center,
-                    radius: 1,
-                    stops: <double>[0, 1],
-                    ),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            image: DecorationImage(
+              fit: BoxFit.cover,
+              image: ExactAssetImage("extreme2.jpg"),
+            ),
           ),
           child: Stack(
             children: <Widget>[
               Container(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Stack(
                   children: <Widget>[
-                     Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            IconButton(
-                            alignment: Alignment.topRight,
-                            padding: EdgeInsets.all(0),
-                            icon: Icon(
-                              Icons.favorite_border,
-                              size: 30,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                            tooltip: 'Placeholder',
-                            onPressed: () {},
-                          ),
-                          ] 
-                        ),          
                     Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[  
-                          Row(
-                            children: <Widget>[
-                              PlayListStats(icon: Icons.thumb_up, text: '1555'),
-                              PlayListStats(icon: Icons.local_movies, text: '89'),
-                            ],
-                          ),
-                          Text(
-                            "Название плейлиста",
-                            style: TextStyle(
-                              letterSpacing: 0.8,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Roboto',
-                              fontSize: 20.0,
-                            ),
-                          ),
-                          Text(
-                          "Краткое описание плейлиста",
-                            style: Theme.of(context)
-                                .textTheme
-                                .caption
-                                .merge(new TextStyle(color: Colors.white)),
-                          ),
-                        ]
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(
+                          colors: [Color(0x5009042c), Color(0xA209042c)],
+                          center: Alignment.center,
+                          radius: 1,
+                          stops: <double>[0, 1],
+                        ),
                       ),
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              IconButton(
+                                alignment: Alignment.topRight,
+                                padding: EdgeInsets.all(12),
+                                icon: Icon(
+                                  Icons.favorite_border,
+                                  size: 30,
+                                  color: Color.fromRGBO(182, 181, 189, 1),
+                                ),
+                                tooltip: 'Placeholder',
+                                onPressed: () {},
+                              ),
+                            ]),
+                        Container(
+                          padding: EdgeInsets.all(12),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    PlayListStats(
+                                        icon: Icons.thumb_up, text: '1555'),
+                                    PlayListStats(
+                                        icon: Icons.local_movies, text: '89'),
+                                  ],
+                                ),
+                                Text(
+                                  "Название плейлиста",
+                                  style: TextStyle(
+                                    letterSpacing: 0.8,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Roboto',
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                Text(
+                                  "Достаточно Краткое описание плейлиста",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .merge(
+                                          new TextStyle(color: Colors.white)),
+                                ),
+                              ]),
+                        ),
+                      ],
                     ),
                   ],
                 ),
                 width: screenWigth,
                 height: cardHeigth,
-                decoration: BoxDecoration( 
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
-                ),
               ),
-              
-              // Positioned(
-              //   width: screenWigth,
-              //   height: cardHeigth,
-              //   top: 0,
-              //   left: 0,
-              //   child: Container(
-              //     decoration: BoxDecoration(
-              //     gradient: RadialGradient(
-              //       colors: [
-              //         Color(0x2709042c),
-              //         Color(0x8309042c)
-              //         ], 
-              //       center: Alignment.center,
-              //       radius: 2,
-              //       stops: <double>[0, 0.8],
-              //       ),
-              //     ),
-              //   ),
-              // ),
-              // Positioned(
-              //   left: 0,
-              //   bottom: 20,
-              //   child: Container(
-              //     color: Colors.transparent,
-              //     padding: EdgeInsets.fromLTRB(0, 10, 5, 0),
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: <Widget>[
-              //         Row(
-              //           mainAxisAlignment: MainAxisAlignment.start,
-              //           crossAxisAlignment: CrossAxisAlignment.end,
-              //           children: <Widget>[
-              //             PlayListStats(icon: Icons.thumb_up, text: '1555'),
-              //             PlayListStats(icon: Icons.local_movies, text: '89'),
-              //           ],
-              //         ),
-              //         Container(
-              //           margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-              //           color: Colors.transparent,
-              //           child: Column(
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             children: <Widget>[
-              //               Text(
-              //                 "Название плейлиста",
-              //                 style: TextStyle(
-              //                   letterSpacing: 0.8,
-              //                   fontWeight: FontWeight.w600,
-              //                   fontFamily: 'Roboto',
-              //                   fontSize: 20.0,
-              //                   color: Colors.white,
-              //                 ),
-              //               ),
-              //               Text(
-              //                 "Краткое описание плейлиста",
-              //                 style: Theme.of(context)
-              //                     .textTheme
-              //                     .caption
-              //                     .merge(new TextStyle(color: Colors.white)),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // Positioned(
-              //   top: 0,
-              //   right: 0,
-              //   child: Container(
-              //     color: Colors.transparent,
-              //     child: IconButton(
-              //       icon: Icon(
-              //         Icons.favorite_border,
-              //         color: Color.fromRGBO(182, 181, 189, 1),
-              //       ),
-              //       tooltip: 'Placeholder',
-              //       onPressed: () {},
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -331,14 +250,11 @@ class KindCard extends StatelessWidget {
                 padding: EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
                   gradient: RadialGradient(
-                    colors: [
-                      Color(0x2709042c),
-                      Color(0x8309042c)
-                      ], 
+                    colors: [Color(0x2709042c), Color(0x8309042c)],
                     center: Alignment.center,
                     radius: 2,
                     stops: <double>[0, 0.8],
-                    ),
+                  ),
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                   image: DecorationImage(
                     fit: BoxFit.cover,
