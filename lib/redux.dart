@@ -7,7 +7,10 @@ class Info {
 
   Info({this.likesCount});
 }
+
 enum Actions { Like, UnLike}
+
+
 Info infoReducer(Info state, dynamic action){
 
   switch(action){ // switch of Actions enum
@@ -23,3 +26,6 @@ Info infoReducer(Info state, dynamic action){
 
   return state; // If nothing happened, return what was recieved
 }
+
+final store = Store<Info>(infoReducer, initialState: Info(likesCount: 100));
+
