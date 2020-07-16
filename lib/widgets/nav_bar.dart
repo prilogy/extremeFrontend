@@ -4,6 +4,8 @@ class NavBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) setIndex;
 
+  static const double height = 54.0;
+
   NavBar(this.selectedIndex, this.setIndex);
 
   @override

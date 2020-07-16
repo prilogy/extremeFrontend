@@ -1,13 +1,14 @@
 import 'dart:ui';
+import 'package:extreme/config/env.dart';
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/models/sport.dart';
 import 'package:extreme/playList.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/playlist_card.dart';
+import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/material.dart';
-
-import '../widgets/screen_base_widget.dart';
 
 // Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
@@ -90,6 +91,7 @@ class BrowseScreen extends StatelessWidget implements HasAppBar {
       ),
       BlockBaseWidget(
         header: "Популярные плейлисты",
+        margin: EdgeInsets.zero,
         child: ListView(
           shrinkWrap: true,
           primary: false,

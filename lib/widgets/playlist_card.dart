@@ -63,7 +63,6 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                 icon: Icon(
                                   Icons.favorite_border,
                                   size: 30,
-                                  color: Color.fromRGBO(182, 181, 189, 1),
                                 ),
                                 tooltip: 'Placeholder',
                                 onPressed: () {},

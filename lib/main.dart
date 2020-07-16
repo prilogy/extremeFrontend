@@ -1,4 +1,5 @@
-import 'package:extreme/homePage.dart';
+import 'package:extreme/config/env.dart';
+import 'file:///D:/flutter-dev/extremeFrontend/lib/screens/home_screen.dart';
 import 'package:extreme/screens/browse_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
@@ -18,19 +19,22 @@ const List<String> assetNames = <String>['svg/home.svg', 'svg/nothing.svg'];
 
 // Главный модуль
 
-void main() {
+void main() async {
   // TODO: implement get initialState from rest API
   final store = Store<Info>(infoReducer, initialState: Info(likesCount: 100));
+  final env = await EnvConfig.get("./.env");
   print(store.state.likesCount.toString()); // likesCount = 100
   runApp(MyApp(
     store: store,
+    env: env,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final Store<Info> store; // redux store
+  final EnvConfig env;
 
-  MyApp({Key key, this.store});
+  MyApp({Key key, this.store, this.env});
 
   @override
   Widget build(BuildContext context) {
@@ -85,19 +89,22 @@ class _MyHomePageState extends State<MyHomePage> {
     print('_MyHomePageState builder: ' +
         widget.store.state.likesCount.toString());
     return Scaffold(
-      appBar: widgets[_selectedIndex] is HasAppBar ? (widgets[_selectedIndex] as HasAppBar).appBar : null,
+        appBar: widgets[_selectedIndex] is HasAppBar
+            ? (widgets[_selectedIndex] as HasAppBar).appBar
+            : null,
+
         body: Container(
             //padding: EdgeInsets.all(Indents.md),
             child: Stack(children: <Widget>[
-      widgets[_selectedIndex],
-      Positioned(
-          bottom: _navBarOffset,
-          left: _navBarOffset,
-          right: _navBarOffset,
-          height: 54,
-          child: Container(
-            child: NavBar(_selectedIndex, setSelectedIndex),
-          ))
-    ])));
+          widgets[_selectedIndex],
+          Positioned(
+              bottom: _navBarOffset,
+              left: _navBarOffset,
+              right: _navBarOffset,
+              height: NavBar.height,
+              child: Container(
+                child: NavBar(_selectedIndex, setSelectedIndex),
+              ))
+        ])));
   }
 }
