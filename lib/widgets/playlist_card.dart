@@ -4,6 +4,7 @@ import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
+import 'like_state.dart';
 import 'stats.dart';
 
 class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
@@ -14,7 +15,6 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     this.aspectRatio = aspectRatio;
   }
 
-  // TODO: Добавить рипл эффект как на sport_card
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
@@ -22,6 +22,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     return withIndents(
       child: withAspectRatio(
         child: Card(
+          clipBehavior: Clip.antiAlias,
           margin: EdgeInsets.all(0),
           color: Colors.transparent,
           child: Container(
@@ -56,17 +57,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              IconButton(
-                                // TODO: выделить в отдельный компонент и состояние когда кнопка активна(иконка залита красным цветом(объект в избранном))
-                                alignment: Alignment.topRight,
-                                padding: EdgeInsets.all(Indents.md),
-                                icon: Icon(
-                                  Icons.favorite_border,
-                                  size: 30,
-                                ),
-                                tooltip: 'Placeholder',
-                                onPressed: () {},
-                              ),
+                              Like(isLiked: true,),
                             ]),
                         Container(
                           padding: EdgeInsets.all(Indents.md),
@@ -109,6 +100,13 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                         ),
                       ],
                     ),
+                    Positioned.fill(
+                    child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {},
+                  ),
+                )),
                   ],
                 ),
               ),
