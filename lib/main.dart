@@ -13,6 +13,7 @@ import 'helpers/interfaces.dart';
 import 'redux.dart';
 import 'screens/news_screen.dart';
 
+import './config/env.dart' as Env;
 import './redux.dart' as Redux;
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -24,18 +25,16 @@ void main() async {
   // TODO: implement get initialState from rest API
   //final store = Store<Info>(infoReducer, initialState: Info(likesCount: 100));
   final env = await EnvConfig.get("./.env");
+  Env.Config = env;
   print(store.state.likesCount.toString()); // likesCount = 100
   runApp(MyApp(
-    store: store,
-    env: env,
+    store: store
   ));
 }
 
 class MyApp extends StatelessWidget {
   final Store<Info> store; // redux store
-  final EnvConfig env;
-
-  MyApp({Key key, this.store, this.env});
+  MyApp({Key key, this.store});
 
   @override
   Widget build(BuildContext context) {

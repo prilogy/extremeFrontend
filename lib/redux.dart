@@ -8,7 +8,7 @@ class Info {
   Info({this.likesCount});
 }
 
-enum Actions { Like, UnLike}
+enum Actions { Like, UnLike }
 
 
 Info infoReducer(Info state, dynamic action){
@@ -16,11 +16,11 @@ Info infoReducer(Info state, dynamic action){
   switch(action){ // switch of Actions enum
     case Actions.Like:
     {
-      return Info(likesCount: action.likesCount + 1);
+      return Info(likesCount: state.likesCount + 1);
     }
     case Actions.UnLike:
     {
-      return Info(likesCount: action.likesCount - 1);
+      return Info(likesCount: state.likesCount - 1);
     }
   }
 

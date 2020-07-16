@@ -148,7 +148,7 @@ class HeaderPlaylist extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Stats(icon: Icons.thumb_up, text: 105.toString(), iconMarginRight: 5,),
+                    Stats(icon: Icons.thumb_up, text: 105.toString(), marginBetween: 5,),
                     Stats(icon: Icons.local_movies, text: 354.toString(),),
                   ],
                 ),
