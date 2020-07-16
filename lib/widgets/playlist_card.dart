@@ -111,6 +111,8 @@ class PlayListCard extends StatelessWidget {
                     ),
                   ],
                 ),
+                width: screenWigth,
+                height: cardHeigth,
               ),
             ],
           ),
