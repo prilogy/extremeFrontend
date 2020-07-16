@@ -1,7 +1,6 @@
-import 'dart:ffi';
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/kindOfSport.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +29,6 @@ class HomeScreen extends StatelessWidget {
                 child: _carouselOfMainVideos(context),
               ),
               new Positioned(
-                //Place it at the top, and not use the entire screen
                 top: 0.0,
                 left: 0.0,
                 right: 0.0,
@@ -147,19 +145,19 @@ class InterestingCardList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: <Widget>[
           Container(
-              margin: EdgeInsets.only(right: 12),
+              margin: EdgeInsets.only(right: Indents.md),
               child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
           Container(
-              margin: EdgeInsets.only(right: 12),
+              margin: EdgeInsets.only(right: Indents.md),
               child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
           Container(
-              margin: EdgeInsets.only(right: 12),
+              margin: EdgeInsets.only(right: Indents.md),
               child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
           Container(
-              margin: EdgeInsets.only(right: 12),
+              margin: EdgeInsets.only(right: Indents.md),
               child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
           Container(
-              margin: EdgeInsets.only(right: 12),
+              margin: EdgeInsets.only(right: Indents.md),
               child: AspectRatio(aspectRatio: 16 / 9, child: SportCard())),
         ],
       ),

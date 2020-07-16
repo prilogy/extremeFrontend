@@ -1,51 +1,52 @@
-// Карточка с популярным плейлистом
+import 'package:extreme/helpers/aspect_ratio_mixin.dart';
+import 'package:extreme/helpers/indents_mixin.dart';
+import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
-import '../playList.dart';
 import 'stats.dart';
 
-class PlayListCard extends StatelessWidget {
+class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
+
+  PlayListCard({EdgeInsetsGeometry margin, EdgeInsetsGeometry padding, double aspectRatio}) {
+    this.margin = margin;
+    this.padding = padding;
+    this.aspectRatio = aspectRatio;
+  }
+
+  // TODO: Добавить рипл эффект как на sport_card
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
 
-    TextTheme partialTheme = TextTheme(caption: TextStyle(color: Colors.white));
-    theme = theme.copyWith(textTheme: theme.textTheme.merge(partialTheme));
-    double screenWigth = MediaQuery.of(context).size.width;
-    final double cardHeigth = 200;
-    return Card(
-      margin: EdgeInsets.fromLTRB(0, 12, 0, 8),
-      color: Colors.transparent,
-      child: InkWell(
-        splashColor: Colors.blue.withAlpha(30),
-        onTap: () {
-          print('Card tapped.');
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => PlaylistScreen(),
-              ));
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: ExactAssetImage("extreme2.jpg"),
-            ),
-          ),
-          child: Stack(
-            children: <Widget>[
-              Container(
+    return withIndents(
+      child: withAspectRatio(
+        child: Card(
+          margin: EdgeInsets.all(0),
+          color: Colors.transparent,
+          child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: ExactAssetImage("extreme2.jpg"),
+                ),
+              ),
+              child: Container(
                 child: Stack(
                   children: <Widget>[
-                    Container(
-                      decoration: BoxDecoration(
-                        gradient: RadialGradient(
-                          colors: [Color(0x5009042c), Color(0xA209042c)],
-                          center: Alignment.center,
-                          radius: 1,
-                          stops: <double>[0, 1],
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          gradient: RadialGradient(
+                            colors: [
+                              ExtremeColors.base.withOpacity(0.0),
+                              ExtremeColors.base.withOpacity(0.75)
+                            ],
+                            center: Alignment.center,
+                            radius: 1.5,
+                            stops: <double>[0, 1],
+                          ),
                         ),
                       ),
                     ),
@@ -56,8 +57,9 @@ class PlayListCard extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
                               IconButton(
+                                // TODO: выделить в отдельный компонент и состояние когда кнопка активна(иконка залита красным цветом(объект в избранном))
                                 alignment: Alignment.topRight,
-                                padding: EdgeInsets.all(12),
+                                padding: EdgeInsets.all(Indents.md),
                                 icon: Icon(
                                   Icons.favorite_border,
                                   size: 30,
@@ -68,24 +70,24 @@ class PlayListCard extends StatelessWidget {
                               ),
                             ]),
                         Container(
-                          padding: EdgeInsets.all(12),
+                          padding: EdgeInsets.all(Indents.md),
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
                                     Container(
-                                      margin: EdgeInsets.only(right: 12),
                                       child: Stats(
                                         icon: Icons.thumb_up,
                                         text: '1555',
-                                        iconMarginRight: 5,
+                                        iconMarginRight: Indents.sm,
+                                        widgetMarginRight: Indents.md,
                                       ),
                                     ),
                                     Stats(
                                         icon: Icons.local_movies,
                                         text: '89',
-                                        iconMarginRight: 5),
+                                        iconMarginRight: Indents.sm),
                                   ],
                                 ),
                                 Text(
@@ -102,8 +104,7 @@ class PlayListCard extends StatelessWidget {
                                   style: Theme.of(context)
                                       .textTheme
                                       .caption
-                                      .merge(
-                                          new TextStyle(color: Colors.white)),
+                                      .merge(new TextStyle(color: Colors.white)),
                                 ),
                               ]),
                         ),
@@ -114,11 +115,9 @@ class PlayListCard extends StatelessWidget {
                 width: screenWigth,
                 height: cardHeigth,
               ),
-            ],
-          ),
+            ),
         ),
       ),
     );
   }
 }
-
