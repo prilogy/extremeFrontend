@@ -1,3 +1,4 @@
+import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 // Иконка + количество
@@ -6,7 +7,7 @@ class Stats extends StatelessWidget {
   final String text;
   final double iconMarginRight;
   final double widgetMarginRight;
-  const Stats({Key key, this.icon, this.text, this.iconMarginRight = 5, this.widgetMarginRight = 12})
+  const Stats({Key key, this.icon, this.text, this.iconMarginRight = Indents.sm, this.widgetMarginRight = Indents.md})
       : super(key: key);
 
   @override

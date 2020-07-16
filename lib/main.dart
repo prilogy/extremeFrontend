@@ -1,11 +1,13 @@
 import 'package:extreme/homePage.dart';
 import 'package:extreme/screens/browse_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
 import 'accountPage.dart';
+import 'helpers/interfaces.dart';
 import 'redux.dart';
 import 'screens/news_screen.dart';
 
@@ -76,15 +78,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ScrollController firstScroll = ScrollController();
 
-  final double _navBarOffset = 7;
+  final double _navBarOffset = Indents.sm;
 
   @override
   Widget build(BuildContext context) {
     print('_MyHomePageState builder: ' +
         widget.store.state.likesCount.toString());
     return Scaffold(
+      appBar: widgets[_selectedIndex] is HasAppBar ? (widgets[_selectedIndex] as HasAppBar).appBar : null,
         body: Container(
-            //padding: EdgeInsets.all(12),
+            //padding: EdgeInsets.all(Indents.md),
             child: Stack(children: <Widget>[
       widgets[_selectedIndex],
       Positioned(

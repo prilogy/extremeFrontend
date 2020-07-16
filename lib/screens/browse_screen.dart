@@ -1,28 +1,30 @@
 import 'dart:ui';
+import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/playList.dart';
+import 'package:extreme/styles/intents.dart';
+import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/material.dart';
 
-import 'package:extreme/helpers/screen_base_widget.dart';
+import 'file:///D:/flutter-dev/extremeFrontend/lib/widgets/screen_base_widget.dart';
 
 // Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
+class BrowseScreen extends StatelessWidget implements HasAppBar {
 
-//      appBar: AppBar(
-//        backgroundColor: Color.fromRGBO(47, 44, 71, 1),
-//        title: Text('Просмотр'),
-//        actions: <Widget>[
-//          new IconButton(
-//            icon: new Icon(Icons.search),
-//            onPressed: _searchIconAction,
-//          ),
-//        ],
-//      ),
-
-
-
-class BrowseScreen extends StatelessWidget {
+  @override
+  final Widget appBar = AppBar(
+    title: Text("Просмотр"),
+    actions: <Widget>[
+      new IconButton(
+        icon: new Icon(Icons.search),
+        onPressed: () {
+          print("smth");
+        },
+      ),
+    ],
+  );
 
   BrowseScreen({Key key}) : super(key: key);
 
@@ -57,45 +59,52 @@ class BrowseScreen extends StatelessWidget {
       );
     }
 
-    return ScreenBaseWidget(
-      children: <Widget>[
-        Row(
+    return ScreenBaseWidget(appBar: appBar, children: <Widget>[
+      Container(
+        margin: EdgeInsets.only(bottom: Indents.lg),
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             categoryButton("Плейлисты", Icons.playlist_play, PlaylistScreen()),
             categoryButton("Фильмы", Icons.movie, PlaylistScreen())
           ],
         ),
-
-        GridView.count(
+      ),
+      BlockBaseWidget(
+        child: GridView.count(
           primary: false,
-          crossAxisSpacing: 10,
-          childAspectRatio: 16 / 9,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: Indents.md,
+          mainAxisSpacing: Indents.md,
+          childAspectRatio: 16/9,
           shrinkWrap: true,
           crossAxisCount: 2,
-          children: <Widget>[SportCard(), SportCard(), SportCard()],
+          children: [
+            for (var item in [
+              SportCard(),
+              SportCard(),
+              SportCard()
+            ])
+              item
+          ],
         ),
-
-        Container(
-          padding: EdgeInsets.fromLTRB(0, 20, 5, 0),
-          child: Text(
-            'Популярные плейлисты',
-            style: TextStyle(
-              fontFamily: 'RobotoMono',
-              fontSize: 20.0,
-              color: Colors.white,
-            ),
-          ),
+      ),
+      BlockBaseWidget(
+        header: "Популярные плейлисты",
+        child: ListView(
+          shrinkWrap: true,
+          primary: false,
+          children: [
+            for (var item in [
+              PlayListCard(
+                aspectRatio: 16 / 9,
+                padding: EdgeInsets.only(bottom: Indents.md),
+              ),
+              PlayListCard()
+            ])
+              item
+          ],
         ),
-
-        // Карточка с популярным плейлистом
-        AspectRatio(aspectRatio: 16 / 9, child: PlayListCard()),
-        // Карточка с популярным плейлистом
-        PlayListCard(),
-        // Карточка с популярным плейлистом
-        PlayListCard(),
-      ],
-    );
+      ),
+    ]);
   }
 }
