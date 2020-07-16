@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/kindOfSport.dart';
 import 'package:extreme/widgets/sport_card.dart';
@@ -30,7 +28,6 @@ class HomeScreen extends StatelessWidget {
                 child: _carouselOfMainVideos(context),
               ),
               new Positioned(
-                //Place it at the top, and not use the entire screen
                 top: 0.0,
                 left: 0.0,
                 right: 0.0,

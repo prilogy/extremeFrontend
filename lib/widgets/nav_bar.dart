@@ -15,14 +15,10 @@ class NavBar extends StatelessWidget {
       ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: Color.fromRGBO(47, 44, 71, 1),
         showUnselectedLabels: false,
         showSelectedLabels: false,
         currentIndex: selectedIndex,
-        unselectedItemColor: Color.fromRGBO(182, 181, 189, 1),
-        selectedLabelStyle: TextStyle(
-          color: Color.fromRGBO(182, 181, 189, 1),
-        ),
+        unselectedItemColor: Colors.white.withOpacity(0.7),
         selectedItemColor: Colors.white,
         onTap: (int idx) {
           setIndex(idx);
@@ -33,7 +29,7 @@ class NavBar extends StatelessWidget {
             title: Text("Home"),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.playlist_play),
+            icon: Icon(Icons.video_library),
             title: Text(
               'Browse',
               style: TextStyle(),

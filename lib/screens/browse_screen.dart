@@ -4,20 +4,33 @@ import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/material.dart';
 
+import 'package:extreme/helpers/screen_base_widget.dart';
+
 // Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
-class BrowseScreen extends StatelessWidget {
-  BrowseScreen({Key key}) : super(key: key);
 
-  void _searchIconAction() {
-    print('tapped');
-  }
+//      appBar: AppBar(
+//        backgroundColor: Color.fromRGBO(47, 44, 71, 1),
+//        title: Text('Просмотр'),
+//        actions: <Widget>[
+//          new IconButton(
+//            icon: new Icon(Icons.search),
+//            onPressed: _searchIconAction,
+//          ),
+//        ],
+//      ),
+
+
+
+class BrowseScreen extends StatelessWidget {
+
+  BrowseScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
 
-    Widget CategoryButton(String text, IconData icon, Widget pushTo) {
+    Widget categoryButton(String text, IconData icon, Widget pushTo) {
       return Container(
         padding: const EdgeInsets.all(10.0),
         child: Column(
@@ -44,28 +57,13 @@ class BrowseScreen extends StatelessWidget {
       );
     }
 
-    //      appBar: AppBar(
-//        backgroundColor: Color.fromRGBO(47, 44, 71, 1),
-//        title: Text('Просмотр'),
-//        actions: <Widget>[
-//          new IconButton(
-//            icon: new Icon(Icons.search),
-//            onPressed: _searchIconAction,
-//          ),
-//        ],
-//      ),
-
-    return ListView(
-      padding: EdgeInsets.all(12),
-      // Горизонтальный скролл
+    return ScreenBaseWidget(
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // Кнопка плейлистов с подписью
-            // Кнопка фильмы с подписью
-            CategoryButton("Плейлисты", Icons.playlist_play, PlaylistScreen()),
-            CategoryButton("Фильмы", Icons.movie, PlaylistScreen())
+            categoryButton("Плейлисты", Icons.playlist_play, PlaylistScreen()),
+            categoryButton("Фильмы", Icons.movie, PlaylistScreen())
           ],
         ),
 

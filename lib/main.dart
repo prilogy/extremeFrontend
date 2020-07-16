@@ -1,8 +1,8 @@
 import 'package:extreme/homePage.dart';
 import 'package:extreme/screens/browse_screen.dart';
-import 'package:extreme/widgets/navbar.dart';
+import 'package:extreme/styles/app_theme.dart';
+import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
 import 'accountPage.dart';
@@ -26,7 +26,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   final Store<Info> store; // redux store
 
   MyApp({Key key, this.store});
@@ -38,13 +37,7 @@ class MyApp extends StatelessWidget {
       store: store,
       child: MaterialApp(
         title: 'Flutter App',
-        theme: ThemeData(
-            brightness: Brightness.dark,
-            primarySwatch: Colors.indigo,
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            textTheme: new TextTheme(
-                subtitle1: TextStyle(fontWeight: FontWeight.w500),
-                caption: TextStyle(color: Colors.white))),
+        theme: AppTheme.dark,
         home: MyHomePage(title: 'Extreme', store: store),
       ),
     );
@@ -93,14 +86,15 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Container(
             //padding: EdgeInsets.all(12),
             child: Stack(children: <Widget>[
-          widgets[_selectedIndex],
-          Positioned(
-            bottom: _navBarOffset,
-            left: _navBarOffset,
-            right: _navBarOffset,
-            height: 54,
-            child: Container(child: NavBar(_selectedIndex, setSelectedIndex),))
-        ])),
-        backgroundColor: Color.fromRGBO(21, 22, 43, 1));
+      widgets[_selectedIndex],
+      Positioned(
+          bottom: _navBarOffset,
+          left: _navBarOffset,
+          right: _navBarOffset,
+          height: 54,
+          child: Container(
+            child: NavBar(_selectedIndex, setSelectedIndex),
+          ))
+    ])));
   }
 }
