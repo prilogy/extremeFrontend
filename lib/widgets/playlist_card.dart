@@ -112,8 +112,6 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                     ),
                   ],
                 ),
-                width: screenWigth,
-                height: cardHeigth,
               ),
             ),
         ),

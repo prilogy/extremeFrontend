@@ -7,7 +7,7 @@ import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/material.dart';
 
-import 'file:///D:/flutter-dev/extremeFrontend/lib/widgets/screen_base_widget.dart';
+import '../widgets/screen_base_widget.dart';
 
 // Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
