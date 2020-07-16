@@ -28,6 +28,7 @@ dependencies:
     sdk: flutter
   carousel_pro: ^1.0.0
   vimeoplayer: ^0.1.2
+  flutter_dotenv : ^2.1.0
 #  carousel_slider: ^2.0.0
 #  simple_slider: "^0.0.1"
   # The following adds the Cupertino Icons font to your application.
@@ -63,6 +64,7 @@ flutter:
   #  - svg/home.svg
     - extreme1.jpg
     - extreme2.jpg
+    - .env
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
   # To add assets to your application, add an assets section, like this:

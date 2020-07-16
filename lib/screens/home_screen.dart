@@ -1,8 +1,9 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/kindOfSport.dart';
 import 'package:extreme/styles/intents.dart';
+import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/sport_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
@@ -16,10 +17,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color.fromRGBO(14, 11, 38, 1),
-      child: ListView(
-        padding: const EdgeInsets.all(0.0),
+    return ScreenBaseWidget(
+        padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent, top: 0),
         children: <Widget>[
           // Карусель + appBar
           new Stack(
@@ -47,21 +46,10 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
 
-          // Список для горизонтального скроллинга - Интересные видео
-          Container(
-            padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-            child: Text(
-              'Интересные виды спорта',
-              style: TextStyle(
-                fontFamily: 'RobotoMono',
-                fontSize: 20.0,
-                color: Colors.white,
-              ),
-            ),
+          BlockBaseWidget.forScrollingViews(
+            header: "Интересные виды спорта",
+            child: InterestingCardList(),
           ),
-
-          // Список интересных видео
-          InterestingCardList(),
 
           // Список с рекомендуемыми видео
           Container(
@@ -98,7 +86,6 @@ class HomeScreen extends StatelessWidget {
           LatestUpdatesCardList(),
           // TODO: check how redux work on Text(widget.store.state.likesCOunt.toString())
         ],
-      ),
     );
   }
 }
@@ -139,9 +126,9 @@ class InterestingCardList extends StatelessWidget {
     final double cardHeigth = 110;
     return Container(
       color: Colors.transparent,
-      margin: EdgeInsets.fromLTRB(0, 5, 5, 5),
       height: cardHeigth,
       child: ListView(
+        padding: EdgeInsets.only(left: Indents.md),
         scrollDirection: Axis.horizontal,
         children: <Widget>[
           Container(
