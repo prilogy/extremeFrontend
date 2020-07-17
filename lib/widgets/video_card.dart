@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../videoViewPage.dart';
 import 'like_state.dart';
 
-
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   VideoCard(
       {EdgeInsetsGeometry margin,
@@ -19,94 +18,104 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   }
   @override
   Widget build(BuildContext context) {
-    return withIndents(
-      child: withAspectRatio(
-        child: Column(
-          children: <Widget>[
-            Card(
-              clipBehavior: Clip.antiAlias,
-              margin: EdgeInsets.zero,
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: ExactAssetImage("extreme2.jpg"),
-                  ),
+    return Container(
+      // padding: EdgeInsets.all(Indents.md),
+      child: Column(
+        children: <Widget>[
+          withIndents(
+            child: withAspectRatio(
+              child: VideoCardWithoutCaption(),
+            ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                'Blancpain GT3 - 3 hours Monza Race / Replay',
+                style: TextStyle(
+                  letterSpacing: 0.8,
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Roboto',
+                  fontSize: 20.0,
                 ),
+              ),
+              Text(
+                '5 дней назад',
+                style: Theme.of(context)
+                    .textTheme
+                    .caption
+                    .merge(new TextStyle(color: Colors.white)),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class VideoCardWithoutCaption extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      margin: EdgeInsets.zero,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+          image: DecorationImage(
+            fit: BoxFit.cover,
+            image: ExactAssetImage("extreme2.jpg"),
+          ),
+        ),
+        child: Container(
+          child: Stack(
+            children: <Widget>[
+              Positioned.fill(
                 child: Container(
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            gradient: RadialGradient(
-                              colors: [
-                                ExtremeColors.base.withOpacity(0.0),
-                                ExtremeColors.base.withOpacity(0.75)
-                              ],
-                              center: Alignment.center,
-                              radius: 1.5,
-                              stops: <double>[0, 1],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned.fill(
-                          child: Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {},
-                        ),
-                      )),
-                      Padding(
-                        padding: const EdgeInsets.all(Indents.sm),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  Like(
-                                    isLiked: true,
-                                  ),
-                                ]),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                VideoDuration(minutes: 7, seconds: 34),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      colors: [
+                        ExtremeColors.base.withOpacity(0.0),
+                        ExtremeColors.base.withOpacity(0.75)
+                      ],
+                      center: Alignment.center,
+                      radius: 1.5,
+                      stops: <double>[0, 1],
+                    ),
                   ),
                 ),
               ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  'Blancpain GT3 - 3 hours Monza Race / Replay',
-                  style: TextStyle(
-                    letterSpacing: 0.8,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'Roboto',
-                    fontSize: 20.0,
-                  ),
+              Positioned.fill(
+                  child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () {},
                 ),
-                Text(
-                  '5 дней назад',
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption
-                      .merge(new TextStyle(color: Colors.white)),
+              )),
+              Padding(
+                padding: const EdgeInsets.all(Indents.sm),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Like(
+                            isLiked: true,
+                          ),
+                        ]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        VideoDuration(minutes: 7, seconds: 34),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            )
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
