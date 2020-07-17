@@ -25,7 +25,6 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
         child: Card(
           clipBehavior: Clip.antiAlias,
           margin: EdgeInsets.zero,
-          color: Colors.transparent,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -72,42 +71,41 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                               ),
                             ]),
                         Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Container(
-                                      child: Stats(
-                                        icon: Icons.thumb_up,
-                                        text: '1555',
-                                        iconMarginRight: Indents.sm,
-                                        widgetMarginRight: Indents.md,
-                                      ),
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    child: Stats(
+                                      icon: Icons.thumb_up,
+                                      text: '1555',
+                                      iconMarginRight: Indents.sm,
+                                      widgetMarginRight: Indents.md,
                                     ),
-                                    Stats(
-                                        icon: Icons.local_movies,
-                                        text: '89',
-                                        iconMarginRight: Indents.sm),
-                                  ],
-                                ),
-                                Text(
-                                  "Название плейлиста",
-                                  style: TextStyle(
-                                    letterSpacing: 0.8,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Roboto',
-                                    fontSize: 20.0,
                                   ),
+                                  Stats(
+                                      icon: Icons.local_movies,
+                                      text: '89',
+                                      iconMarginRight: Indents.sm),
+                                ],
+                              ),
+                              Text(
+                                "Название плейлиста",
+                                style: TextStyle(
+                                  letterSpacing: 0.8,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Roboto',
+                                  fontSize: 20.0,
                                 ),
-                                Text(
-                                  "Достаточно Краткое описание плейлиста",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption
-                                      .merge(new TextStyle(color: Colors.white)),
-                                ),
-                              ]),
-                        
+                              ),
+                              Text(
+                                "Достаточно Краткое описание плейлиста",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    .merge(new TextStyle(color: Colors.white)),
+                              ),
+                            ]),
                       ],
                     ),
                   ),

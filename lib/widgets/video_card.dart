@@ -9,98 +9,104 @@ import 'like_state.dart';
 
 // TODO: рипл эффект для карточки, но так, чтобы лайк работал
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
+  VideoCard(
+      {EdgeInsetsGeometry margin,
+      EdgeInsetsGeometry padding,
+      double aspectRatio}) {
+    this.margin = margin;
+    this.padding = padding;
+    this.aspectRatio = aspectRatio;
+  }
   @override
   Widget build(BuildContext context) {
     return withIndents(
       child: withAspectRatio(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Card(
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: ExactAssetImage("extreme2.jpg"),
-                    ),
+        child: Column(
+          children: <Widget>[
+            Card(
+              clipBehavior: Clip.antiAlias,
+              margin: EdgeInsets.zero,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: ExactAssetImage("extreme2.jpg"),
                   ),
-                  child: Container(
-                    child: Stack(
-                      children: <Widget>[
-                        Positioned.fill(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: RadialGradient(
-                                colors: [
-                                  ExtremeColors.base.withOpacity(0.0),
-                                  ExtremeColors.base.withOpacity(0.75)
-                                ],
-                                center: Alignment.center,
-                                radius: 1.5,
-                                stops: <double>[0, 1],
-                              ),
+                ),
+                child: Container(
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            gradient: RadialGradient(
+                              colors: [
+                                ExtremeColors.base.withOpacity(0.0),
+                                ExtremeColors.base.withOpacity(0.75)
+                              ],
+                              center: Alignment.center,
+                              radius: 1.5,
+                              stops: <double>[0, 1],
                             ),
                           ),
                         ),
-                        Positioned.fill(
-                            child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {},
-                          ),
-                        )),
-                        Padding(
-                          padding: const EdgeInsets.all(Indents.sm),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    Like(
-                                      isLiked: true,
-                                    ),
-                                  ]),
-                              Row(
+                      ),
+                      Positioned.fill(
+                          child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {},
+                        ),
+                      )),
+                      Padding(
+                        padding: const EdgeInsets.all(Indents.sm),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-                                  VideoDuration(minutes: 7, seconds: 34),
-                                ],
-                              ),
-                            ],
-                          ),
+                                  Like(
+                                    isLiked: true,
+                                  ),
+                                ]),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: <Widget>[
+                                VideoDuration(minutes: 7, seconds: 34),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Blancpain GT3 - 3 hours Monza Race / Replay',
-                    style: TextStyle(
-                      letterSpacing: 0.8,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Roboto',
-                      fontSize: 20.0,
-                    ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  'Blancpain GT3 - 3 hours Monza Race / Replay',
+                  style: TextStyle(
+                    letterSpacing: 0.8,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Roboto',
+                    fontSize: 20.0,
                   ),
-                  Text(
-                    '5 дней назад',
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        .merge(new TextStyle(color: Colors.white)),
-                  ),
-                ],
-              )
-            ],
-          ),
+                ),
+                Text(
+                  '5 дней назад',
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption
+                      .merge(new TextStyle(color: Colors.white)),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

@@ -66,9 +66,9 @@ class HomeScreen extends StatelessWidget {
           ),
 
           // Карточка для рекомендуемого видео
-          VideoCard(),
-          VideoCard(),
-          VideoCard(),
+          VideoCard(aspectRatio: 16/9,),
+          VideoCard(aspectRatio: 16/9,),
+          VideoCard(aspectRatio: 16/9,),
 
           // Список для горизонтального скроллинга - Последние обновления
           Container(
