@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import '../videoViewPage.dart';
 import 'like_state.dart';
 
-// TODO: рипл эффект для карточки, но так, чтобы лайк работал
+
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   VideoCard(
       {EdgeInsetsGeometry margin,
