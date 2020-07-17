@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:vimeoplayer/vimeoplayer.dart';
 import 'kindOfSport.dart';
+import 'widgets/video_card.dart';
 
 // Экран просмотра видео
 
