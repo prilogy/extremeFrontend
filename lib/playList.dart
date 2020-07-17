@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'kindOfSport.dart';
 import 'widgets/stats.dart';
+import 'widgets/video_card.dart';
 
 // Экран просмотра плейлиста
 

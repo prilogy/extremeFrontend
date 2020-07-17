@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:extreme/config/env.dart';
+import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/models/api_image.dart';
 import 'package:extreme/models/sport.dart';
@@ -37,7 +38,7 @@ class BrowseScreen extends StatelessWidget implements HasAppBar {
 
     Widget categoryButton(String text, IconData icon, Widget pushTo) {
       return Container(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(Indents.md),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

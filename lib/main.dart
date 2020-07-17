@@ -1,5 +1,5 @@
 import 'package:extreme/config/env.dart';
-import 'file:///D:/flutter-dev/extremeFrontend/lib/screens/home_screen.dart';
+import 'screens/home_screen.dart';
 import 'package:extreme/screens/browse_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
