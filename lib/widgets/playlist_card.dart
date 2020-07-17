@@ -59,56 +59,57 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                       onTap: () {},
                     ),
                   )),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Like(
-                              isLiked: true,
-                            ),
-                          ]),
-                      Container(
-                        padding: EdgeInsets.all(Indents.md),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                  Padding(
+                    padding: const EdgeInsets.all(Indents.md),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Container(
-                                    child: Stats(
-                                      icon: Icons.thumb_up,
-                                      text: '1555',
-                                      iconMarginRight: Indents.sm,
-                                      widgetMarginRight: Indents.md,
-                                    ),
-                                  ),
-                                  Stats(
-                                      icon: Icons.local_movies,
-                                      text: '89',
-                                      iconMarginRight: Indents.sm),
-                                ],
-                              ),
-                              Text(
-                                "Название плейлиста",
-                                style: TextStyle(
-                                  letterSpacing: 0.8,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Roboto',
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                              Text(
-                                "Достаточно Краткое описание плейлиста",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    .merge(new TextStyle(color: Colors.white)),
+                              Like(
+                                isLiked: true,
                               ),
                             ]),
-                      ),
-                    ],
+                        Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    Container(
+                                      child: Stats(
+                                        icon: Icons.thumb_up,
+                                        text: '1555',
+                                        iconMarginRight: Indents.sm,
+                                        widgetMarginRight: Indents.md,
+                                      ),
+                                    ),
+                                    Stats(
+                                        icon: Icons.local_movies,
+                                        text: '89',
+                                        iconMarginRight: Indents.sm),
+                                  ],
+                                ),
+                                Text(
+                                  "Название плейлиста",
+                                  style: TextStyle(
+                                    letterSpacing: 0.8,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Roboto',
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                Text(
+                                  "Достаточно Краткое описание плейлиста",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption
+                                      .merge(new TextStyle(color: Colors.white)),
+                                ),
+                              ]),
+                        
+                      ],
+                    ),
                   ),
                 ],
               ),

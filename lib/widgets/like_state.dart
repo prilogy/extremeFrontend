@@ -15,7 +15,6 @@ class _LikeState extends State<Like> {
   likeAction() {
     setState(() {
       widget.isLiked = !widget.isLiked;
-      print(widget.isLiked);
     });
   }
 
@@ -30,13 +29,13 @@ class _LikeState extends State<Like> {
     }
     return IconButton(
       alignment: Alignment.topRight,
-      padding: EdgeInsets.all(Indents.md),
+      padding: EdgeInsets.all(0),
       icon: Icon(
         icon,
         color: iconColor,
         size: 30,
       ),
-      tooltip: 'Placeholder',
+      tooltip: 'Добавить в избранное',
       onPressed: () {
         likeAction();
       },
