@@ -8,6 +8,7 @@ import 'like_state.dart';
 import 'stats.dart';
 
 class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
+  
   PlayListCard(
       {EdgeInsetsGeometry margin,
       EdgeInsetsGeometry padding,

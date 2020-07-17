@@ -5,28 +5,43 @@ import 'package:flutter/material.dart';
 class Stats extends StatelessWidget {
   final IconData icon;
   final String text;
-  final double iconMarginRight;
+  final double marginBetween;
   final double widgetMarginRight;
-  const Stats({Key key, this.icon, this.text, this.iconMarginRight = Indents.sm, this.widgetMarginRight = Indents.md})
+  final bool reversed;
+
+  const Stats(
+      {Key key,
+      this.icon = Icons.error,
+      this.text = "",
+      this.marginBetween = Indents.sm,
+      this.widgetMarginRight = Indents.md,
+      this.reversed = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var widgets = [
+      Container(
+          margin: EdgeInsets.only(
+              left: reversed ? marginBetween : 0,
+              right: reversed ? 0 : marginBetween),
+          child: Icon(icon)),
+      Text(
+        text,
+        style: Theme.of(context)
+            .textTheme
+            .bodyText2
+            .merge(TextStyle(fontWeight: FontWeight.w500)),
+      )
+    ];
+
+    if (reversed == true) widgets = widgets.reversed.toList();
+
     return Container(
       margin: EdgeInsets.only(right: widgetMarginRight),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              margin: EdgeInsets.only(right: iconMarginRight), child: Icon(icon)),
-          Text(
-            text,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2
-                .merge(TextStyle(fontWeight: FontWeight.w500)),
-          )
-        ],
+        children: widgets,
       ),
     );
   }

@@ -1,19 +1,25 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
+import 'package:extreme/widgets/stats.dart';
 import 'package:flutter/material.dart';
 
 import '../kindOfSport.dart';
 
 class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
+  final bool small;
+
   SportCard(
       {EdgeInsetsGeometry margin,
       EdgeInsetsGeometry padding,
-      double aspectRatio}) {
+      double aspectRatio,
+      this.small = false}) {
     this.margin = margin;
     this.padding = padding;
     this.aspectRatio = aspectRatio;
   }
+
   @override
   Widget build(BuildContext context) {
     return withIndents(
@@ -56,44 +62,28 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                         Theme.of(context).textTheme.subtitle1),
                               ),
                             ),
-                            Container(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Icon(Icons.playlist_play),
-                                      Text(
-                                        "45",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            .merge(TextStyle(
-                                                fontWeight: FontWeight.w500)),
-                                      )
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "10",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyText2
-                                            .merge(TextStyle(
-                                                fontWeight: FontWeight.w500)),
-                                      ),
-                                      Icon(Icons.local_movies),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            )
+                            if (small != true)
+                              Container(
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Stats(
+                                      widgetMarginRight: 0,
+                                      marginBetween: 0,
+                                      icon: Icons.playlist_play,
+                                      text: "20",
+                                    ),
+                                    Stats(
+                                      reversed: true,
+                                      widgetMarginRight: 0,
+                                      marginBetween: 0,
+                                      icon: Icons.local_movies,
+                                      text: "21",
+                                    )
+                                  ],
+                                ),
+                              )
                           ]),
                     ),
                   ),

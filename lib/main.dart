@@ -13,6 +13,7 @@ import 'helpers/interfaces.dart';
 import 'redux.dart';
 import 'screens/news_screen.dart';
 
+import './config/env.dart' as Env;
 import './redux.dart' as Redux;
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -21,27 +22,22 @@ const List<String> assetNames = <String>['svg/home.svg', 'svg/nothing.svg'];
 // Главный модуль
 
 void main() async {
-  // TODO: implement get initialState from rest API
-  //final store = Store<Info>(infoReducer, initialState: Info(likesCount: 100));
-  final env = await EnvConfig.get("./.env");
-  print(store.state.likesCount.toString()); // likesCount = 100
+  Env.Config = await EnvConfig.get("./.env");
+
   runApp(MyApp(
-    store: store,
-    env: env,
+    store: Redux.store
   ));
 }
 
 class MyApp extends StatelessWidget {
   final Store<Info> store; // redux store
-  final EnvConfig env;
-
-  MyApp({Key key, this.store, this.env});
+  MyApp({Key key, this.store});
 
   @override
   Widget build(BuildContext context) {
-    print('MyApp builder: ' + store.state.likesCount.toString());
+    print("myapp - "+Theme.of(context).backgroundColor.toString());
     return StoreProvider<Info>(
-      store: Redux.store,
+      store: store,
       child: MaterialApp(
         title: 'Flutter App',
         theme: AppTheme.dark,
@@ -87,8 +83,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print('_MyHomePageState builder: ' +
-        widget.store.state.likesCount.toString());
+    final theme = Theme.of(context); // TODO: берется неправильная тема
+
     return Scaffold(
         appBar: widgets[_selectedIndex] is HasAppBar
             ? (widgets[_selectedIndex] as HasAppBar).appBar

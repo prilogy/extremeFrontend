@@ -8,7 +8,7 @@ class Info {
   Info({this.likesCount});
 }
 
-enum Actions { Like, UnLike}
+enum Actions { Like, UnLike }
 
 
 Info infoReducer(Info state, dynamic action){
