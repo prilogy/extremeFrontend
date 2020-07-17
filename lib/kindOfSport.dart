@@ -110,11 +110,11 @@ class OtherPlaylistList extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          OtherPlaylist(),
-          OtherPlaylist(),
-          OtherPlaylist(),
-          OtherPlaylist(),
-          OtherPlaylist(),
+          PlayListCard(small: true,aspectRatio: 16/9,),
+          PlayListCard(small: true,aspectRatio: 16/9,),
+          PlayListCard(small: true,aspectRatio: 16/9,),
+          PlayListCard(small: true,aspectRatio: 16/9,),
+          PlayListCard(small: true,aspectRatio: 16/9,),
         ],
       ),
     );

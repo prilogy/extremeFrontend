@@ -101,7 +101,7 @@ class AccountScreen extends StatelessWidget {
                             Icons.edit,
                             color: Color.fromRGBO(182, 181, 189, 1),
                           ),
-                          tooltip: 'Placeholder',
+                          tooltip: 'Редактировать',
                           onPressed: () {},
                         ),
                       ),

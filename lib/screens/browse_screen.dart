@@ -104,7 +104,7 @@ class BrowseScreen extends StatelessWidget implements HasAppBar {
                 aspectRatio: 16 / 9,
                 padding: EdgeInsets.only(bottom: Indents.md),
               ),
-              PlayListCard()
+              PlayListCard(small: true, aspectRatio: 16/9,)
             ])
               item
           ],
