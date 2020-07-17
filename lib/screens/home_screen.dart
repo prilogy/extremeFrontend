@@ -18,7 +18,10 @@ class HomeScreen extends StatelessWidget implements HasAppBar {
   @override
   Widget build(BuildContext context) {
     // TODO: неправильная тема из контекста
+<<<<<<< HEAD
     var thtme = Theme.of(context);
+=======
+>>>>>>> f7a8f3891aa4c832614ab2fc4426e2be695849b3
     return ScreenBaseWidget(
       children: <Widget>[
         SizedBox(

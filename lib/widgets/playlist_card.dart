@@ -79,15 +79,14 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                     child: Stats(
                                       icon: Icons.thumb_up,
                                       text: '1555',
-                                      //iconMarginRight: Indents.sm,
+                                      marginBetween: Indents.sm,
                                       widgetMarginRight: Indents.md,
                                     ),
                                   ),
                                   Stats(
-                                    icon: Icons.local_movies,
-                                    text: '89',
-                                    //iconMarginRight: Indents.sm
-                                  ),
+                                      icon: Icons.local_movies,
+                                      text: '89',
+                                      marginBetween: Indents.sm),
                                 ],
                               ),
                               Text(
