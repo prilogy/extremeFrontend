@@ -15,6 +15,7 @@ class _LikeState extends State<Like> {
   likeAction() {
     setState(() {
       widget.isLiked = !widget.isLiked;
+      print(widget.isLiked);
     });
   }
 
