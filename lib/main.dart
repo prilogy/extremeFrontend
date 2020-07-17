@@ -84,7 +84,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context); // TODO: берется неправильная тема
-    print("homepage"+theme.backgroundColor.toString());
 
     return Scaffold(
         appBar: widgets[_selectedIndex] is HasAppBar
