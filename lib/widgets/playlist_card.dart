@@ -124,6 +124,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
       return withIndents(
           child: withAspectRatio(
               child: Container(
+                height: 75,
         margin: EdgeInsets.only(right: Indents.sm, left: Indents.sm),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),

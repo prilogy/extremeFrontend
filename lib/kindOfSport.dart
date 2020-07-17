@@ -64,7 +64,7 @@ class KindOfSportScreen extends StatelessWidget {
 
             TextSign(text:'Лучшее видео'),
             // Картока - Лучшее видео
-            VideoCard(),
+            VideoCard(aspectRatio: 16/9,),
 
           ],
         ),
@@ -110,11 +110,11 @@ class OtherPlaylistList extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          PlayListCard(small: true,aspectRatio: 16/9,),
-          PlayListCard(small: true,aspectRatio: 16/9,),
-          PlayListCard(small: true,aspectRatio: 16/9,),
-          PlayListCard(small: true,aspectRatio: 16/9,),
-          PlayListCard(small: true,aspectRatio: 16/9,),
+          PlayListCard(small: true,aspectRatio: 2/1,),
+          PlayListCard(small: true,aspectRatio: 2/1,),
+          PlayListCard(small: true,aspectRatio: 2/1,),
+          PlayListCard(small: true,aspectRatio: 2/1,),
+          PlayListCard(small: true,aspectRatio: 2/1,),
         ],
       ),
     );
