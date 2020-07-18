@@ -9,12 +9,18 @@ import '../kindOfSport.dart';
 
 class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final bool small;
+  final int playlists;
+  final int videos;
+  final String title;
 
   SportCard(
       {EdgeInsetsGeometry margin,
       EdgeInsetsGeometry padding,
       double aspectRatio,
-      this.small = false}) {
+      this.small = false,
+      this.playlists,
+      this.videos,
+      this.title}) {
     this.margin = margin;
     this.padding = padding;
     this.aspectRatio = aspectRatio;
@@ -35,7 +41,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: ExactAssetImage("extreme2.jpg"),
+                        image: ExactAssetImage("extreme2.jpg"), // TODO: change hardcode image to var from db
                       ),
                     ),
                     child: Container(
@@ -56,7 +62,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                           children: <Widget>[
                             Expanded(
                               child: Center(
-                                child: Text("Вид спорта",
+                                child: Text(title,
                                     textAlign: TextAlign.center,
                                     style:
                                         Theme.of(context).textTheme.subtitle1),
@@ -72,14 +78,14 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                       widgetMarginRight: 0,
                                       marginBetween: 0,
                                       icon: Icons.playlist_play,
-                                      text: "20",
+                                      text: playlists.toString(),
                                     ),
                                     Stats(
                                       reversed: true,
                                       widgetMarginRight: 0,
                                       marginBetween: 0,
                                       icon: Icons.local_movies,
-                                      text: "21",
+                                      text: videos.toString(),
                                     )
                                   ],
                                 ),

@@ -82,7 +82,24 @@ class BrowseScreen extends StatelessWidget implements HasAppBar {
           shrinkWrap: true,
           crossAxisCount: 2,
           children: [
-            for (var item in [SportCard(), SportCard(), SportCard()]) item
+            for (var item in [
+              SportCard(
+                title: 'F1',
+                playlists: 23,
+                videos: 142,
+              ),
+              SportCard(
+                title: 'Вид спорта',
+                playlists: 2,
+                videos: 12240,
+              ),
+              SportCard(
+                title: 'Другой вид спорта',
+                playlists: 19000,
+                videos: 2122212,
+              )
+            ])
+              item
           ],
         ),
       ),
@@ -112,7 +129,6 @@ class BrowseScreen extends StatelessWidget implements HasAppBar {
                 videos: 12,
                 isLiked: true,
               ),
-              
             ])
               item
           ],
