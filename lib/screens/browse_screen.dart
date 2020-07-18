@@ -16,7 +16,6 @@ import 'package:extreme/redux.dart' as Redux;
 // Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
 class BrowseScreen extends StatelessWidget implements HasAppBar {
-
   @override
   final Widget appBar = AppBar(
     title: Text("Просмотр"),
@@ -79,16 +78,11 @@ class BrowseScreen extends StatelessWidget implements HasAppBar {
           primary: false,
           crossAxisSpacing: Indents.md,
           mainAxisSpacing: Indents.md,
-          childAspectRatio: 16/9,
+          childAspectRatio: 16 / 9,
           shrinkWrap: true,
           crossAxisCount: 2,
           children: [
-            for (var item in [
-              SportCard(),
-              SportCard(),
-              SportCard()
-            ])
-              item
+            for (var item in [SportCard(), SportCard(), SportCard()]) item
           ],
         ),
       ),
@@ -103,8 +97,22 @@ class BrowseScreen extends StatelessWidget implements HasAppBar {
               PlayListCard(
                 aspectRatio: 16 / 9,
                 padding: EdgeInsets.only(bottom: Indents.md),
+                title: 'Название плейлиста',
+                description: 'Краткое описание плейлиста',
+                likes: 1555,
+                videos: 43,
+                isLiked: false,
               ),
-              PlayListCard(small: true, aspectRatio: 16/9,)
+              PlayListCard(
+                aspectRatio: 16 / 9,
+                padding: EdgeInsets.only(bottom: Indents.md),
+                title: 'Название другого плейлиста',
+                description: 'Краткое описание другого плейлиста',
+                likes: 123,
+                videos: 12,
+                isLiked: true,
+              ),
+              
             ])
               item
           ],

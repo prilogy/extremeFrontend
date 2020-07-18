@@ -9,11 +9,21 @@ import 'stats.dart';
 
 class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final bool small;
+  final String title;
+  final String description;
+  final int likes;
+  final int videos;
+  final bool isLiked;
   PlayListCard(
       {EdgeInsetsGeometry margin,
       EdgeInsetsGeometry padding,
       double aspectRatio,
-      this.small = false}) {
+      this.small = false,
+      this.title,
+      this.description,
+      this.likes,
+      this.videos,
+      this.isLiked}) {
     this.margin = margin;
     this.padding = padding;
     this.aspectRatio = aspectRatio;
@@ -70,7 +80,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
                                 Like(
-                                  isLiked: true,
+                                  isLiked: isLiked,
                                 ),
                               ]),
                           Column(
@@ -81,19 +91,19 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                     Container(
                                       child: Stats(
                                         icon: Icons.thumb_up,
-                                        text: '1555',
+                                        text: likes.toString(),
                                         marginBetween: Indents.sm,
                                         widgetMarginRight: Indents.md,
                                       ),
                                     ),
                                     Stats(
                                         icon: Icons.local_movies,
-                                        text: '89',
+                                        text: videos.toString(),
                                         marginBetween: Indents.sm),
                                   ],
                                 ),
                                 Text(
-                                  "Название плейлиста",
+                                  title,
                                   style: TextStyle(
                                     letterSpacing: 0.8,
                                     fontWeight: FontWeight.w600,
@@ -102,7 +112,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                   ),
                                 ),
                                 Text(
-                                  "Достаточно Краткое описание плейлиста",
+                                  description,
                                   style: Theme.of(context)
                                       .textTheme
                                       .caption
@@ -124,7 +134,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
       return withIndents(
           child: withAspectRatio(
               child: Container(
-                height: 75,
+        height: 75,
         margin: EdgeInsets.only(right: Indents.sm, left: Indents.sm),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
