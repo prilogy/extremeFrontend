@@ -87,11 +87,12 @@ class RecommendationFilmsList extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          Container(child: AspectRatio(aspectRatio: 1/1,child: FilmCard())),
-          AspectRatio(aspectRatio: 9/16,child: FilmCard()),
-          AspectRatio(aspectRatio: 1/1,child: RecommendationFilms()),
-          AspectRatio(aspectRatio: 9/16,child: RecommendationFilms()),
-          AspectRatio(aspectRatio: 9/16,child: RecommendationFilms()),
+
+          FilmCard(aspectRatio: 9/16),
+          FilmCard(aspectRatio: 9/16),
+          FilmCard(aspectRatio: 9/16),
+          FilmCard(aspectRatio: 9/16),
+          FilmCard(aspectRatio: 9/16),
         ],
       ),
     );
