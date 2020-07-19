@@ -23,7 +23,7 @@ class FilmCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
       child: withAspectRatio(
         child: Card(
           clipBehavior: Clip.antiAlias,
-          margin: EdgeInsets.zero,
+          margin: EdgeInsets.only(left: Indents.sm, right: Indents.sm),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(5)),

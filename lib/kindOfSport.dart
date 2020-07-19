@@ -55,7 +55,7 @@ class KindOfSportScreen extends StatelessWidget {
             // Карточка лучшего плейлиста
             Container(
               padding: EdgeInsets.fromLTRB(0, 5, 0, 0),
-              child: PlayListCard(),
+              child: PlayListCard(aspectRatio: 16/9,),
             ),
 
             TextSign(text:'Другие плейлисты'),
@@ -88,11 +88,11 @@ class RecommendationFilmsList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: <Widget>[
 
-          FilmCard(aspectRatio: 9/16),
-          FilmCard(aspectRatio: 9/16),
-          FilmCard(aspectRatio: 9/16),
-          FilmCard(aspectRatio: 9/16),
-          FilmCard(aspectRatio: 9/16),
+          FilmCard(aspectRatio: 11/16),
+          FilmCard(aspectRatio: 11/16),
+          FilmCard(aspectRatio: 11/16),
+          FilmCard(aspectRatio: 11/16),
+          FilmCard(aspectRatio: 11/16),
         ],
       ),
     );

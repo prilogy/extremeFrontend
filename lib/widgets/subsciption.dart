@@ -11,6 +11,7 @@ class Subscription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: Indents.sm, bottom: Indents.sm),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(5)),
           border: Border.all(color: color, width: 2)),

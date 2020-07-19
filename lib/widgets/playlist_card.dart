@@ -21,7 +21,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
       this.small = false,
       this.title = "Название плейлиста",
       this.description = 'Краткое описание плейлиста',
-      this.likes =  123,
+      this.likes = 123,
       this.videos = 87,
       this.isLiked = false}) {
     this.margin = margin;
@@ -43,7 +43,8 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                 borderRadius: BorderRadius.all(Radius.circular(5)),
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: ExactAssetImage("extreme2.jpg"), // TODO: change hardcode image to var
+                  image: ExactAssetImage(
+                      "extreme2.jpg"), // TODO: change hardcode image to var
                 ),
               ),
               child: Container(
@@ -130,7 +131,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
           ),
         ),
       );
-    } else {
+    } else { // TODO: add Inkwell 
       return withIndents(
           child: withAspectRatio(
               child: Container(

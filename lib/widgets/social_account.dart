@@ -1,10 +1,21 @@
+import 'package:extreme/styles/extreme_colors.dart';
 import 'package:flutter/material.dart';
 
 class SocialAccount extends StatelessWidget {
   final String name;
-  SocialAccount({this.name});
+  String text;
+  Color textColor;
+  final bool isConnected;
+  SocialAccount({this.name, this.isConnected});
   @override
   Widget build(BuildContext context) {
+    if (isConnected) {
+      textColor = ExtremeColors.error;
+      text = 'ОТКЛЮЧИТЬ';
+    } else {
+      textColor = ExtremeColors.success;
+      text = 'ПОДКЛЮЧИТЬ';
+    }
     return Container(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,10 +33,15 @@ class SocialAccount extends StatelessWidget {
           ],
         ),
         RaisedButton(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5),
+          ),
+          textColor: textColor,
           onPressed: () {
             print('Social account button pressed');
           },
-          child: Text('Подключить'),
+          child: Text(text),
         )
       ],
     ));
