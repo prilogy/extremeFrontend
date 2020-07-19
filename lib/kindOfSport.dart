@@ -1,4 +1,5 @@
 import 'package:extreme/videoViewPage.dart';
+import 'package:extreme/widgets/film_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -86,8 +87,8 @@ class RecommendationFilmsList extends StatelessWidget {
       child: ListView(
         scrollDirection: Axis.horizontal,
         children: <Widget>[
-          Container(child: AspectRatio(aspectRatio: 1/1,child: RecommendationFilms())),
-          AspectRatio(aspectRatio: 9/16,child: RecommendationFilms()),
+          Container(child: AspectRatio(aspectRatio: 1/1,child: FilmCard())),
+          AspectRatio(aspectRatio: 9/16,child: FilmCard()),
           AspectRatio(aspectRatio: 1/1,child: RecommendationFilms()),
           AspectRatio(aspectRatio: 9/16,child: RecommendationFilms()),
           AspectRatio(aspectRatio: 9/16,child: RecommendationFilms()),

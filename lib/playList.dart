@@ -55,11 +55,11 @@ class PlaylistScreen extends StatelessWidget {
               ),
 
               // Карточка с видео и для просмотра видео
-              VideoCard(),
+              VideoCard(aspectRatio: 16/9,),
               // Карточка с видео и для просмотра видео
-              VideoCard(),
+              VideoCard(aspectRatio: 16/9,),
               // Карточка с видео и для просмотра видео
-              VideoCard(),
+              VideoCard(aspectRatio: 16/9,),
 
               Container(
                 padding: EdgeInsets.fromLTRB(10, 5, 5, 5),

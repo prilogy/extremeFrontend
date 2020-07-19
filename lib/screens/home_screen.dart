@@ -12,7 +12,6 @@ import 'package:flutter/painting.dart';
 // Домашняя страница пользователя - Главная
 
 class HomeScreen extends StatelessWidget implements HasAppBar {
-
   final Widget appBar = null;
 
   @override
@@ -24,11 +23,14 @@ class HomeScreen extends StatelessWidget implements HasAppBar {
             height: 250.0,
             child: Carousel(
               images: [
-                ExactAssetImage("extreme2.jpg"), // TODO: fetch photos with rest api
+                ExactAssetImage(
+                    "extreme2.jpg"), // TODO: fetch photos with rest api
                 ExactAssetImage("extreme2.jpg"),
                 ExactAssetImage("extreme2.jpg"),
                 ExactAssetImage("extreme2.jpg"),
-                Container(child: Text("sadas"),)
+                Container(
+                  child: Text("sadas"),
+                )
                 // TODO: сделать компонент под дизайн
               ],
               dotSize: Indents.sm / 2,
@@ -41,7 +43,8 @@ class HomeScreen extends StatelessWidget implements HasAppBar {
               overlayShadow: true,
               overlayShadowColors: Theme.of(context).colorScheme.background,
               overlayShadowSize: 0.7,
-            ))
+            )),
+        VideoCard(aspectRatio: 16 / 9),
       ],
     );
   }
