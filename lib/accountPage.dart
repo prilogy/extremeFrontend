@@ -5,11 +5,11 @@ import 'package:flutter/painting.dart';
 
 // Экран профиля пользователя - Профиль
 
-class AccountScreen extends StatelessWidget {
+class OldAccountScreen extends StatelessWidget {
   final String text;
 
   // receive data from the FirstScreen as a parameter
-  AccountScreen({Key key, @required this.text}) : super(key: key);
+  OldAccountScreen({Key key, @required this.text}) : super(key: key);
 
 
   void _searchIconAction() {

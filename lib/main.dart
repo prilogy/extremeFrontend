@@ -1,4 +1,5 @@
 import 'package:extreme/config/env.dart';
+import 'package:extreme/screens/account_screen.dart';
 import 'screens/home_screen.dart';
 import 'package:extreme/screens/browse_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
@@ -66,8 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> widgets = [
     HomeScreen(),
     BrowseScreen(),
-    NewsScreen(),
-    AccountScreen(text: "Hello"),
+    AccountScreen(),
+    OldAccountScreen(text: 'Hello',),
   ];
 
   // при нажатии на иконку в bottomNavigationBar устанавливаем индекс
