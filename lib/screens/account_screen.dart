@@ -14,6 +14,10 @@ class AccountScreen extends StatelessWidget implements HasAppBar {
         icon: Icon(Icons.settings), // TODO: place correct icon
         onPressed: () {
           print("Settings icon pressed");
+          // TODO: implement settings call with context
+          // Navigator.push(context, MaterialPageRoute(
+          //       builder: (context) => SettingsScreen(),
+          //     ));
         },
       ),
     ],
