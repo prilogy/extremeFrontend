@@ -11,7 +11,8 @@ import 'package:flutter/painting.dart';
 
 // Домашняя страница пользователя - Главная
 
-class HomeScreen extends StatelessWidget implements IWithAppBar, IWithNavigatorKey {
+class HomeScreen extends StatelessWidget
+    implements IWithAppBar, IWithNavigatorKey {
   Key navigatorKey;
 
   HomeScreen({Key key}) : super(key: key);
@@ -21,35 +22,41 @@ class HomeScreen extends StatelessWidget implements IWithAppBar, IWithNavigatorK
   @override
   Widget build(BuildContext context) {
     // TODO: неправильная тема из контекста
-    return ScreenBaseWidget(
-      children: <Widget>[
-        SizedBox(
-            height: 250.0,
-            child: Carousel(
-              images: [
-                ExactAssetImage(
-                    "extreme2.jpg"), // TODO: fetch photos with rest api
-                ExactAssetImage("extreme2.jpg"),
-                ExactAssetImage("extreme2.jpg"),
-                ExactAssetImage("extreme2.jpg"),
-                Container(
-                  child: Text("sadas"),
-                )
-                // TODO: сделать компонент под дизайн
-              ],
-              dotSize: Indents.sm / 2,
-              dotSpacing: Indents.md,
-              dotColor: Theme.of(context).backgroundColor,
-              indicatorBgPadding: 10.0,
-              borderRadius: false,
-              moveIndicatorFromBottom: 180.0,
-              noRadiusForIndicator: true,
-              overlayShadow: true,
-              overlayShadowColors: Theme.of(context).colorScheme.background,
-              overlayShadowSize: 0.7,
-            )),
-        VideoCard(aspectRatio: 16 / 9),
-      ],
+    return Navigator(
+      key: navigatorKey,
+      onGenerateRoute: (settings) => MaterialPageRoute(
+        builder: (context) => ScreenBaseWidget(
+          appBar: appBar,
+          children: <Widget>[
+            SizedBox(
+                height: 250.0,
+                child: Carousel(
+                  images: [
+                    ExactAssetImage("extreme2.jpg"),
+                    // TODO: fetch photos with rest api
+                    ExactAssetImage("extreme2.jpg"),
+                    ExactAssetImage("extreme2.jpg"),
+                    ExactAssetImage("extreme2.jpg"),
+                    Container(
+                      child: Text("sadas"),
+                    )
+                    // TODO: сделать компонент под дизайн
+                  ],
+                  dotSize: Indents.sm / 2,
+                  dotSpacing: Indents.md,
+                  dotColor: Theme.of(context).backgroundColor,
+                  indicatorBgPadding: 10.0,
+                  borderRadius: false,
+                  moveIndicatorFromBottom: 180.0,
+                  noRadiusForIndicator: true,
+                  overlayShadow: true,
+                  overlayShadowColors: Theme.of(context).colorScheme.background,
+                  overlayShadowSize: 0.7,
+                )),
+            VideoCard(aspectRatio: 16 / 9),
+          ],
+        ),
+      ),
     );
   }
 }

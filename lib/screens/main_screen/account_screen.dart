@@ -33,58 +33,64 @@ class AccountScreen extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return ScreenBaseWidget(
-        appBar: appBar,
-        navigatorKey: navigatorKey,
-        children: [
-          BlockBaseWidget(
-            child: Column(children: <Widget>[
-              AccountInfo(),
-              Subscription(
-                color: ExtremeColors.warning,
-                price: 200,
-                title: 'месяц',
-                description: 'Идеальное решение для начала',
-              ),
-              Subscription(
-                color: ExtremeColors.success,
-                price: 1200,
-                title: 'полгода',
-                description: 'Много контента на долгое время!',
-              ),
-              Subscription(
-                color: ExtremeColors.primary,
-                price: 2000,
-                title: 'год',
-                description: 'Максимум контента прямо сейчас!',
-              ),
-              Text(
-                'Подписка продлится с момента её текущего окончания',
-                style: Theme.of(context).textTheme.caption,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Подключённые аккаунты',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  SocialAccount(
-                    name: 'Google',
-                    isConnected: false,
-                  ),
-                  SocialAccount(
-                    name: 'VK',
-                    isConnected: true,
-                  ),
-                  SocialAccount(
-                    name: 'Facebook',
-                    isConnected: false,
-                  ),
-                ],
-              )
-            ]),
-          )
-        ]);
+    return Navigator(
+        key: navigatorKey,
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+            builder: (context) => ScreenBaseWidget(
+              appBar: appBar,
+              children: [
+                BlockBaseWidget(
+                  child: Column(children: <Widget>[
+                    AccountInfo(),
+                    Subscription(
+                      color: ExtremeColors.warning,
+                      price: 200,
+                      title: 'месяц',
+                      description: 'Идеальное решение для начала',
+                    ),
+                    Subscription(
+                      color: ExtremeColors.success,
+                      price: 1200,
+                      title: 'полгода',
+                      description: 'Много контента на долгое время!',
+                    ),
+                    Subscription(
+                      color: ExtremeColors.primary,
+                      price: 2000,
+                      title: 'год',
+                      description: 'Максимум контента прямо сейчас!',
+                    ),
+                    Text(
+                      'Подписка продлится с момента её текущего окончания',
+                      style: Theme.of(context).textTheme.caption,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          'Подключённые аккаунты',
+                          style: Theme.of(context).textTheme.headline6,
+                        ),
+                        SocialAccount(
+                          name: 'Google',
+                          isConnected: false,
+                        ),
+                        SocialAccount(
+                          name: 'VK',
+                          isConnected: true,
+                        ),
+                        SocialAccount(
+                          name: 'Facebook',
+                          isConnected: false,
+                        ),
+                      ],
+                    )
+                  ]),
+                )
+              ],
+            ),
+          );
+        });
   }
 }

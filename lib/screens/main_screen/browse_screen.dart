@@ -40,103 +40,90 @@ class BrowseScreen extends StatelessWidget
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
 
-    return ScreenBaseWidget(
-        navigatorKey: navigatorKey,
-        appBar: appBar,
-        children: <Widget>[
-          Card(
-            child: InkWell(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => KindOfSportScreen()));
-              },
-              child: Container(
-                height: 300,
-                color: Colors.red,
-                child: Center(
-                  child: Text("самфинг"),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(bottom: Indents.lg),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                CategoryButton(
-                    text: "Плейлисты",
-                    icon: Icons.playlist_play,
-                    pushTo: PlaylistScreen()),
-                CategoryButton(
-                    text: "Фильмы",
-                    icon: Icons.movie,
-                    pushTo: KindOfSportScreen())
-              ],
-            ),
-          ),
-          BlockBaseWidget(
-            child: GridView.count(
-              primary: false,
-              crossAxisSpacing: Indents.md,
-              mainAxisSpacing: Indents.md,
-              childAspectRatio: 16 / 9,
-              shrinkWrap: true,
-              crossAxisCount: 2,
-              children: [
-                for (var item in [
-                  SportCard(
-                    title: 'F1',
-                    playlists: 23,
-                    videos: 142,
-                  ),
-                  SportCard(
-                    title: 'Вид спорта',
-                    playlists: 2,
-                    videos: 12240,
-                  ),
-                  SportCard(
-                    title: 'Другой вид спорта',
-                    playlists: 19000,
-                    videos: 2122212,
-                  )
-                ])
-                  item
-              ],
-            ),
-          ),
-          BlockBaseWidget(
-            header: "Популярные плейлисты",
-            margin: EdgeInsets.zero,
-            child: ListView(
-              shrinkWrap: true,
-              primary: false,
-              children: [
-                for (var item in [
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    padding: EdgeInsets.only(bottom: Indents.md),
-                    title: 'Название плейлиста',
-                    description: 'Краткое описание плейлиста',
-                    likes: 1555,
-                    videos: 43,
-                    isLiked: false,
-                  ),
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    padding: EdgeInsets.only(bottom: Indents.md),
-                    title: 'Название другого плейлиста',
-                    description: 'Краткое описание другого плейлиста',
-                    likes: 123,
-                    videos: 12,
-                    isLiked: true,
-                  ),
-                ])
-                  item
-              ],
-            ),
-          ),
-        ]);
+    return Navigator(
+        key: navigatorKey,
+        onGenerateRoute: (settings) {
+          return MaterialPageRoute(
+              builder: (context) => ScreenBaseWidget(appBar: appBar, children: [
+                    Container(
+                      margin: EdgeInsets.only(bottom: Indents.lg),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          CategoryButton(
+                              text: "Плейлисты",
+                              icon: Icons.playlist_play,
+                              pushTo: PlaylistScreen()),
+                          CategoryButton(
+                              text: "Фильмы",
+                              icon: Icons.movie,
+                              pushTo: KindOfSportScreen())
+                        ],
+                      ),
+                    ),
+                    BlockBaseWidget(
+                      child: GridView.count(
+                        primary: false,
+                        crossAxisSpacing: Indents.md,
+                        mainAxisSpacing: Indents.md,
+                        childAspectRatio: 16 / 9,
+                        shrinkWrap: true,
+                        crossAxisCount: 2,
+                        children: [
+                          for (var item in [
+                            SportCard(
+                              title: 'F1',
+                              playlists: 23,
+                              videos: 142,
+                            ),
+                            SportCard(
+                              title: 'Вид спорта',
+                              playlists: 2,
+                              videos: 12240,
+                            ),
+                            SportCard(
+                              title: 'Другой вид спорта',
+                              playlists: 19000,
+                              videos: 2122212,
+                            )
+                          ])
+                            item
+                        ],
+                      ),
+                    ),
+                    BlockBaseWidget(
+                      header: "Популярные плейлисты",
+                      margin: EdgeInsets.zero,
+                      child: ListView(
+                        shrinkWrap: true,
+                        primary: false,
+                        children: [
+                          for (var item in [
+                            PlayListCard(
+                              aspectRatio: 16 / 9,
+                              padding: EdgeInsets.only(bottom: Indents.md),
+                              title: 'Название плейлиста',
+                              description: 'Краткое описание плейлиста',
+                              likes: 1555,
+                              videos: 43,
+                              isLiked: false,
+                            ),
+                            PlayListCard(
+                              aspectRatio: 16 / 9,
+                              padding: EdgeInsets.only(bottom: Indents.md),
+                              title: 'Название другого плейлиста',
+                              description: 'Краткое описание другого плейлиста',
+                              likes: 123,
+                              videos: 12,
+                              isLiked: true,
+                            ),
+                          ])
+                            item
+                        ],
+                      ),
+                    ),
+                  ]));
+        });
   }
 }
 
