@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO: неправильный неймнг, нужно более конкретное название. Также лучше перенести этот компонент прямо в файл страницы settings_screen ибо этот виджет юзается только там
 class SettingsWidget extends StatelessWidget {
   final String title;
   SettingsWidget({this.title});

@@ -3,19 +3,15 @@ import 'package:flutter/material.dart';
 
 class SocialAccount extends StatelessWidget {
   final String name;
-  String text;
-  Color textColor;
   final bool isConnected;
+
   SocialAccount({this.name, this.isConnected});
+
   @override
   Widget build(BuildContext context) {
-    if (isConnected) {
-      textColor = ExtremeColors.error;
-      text = 'ОТКЛЮЧИТЬ';
-    } else {
-      textColor = ExtremeColors.success;
-      text = 'ПОДКЛЮЧИТЬ';
-    }
+    var text = isConnected ? 'ОТКЛЮЧИТЬ' : 'ОТКЛЮЧИТЬ';
+    var textColor = isConnected ? ExtremeColors.error : ExtremeColors.success;
+
     return Container(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

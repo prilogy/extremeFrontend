@@ -28,6 +28,13 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
 
   @override
   Widget build(BuildContext context) {
+    void onTap() {
+      Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => KindOfSportScreen(),
+          ));
+    }
+
     return withIndents(
       child: withAspectRatio(
         child: Card(
@@ -41,7 +48,8 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                        image: ExactAssetImage("extreme2.jpg"), // TODO: change hardcode image to var from db
+                        image: ExactAssetImage(
+                            "extreme2.jpg"), // TODO: change hardcode image to var from db
                       ),
                     ),
                     child: Container(
@@ -98,13 +106,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                     child: Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => KindOfSportScreen(),
-                          ));
-                    },
+                    onTap: onTap,
                   ),
                 )),
               ],

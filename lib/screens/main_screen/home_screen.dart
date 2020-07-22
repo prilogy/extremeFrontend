@@ -11,7 +11,11 @@ import 'package:flutter/painting.dart';
 
 // Домашняя страница пользователя - Главная
 
-class HomeScreen extends StatelessWidget implements HasAppBar {
+class HomeScreen extends StatelessWidget implements IWithAppBar, IWithNavigatorKey {
+  Key navigatorKey;
+
+  HomeScreen({Key key}) : super(key: key);
+
   final Widget appBar = null;
 
   @override

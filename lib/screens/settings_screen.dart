@@ -4,7 +4,7 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget implements HasAppBar {
+class SettingsScreen extends StatelessWidget implements IWithAppBar {
   @override
   final Widget appBar = AppBar(
     title: Text("Настройки"),

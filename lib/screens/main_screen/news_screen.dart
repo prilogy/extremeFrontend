@@ -1,6 +1,11 @@
+import 'package:extreme/helpers/interfaces.dart';
 import 'package:flutter/material.dart';
 
-class NewsScreen extends StatelessWidget {
+class NewsScreen extends StatelessWidget implements IWithNavigatorKey {
+  Key navigatorKey;
+
+  NewsScreen({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -14,7 +19,9 @@ class NewsScreen extends StatelessWidget {
           crossAxisCount: 3,
           shrinkWrap: true,
           children: <Widget>[
-            Container(child: Text("ss"),)
+            Container(
+              child: Text("ss"),
+            )
           ],
         )
       ],

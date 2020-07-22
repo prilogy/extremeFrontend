@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Authentication extends StatelessWidget {
+// renamed to [AuthScreen] cuz Authentication is smth but not Screen
+class AuthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
