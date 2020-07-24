@@ -6,41 +6,24 @@ import 'package:flutter/material.dart';
 class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
   final List<Widget> children;
   final EdgeInsetsGeometry padding;
-  final Key navigatorKey;
 
   final Widget appBar;
 
-  static const double screenBottomIndent =
-      NavBar.height + Indents.md + Indents.sm;
+  static const double screenBottomIndent = NavBar.height + Indents.md + Indents.sm;
 
-  static const EdgeInsetsGeometry _defaultPadding =
-      EdgeInsets.only(top: Indents.md, bottom: screenBottomIndent);
+  static const EdgeInsetsGeometry _defaultPadding = EdgeInsets.only(top: Indents.md, bottom: screenBottomIndent);
 
   ScreenBaseWidget(
-      {this.padding = _defaultPadding,
-      this.children,
-      this.appBar,
-      this.navigatorKey});
+      {this.padding = _defaultPadding, this.children, this.appBar});
 
   @override
   Widget build(BuildContext context) {
-    var scaffold = Scaffold(
+    return Scaffold(
       appBar: appBar,
       body: ListView(
         padding: padding,
         children: children,
-      ) ,
-    );
-
-    if (navigatorKey == null)
-      return scaffold;
-
-    return Navigator(
-      key: navigatorKey,
-      onGenerateRoute: (settings) {
-        return MaterialPageRoute(
-            builder: (context) => scaffold);
-      },
+      ),
     );
   }
 }

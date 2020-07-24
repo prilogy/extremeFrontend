@@ -13,7 +13,8 @@ import 'dart:convert';
 
 // Домашняя страница пользователя - Главная
 
-class HomeScreen extends StatelessWidget implements IWithAppBar, IWithNavigatorKey {
+class HomeScreen extends StatelessWidget
+    implements IWithAppBar, IWithNavigatorKey {
   Key navigatorKey;
 
   HomeScreen({Key key}) : super(key: key);
