@@ -8,6 +8,8 @@ import 'package:extreme/widgets/sport_card.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 // Домашняя страница пользователя - Главная
 
@@ -49,10 +51,39 @@ class HomeScreen extends StatelessWidget implements IWithAppBar, IWithNavigatorK
               overlayShadowSize: 0.7,
             )),
         VideoCard(aspectRatio: 16 / 9),
+        RaisedButton(onPressed: _fetchData, child: Text('Fetch some data'),)
       ],
     );
   }
 }
+Future<dynamic> _fetchData() async{
+var response = await http.get('https://extreme.prilogy.ru/api/auth/login');
+print(response.statusCode);
+if(response.statusCode == 200)
+{
+  print(json.decode(response.body));
+  //return Album.fromJson(json.decode(response.body));
+}
+else {
+  throw Exception('Api fetch error. Status code: '+ response.statusCode.toString());
+}
+}
+
+// class Album {
+//   final int userId;
+//   final int id;
+//   final String title;
+
+//   Album({this.userId, this.id, this.title});
+
+//   factory Album.fromJson(Map<String, dynamic> json) {
+//     return Album(
+//       userId: json['userId'],
+//       id: json['id'],
+//       title: json['title'],
+//     );
+//   }
+// }
 
 //class HomeScreen extends StatelessWidget {
 //  void _searchIconAction() {

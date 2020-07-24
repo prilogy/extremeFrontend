@@ -1,6 +1,5 @@
 import 'package:extreme/config/env.dart';
 import 'package:extreme/router/router.dart';
-import 'file:///D:/flutter-dev/extremeFrontend/lib/screens/main_screen/account_screen.dart';
 import 'screens/main_screen/home_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
@@ -15,8 +14,6 @@ import './config/env.dart' as Env;
 import './redux.dart' as Redux;
 import 'package:flutter_redux/flutter_redux.dart';
 
-// TODO: wtf is this?
-const List<String> assetNames = <String>['svg/home.svg', 'svg/nothing.svg'];
 
 void main() async {
   Env.Config = await EnvConfig.get("./.env");
