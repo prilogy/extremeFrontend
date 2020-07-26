@@ -1,6 +1,10 @@
+//import 'dart:html';
+
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/kindOfSport.dart';
+import 'package:extreme/models/playlist.dart';
+import 'package:extreme/services/api.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -12,6 +16,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 // Домашняя страница пользователя - Главная
+var _authToken;
 
 class HomeScreen extends StatelessWidget
     implements IWithAppBar, IWithNavigatorKey {
@@ -24,6 +29,9 @@ class HomeScreen extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     // TODO: неправильная тема из контекста
+    TextEditingController _searchController = TextEditingController();
+    _searchController.text = 'a';
+    dynamic playlist;
     return ScreenBaseWidget(
       children: <Widget>[
         SizedBox(
@@ -52,24 +60,84 @@ class HomeScreen extends StatelessWidget
               overlayShadowSize: 0.7,
             )),
         VideoCard(aspectRatio: 16 / 9),
-        RaisedButton(onPressed: _fetchData, child: Text('Fetch some data'),)
+        RaisedButton(
+          onPressed: () {
+            FetchData();
+          },
+          child: Text("Auto login"),
+        ),
+        Auth(),
+        //  RaisedButton(
+        //   onPressed: _login('Hi'),
+        //   child: Text('API tedt'),
+        // )
+        Text('Найти плейлист: '),
+        TextField(
+          controller: _searchController,
+        ),
+        RaisedButton(
+          onPressed: () {
+            print('Response is ready: ' +
+                Search(Type.Playlist, _searchController.text).toString());
+          },
+          child: Text('Поиск'),
+        ),
+        FutureBuilder<dynamic>(
+          future: Search(Type.Playlist, _searchController.text),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Text(snapshot.data.id.toString());
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+
+            // By default, show a loading spinner.
+            return CircularProgressIndicator();
+          },
+        )
       ],
     );
   }
 }
-Future<dynamic> _fetchData() async{
-var response = await http.get('https://extreme.prilogy.ru/api/auth/login');
-print(response.statusCode);
-if(response.statusCode == 200)
-{
-  print(json.decode(response.body));
-  //return Album.fromJson(json.decode(response.body));
-}
-else {
-  throw Exception('Api fetch error. Status code: '+ response.statusCode.toString());
-}
+
+class User {
+  final int id;
+  final String email;
+  final String jwt;
+
+  User({this.id, this.email, this.jwt});
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(id: json['id'], email: json['email'], jwt: json['token']);
+  }
 }
 
+class Auth extends StatelessWidget {
+  const Auth({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passController = TextEditingController();
+    return Column(
+      children: <Widget>[
+        TextFormField(
+          controller: _emailController,
+          //
+        ),
+        TextFormField(
+          controller: _passController,
+          //onFieldSubmitted: _search,
+        ),
+        RaisedButton(
+          child: (Text('Submit')),
+          onPressed: () {
+            Login(_emailController.text, _passController.text);
+          },
+        )
+      ],
+    );
+  }
+}
 // class Album {
 //   final int userId;
 //   final int id;
