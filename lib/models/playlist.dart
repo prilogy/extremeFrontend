@@ -1,4 +1,4 @@
-import 'package:extreme/models/api_image.dart';
+part of models;
 
 class Playlist{
   int id;
@@ -15,9 +15,4 @@ Playlist({this.id, this.videosIds, this.content});
      // content: json['playlists'][0]['content'],
     );
   }
-}
-class Content {
-  String name;
-  String description;
-  ApiImage image;
 }

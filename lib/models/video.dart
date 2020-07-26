@@ -1,14 +1,7 @@
-import 'package:extreme/models/api_image.dart';
+part of models;
 
 class Video {
   int id;
   bool isInPaidPlayList;
   Content content;
-}
-
-class Content {
-  String name;
-  String description;
-  ApiImage image;
-  String url;
 }

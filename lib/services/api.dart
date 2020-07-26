@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'package:extreme/models/playlist.dart';
+import 'package:extreme/models/main.dart' as Models;
+import 'package:extreme/screens/main_screen/home_screen.dart';
 import 'package:http/http.dart' as http;
 
-enum Type { Movie, Video, Sport, Playlist }
+enum EntityType { Movie, Video, Sport, Playlist }
 
 Future<dynamic> Login(String email, String pass) async {
   print('fetching');
@@ -14,8 +15,11 @@ Future<dynamic> Login(String email, String pass) async {
       body: jsonEncode({"email": email, "password": pass}));
   print(response.statusCode);
   if (response.statusCode == 200) {
-    print(json.decode(response.body));
-
+    var decoded = json.decode(response.body);
+    //print(decoded);
+    var user = Models.User.fromJson(decoded);
+    print(user.token);
+    return true;
     //return User.fromJson(json.decode(response.body));
   } else {
     throw Exception(
@@ -34,16 +38,19 @@ Future<dynamic> FetchData() async {
           {"email": "ar.luckjanov@yandex.ru", "password": "123456"}));
   print(response.statusCode);
   if (response.statusCode == 200) {
-    print(json.decode(response.body));
-    //  return User.fromJson(json.decode(response.body));
-    //return Album.fromJson(json.decode(response.body));
+    var decoded = json.decode(response.body);
+    //print(decoded);
+    var user = Models.User.fromJson(decoded);
+    print(user.subscription.dateEnd.year);
+    return true;
+    //return User.fromJson(json.decode(response.body));
   } else {
     throw Exception(
         'Api fetch error. Status code: ' + response.statusCode.toString());
   }
 }
 
-Future<dynamic> Search(Type type, String query) async {
+Future<dynamic> Search(EntityType type, String query) async {
   print('fetching with body: ' + query);
   var response = await http.post(
     'https://extreme.prilogy.ru/api/search',
@@ -58,10 +65,10 @@ Future<dynamic> Search(Type type, String query) async {
   if (response.statusCode == 200) {
     print(json.decode(response.statusCode.toString()));
     switch (type) {
-      case Type.Playlist:
-        print(Playlist(id: 1,videosIds: [3,4]));
+      case EntityType.Playlist:
+        print(Models.Playlist(id: 1,videosIds: [3,4]));
         print(json.decode(response.body));
-        return Playlist.fromJson(json.decode(response.body));
+        return Models.Playlist.fromJson(json.decode(response.body));
         break;
       default:
     }

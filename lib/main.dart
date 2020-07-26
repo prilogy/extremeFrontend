@@ -1,5 +1,6 @@
-import 'package:extreme/config/env.dart';
+import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/router/router.dart';
+import 'package:extreme/services/dio.dart' as Dio;
 import 'screens/main_screen/home_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
@@ -16,7 +17,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 
 void main() async {
-  Env.Config = await EnvConfig.get("./.env");
+  await Env.init("./.env");
+  Dio.init();
 
   runApp(App(store: Redux.store));
 }
