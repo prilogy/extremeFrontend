@@ -3,7 +3,8 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/kindOfSport.dart';
-import 'package:extreme/services/api.dart' as Api;
+import 'package:extreme/models/main.dart';
+//import 'package:extreme/services/api.dart' as Api;
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -63,6 +64,7 @@ class HomeScreen extends StatelessWidget
         VideoCard(aspectRatio: 16 / 9),
         RaisedButton(
           onPressed: () {
+            print('loging on');
             Api.User.login("ar.luckjanov@yandex.ru", "123456");
           },
           child: Text("Auto login"),
@@ -79,15 +81,29 @@ class HomeScreen extends StatelessWidget
         RaisedButton(
           onPressed: () {
             print('Response is ready: ' +
-                Api.Search(Api.EntityType.Playlist, _searchController.text).toString());
+                Api.Search(Api.EntityType.Playlist, _searchController.text)
+                    .toString());
           },
           child: Text('Поиск'),
         ),
         FutureBuilder<dynamic>(
-          future: Api.Search(Api.EntityType.Playlist, _searchController.text),
+          future: Api.Search(Api.EntityType.Playlist, 'a'),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Text(snapshot.data.id.toString());
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            // By default, show a loading spinner.
+            return CircularProgressIndicator();
+          },
+        ),
+        FutureBuilder(
+          future: Api.Recomended(1, 0),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              //return Text(snapshot.data[0].toString());
+              return VideoCard(aspectRatio: 16/9,info: Video(content: Content(name: snapshot.data[0].toString())),);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
@@ -131,7 +147,7 @@ class Auth extends StatelessWidget {
         RaisedButton(
           child: (Text('Submit')),
           onPressed: () {
-            Api.Login(_emailController.text, _passController.text);
+            // Api.Login(_emailController.text, _passController.text);
           },
         )
       ],

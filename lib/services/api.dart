@@ -42,6 +42,7 @@ Future<dynamic> FetchData() async {
     //print(decoded);
     var user = Models.User.fromJson(decoded);
     print(user.subscription.dateEnd.year);
+    print('end of response');
     return true;
     //return User.fromJson(json.decode(response.body));
   } else {
