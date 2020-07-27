@@ -37,7 +37,7 @@ class App extends StatelessWidget {
         title: 'Flutter App',
         theme: AppTheme.dark,
         onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: '/',
+        initialRoute: '/auth',
       ),
     );
   }

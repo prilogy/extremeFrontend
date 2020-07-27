@@ -20,12 +20,10 @@ import 'package:extreme/services/api/main.dart' as Api;
 var _authToken;
 
 class HomeScreen extends StatelessWidget
-    implements IWithAppBar, IWithNavigatorKey {
+    implements IWithNavigatorKey {
   Key navigatorKey;
 
   HomeScreen({Key key}) : super(key: key);
-
-  final Widget appBar = null;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,8 @@ class HomeScreen extends StatelessWidget
     _searchController.text = 'a';
     dynamic playlist;
     return ScreenBaseWidget(
-      children: <Widget>[
+      navigatorKey: navigatorKey,
+      builder: (context) => <Widget>[
         SizedBox(
             height: 250.0,
             child: Carousel(
@@ -63,7 +62,8 @@ class HomeScreen extends StatelessWidget
         VideoCard(aspectRatio: 16 / 9),
         RaisedButton(
           onPressed: () {
-            Api.User.login("ar.luckjanov@yandex.ru", "123456");
+            Api.Authentication.login(email: "ar.luckjanov@yandex.ru", password: "123456");
+
           },
           child: Text("Auto login"),
         ),

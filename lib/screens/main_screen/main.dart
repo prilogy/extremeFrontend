@@ -81,28 +81,28 @@ class _MainScreenState extends State<MainScreen>
       },
       child: Scaffold(
           body: SafeArea(
-            top: false,
-            child: Container(
-                //padding: EdgeInsets.all(Indents.md),
-                child: Stack(children: <Widget>[
-              IndexedStack(
-                index: _selectedIndex,
-                children: screens,
-              ),
-              Positioned(
-                  bottom: _navBarOffset,
-                  left: _navBarOffset,
-                  right: _navBarOffset,
-                  height: NavBar.height,
-                  child: Container(
-                    child: NavBar(_selectedIndex, (int idx) {
-                      setState(() {
-                        _selectedIndex = idx;
-                      });
-                    }),
-                  ))
-            ])),
-          )),
+        top: false,
+        child: Container(
+            //padding: EdgeInsets.all(Indents.md),
+            child: Stack(children: <Widget>[
+          IndexedStack(
+            index: _selectedIndex,
+            children: screens,
+          ),
+          Positioned(
+              bottom: _navBarOffset,
+              left: _navBarOffset,
+              right: _navBarOffset,
+              height: NavBar.height,
+              child: Container(
+                child: NavBar(_selectedIndex, (int idx) {
+                  setState(() {
+                    _selectedIndex = idx;
+                  });
+                }),
+              ))
+        ])),
+      )),
     );
   }
 }

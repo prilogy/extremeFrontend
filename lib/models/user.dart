@@ -3,7 +3,7 @@ part of models;
 class User {
   List<SocialAccount> socialAccounts;
   Culture culture;
-  Culture currency;
+  Currency currency;
   int id;
   String email;
   String name;
@@ -45,7 +45,7 @@ class User {
     culture =
     json['culture'] != null ? new Culture.fromJson(json['culture']) : null;
     currency = json['currency'] != null
-        ? new Culture.fromJson(json['currency'])
+        ? new Currency.fromJson(json['currency'])
         : null;
     id = json['id'];
     email = json['email'];

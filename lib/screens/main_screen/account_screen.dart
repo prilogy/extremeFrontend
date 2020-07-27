@@ -9,12 +9,11 @@ import 'package:extreme/widgets/subsciption.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget
-    implements IWithAppBar, IWithNavigatorKey {
+    implements IWithNavigatorKey {
   Key navigatorKey;
 
   AccountScreen({Key key}) : super(key: key);
 
-  @override
   final Widget appBar = AppBar(
     title: Text("Профиль"),
     actions: <Widget>[
@@ -39,7 +38,7 @@ class AccountScreen extends StatelessWidget
           return MaterialPageRoute(
             builder: (context) => ScreenBaseWidget(
               appBar: appBar,
-              children: [
+              builder: (context) => [
                 BlockBaseWidget(
                   child: Column(children: <Widget>[
                     AccountInfo(),
