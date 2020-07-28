@@ -11,6 +11,7 @@ import '../api/../dio.dart';
 import 'package:http/http.dart' as http;
 
 part 'user.dart';
+
 part 'authentication.dart';
 
 enum EntityType { Movie, Video, Sport, Playlist }
@@ -37,16 +38,16 @@ Future<dynamic> Search(EntityType type, String query) async {
         break;
       default:
     }
-
   } else {
     throw Exception(
         'Api fetch error. Status code: ' + response.statusCode.toString());
   }
 }
-Future<dynamic> Recomended(int page, int pageSize) async{
-  Map<String,int> data = Map<String,int>();
-      data['page']= page;
-      data['pageSize'] = pageSize;
+
+Future<dynamic> Recomended(int page, int pageSize) async {
+  Map<String, int> data = Map<String, int>();
+  data['page'] = page;
+  data['pageSize'] = pageSize;
   var response = await dio.get(
     '/video/recommended',
     options: Options(headers: {
@@ -59,10 +60,10 @@ Future<dynamic> Recomended(int page, int pageSize) async{
   );
   //int videoId = response.data[0]['id'];
   int videoId = 3;
-  print('response data: '+ response.data[0].toString());
+  print('response data: ' + response.data[0].toString());
 
   /* Возврат всех рекомендаций */
-  // return response.data; 
+  // return response.data;
   /* */
   var model = await dio.get(
     '/video/' + videoId.toString(),
@@ -76,11 +77,12 @@ Future<dynamic> Recomended(int page, int pageSize) async{
   print(model.data);
   return model.data;
 }
-Future<dynamic> VideoByID(int id) async{
-  Map<String,int> data = Map<String,int>();
-      data['id']= id;
+
+Future<dynamic> VideoByID(int id) async {
+  Map<String, int> data = Map<String, int>();
+  data['id'] = id;
   var response = await dio.get(
-    '/video/'+id.toString(),
+    '/video/' + id.toString(),
     options: Options(headers: {
       "Accept": "application/json",
       "Content-Type": "application/json; charset=utf-8",
@@ -90,5 +92,5 @@ Future<dynamic> VideoByID(int id) async{
     queryParameters: data,
   );
   print(response.data);
-  return response.data; 
+  return response.data;
 }
