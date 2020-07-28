@@ -14,7 +14,7 @@ part 'user.dart';
 part 'authentication.dart';
 
 enum EntityType { Movie, Video, Sport, Playlist }
-
+/// Выполняет поиск контента по заданному тексту.
 Future<dynamic> Search(EntityType type, String query) async {
   print('fetching with body: ' + query);
 
@@ -43,6 +43,7 @@ Future<dynamic> Search(EntityType type, String query) async {
         'Api fetch error. Status code: ' + response.statusCode.toString());
   }
 }
+/// Запрос рекомендуемых видео. 
 Future<dynamic> Recomended(int page, int pageSize) async{
   Map<String,int> data = Map<String,int>();
       data['page']= page;
