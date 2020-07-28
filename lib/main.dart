@@ -1,6 +1,6 @@
 import 'package:extreme/config/env.dart';
 import 'package:extreme/router/router.dart';
-import 'file:///D:/flutter-dev/extremeFrontend/lib/screens/main_screen/account_screen.dart';
+import 'screens/main_screen/account_screen.dart';
 import 'screens/main_screen/home_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
