@@ -9,10 +9,10 @@ import '../videoViewPage.dart';
 import 'like_state.dart';
 
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  Models.Video info;
+  final Models.Video model;
 
   VideoCard({
-    this.info,
+    this.model,
     EdgeInsetsGeometry margin,
     EdgeInsetsGeometry padding,
     double aspectRatio,
@@ -24,7 +24,7 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   @override
   Widget build(BuildContext context) {
     String testText =
-        info.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
+        model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
     return Container(
       // padding: EdgeInsets.all(Indents.md),
       child: Column(

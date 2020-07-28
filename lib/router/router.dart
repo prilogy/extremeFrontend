@@ -1,4 +1,4 @@
-import 'package:extreme/screens/auth_screen.dart';
+import 'package:extreme/screens/auth_screen/main.dart';
 import 'package:extreme/screens/main_screen/main.dart';
 import 'package:flutter/material.dart';
 

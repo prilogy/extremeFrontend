@@ -3,6 +3,16 @@ part of models;
 class Culture {
   String key;
 
+  CultureTypes get value {
+    CultureTypes type;
+    CultureTypes.values.forEach((culture) {
+      if(culture.toString().split('.').last == key)
+        type = culture;
+    });
+
+    return type;
+  }
+
   Culture({this.key});
 
   Culture.fromJson(Map<String, dynamic> json) {
@@ -14,4 +24,9 @@ class Culture {
     data['key'] = this.key;
     return data;
   }
+}
+
+enum CultureTypes {
+  en,
+  ru
 }

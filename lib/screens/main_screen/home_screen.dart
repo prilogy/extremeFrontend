@@ -21,12 +21,10 @@ import 'package:extreme/services/api/main.dart' as Api;
 var _authToken;
 
 class HomeScreen extends StatelessWidget
-    implements IWithAppBar, IWithNavigatorKey {
+    implements IWithNavigatorKey {
   Key navigatorKey;
 
   HomeScreen({Key key}) : super(key: key);
-
-  final Widget appBar = null;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +33,8 @@ class HomeScreen extends StatelessWidget
     _searchController.text = 'a';
     dynamic playlist;
     return ScreenBaseWidget(
-      children: <Widget>[
+      navigatorKey: navigatorKey,
+      builder: (context) => <Widget>[
         SizedBox(
             height: 250.0,
             child: Carousel(
@@ -64,8 +63,8 @@ class HomeScreen extends StatelessWidget
         VideoCard(aspectRatio: 16 / 9),
         RaisedButton(
           onPressed: () {
-            print('loging on');
-            Api.User.login("ar.luckjanov@yandex.ru", "123456");
+            Api.Authentication.login(email: "ar.luckjanov@yandex.ru", password: "123456");
+
           },
           child: Text("Auto login"),
         ),
@@ -101,9 +100,10 @@ class HomeScreen extends StatelessWidget
         FutureBuilder(
           future: Api.Recomended(1, 0),
           builder: (context, snapshot) {
+            print('Snapshot has data: ' + snapshot.hasData.toString());
             if (snapshot.hasData) {
-              //return Text(snapshot.data[0].toString());
-              return VideoCard(aspectRatio: 16/9,info: Video(content: Content(name: snapshot.data[0].toString())),);
+              print('Snapshot data 105: ' +snapshot.data.toString());
+              return VideoCard(aspectRatio: 16/9,model: Video(content: Content(name: snapshot.data['content']['name'])),);//snapshot.data[0].toString())),);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
