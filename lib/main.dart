@@ -1,6 +1,7 @@
 import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/router/router.dart';
 import 'package:extreme/services/dio.dart' as Dio;
+import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/main.dart';
 import 'screens/main_screen/home_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
@@ -20,7 +21,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 void main() async {
   await Env.init("./.env");
   Dio.init();
-
   runApp(App(store: store));
 }
 
@@ -31,14 +31,14 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // debug message for theme debug(still not working properly)
-    print("myapp - " + Theme.of(context).backgroundColor.toString());
+    //print("myapp - " + Theme.of(context).backgroundColor.toString());
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
         title: 'Flutter App',
         theme: AppTheme.dark,
         onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: '/auth',
+        initialRoute: store.state.user == null ? '/auth' : '/main',
       ),
     );
   }

@@ -18,6 +18,8 @@ class User {
   _FavoriteIds favoriteIds;
   _SaleIds saleIds;
 
+  static const String localStorageKey = 'user';
+  
   User(
       {this.socialAccounts,
         this.culture,
@@ -34,6 +36,19 @@ class User {
         this.favoriteIds,
         this.saleIds,
         this.token});
+  
+  static User fromLocalStorage() {
+    try {
+      var json = localStorage.getItem(localStorageKey);
+      return json == null ? null : User.fromJson(json);
+    } catch(ex) {
+      return null;
+    }
+  }
+
+  void saveToLocalStorage() {
+    localStorage.setItem(localStorageKey, this.toJson());
+  }
 
   User.fromJson(Map<String, dynamic> json) {
     if (json['socialAccounts'] != null) {
@@ -82,8 +97,8 @@ class User {
     data['id'] = this.id;
     data['email'] = this.email;
     data['name'] = this.name;
-    data['dateBirthday'] = this.dateBirthday;
-    data['dateSignUp'] = this.dateSignUp;
+    data['dateBirthday'] = this.dateBirthday.toString();
+    data['dateSignUp'] = this.dateSignUp.toString();
     data['phoneNumber'] = this.phoneNumber;
     if (this.subscription != null) {
       data['subscription'] = this.subscription.toJson();
@@ -160,7 +175,7 @@ class _Subscription {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['dateEnd'] = this.dateEnd;
+    data['dateEnd'] = this.dateEnd.toString();
     return data;
   }
 }

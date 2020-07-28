@@ -1,4 +1,5 @@
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -33,8 +34,7 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
-    var store = StoreProvider.of<AppState>(context);
-    print(store.state.user);
+    print('from local storage: '+localStorage.getItem('user').toString());
 
     return ScreenBaseWidget(
         navigatorKey: navigatorKey,
