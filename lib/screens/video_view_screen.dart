@@ -1,11 +1,13 @@
+import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:vimeoplayer/vimeoplayer.dart';
-import 'screens/kind_of_sport.dart';
-import 'widgets/video_card.dart';
+import 'kind_of_sport.dart';
+import '../widgets/video_card.dart';
 
-// Экран просмотра видео
+/// Экран просмотра видео
 
 class VideoViewScreen extends StatelessWidget {
 //  final String text;
@@ -78,30 +80,39 @@ class VideoViewScreen extends StatelessWidget {
             ),
 
             // Кнопки располагающиеся под видео
-              
+
             Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 10, 10), // entire container with icons margin
+              margin: EdgeInsets.fromLTRB(
+                  10, 10, 10, 10), // entire container with icons margin
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   ActionIcon(
-                    icon: Icons.thumb_up, iconColor: Color.fromRGBO(34, 163, 210, 1), signText: '244', 
+                    icon: Icons.thumb_up,
+                    iconColor: Color.fromRGBO(34, 163, 210, 1),
+                    signText: '244',
                     onPressed: () => {print('Like button tapped')},
                   ),
                   ActionIcon(
-                    icon: Icons.favorite, iconColor: Color.fromRGBO(235, 87, 87, 1), signText: 'В избранное',
+                    icon: Icons.favorite,
+                    iconColor: Color.fromRGBO(235, 87, 87, 1),
+                    signText: 'В избранное',
                     onPressed: () => {print('Fav icon tapped')},
                   ),
                   ActionIcon(
-                    icon:  Icons.share, iconColor: Color.fromRGBO(182, 181, 189, 1), signText: 'Поделиться',
+                    icon: Icons.share,
+                    iconColor: Color.fromRGBO(182, 181, 189, 1),
+                    signText: 'Поделиться',
                     onPressed: () => {print('Share icon tapped')},
-                  ),                 
+                  ),
                 ],
               ),
             ),
             // Описание к видео
-            VideoDescription(text: 'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...'),
+            VideoDescription(
+                text:
+                    'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...'),
 
             Container(
               padding: EdgeInsets.fromLTRB(10, 15, 5, 5),
@@ -121,61 +132,63 @@ class VideoViewScreen extends StatelessWidget {
             VideoCard(),
             // Карточка с видео и для просмотра видео из этого же плейлиста
             VideoCard(),
-
           ],
         ),
       ),
     );
   }
 }
-class ActionIcon extends StatelessWidget { // TODO: convert to stateful Widget
 
-final IconData icon; 
+class ActionIcon extends StatelessWidget {
+  // TODO: convert to stateful Widget
+
+  final IconData icon;
 //EdgeInsets margin; // margin container
-final Color iconColor; // цвет icon
-final Function onPressed; // функция-обработчик нажатия на icon
-final String signText; 
+  final Color iconColor; // цвет icon
+  final Function onPressed; // функция-обработчик нажатия на icon
+  final String signText;
 
-  ActionIcon({this.icon,this.iconColor,this.onPressed, this.signText });
+  ActionIcon({this.icon, this.iconColor, this.onPressed, this.signText});
   @override
   Widget build(BuildContext context) {
-    return Container( // Like
-                    margin: EdgeInsets.fromLTRB(0, 0, 15, 0), // like container margin
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        IconButton(
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0), // like Icon padding
-                          alignment: Alignment.centerRight,
-                          icon: Icon(
-                            icon, //Icons.thumb_up,
-                            size: 45,
-                            color: iconColor//Color.fromRGBO(34, 163, 210, 1),
-                          ),
-                          tooltip: 'Placeholder',
-                          onPressed: onPressed,
-                        ),
+    return Container(
+      // Like
+      margin: EdgeInsets.only(right: Indents.lg), // like container margin
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          IconButton(
+            padding: EdgeInsets.zero, // like Icon padding
+            alignment: Alignment.centerRight,
+            icon: Icon(icon, //Icons.thumb_up,
+                size: 45,
+                color: iconColor //Color.fromRGBO(34, 163, 210, 1),
+                ),
+            tooltip: 'Placeholder',
+            onPressed: onPressed,
+          ),
 
-                        Container(
-                          margin: EdgeInsets.fromLTRB(0, 5, 0, 0), // Sign below like icon margin 
-                          child: Text(
-                            signText, //'244',
-                            style: TextStyle(
-                              fontFamily: 'RobotoMono',
-                              fontSize: 14.0,
-                              color: Color.fromRGBO(182, 181, 189, 1),
-                            ),
-                          ),
-                        ),
+          Container(
+            margin:
+                EdgeInsets.only(top: Indents.sm), // Sign below like icon margin
+            child: Text(
+              signText, //'244',
+              style: TextStyle(
+                fontFamily: 'RobotoMono',
+                fontSize: 14.0,
+                color: ExtremeColors.base70[200],
+              ),
+            ),
+          ),
 
 //                      Icons.favorite_border,
-                      ],
-                    ),
-                  );
+        ],
+      ),
+    );
   }
 }
-
+/// Описание видео
 class VideoDescription extends StatelessWidget {
   final String text; // текст описания
   const VideoDescription({Key key, this.text}) : super(key: key);
@@ -183,24 +196,24 @@ class VideoDescription extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-              margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    child: Text(
-                      text,//'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...',
-                      style: TextStyle(
-                        fontFamily: 'RobotoMono',
-                        fontSize: 16.0,
-                        color: Colors.white70,
-                      ),
-                    ),
-                  ),
-                ],
+      margin: EdgeInsets.fromLTRB(10, 10, 0, 0),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+            child: Text(
+              text, //'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...',
+              style: TextStyle(
+                fontFamily: 'RobotoMono',
+                fontSize: 16.0,
+                color: Colors.white70,
               ),
-            );
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

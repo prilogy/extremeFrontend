@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-// Экран профиля пользователя - Профиль
+/// Экран профиля пользователя - Профиль
 
 class OldAccountScreen extends StatelessWidget {
   final String text;

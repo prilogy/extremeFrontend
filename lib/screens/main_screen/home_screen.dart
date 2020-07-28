@@ -2,7 +2,7 @@
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/kindOfSport.dart';
+import 'package:extreme/screens/kind_of_sport.dart';
 import 'package:extreme/models/main.dart';
 //import 'package:extreme/services/api.dart' as Api;
 import 'package:extreme/styles/intents.dart';
@@ -69,10 +69,6 @@ class HomeScreen extends StatelessWidget
           child: Text("Auto login"),
         ),
         Auth(),
-        //  RaisedButton(
-        //   onPressed: _login('Hi'),
-        //   child: Text('API tedt'),
-        // )
         Text('Найти плейлист: '),
         TextField(
           controller: _searchController,
@@ -85,20 +81,9 @@ class HomeScreen extends StatelessWidget
           },
           child: Text('Поиск'),
         ),
-        FutureBuilder<dynamic>(
-          future: Api.Search(Api.EntityType.Playlist, 'a'),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Text(snapshot.data.id.toString());
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        ),
+        
         FutureBuilder(
-          future: Api.Recomended(1, 0),
+          future: Api.Recomend(1, 0),
           builder: (context, snapshot) {
             print('Snapshot has data: ' + snapshot.hasData.toString());
             if (snapshot.hasData) {
@@ -110,7 +95,10 @@ class HomeScreen extends StatelessWidget
             // By default, show a loading spinner.
             return CircularProgressIndicator();
           },
-        )
+        ),
+        Column(children: [
+          FutureBuilder(builder: )
+        ],)
       ],
     );
   }
