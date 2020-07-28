@@ -2,18 +2,15 @@
 
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/screens/kind_of_sport.dart';
 import 'package:extreme/models/main.dart';
+import 'package:extreme/store/main.dart';
 //import 'package:extreme/services/api.dart' as Api;
 import 'package:extreme/styles/intents.dart';
-import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
-import 'package:extreme/widgets/sport_card.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:flutter_redux/flutter_redux.dart';
 
 import 'package:extreme/services/api/main.dart' as Api;
 
@@ -31,6 +28,10 @@ class HomeScreen extends StatelessWidget
     // TODO: неправильная тема из контекста
     TextEditingController _searchController = TextEditingController();
     _searchController.text = 'a';
+
+    var store = StoreProvider.of<AppState>(context);
+    print(store.state.user.email);
+
     dynamic playlist;
     return ScreenBaseWidget(
       navigatorKey: navigatorKey,
@@ -97,7 +98,7 @@ class HomeScreen extends StatelessWidget
           },
         ),
         Column(children: [
-          FutureBuilder(builder: )
+         
         ],)
       ],
     );

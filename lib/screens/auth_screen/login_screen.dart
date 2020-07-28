@@ -1,8 +1,11 @@
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/store/main.dart';
+import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:flutter_redux/flutter_redux.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -30,6 +33,9 @@ class _LoginScreenState extends State<LoginScreen>
 
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
+    print(store.state.user);
+
     return ScreenBaseWidget(
         navigatorKey: navigatorKey,
         builder: (context) => <Widget>[
@@ -77,12 +83,6 @@ class _LoginScreenState extends State<LoginScreen>
                                 content: Text('Logging in...' +
                                     _emailController.text +
                                     _passwordController.text)));
-//                            FutureBuilder<Models.User>(
-//                              future: Api.Authentication.login(email: _emailController.text, password: _passwordController.text),
-//                              builder: (context, snapshot) {
-//                                print(context.)
-//                              },
-//                            );
                             var user = await Api.Authentication.login(
                                 email: _emailController.text,
                                 password: _passwordController.text);
@@ -97,7 +97,8 @@ class _LoginScreenState extends State<LoginScreen>
                                 content: Text('Logged in successfully'),
                                 backgroundColor: Colors.green,
                               ));
-                              Navigator.of(context, rootNavigator: true).pushNamed('/');
+                              store.dispatch(SetUser(user));
+                              Navigator.of(context, rootNavigator: true).pushNamed('/main');
                             }
                           }
                         },
