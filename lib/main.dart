@@ -1,5 +1,5 @@
 import 'package:extreme/config/env.dart' as Env;
-import 'package:extreme/router/router.dart';
+import 'package:extreme/router/main.dart';
 import 'package:extreme/services/dio.dart' as Dio;
 import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/main.dart';
