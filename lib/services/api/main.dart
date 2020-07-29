@@ -2,6 +2,7 @@ library api;
 
 //TODO: сюда весь апи из ../api.dart (по примеру ./user.dart)
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -44,13 +45,6 @@ Future<dynamic> Search(EntityType type, String query) async {
         'Api fetch error. Status code: ' + response.statusCode.toString());
   }
 }
-<<<<<<< HEAD
-/// Запрос рекомендуемых видео. 
-
-Future<dynamic> VideoByID(int id) async{
-  Map<String,int> data = Map<String,int>();
-      data['id']= id;
-=======
 
 Future<dynamic> Recomended(int page, int pageSize) async {
   Map<String, int> data = Map<String, int>();
@@ -89,7 +83,6 @@ Future<dynamic> Recomended(int page, int pageSize) async {
 Future<dynamic> VideoByID(int id) async {
   Map<String, int> data = Map<String, int>();
   data['id'] = id;
->>>>>>> c37ba0f36568d2fab88452f763db644e83359773
   var response = await dio.get(
     '/video/' + id.toString(),
     options: Options(headers: {

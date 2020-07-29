@@ -1,7 +1,7 @@
 part of api;
 
 
-Future<dynamic> Recomended(int page, int pageSize) async{
+Future<dynamic> Recomend(int page, int pageSize) async {
   Map<String,int> data = Map<String,int>();
       data['page']= page;
       data['pageSize'] = pageSize;
