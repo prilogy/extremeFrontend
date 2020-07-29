@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
 
-import '../../accountPage.dart';
 import '../../store/info.dart';
 import 'account_screen.dart';
 import 'browse_screen.dart';

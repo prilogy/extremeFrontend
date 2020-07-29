@@ -1,6 +1,6 @@
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
-import 'package:extreme/videoViewPage.dart';
+import 'package:extreme/screens/video_view_screen.dart';
 import 'package:extreme/widgets/film_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

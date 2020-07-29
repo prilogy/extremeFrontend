@@ -5,7 +5,7 @@ import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 
-import '../videoViewPage.dart';
+import '../screens/video_view_screen.dart';
 import 'like_state.dart';
 
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
