@@ -1,5 +1,4 @@
 import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/screens/auth_screen/signup_screen.dart';
 import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
@@ -11,16 +10,13 @@ import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:flutter_redux/flutter_redux.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignUpScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  //Key navigatorKey;
-
+class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
-
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -33,14 +29,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('from local storage: ' + localStorage.getItem('user').toString());
-
     return ScreenBaseWidget(
-        builderChild: (context) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+      appBar: AppBar(
+        title: Text('Sign up'),
+      ),
+        builder: (context) => <Widget>[
               BlockBaseWidget(
-                header: 'Log in',
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -82,41 +76,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             OutlineButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpScreen()));
-                              },
-                              child: Text('Sign up'),
+                              onPressed: () {},
+                              child: Text('Log in'),
                             ),
                             RaisedButton(
                               onPressed: () async {
-                                if (_formKey.currentState.validate()) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text('Logging in...' +
-                                          _emailController.text +
-                                          _passwordController.text)));
-                                  var user = await Api.Authentication.login(
-                                      email: _emailController.text,
-                                      password: _passwordController.text);
-                                  Scaffold.of(context).removeCurrentSnackBar();
-                                  if (user == null)
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text('Wrong password or else'),
-                                      backgroundColor: Colors.redAccent,
-                                    ));
-                                  else {
-                                    Scaffold.of(
-                                      context,
-                                    ).showSnackBar(SnackBar(
-                                      content: Text('Logged in successfully'),
-                                      backgroundColor: Colors.green,
-                                    ));
-                                    store.dispatch(SetUser(user));
-                                    Navigator.of(context, rootNavigator: true)
-                                        .pushNamed('/main');
-                                  }
-                                }
+                                // TODO: call api
                               },
-                              child: Text('Log in'),
+                              child: Text('Continue'),
                             ),
                           ],
                         ),
@@ -125,6 +92,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               )
-            ]));
+            ]);
   }
 }

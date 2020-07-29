@@ -9,7 +9,7 @@ class AuthScreen extends StatefulWidget{
   _AuthScreenState createState() => _AuthScreenState();
 }
 
-class _AuthScreenState extends State<AuthScreen> implements IWithNavigatorKey  {
+class _AuthScreenState extends State<AuthScreen> {
   Key navigatorKey = GlobalKey<NavigatorState>();
 
   DateTime _currentBackPressTime;
@@ -18,7 +18,7 @@ class _AuthScreenState extends State<AuthScreen> implements IWithNavigatorKey  {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final NavigatorState navigator = Navigator.of(context);
+        final NavigatorState navigator = (navigatorKey as GlobalKey<NavigatorState>).currentState;
         if (!navigator.canPop()) {
           DateTime now = DateTime.now();
           if (_currentBackPressTime == null ||

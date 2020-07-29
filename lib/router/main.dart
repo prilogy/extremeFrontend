@@ -13,7 +13,6 @@ class RouteGenerator {
 
     if(route != null) {
       var pass = !route.requireAuthorization || (route.requireAuthorization && store.state.user != null);
-
       return MaterialPageRoute(builder: (_) => pass ? route.widget(args) : authRoute.widget(args));
     }
   }
