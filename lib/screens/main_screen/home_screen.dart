@@ -4,6 +4,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
+import 'package:extreme/store/user/actions.dart';
 //import 'package:extreme/services/api.dart' as Api;
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -62,10 +63,17 @@ class HomeScreen extends StatelessWidget
               overlayShadowSize: 0.7,
             )),
         VideoCard(aspectRatio: 16 / 9),
+        Text(store.state.user.email),
+        RaisedButton(
+          onPressed: () {
+            store.dispatch(SetUser(null));
+            Navigator.of(context, rootNavigator: true).pushNamed('/auth');
+          },
+          child: Text('log out'),
+        ),
         RaisedButton(
           onPressed: () {
             Api.Authentication.login(email: "ar.luckjanov@yandex.ru", password: "123456");
-
           },
           child: Text("Auto login"),
         ),

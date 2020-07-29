@@ -7,5 +7,6 @@ final userReducer = combineReducers<User>([
 ]);
 
 User _setUser(User user, Actions.SetUser action) {
+  User.saveToLocalStorage(action.user);
   return action.user;
 }

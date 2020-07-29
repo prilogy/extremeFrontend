@@ -1,4 +1,6 @@
+import 'package:extreme/main.dart';
 import 'package:extreme/models/main.dart' as Models;
+import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/info.dart';
 import 'package:extreme/store/user/reducers.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,8 +13,10 @@ class AppState {
   AppState({@required this.user, @required this.info});
 
   AppState.initialState()
-      : user = null,
+      : user = Models.User.fromLocalStorage(),
         info = Info(likesCount: 1000);
+
+
 }
 
 AppState appStateReducer(AppState state, action) {
@@ -22,7 +26,7 @@ AppState appStateReducer(AppState state, action) {
   );
 }
 
-final Store store = Store<AppState>(
+final Store<AppState> store = Store<AppState>(
   appStateReducer,
   initialState: AppState.initialState()
 );

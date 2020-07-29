@@ -1,6 +1,9 @@
 library models;
 
+import 'dart:convert';
+
 import 'package:extreme/config/env.dart' as Env;
+import 'package:extreme/services/localstorage.dart';
 
 part "movie.dart";
 part "image.dart";
