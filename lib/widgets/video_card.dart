@@ -58,7 +58,9 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                   color: ExtremeColors.base[100],
                 ),
                 tooltip: 'Placeholder',
-                onPressed: () {},
+                onPressed: () {
+                 
+                },
               ),
             ],
           )
@@ -104,7 +106,11 @@ class VideoCardWithoutCaption extends StatelessWidget {
                   child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () { Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VideoViewScreen(),
+                          ));},
                 ),
               )),
               Padding(

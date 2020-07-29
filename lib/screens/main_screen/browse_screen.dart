@@ -3,7 +3,7 @@ import 'package:extreme/config/env.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/screens/kind_of_sport.dart';
-import 'package:extreme/playList.dart';
+import 'package:extreme/screens/playlist_screen.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/playlist_card.dart';

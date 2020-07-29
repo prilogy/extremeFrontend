@@ -1,3 +1,6 @@
+import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
+import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,37 +12,79 @@ import '../widgets/video_card.dart';
 /// Создаёт экран просмотра видео
 
 class VideoViewScreen extends StatelessWidget {
-//  final String text;
-
-  // receive data from the FirstScreen as a parameter
-  VideoViewScreen({
-    Key key,
-//    @required this.text
-  }) : super(key: key);
+  final String description;
+  VideoViewScreen({Key key, this.description}) : super(key: key);
 
   void _searchIconAction() {
     //TODO: Search some video function
   }
-// // -----------------------------
-//               // Видео
-//               VimeoPlayer(id: '395212534'),
-//               // -
   @override
   Widget build(BuildContext context) {
-    final double screenWigth = MediaQuery.of(context).size.width;
-//    final double cardHeigth = 240;
+    String _description = description ??
+        'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...';
     return ScreenBaseWidget(
+      padding:
+          EdgeInsets.only(top: 0, bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
         title: Text('Название видео'), // TODO: Title
         actions: <Widget>[
           IconButton(
-            icon:  Icon(Icons.search),
+            icon: Icon(Icons.search),
             onPressed: _searchIconAction,
           ),
         ],
       ),
       builder: (context) => <Widget>[
-        
+        VimeoPlayer(id: '395212534'),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BlockBaseWidget(
+              padding: EdgeInsets.only(top: Indents.md, left: Indents.md, right: Indents.md),
+              header: 'Название видео',
+              child: Text('Название спорта - Плейлист',
+                  style: Theme.of(context).textTheme.caption),
+            ),
+            BlockBaseWidget(
+              child: Row(
+                children: [
+                  ActionIcon(
+                    signText: '224',
+                    icon: Icons.thumb_up,
+                    iconColor: ExtremeColors.primary,
+                  ),
+                  ActionIcon(
+                      signText: 'В избранное',
+                      icon: Icons.favorite,
+                      iconColor: ExtremeColors.error),
+                  ActionIcon(
+                      signText: 'Поделиться',
+                      icon: Icons.share,
+                      iconColor: ExtremeColors.base[200]),
+                ],
+              ),
+            ),
+            BlockBaseWidget(
+              child: Text(_description,
+                  style: Theme.of(context).textTheme.bodyText2),
+            ),
+            BlockBaseWidget(
+                header: 'Другие видео из плейлиста',
+                child: Column(
+                  children: [
+                    VideoCard(
+                      aspectRatio: 16 / 9,
+                    ),
+                    VideoCard(
+                      aspectRatio: 16 / 9,
+                    ),
+                    VideoCard(
+                      aspectRatio: 16 / 9,
+                    ),
+                  ],
+                ))
+          ],
+        ),
       ],
     );
   }
