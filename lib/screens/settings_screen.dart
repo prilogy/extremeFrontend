@@ -6,8 +6,8 @@ import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
 
-class SettingsScreen extends StatelessWidget implements IWithNavigatorKey {
-  Key navigatorKey;
+/// Создаёт экран настроек приложения
+class SettingsScreen extends StatelessWidget  {
   SettingsScreen({Key key}) : super(key: key);
   final Widget appBar = AppBar(
     title: Text("Настройки"),
@@ -15,13 +15,8 @@ class SettingsScreen extends StatelessWidget implements IWithNavigatorKey {
   @override
   Widget build(BuildContext context) {
     return ScreenBaseWidget(
-      //padding: EdgeInsets.all(Indents.md),
-      navigatorKey: navigatorKey,
       appBar: appBar,
       builder: (context) => <Widget>[
-        //Container(
-        //padding: const EdgeInsets.all(Indents.md),
-        //child:
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,7 +51,6 @@ class SettingsScreen extends StatelessWidget implements IWithNavigatorKey {
                 )),
           ],
         ),
-        // ),
       ],
     );
   }
