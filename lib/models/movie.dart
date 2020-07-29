@@ -1,13 +1,6 @@
-import 'package:extreme/models/api_image.dart';
+part of models;
 
 class Movie {
   int id;
   Content content;
-}
-class Content {
-  String name;
-  String description;
-  ApiImage image;
-
-  String url;
 }

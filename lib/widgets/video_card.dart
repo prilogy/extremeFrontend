@@ -3,21 +3,28 @@ import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
+import 'package:extreme/models/main.dart' as Models;
 
-import '../videoViewPage.dart';
+import '../screens/video_view_screen.dart';
 import 'like_state.dart';
 
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  VideoCard(
-      {EdgeInsetsGeometry margin,
-      EdgeInsetsGeometry padding,
-      double aspectRatio}) {
+  final Models.Video model;
+
+  VideoCard({
+    this.model,
+    EdgeInsetsGeometry margin,
+    EdgeInsetsGeometry padding,
+    double aspectRatio,
+  }) {
     this.margin = margin;
     this.padding = padding;
     this.aspectRatio = aspectRatio;
   }
   @override
   Widget build(BuildContext context) {
+    String testText =
+        model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
     return Container(
       // padding: EdgeInsets.all(Indents.md),
       child: Column(
@@ -33,8 +40,8 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text('Blancpain GT3 - 3 hours Monza Race / Replay',
-                      style: Theme.of(context).textTheme.subtitle1),
+                  //Text('Blancpain GT3 - 3 hours Monza Race / Replay',
+                  Text(testText, style: Theme.of(context).textTheme.subtitle1),
                   Text('5 дней назад',
                       style: Theme.of(context)
                           .textTheme
@@ -51,7 +58,9 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                   color: ExtremeColors.base[100],
                 ),
                 tooltip: 'Placeholder',
-                onPressed: () {},
+                onPressed: () {
+                 
+                },
               ),
             ],
           )
@@ -97,7 +106,11 @@ class VideoCardWithoutCaption extends StatelessWidget {
                   child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () { Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VideoViewScreen(),
+                          ));},
                 ),
               )),
               Padding(
@@ -163,4 +176,3 @@ class VideoDuration extends StatelessWidget with IndentsMixin {
     );
   }
 }
-

@@ -1,14 +1,15 @@
-import 'package:extreme/models/api_image.dart';
+part of models;
 
 class Video {
   int id;
   bool isInPaidPlayList;
   Content content;
-}
-
-class Content {
-  String name;
-  String description;
-  ApiImage image;
-  String url;
+  Video({this.content, this.isInPaidPlayList, this.id});
+  factory Video.fromJson(Map<String,dynamic> json){
+    return Video(
+      id: json['id'],
+      isInPaidPlayList: json['videosIds'],
+      content: json['content'],
+    );
+  }
 }

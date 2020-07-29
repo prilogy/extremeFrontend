@@ -7,10 +7,11 @@ class Subscription extends StatelessWidget {
   final int price;
   final String title;
   final String description;
-  Widget _saving;
+  
   Subscription({this.color, this.description, this.title, this.price});
   @override
   Widget build(BuildContext context) {
+    Widget _saving;
     price != 200
         ? _saving = Saving(
             color: color,
@@ -28,13 +29,13 @@ class Subscription extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(Indents.md),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.only(bottom: Indents.sm, top: Indents.md),
+                    padding: const EdgeInsets.only(bottom: Indents.sm),
                     child: Text(
                       'Подписка на ' + title,
                       style: Theme.of(context).textTheme.headline6,
@@ -46,6 +47,7 @@ class Subscription extends StatelessWidget {
                   )
                 ]),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Text(
                       price.toString() + '₽',
@@ -89,10 +91,11 @@ class Saving extends StatelessWidget {
               borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
               color: color),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               
-              Icon(Icons.warning, size: 16,),
-              Text('ЭКОНОМИЯ 400₽'),
+              Icon(Icons.offline_bolt, size: 16,),
+              Text('ЭКОНОМИЯ 400₽', style: Theme.of(context).textTheme.overline),
             ],
           ),
         ),

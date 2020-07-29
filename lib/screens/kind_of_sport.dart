@@ -1,13 +1,15 @@
-import 'package:extreme/videoViewPage.dart';
+import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
+import 'package:extreme/screens/video_view_screen.dart';
 import 'package:extreme/widgets/film_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-import 'widgets/playlist_card.dart';
-import 'widgets/video_card.dart';
+import '../widgets/playlist_card.dart';
+import '../widgets/video_card.dart';
 
-// Экран вида спорта - Вид спорта
+/// Экран вида спорта - Вид спорта
 
 class KindOfSportScreen extends StatelessWidget {
 //  final String text;
@@ -123,7 +125,7 @@ class OtherPlaylistList extends StatelessWidget {
   }
 }
 
-// Карточка для плейлистов
+/// Карточка для плейлистов
 class OtherPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -193,7 +195,7 @@ class OtherPlaylist extends StatelessWidget {
   }
 }
 
-// Карточка для рекомендуемых фильмов
+/// Карточка для рекомендуемых фильмов
 class RecommendationFilms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -271,9 +273,8 @@ class RecommendationFilms extends StatelessWidget {
   }
 }
 
-// Карточка с видео и для просмотра видео (используется во многих местах)
 
-// Карточка вида спорта в самом верху страницы
+/// Карточка вида спорта в самом верху страницы
 class HeaderKindOfSport extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -412,7 +413,7 @@ class HeaderKindOfSport extends StatelessWidget {
     );
   }
 }
-
+/// Надпись
 class TextSign extends StatelessWidget {
   final String text;
   TextSign({this.text});
@@ -420,7 +421,7 @@ class TextSign extends StatelessWidget {
   Widget build(BuildContext context) {
     return 
     Container(
-              padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+              padding: EdgeInsets.fromLTRB(Indents.md, Indents.md, Indents.sm, 0),
               child: Text(
                 text,//'Другие плейлисты',
                 style: TextStyle(
@@ -433,7 +434,7 @@ class TextSign extends StatelessWidget {
   }
 }
 
-// Иконка + количество
+/// Иконка + количество
 class KindOfSportStats extends StatelessWidget {
   final String text;
   final IconData icon;
@@ -459,7 +460,7 @@ class KindOfSportStats extends StatelessWidget {
             style: TextStyle(
               fontFamily: 'RobotoMono',
               fontSize: 14.0,
-              color: Colors.white,
+              color: ExtremeColors.base[100],
               ),
           ),
       ]

@@ -1,6 +1,12 @@
-import 'package:extreme/config/env.dart';
+import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/router/router.dart';
+<<<<<<< HEAD
 import 'screens/main_screen/account_screen.dart';
+=======
+import 'package:extreme/services/dio.dart' as Dio;
+import 'package:extreme/services/localstorage.dart';
+import 'package:extreme/store/main.dart';
+>>>>>>> 5155e5c0e56da87b8b159948e9a9fa6ede181b96
 import 'screens/main_screen/home_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
@@ -9,36 +15,35 @@ import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 //import 'package:flutter_svg/flutter_svg.dart';
 
-import 'redux.dart';
+import 'store/info.dart';
 
 import './config/env.dart' as Env;
-import './redux.dart' as Redux;
+import 'store/info.dart' as Redux;
 import 'package:flutter_redux/flutter_redux.dart';
 
-// TODO: wtf is this?
-const List<String> assetNames = <String>['svg/home.svg', 'svg/nothing.svg'];
 
 void main() async {
-  Env.Config = await EnvConfig.get("./.env");
-
-  runApp(App(store: Redux.store));
+  await Env.init("./.env");
+  Dio.init();
+  await localStorage.ready;
+  runApp(App(store: store));
 }
 
 class App extends StatelessWidget {
-  final Store<Info> store; // redux store
+  final Store<AppState> store; // redux store
   App({Key key, this.store});
 
   @override
   Widget build(BuildContext context) {
     // debug message for theme debug(still not working properly)
-    print("myapp - " + Theme.of(context).backgroundColor.toString());
-    return StoreProvider<Info>(
+    //print("myapp - " + Theme.of(context).backgroundColor.toString());
+    return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
         title: 'Flutter App',
         theme: AppTheme.dark,
         onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: '/',
+        initialRoute: store.state.user == null ? '/auth' : '/main',
       ),
     );
   }
