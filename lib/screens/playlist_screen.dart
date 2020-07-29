@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'kindOfSport.dart';
-import 'widgets/stats.dart';
-import 'widgets/video_card.dart';
+import 'kind_of_sport.dart';
+import '../widgets/stats.dart';
+import '../widgets/video_card.dart';
 
 // Экран просмотра плейлиста
 

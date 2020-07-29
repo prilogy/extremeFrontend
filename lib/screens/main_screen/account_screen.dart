@@ -8,28 +8,11 @@ import 'package:extreme/widgets/social_account.dart';
 import 'package:extreme/widgets/subsciption.dart';
 import 'package:flutter/material.dart';
 
-class AccountScreen extends StatelessWidget
-    implements IWithAppBar, IWithNavigatorKey {
+import '../settings_screen.dart';
+
+class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
   Key navigatorKey;
-
   AccountScreen({Key key}) : super(key: key);
-
-  @override
-  final Widget appBar = AppBar(
-    title: Text("Профиль"),
-    actions: <Widget>[
-      IconButton(
-        icon: Icon(Icons.settings), // TODO: place correct icon
-        onPressed: () {
-          print("Settings icon pressed");
-          // TODO: implement settings call with context
-          // Navigator.push(context, MaterialPageRoute(
-          //       builder: (context) => SettingsScreen(),
-          //     ));
-        },
-      ),
-    ],
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +21,24 @@ class AccountScreen extends StatelessWidget
         onGenerateRoute: (settings) {
           return MaterialPageRoute(
             builder: (context) => ScreenBaseWidget(
-              appBar: appBar,
-              children: [
+              appBar: AppBar(
+                title: Text("Профиль"),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.settings), // TODO: place correct icon
+                    onPressed: () {
+                      print("Settings icon pressed");
+                      // TODO: implement settings call with context
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SettingsScreen(),
+                          ));
+                    },
+                  ),
+                ],
+              ),
+              builder: (context) => [
                 BlockBaseWidget(
                   child: Column(children: <Widget>[
                     AccountInfo(),
