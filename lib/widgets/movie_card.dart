@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'like_state.dart';
 
-class FilmCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  FilmCard({
+class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
+  MovieCard({
     EdgeInsetsGeometry margin,
     EdgeInsetsGeometry padding,
     double aspectRatio,

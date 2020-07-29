@@ -1,12 +1,8 @@
 import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/router/router.dart';
-<<<<<<< HEAD
-import 'screens/main_screen/account_screen.dart';
-=======
 import 'package:extreme/services/dio.dart' as Dio;
 import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/main.dart';
->>>>>>> 5155e5c0e56da87b8b159948e9a9fa6ede181b96
 import 'screens/main_screen/home_screen.dart';
 import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';

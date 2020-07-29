@@ -1,5 +1,6 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
+import 'package:extreme/screens/sport_screen.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/stats.dart';
@@ -31,7 +32,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     void onTap() {
       Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => KindOfSportScreen(),
+            builder: (context) => SportScreen(),
           ));
     }
 

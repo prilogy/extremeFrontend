@@ -36,7 +36,7 @@ class BlockBaseWidget extends StatelessWidget with IndentsMixin {
   Widget build(BuildContext context) {
     return withIndents(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: crossAxisAlignment,
         children: <Widget>[
           if (header != "")
             Container(

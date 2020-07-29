@@ -47,7 +47,7 @@ class KindOfSportScreen extends StatelessWidget {
             // Карточка вида спорта в самом верху страницы
             HeaderKindOfSport(),
 
-            TextSign(text:'Рекомендуем'),
+            TextSign(text:'Не Рекомендуем'),
 
             // Список рекомендуемых фильмов
             RecommendationFilmsList(),
@@ -90,11 +90,11 @@ class RecommendationFilmsList extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         children: <Widget>[
 
-          FilmCard(aspectRatio: 11/16),
-          FilmCard(aspectRatio: 11/16),
-          FilmCard(aspectRatio: 11/16),
-          FilmCard(aspectRatio: 11/16),
-          FilmCard(aspectRatio: 11/16),
+          MovieCard(aspectRatio: 11/16),
+          MovieCard(aspectRatio: 11/16),
+          MovieCard(aspectRatio: 11/16),
+          MovieCard(aspectRatio: 11/16),
+          MovieCard(aspectRatio: 11/16),
         ],
       ),
     );
@@ -287,7 +287,6 @@ class HeaderKindOfSport extends StatelessWidget {
           width: screenWigth,
           height: cardHeigth,
           decoration: BoxDecoration(
-//                        borderRadius: BorderRadius.all(Radius.circular(10)),
             image: DecorationImage(
               fit: BoxFit.cover,
               image: ExactAssetImage("extreme2.jpg"),
