@@ -21,6 +21,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 void main() async {
   await Env.init("./.env");
   Dio.init();
+  await localStorage.ready;
   runApp(App(store: store));
 }
 

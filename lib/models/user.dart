@@ -46,8 +46,8 @@ class User {
     }
   }
 
-  void saveToLocalStorage() {
-    localStorage.setItem(localStorageKey, this.toJson());
+  static void saveToLocalStorage(User user) {
+    localStorage.setItem(localStorageKey, user?.toJson() ?? null);
   }
 
   User.fromJson(Map<String, dynamic> json) {
