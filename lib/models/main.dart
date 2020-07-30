@@ -15,3 +15,4 @@ part "content.dart";
 part 'culture.dart';
 part 'price.dart';
 part 'currency.dart';
+part 'search_result.dart';
