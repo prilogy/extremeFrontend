@@ -1,4 +1,3 @@
-import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/playlist_card.dart';
@@ -21,7 +20,7 @@ class PlaylistScreen extends StatelessWidget {
   }) : super(key: key);
 
   void _searchIconAction() {
-    // Search some video function
+    // TODO: Search video function
   }
 
   @override
@@ -29,7 +28,6 @@ class PlaylistScreen extends StatelessWidget {
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(47, 44, 71, 1),
         title: Text('Название плейлиста'),
         actions: <Widget>[
           IconButton(
@@ -47,6 +45,7 @@ class PlaylistScreen extends StatelessWidget {
             child: Column(
               children: [
                 VideoCard(
+                  margin: EdgeInsets.only(bottom: Indents.xl),
                   aspectRatio: 16 / 9,
                 ),
                 VideoCard(

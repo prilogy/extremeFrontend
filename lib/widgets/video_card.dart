@@ -23,48 +23,44 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   }
   @override
   Widget build(BuildContext context) {
-    String testText =
-        model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
-    return Container(
-      // padding: EdgeInsets.all(Indents.md),
-      child: Column(
-        children: <Widget>[
-          withIndents(
-            child: withAspectRatio(
-              child: VideoCardWithoutCaption(),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  //Text('Blancpain GT3 - 3 hours Monza Race / Replay',
-                  Text(testText, style: Theme.of(context).textTheme.subtitle1),
-                  Text('5 дней назад',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          .merge(TextStyle(color: ExtremeColors.base70[100]))),
-                ],
-              ),
-              IconButton(
-                padding: EdgeInsets.zero,
-                alignment: Alignment.centerRight,
-                icon: Icon(
-                  Icons.more_vert,
-                  size: 20,
-                  color: ExtremeColors.base[100],
+    String testText = model?.content?.name ??
+        'Blancpain GT3 - 3 hours Monza Race / Replay yyyyyyyyyyyyyy';
+    return withIndents(
+      child: Container(
+        // padding: EdgeInsets.all(Indents.md),
+        child: Column(
+          children: <Widget>[
+            withAspectRatio(child: VideoCardWithoutCaption()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    //Text('Blancpain GT3 - 3 hours Monza Race / Replay',
+                    // TODO: добавить перенос строки
+                    Text(testText,
+                        style: Theme.of(context).textTheme.subtitle1),
+                    Text('5 дней назад',
+                        style: Theme.of(context).textTheme.subtitle2.merge(
+                            TextStyle(color: ExtremeColors.base70[100]))),
+                  ],
                 ),
-                tooltip: 'Placeholder',
-                onPressed: () {
-                 
-                },
-              ),
-            ],
-          )
-        ],
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.centerRight,
+                  icon: Icon(
+                    Icons.more_vert,
+                    size: 20,
+                    color: ExtremeColors.base[100],
+                  ),
+                  tooltip: 'Placeholder',
+                  onPressed: () {},
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -106,11 +102,13 @@ class VideoCardWithoutCaption extends StatelessWidget {
                   child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: () { Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VideoViewScreen(),
-                          ));},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VideoViewScreen(),
+                        ));
+                  },
                 ),
               )),
               Padding(
