@@ -1,8 +1,8 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
-import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
+import 'package:extreme/models/main.dart' as Models;
 
 import 'like_state.dart';
 
@@ -10,11 +10,13 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   final double aspectRatio;
+  final Models.Movie model;
 
   MovieCard({
     this.padding,
     this.aspectRatio,
-    this.margin
+    this.margin,
+    this.model,
   });
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,8 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
               borderRadius: BorderRadius.all(Radius.circular(5)),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: ExactAssetImage(
+                image: 
+                ExactAssetImage(
                     "extreme2.jpg"), // TODO: change hardcode image to var
               ),
             ),
@@ -40,8 +43,8 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                       decoration: BoxDecoration(
                         gradient: RadialGradient(
                           colors: [
-                            ExtremeColors.base.withOpacity(0.0),
-                            ExtremeColors.base.withOpacity(0.75)
+                            Theme.of(context).colorScheme.background.withOpacity(0),
+                            Theme.of(context).colorScheme.background.withOpacity(0.75),
                           ],
                           center: Alignment.center,
                           radius: 1.5,
@@ -73,8 +76,9 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                'Фильм',
+                                model?.content?.name ?? 'Фильм',
                                 style: TextStyle(
+                                  // TODO: исправить текст стайл
                                   letterSpacing: 0.8,
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Roboto',
