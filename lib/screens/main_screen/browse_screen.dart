@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:extreme/config/env.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/screens/kind_of_sport.dart';
 import 'package:extreme/screens/playlist_screen.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -47,11 +46,14 @@ class BrowseScreen extends StatelessWidget
                     CategoryButton(
                         text: "Плейлисты",
                         icon: Icons.playlist_play,
+                        // TODO: сделать переход к списку плейлистов
                         pushTo: PlaylistScreen()),
                     CategoryButton(
                         text: "Фильмы",
                         icon: Icons.movie,
-                        pushTo: KindOfSportScreen())
+                        // TODO: сделать переход к списку фильмов
+                        //pushTo: KindOfSportScreen()
+                        )
                   ],
                 ),
               ),

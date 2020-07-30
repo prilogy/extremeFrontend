@@ -1,11 +1,15 @@
+import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
+import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/playlist_card.dart';
+import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'kind_of_sport.dart';
 import '../widgets/stats.dart';
 import '../widgets/video_card.dart';
 
-// Экран просмотра плейлиста
+/// Создаёт экран просмотра плейлиста
 
 class PlaylistScreen extends StatelessWidget {
 //  final String text;
@@ -22,7 +26,8 @@ class PlaylistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return ScreenBaseWidget(
+      padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(47, 44, 71, 1),
         title: Text('Название плейлиста'),
@@ -33,51 +38,58 @@ class PlaylistScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Container(
-        color: Color.fromRGBO(14, 11, 38, 1),
-        child: ListView(
-            padding: const EdgeInsets.all(0.0),
-            children: <Widget>[
+      builder: (context) => <Widget>[
+        // Карточка плейлиста в самом верху страницы
+        HeaderPlaylist(),
 
-              // Карточка плейлиста в самом верху страницы
-              HeaderPlaylist(),
+        BlockBaseWidget(
+            header: 'Видео',
+            child: Column(
+              children: [
+                VideoCard(
+                  aspectRatio: 16 / 9,
+                ),
+                VideoCard(
+                  aspectRatio: 16 / 9,
+                ),
+                VideoCard(
+                  aspectRatio: 16 / 9,
+                ),
+              ],
+            )),
 
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 0, 5, 5),
-                child: Text(
-                  'Видео',
-                  style: TextStyle(
-                    fontFamily: 'RobotoMono',
-                    fontSize: 20.0,
-                    color: Colors.white,
+        // Список для скроллинга - Другие плейлисты
+        //OtherPlaylistList(),
+        BlockBaseWidget(
+          header: 'Смотри также',
+          child: Container(
+            height: 100,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children: [
+                Container(
+                  child: PlayListCard(
+                    small: true,
+                    aspectRatio: 16 / 9,
                   ),
                 ),
-              ),
-
-              // Карточка с видео и для просмотра видео
-              VideoCard(aspectRatio: 16/9,),
-              // Карточка с видео и для просмотра видео
-              VideoCard(aspectRatio: 16/9,),
-              // Карточка с видео и для просмотра видео
-              VideoCard(aspectRatio: 16/9,),
-
-              Container(
-                padding: EdgeInsets.fromLTRB(10, 5, 5, 5),
-                child: Text(
-                  'Смотри также',
-                  style: TextStyle(
-                    fontFamily: 'RobotoMono',
-                    fontSize: 20.0,
-                    color: Colors.white,
-                  ),
+                PlayListCard(
+                  small: true,
+                  aspectRatio: 16 / 9,
                 ),
-              ),
-
-              // Список для скроллинга - Другие плейлисты
-              OtherPlaylistList(),
-            ],
-        ),
-      ),
+                PlayListCard(
+                  small: true,
+                  aspectRatio: 16 / 9,
+                ),
+                PlayListCard(
+                  small: true,
+                  aspectRatio: 16 / 9,
+                ),
+              ],
+            ),
+          ),
+        )
+      ],
     );
   }
 }
@@ -91,30 +103,22 @@ class HeaderPlaylist extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-          width: screenWigth,
-          height: cardHeigth,
-          decoration: BoxDecoration(
-//                        borderRadius: BorderRadius.all(Radius.circular(10)),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: ExactAssetImage("extreme2.jpg"),
-            ),
-          ),
-        ),
-        Positioned(
             width: screenWigth,
             height: cardHeigth,
-            top: 0,
-            left: 0,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: ExactAssetImage("extreme2.jpg"),
+              ),
+            ),
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.bottomCenter,
                   end: Alignment.topCenter,
                   colors: [
-                    const Color.fromRGBO(14, 11, 38, 1),
-                    const Color.fromRGBO(14, 11, 38, 0)
+                    Theme.of(context).colorScheme.background,
+                    Theme.of(context).colorScheme.background.withOpacity(0)
                   ],
                   tileMode:
                       TileMode.repeated, // repeats the gradient over the canvas
@@ -132,25 +136,32 @@ class HeaderPlaylist extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  child: Text(
-                    "Название плейлиста",
-                     style: Theme.of(context).textTheme.headline6
-                  ),
+                  margin: EdgeInsets.only(bottom: Indents.sm),
+                  child: Text("Название плейлиста",
+                      style: Theme.of(context).textTheme.headline6.merge(
+                          TextStyle(
+                              fontSize: 34,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 0.25))),
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 5),
-                  child: Text(
-                    "Описание данного плейлиста",
-                    style: Theme.of(context).textTheme.bodyText2
-                  ),
+                  margin: EdgeInsets.only(bottom: Indents.sm),
+                  child: Text("Описание данного плейлиста",
+                      style: Theme.of(context).textTheme.bodyText2),
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Stats(icon: Icons.thumb_up, text: 105.toString(), marginBetween: 5,),
-                    Stats(icon: Icons.local_movies, text: 354.toString(),),
+                    Stats(
+                      icon: Icons.thumb_up,
+                      text: 105.toString(),
+                      marginBetween: 5,
+                    ),
+                    Stats(
+                      icon: Icons.local_movies,
+                      text: 354.toString(),
+                    ),
                   ],
                 ),
               ],

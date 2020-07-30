@@ -6,10 +6,10 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/stats.dart';
 import 'package:flutter/material.dart';
 
-import '../screens/kind_of_sport.dart';
 
 class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final bool small;
+  // TODO: переделать под модель sport
   final int playlists;
   final int videos;
   final String title;

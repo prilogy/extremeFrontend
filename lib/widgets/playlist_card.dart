@@ -1,5 +1,7 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
+import 'package:extreme/models/main.dart';
+import 'package:extreme/screens/playlist_screen.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +71,11 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                         child: Material(
                       color: Colors.transparent,
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => PlaylistScreen(),
+                          ));
+                        },
                       ),
                     )),
                     Padding(
@@ -131,7 +137,8 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
           ),
         ),
       );
-    } else { // TODO: add Inkwell 
+    } else {
+      // TODO: add Inkwell
       return withIndents(
           child: withAspectRatio(
               child: Container(

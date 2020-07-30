@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:vimeoplayer/vimeoplayer.dart';
-import 'kind_of_sport.dart';
 import '../widgets/video_card.dart';
 
 /// Создаёт экран просмотра видео
@@ -24,7 +23,7 @@ class VideoViewScreen extends StatelessWidget {
         'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...';
     return ScreenBaseWidget(
       padding:
-          EdgeInsets.only(top: 0, bottom: ScreenBaseWidget.screenBottomIndent),
+          EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
         title: Text('Название видео'), // TODO: Title
         actions: <Widget>[
