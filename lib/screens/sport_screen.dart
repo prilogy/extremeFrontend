@@ -42,19 +42,23 @@ class SportScreen extends StatelessWidget {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      stops: [0, 0.8, 1],
+                      stops: [
+                    0,
+                    0.8,
+                    1
+                  ],
                       colors: [
                     theme.colorScheme.background.withOpacity(0),
                     theme.colorScheme.background.withOpacity(1),
                     theme.colorScheme.background.withOpacity(1),
-                  ])
-                  ),
+                  ])),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
                     'Вид спорта',
-                    style: TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+                    style: theme.textTheme.headline5
+                        .merge(TextStyle(fontWeight: FontWeight.bold, letterSpacing: 0.25)),
                   ),
                   Text('Этот вид спорта просто крут. Вот так! Описание...',
                       style: Theme.of(context).textTheme.bodyText2),

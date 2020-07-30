@@ -2,12 +2,14 @@ import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
+import 'block_base_widget.dart';
+
 class Subscription extends StatelessWidget {
   final Color color;
   final int price;
   final String title;
   final String description;
-  
+
   Subscription({this.color, this.description, this.title, this.price});
   @override
   Widget build(BuildContext context) {
@@ -17,61 +19,65 @@ class Subscription extends StatelessWidget {
             color: color,
           )
         : _saving = Container();
-    return Container(
-      margin: EdgeInsets.only(top: Indents.sm, bottom: Indents.sm),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          border: Border.all(color: color, width: 2)),
-      child: Stack(
-        children: <Widget>[
-          // Виджет с казанием экономии
-          _saving,
-          Padding(
-            padding: const EdgeInsets.all(Indents.md),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: Indents.sm),
-                    child: Text(
-                      'Подписка на ' + title,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                  ),
-                  Text(
-                    description,
-                    style: Theme.of(context).textTheme.caption,
-                  )
-                ]),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      price.toString() + '₽',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
-                          .merge(TextStyle(fontSize: 24)),
-                    ),
-                    RaisedButton(
-                        color: color,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+    return BlockBaseWidget(
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+            border: Border.all(color: color, width: 2)),
+        child: Stack(
+          children: <Widget>[
+            // Виджет с казанием экономии
+            _saving,
+            Padding(
+              padding: const EdgeInsets.all(Indents.md),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: Indents.sm),
+                          child: Text(
+                            'Подписка на ' + title,
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
                         ),
-                        onPressed: () {
-                          print(
-                              price.toString() + '₽ subscription button pressed');
-                        },
-                        child: Text('Продлить'))
-                  ],
-                )
-              ],
+                        Text(
+                          description,
+                          style: Theme.of(context).textTheme.caption,
+                        )
+                      ]),
+                  Padding(
+                    padding: EdgeInsets.only(right: Indents.sm),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          price.toString() + '₽',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              .merge(TextStyle(fontSize: 24)),
+                        ),
+                        RaisedButton(
+                            color: color,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            onPressed: () {
+                              print(price.toString() +
+                                  '₽ subscription button pressed');
+                            },
+                            child: Text('Продлить'))
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -86,16 +92,28 @@ class Saving extends StatelessWidget {
     return Row(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.all(Indents.sm/3),
+          padding: EdgeInsets.symmetric(horizontal: Indents.sm, vertical: Indents.sm / 3),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
               color: color),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
+            textBaseline: TextBaseline.alphabetic,
             children: <Widget>[
-              
-              Icon(Icons.offline_bolt, size: 16,),
-              Text('ЭКОНОМИЯ 400₽', style: Theme.of(context).textTheme.overline),
+              Padding(
+                padding: EdgeInsets.only(right: Indents.sm/2),
+                child: Icon(
+                  Icons.offline_bolt,
+                  size: 16,
+                ),
+              ),
+              // Измениние baseline будет двигать строку "Экономия ..." по вертикальной оси
+              Baseline(
+                baseline: 10,
+                baselineType: TextBaseline.alphabetic,
+                child: Text('ЭКОНОМИЯ 400₽',
+                    style: Theme.of(context).textTheme.overline),
+              ),
             ],
           ),
         ),

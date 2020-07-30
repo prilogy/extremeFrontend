@@ -1,4 +1,5 @@
 import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 class AccountInfo extends StatelessWidget {
@@ -21,7 +22,7 @@ Widget confirmation;
               'Имя Фамилия',
               style: Theme.of(context).textTheme.headline6,
             ),
-            Text('С Exteme Insiders с 13.03.2019',
+            Text('С Exteme Insiders с ' + '13.03.2019',
                 style: Theme.of(context)
                     .textTheme
                     .bodyText2
@@ -56,14 +57,17 @@ class Confirmation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Row(children: <Widget>[
-        Icon(Icons.error, color: ExtremeColors.error,),
-        Text('Подтвердить', style: Theme.of(context).textTheme.caption.merge(TextStyle(color: ExtremeColors.error)),)
-      ],),
-      onTap: (){
-        print('Email confirmation InkWell pressed');
-      },
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: Indents.md),
+      child: InkWell(
+        child: Row(children: <Widget>[
+          Icon(Icons.error, color: ExtremeColors.error,),
+          Text('Подтвердить', style: Theme.of(context).textTheme.caption.merge(TextStyle(color: ExtremeColors.error)),)
+        ],),
+        onTap: (){
+          print('Email confirmation InkWell pressed');
+        },
+      ),
     );
   }
 }

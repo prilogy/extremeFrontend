@@ -9,7 +9,7 @@ class SocialAccount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var text = isConnected ? 'ОТКЛЮЧИТЬ' : 'ОТКЛЮЧИТЬ';
+    var text = isConnected ? 'ОТКЛЮЧИТЬ' : 'ПОДКЛЮЧИТЬ';
     var textColor = isConnected ? ExtremeColors.error : ExtremeColors.success;
 
     return Container(
