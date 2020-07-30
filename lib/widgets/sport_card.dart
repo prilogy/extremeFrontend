@@ -29,6 +29,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
 
   @override
   Widget build(BuildContext context) {
+    String _title = title ?? 'Вид спорта';
     void onTap() {
       Navigator.of(context).push(
           MaterialPageRoute(
@@ -71,13 +72,13 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                           children: <Widget>[
                             Expanded(
                               child: Center(
-                                child: Text(title,
+                                child: Text(_title,
                                     textAlign: TextAlign.center,
                                     style:
                                         Theme.of(context).textTheme.subtitle1),
                               ),
                             ),
-                            if (small != true)
+                            if (!small)
                               Container(
                                 child: Row(
                                   mainAxisAlignment:
