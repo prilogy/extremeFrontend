@@ -1,16 +1,28 @@
+import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 import 'block_base_widget.dart';
 
-class Subscription extends StatelessWidget {
+class Subscription extends StatelessWidget with IndentsMixin {
   final Color color;
   final int price;
   final String title;
   final String description;
+  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
+  final double aspectRatio;
 
-  Subscription({this.color, this.description, this.title, this.price});
+  Subscription(
+      {this.color,
+      this.description,
+      this.title,
+      this.price,
+      this.padding,
+      this.margin,
+      this.aspectRatio});
+
   @override
   Widget build(BuildContext context) {
     Widget _saving;
@@ -19,7 +31,7 @@ class Subscription extends StatelessWidget {
             color: color,
           )
         : _saving = Container();
-    return BlockBaseWidget(
+    return withIndents(
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
@@ -85,6 +97,7 @@ class Subscription extends StatelessWidget {
 
 class Saving extends StatelessWidget {
   final Color color;
+
   const Saving({Key key, this.color}) : super(key: key);
 
   @override
@@ -92,7 +105,8 @@ class Saving extends StatelessWidget {
     return Row(
       children: <Widget>[
         Container(
-          padding: EdgeInsets.symmetric(horizontal: Indents.sm, vertical: Indents.sm / 3),
+          padding: EdgeInsets.symmetric(
+              horizontal: Indents.sm, vertical: Indents.sm / 3),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.only(bottomRight: Radius.circular(5)),
               color: color),
@@ -101,7 +115,7 @@ class Saving extends StatelessWidget {
             textBaseline: TextBaseline.alphabetic,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(right: Indents.sm/2),
+                padding: EdgeInsets.only(right: Indents.sm / 2),
                 child: Icon(
                   Icons.offline_bolt,
                   size: 16,

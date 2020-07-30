@@ -18,6 +18,7 @@ class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
 
 class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
   final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
 
   final Widget appBar;
   final WidgetBuilderChildren builder;
@@ -32,6 +33,7 @@ class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
 
   ScreenBaseWidget(
       {this.padding = defaultPadding,
+      this.margin,
       this.appBar,
       this.builder,
       this.builderChild,

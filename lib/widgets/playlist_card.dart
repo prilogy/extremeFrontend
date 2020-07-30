@@ -16,21 +16,20 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final int likes;
   final int videos;
   final bool isLiked;
+  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
+  final double aspectRatio;
 
   PlayListCard(
-      {EdgeInsetsGeometry margin,
-      EdgeInsetsGeometry padding,
-      double aspectRatio,
+      {this.margin,
+      this.padding,
+      this.aspectRatio,
       this.small = false,
       this.title = "Название плейлиста",
       this.description = 'Краткое описание плейлиста',
       this.likes = 123,
       this.videos = 87,
-      this.isLiked = false}) {
-    this.margin = margin;
-    this.padding = padding;
-    this.aspectRatio = aspectRatio;
-  }
+      this.isLiked = false});
 
   @override
   Widget build(BuildContext context) {

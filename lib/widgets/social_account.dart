@@ -1,4 +1,5 @@
 import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 class SocialAccount extends StatelessWidget {
@@ -18,9 +19,12 @@ class SocialAccount extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Icon(
-              Icons.warning,
-              size: 40,
+            Container(
+              margin: EdgeInsets.only(right: Indents.sm),
+              child: Icon(
+                Icons.warning,
+                size: 40,
+              ),
             ),
             Text(
               name,

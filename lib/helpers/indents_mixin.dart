@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 mixin IndentsMixin {
-  EdgeInsetsGeometry padding;
-  EdgeInsetsGeometry margin;
+  EdgeInsetsGeometry get padding;
+  EdgeInsetsGeometry get margin;
 
   Widget withIndents({Widget child}) {
     return Container(
