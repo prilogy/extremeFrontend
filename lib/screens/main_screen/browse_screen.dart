@@ -16,9 +16,9 @@ import '../../store/info.dart' as Redux;
 
 class BrowseScreen extends StatelessWidget
     implements IWithNavigatorKey {
-  Key navigatorKey;
+  final Key navigatorKey;
 
-  BrowseScreen({Key key}) : super(key: key);
+  BrowseScreen({Key key, this.navigatorKey}) : super(key: key);
 
   final Widget appBar = AppBar(
     title: Text("Просмотр"),

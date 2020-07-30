@@ -2,9 +2,9 @@ import 'package:extreme/helpers/interfaces.dart';
 import 'package:flutter/material.dart';
 
 class NewsScreen extends StatelessWidget implements IWithNavigatorKey {
-  Key navigatorKey;
+  final Key navigatorKey;
 
-  NewsScreen({Key key}) : super(key: key);
+  NewsScreen({Key key, this.navigatorKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

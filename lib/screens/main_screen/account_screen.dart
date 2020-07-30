@@ -13,9 +13,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../settings_screen.dart';
 
 class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
-  Key navigatorKey;
+  final Key navigatorKey;
 
-  AccountScreen({Key key}) : super(key: key);
+  AccountScreen({Key key, this.navigatorKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

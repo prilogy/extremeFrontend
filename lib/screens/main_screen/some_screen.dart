@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 class SomeScreen extends StatelessWidget implements IWithNavigatorKey {
   final String description;
+  final Key navigatorKey;
 
-  SomeScreen(this.description);
-  Key navigatorKey;
-  VoidCallback onNavigation;
+  SomeScreen({this.description, this.navigatorKey});
+
+
 
   @override
   Widget build(BuildContext context) {

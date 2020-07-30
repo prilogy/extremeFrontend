@@ -118,7 +118,7 @@ class VideoCardWithoutCaption extends StatelessWidget {
                 ),
               )),
               Padding(
-                padding: const EdgeInsets.all(Indents.sm),
+                padding: const EdgeInsets.all(Indents.md),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[

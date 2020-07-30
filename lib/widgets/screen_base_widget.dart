@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 typedef WidgetBuilderChildren = List<Widget> Function(BuildContext context);
 
-
 class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;

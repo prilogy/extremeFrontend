@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
 
 abstract class IWithNavigatorKey {
-  Key navigatorKey;
+  final Key navigatorKey = null;
 }

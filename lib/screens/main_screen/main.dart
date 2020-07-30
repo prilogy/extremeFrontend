@@ -22,6 +22,13 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
+final screens = [
+  (Key key) => HomeScreen(navigatorKey: key,),
+  (Key key) => BrowseScreen(navigatorKey: key,),
+  (Key key) => AccountScreen(navigatorKey: key,),
+  (Key key) => SomeScreen(description: "smsmsm", navigatorKey: key)
+];
+
 class _MainScreenState extends State<MainScreen>
     with TickerProviderStateMixin<MainScreen> {
   int _selectedIndex = 0;
@@ -29,12 +36,7 @@ class _MainScreenState extends State<MainScreen>
   List<GlobalKey<NavigatorState>> _navigatorKeys;
   final double _navBarOffset = Indents.sm;
 
-  List<Widget> screens = [
-    HomeScreen(),
-    BrowseScreen(),
-    AccountScreen(),
-    SomeScreen("smsmsm")
-  ];
+  List<Widget> _screens;
 
   @override
   void initState() {
@@ -42,12 +44,10 @@ class _MainScreenState extends State<MainScreen>
 
     _navigatorKeys = List<GlobalKey<NavigatorState>>.generate(
         screens.length, (int index) => GlobalKey()).toList();
-    screens = screens.map<Widget>((e) {
+    _screens = screens.map<Widget>((e) {
       var idx = screens.indexOf(e);
-      if (e is IWithNavigatorKey) {
-        (e as IWithNavigatorKey).navigatorKey = _navigatorKeys[idx];
-      }
-      return e;
+
+      return e(_navigatorKeys[idx]);
     }).toList();
   }
 
@@ -86,7 +86,7 @@ class _MainScreenState extends State<MainScreen>
             child: Stack(children: <Widget>[
           IndexedStack(
             index: _selectedIndex,
-            children: screens,
+            children: _screens,
           ),
           Positioned(
               bottom: _navBarOffset,

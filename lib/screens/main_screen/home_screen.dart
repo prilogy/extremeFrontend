@@ -22,9 +22,9 @@ import 'package:extreme/services/api/main.dart' as Api;
 var _authToken;
 
 class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
-  Key navigatorKey;
+  final Key navigatorKey;
 
-  HomeScreen({Key key}) : super(key: key);
+  HomeScreen({Key key, this.navigatorKey}) : super(key: key);
   void _searchIconAction() {}
 
   @override
