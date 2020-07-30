@@ -7,6 +7,9 @@ class BlockBaseWidget extends StatelessWidget with IndentsMixin {
   final String header;
   final CrossAxisAlignment crossAxisAlignment;
 
+  final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry padding;
+
   final EdgeInsetsGeometry headerPadding;
 
   BlockBaseWidget(
@@ -14,23 +17,16 @@ class BlockBaseWidget extends StatelessWidget with IndentsMixin {
       this.header = "",
       this.headerPadding = const EdgeInsets.all(0),
       this.crossAxisAlignment = CrossAxisAlignment.start,
-      EdgeInsetsGeometry padding =
+      this.padding =
           const EdgeInsets.symmetric(horizontal: Indents.md),
-      EdgeInsetsGeometry margin = const EdgeInsets.only(bottom: Indents.lg)}) {
-    this.margin = margin;
-    this.padding = padding;
-  }
+      this.margin = const EdgeInsets.only(bottom: Indents.lg)});
 
   BlockBaseWidget.forScrollingViews(
       {this.child,
       this.header,
       this.crossAxisAlignment = CrossAxisAlignment.start,
       this.headerPadding = const EdgeInsets.only(left: Indents.md),
-      EdgeInsetsGeometry padding = const EdgeInsets.all(0),
-      EdgeInsetsGeometry margin = const EdgeInsets.only(bottom: Indents.lg)}) {
-    this.margin = margin;
-    this.padding = padding;
-  }
+      this.padding = const EdgeInsets.all(0), this.margin = const EdgeInsets.only(bottom: Indents.lg)});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +38,7 @@ class BlockBaseWidget extends StatelessWidget with IndentsMixin {
             Container(
                 alignment: Alignment.topLeft,
                 padding: headerPadding,
-                margin: EdgeInsets.only(bottom: Indents.md),
+                margin: EdgeInsets.only(bottom: Indents.sm),
                 child:
                     Text(header, style: Theme.of(context).textTheme.headline6)),
           child

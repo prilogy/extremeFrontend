@@ -13,19 +13,18 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final int playlists;
   final int videos;
   final String title;
+  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
+  final double aspectRatio;
 
   SportCard(
-      {EdgeInsetsGeometry margin,
-      EdgeInsetsGeometry padding,
-      double aspectRatio,
+      {this.margin,
+      this.padding,
+      this.aspectRatio,
       this.small = false,
       this.playlists,
       this.videos,
-      this.title}) {
-    this.margin = margin;
-    this.padding = padding;
-    this.aspectRatio = aspectRatio;
-  }
+      this.title});
 
   @override
   Widget build(BuildContext context) {

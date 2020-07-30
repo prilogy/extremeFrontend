@@ -7,16 +7,15 @@ import 'package:flutter/material.dart';
 import 'like_state.dart';
 
 class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  MovieCard({
-    EdgeInsetsGeometry margin,
-    EdgeInsetsGeometry padding,
-    double aspectRatio,
-  }) {
-    this.margin = margin;
-    this.padding = padding;
-    this.aspectRatio = aspectRatio;
-  }
+  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
+  final double aspectRatio;
 
+  MovieCard({
+    this.padding,
+    this.aspectRatio,
+    this.margin
+  });
   @override
   Widget build(BuildContext context) {
     return withIndents(

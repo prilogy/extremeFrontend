@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 mixin AspectRatioMixin {
-  double aspectRatio;
+  double get aspectRatio;
 
   Widget withAspectRatio({Widget child}) {
     if(aspectRatio == null)

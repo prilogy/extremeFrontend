@@ -10,17 +10,18 @@ import 'like_state.dart';
 
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final Models.Video model;
+  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry margin;
+  final double aspectRatio;
 
   VideoCard({
     this.model,
-    EdgeInsetsGeometry margin,
-    EdgeInsetsGeometry padding,
-    double aspectRatio,
-  }) {
-    this.margin = margin;
-    this.padding = padding;
-    this.aspectRatio = aspectRatio;
-  }
+    this.margin,
+    this.padding,
+    this.aspectRatio,
+  });
+
+
   @override
   Widget build(BuildContext context) {
     String testText = model?.content?.name ??
@@ -145,10 +146,12 @@ class VideoCardWithoutCaption extends StatelessWidget {
   }
 }
 
-class VideoDuration extends StatelessWidget with IndentsMixin {
+class VideoDuration extends StatelessWidget{
   final int hours;
   final int minutes;
   final int seconds;
+
+
   VideoDuration({this.hours = 0, this.minutes, this.seconds});
   String _time(int hours, int minutes, int seconds) {
     if (hours == 0) {
@@ -164,8 +167,7 @@ class VideoDuration extends StatelessWidget with IndentsMixin {
 
   @override
   Widget build(BuildContext context) {
-    return withIndents(
-      child: Container(
+    return  Container(
         padding: EdgeInsets.all(Indents.sm / 2),
         decoration: BoxDecoration(
           color: Colors.black.withOpacity(0.7),
@@ -175,7 +177,6 @@ class VideoDuration extends StatelessWidget with IndentsMixin {
           _time(hours, minutes, seconds),
           style: Theme.of(context).textTheme.overline,
         ),
-      ),
     );
   }
 }
