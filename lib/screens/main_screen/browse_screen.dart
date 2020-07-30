@@ -68,19 +68,10 @@ class BrowseScreen extends StatelessWidget
                   children: [
                     for (var item in [
                       SportCard(
-                        title: 'F1',
-                        playlists: 23,
-                        videos: 142,
                       ),
                       SportCard(
-                        title: 'Вид спорта',
-                        playlists: 2,
-                        videos: 12240,
                       ),
                       SportCard(
-                        title: 'Другой вид спорта',
-                        playlists: 19000,
-                        videos: 2122212,
                       )
                     ])
                       item

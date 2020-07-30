@@ -6,13 +6,14 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/stats.dart';
 import 'package:flutter/material.dart';
 
+import 'package:extreme/models/main.dart' as Models;
 
+/// Создаёт карточку спорта. 
 class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final bool small;
   // TODO: переделать под модель sport
-  final int playlists;
-  final int videos;
-  final String title;
+  final Models.Sport model;
+
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   final double aspectRatio;
@@ -22,13 +23,11 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
       this.padding,
       this.aspectRatio,
       this.small = false,
-      this.playlists,
-      this.videos,
-      this.title});
+      this.model});
 
   @override
   Widget build(BuildContext context) {
-    String _title = title ?? 'Вид спорта';
+    String _title = model?.content?.name ?? 'Вид спорта';
     void onTap() {
       Navigator.of(context).push(
           MaterialPageRoute(
@@ -87,14 +86,14 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                       widgetMarginRight: 0,
                                       marginBetween: 0,
                                       icon: Icons.playlist_play,
-                                      text: playlists.toString(),
+                                      text: model?.playlistsIds?.toString() ?? 130.toString(),
                                     ),
                                     Stats(
                                       reversed: true,
                                       widgetMarginRight: 0,
                                       marginBetween: 0,
                                       icon: Icons.local_movies,
-                                      text: videos.toString(),
+                                      text: model?.moviesIds?.toString() ?? 13.toString(),
                                     )
                                   ],
                                 ),
