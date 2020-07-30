@@ -1,11 +1,8 @@
-//import 'dart:html';
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
-//import 'package:extreme/services/api.dart' as Api;
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/playlist_card.dart';
@@ -25,7 +22,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
 
   HomeScreen({Key key, this.navigatorKey}) : super(key: key);
-  void _searchIconAction() {}
+  
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +42,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: _searchIconAction,
+            onPressed: (){Navigator.of(context, rootNavigator: true).pushNamed('/search');},
           ),
         ],
       ),
