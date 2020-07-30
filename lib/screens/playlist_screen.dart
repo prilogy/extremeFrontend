@@ -45,6 +45,7 @@ class PlaylistScreen extends StatelessWidget {
             child: Column(
               children: [
                 VideoCard(
+                  margin: EdgeInsets.only(bottom: Indents.lg),
                   aspectRatio: 16 / 9,
                 ),
                 VideoCard(
@@ -135,7 +136,8 @@ class HeaderPlaylist extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(bottom: Indents.sm),
-                    child: Text("Название плейлиста",
+                    child: Text("Название плейлиста лалал лалала лала алала лалал ал аа лал ",
+                        textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline5.merge(
                             TextStyle(
                                 fontWeight: FontWeight.bold,

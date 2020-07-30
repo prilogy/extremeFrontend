@@ -31,33 +31,38 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
         child: Column(
           children: <Widget>[
             withAspectRatio(child: VideoCardWithoutCaption()),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    //Text('Blancpain GT3 - 3 hours Monza Race / Replay',
-                    // TODO: добавить перенос строки
-                    Text(testText,
-                        style: Theme.of(context).textTheme.subtitle1),
-                    Text('5 дней назад',
-                        style: Theme.of(context).textTheme.subtitle2.merge(
-                            TextStyle(color: ExtremeColors.base70[100]))),
-                  ],
-                ),
-                IconButton(
-                  padding: EdgeInsets.zero,
-                  alignment: Alignment.centerRight,
-                  icon: Icon(
-                    Icons.more_vert,
-                    size: 20,
-                    color: ExtremeColors.base[100],
+            Container(
+              margin: EdgeInsets.only(top: Indents.md),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        //Text('Blancpain GT3 - 3 hours Monza Race / Replay',
+                        // TODO: добавить перенос строки
+                        Text(testText,
+                            style: Theme.of(context).textTheme.subtitle1),
+                        Text('5 дней назад',
+                            style: Theme.of(context).textTheme.subtitle2.merge(
+                                TextStyle(height: 1.4,color: Theme.of(context).colorScheme.onBackground.withOpacity(0.6)))),
+                      ],
+                    ),
                   ),
-                  tooltip: 'Placeholder',
-                  onPressed: () {},
-                ),
-              ],
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.topRight,
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    tooltip: 'Placeholder',
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             )
           ],
         ),
