@@ -12,39 +12,39 @@ import '../api/../dio.dart';
 import 'package:http/http.dart' as http;
 
 part 'user.dart';
-
+part 'search.dart';
 part 'authentication.dart';
 part 'recomend.dart';
 
 enum EntityType { Movie, Video, Sport, Playlist }
 /// Выполняет поиск контента по заданному тексту.
-Future<dynamic> Search(EntityType type, String query) async {
-  print('fetching with body: ' + query);
+// Future<dynamic> Search(EntityType type, String query) async {
+//   print('fetching with body: ' + query);
 
-  var response = await dio.post(
-    '/auth/login',
-    options: Options(headers: {
-      "Accept": "application/json",
-      "Content-Type": "application/json; charset=utf-8",
-      "Authorization":
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjYiLCJyb2xlIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjgvMTQvMjAyMCA1OjUwOjMzIFBNIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJydSIsIkN1cnJlbmN5IjoiRVVSIiwibmJmIjoxNTk1Njc3MTk5LCJleHAiOjE1OTYyODE5OTksImlhdCI6MTU5NTY3NzE5OX0.n2IciappLewea8TNLpSrvbaRO6hpjdsqSVfwMvPdM58",
-    }),
-    data: jsonEncode(query),
-  );
-  if (response.statusCode == 200) {
-    print(json.decode(response.statusCode.toString()));
-    switch (type) {
-      case EntityType.Playlist:
-        print(response.statusMessage);
-        return Models.Playlist.fromJson(json.decode(response.toString()));
-        break;
-      default:
-    }
-  } else {
-    throw Exception(
-        'Api fetch error. Status code: ' + response.statusCode.toString());
-  }
-}
+//   var response = await dio.post(
+//     '/auth/login',
+//     options: Options(headers: {
+//       "Accept": "application/json",
+//       "Content-Type": "application/json; charset=utf-8",
+//       "Authorization":
+//           "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjYiLCJyb2xlIjoidXNlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvZXhwaXJhdGlvbiI6IjgvMTQvMjAyMCA1OjUwOjMzIFBNIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbG9jYWxpdHkiOiJydSIsIkN1cnJlbmN5IjoiRVVSIiwibmJmIjoxNTk1Njc3MTk5LCJleHAiOjE1OTYyODE5OTksImlhdCI6MTU5NTY3NzE5OX0.n2IciappLewea8TNLpSrvbaRO6hpjdsqSVfwMvPdM58",
+//     }),
+//     data: jsonEncode(query),
+//   );
+//   if (response.statusCode == 200) {
+//     print(json.decode(response.statusCode.toString()));
+//     switch (type) {
+//       case EntityType.Playlist:
+//         print(response.statusMessage);
+//         return Models.Playlist.fromJson(json.decode(response.toString()));
+//         break;
+//       default:
+//     }
+//   } else {
+//     throw Exception(
+//         'Api fetch error. Status code: ' + response.statusCode.toString());
+//   }
+// }
 
 Future<dynamic> Recomended(int page, int pageSize) async {
   Map<String, int> data = Map<String, int>();

@@ -9,7 +9,7 @@ class Video {
     return Video(
       id: json['id'],
       isInPaidPlayList: json['videosIds'],
-      content: json['content'],
+      content: Content.fromJson(json['content']),
     );
   }
 }

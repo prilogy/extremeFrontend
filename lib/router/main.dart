@@ -26,7 +26,7 @@ final routes = [
   authRoute,
   RouteBuilder('/main', (args) => MainScreen()),
   RouteBuilder('/settings', (args) => SettingsScreen()),
-  RouteBuilder('/search', (args) => SearchScreen()),
+  RouteBuilder('/search', (args) => SearchScreen(query: args.toString(),)),
 ];
 
 class RouteBuilder {

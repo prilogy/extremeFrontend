@@ -159,14 +159,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         TextField(
           controller: _searchController,
         ),
-        RaisedButton(
-          onPressed: () {
-            print('Response is ready: ' +
-                Api.Search(Api.EntityType.Playlist, _searchController.text)
-                    .toString());
-          },
-          child: Text('Поиск'),
-        ),
+        
         FutureBuilder(
           future: Api.Recomend(1, 0),
           builder: (context, snapshot) {
