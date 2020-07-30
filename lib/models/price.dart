@@ -2,7 +2,7 @@ part of models;
 
 class Price {
   Currency currency;
-  int value;
+  double value;
 
   Price({this.currency, this.value});
 

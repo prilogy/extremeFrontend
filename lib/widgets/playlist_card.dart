@@ -11,7 +11,7 @@ import 'stats.dart';
 import 'package:extreme/models/main.dart' as Models;
 
 class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  Models.Playlist model;
+  final Models.Playlist model;
   final bool small;
   final bool isLiked;
   final EdgeInsetsGeometry padding;
@@ -23,7 +23,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
       this.padding,
       this.aspectRatio,
       this.small = false,
-
+      this.model,
       this.isLiked = false});
 
   @override

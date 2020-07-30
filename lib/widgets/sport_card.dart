@@ -86,14 +86,14 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                       widgetMarginRight: 0,
                                       marginBetween: 0,
                                       icon: Icons.playlist_play,
-                                      text: model?.playlistsIds?.toString() ?? 130.toString(),
+                                      text: model?.playlistsIds?.length.toString() ?? 130.toString(),
                                     ),
                                     Stats(
                                       reversed: true,
                                       widgetMarginRight: 0,
                                       marginBetween: 0,
                                       icon: Icons.local_movies,
-                                      text: model?.moviesIds?.toString() ?? 13.toString(),
+                                      text: model?.moviesIds?.length.toString() ?? 13.toString(),
                                     )
                                   ],
                                 ),

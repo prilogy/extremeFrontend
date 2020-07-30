@@ -15,8 +15,8 @@ class Sport {
         this.dateCreated});
 
   Sport.fromJson(Map<String, dynamic> json) {
-    playlistsIds = json['playlistsIds'].cast<int>();
-    moviesIds = json['moviesIds'].cast<int>();
+    playlistsIds = json['playlistsIds']?.cast<int>() ?? [];
+    moviesIds = json['moviesIds']?.cast<int>() ?? [];
     content =
     json['content'] != null ? new Content.fromJson(json['content']) : null;
     id = json['id'];
