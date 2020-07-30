@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:extreme/services/api/main.dart' as Api;
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -15,7 +20,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _passwordController = TextEditingController();
   final _rePasswordController = TextEditingController();
   final _nameController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
   final _birthDayController = TextEditingController();
+  final _imageController = TextEditingController();
+  File _image;
+
+  final picker = ImagePicker();
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+      _imageController.text = _image.path.split('/').last;
+    });
+  }
 
   @override
   void dispose() {
@@ -83,6 +102,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             icon: Icon(Icons.lock_open), labelText: 'Password'),
                       ),
                       TextFormField(
+                        controller: _phoneNumberController,
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.phone_android),
+                            labelText: 'Phone number'),
+                      ),
+                      TextFormField(
                         controller: _rePasswordController,
                         validator: (value) {
                           if (value.isEmpty) {
@@ -116,6 +141,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             initialDate: currentValue ?? DateTime.now(),
                             lastDate: DateTime(2100));
                           }),
+                      TextFormField(
+                        controller: _imageController,
+                        focusNode: AlwaysDisabledFocusNode(),
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.photo)
+                        ),
+                        onTap: () {
+                          print('lsdlsl');
+                          getImage();
+                        },
+                      ),
+                      if(_image != null)
+                        Container(
+                          margin: EdgeInsets.only(top: Indents.sm),
+                          height: 100,
+                          decoration: new BoxDecoration(
+                              image: new DecorationImage(
+                                image: FileImage(_image),
+                                fit: BoxFit.contain,
+                              ))),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
@@ -128,7 +173,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             RaisedButton(
                               onPressed: () async {
                                 if(_formKey.currentState.validate()) {
-                                  //TODO: call api
+                                  var result = await Api.Authentication.signUp(
+                                    email: _emailController.text,
+                                    password: _passwordController.text,
+                                    avatar: _image,
+                                    dateBirthday: _birthDayController.text,
+                                    name: _nameController.text,
+                                    phoneNumber: _phoneNumberController.text
+                                  );
+                                  if(result == true) {
+                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Регистрация успешна'),));
+                                    Navigator.of(context).pop();
+                                  }
+                                  else {
+                                    Scaffold.of(context).showSnackBar(SnackBar(backgroundColor: Theme.of(context).colorScheme.error,content: Text('Email уже зарегистрирован'),));
+                                  }
                                 }
                               },
                               child: Text('Continue'),
@@ -142,4 +201,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
               )
             ]);
   }
+}
+
+class AlwaysDisabledFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => false;
 }

@@ -30,7 +30,7 @@ class Authentication {
     });
 
     try {
-      var response = await dio.put('/auth/sugnUp', data: form);
+      var response = await dio.put('/auth/signUp', data: form);
       return true;
     } on DioError catch(e) {
       print(e.response.statusCode);
