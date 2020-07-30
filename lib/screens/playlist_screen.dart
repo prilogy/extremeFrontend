@@ -29,7 +29,6 @@ class PlaylistScreen extends StatelessWidget {
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(47, 44, 71, 1),
         title: Text('Название плейлиста'),
         actions: <Widget>[
           IconButton(
@@ -60,11 +59,12 @@ class PlaylistScreen extends StatelessWidget {
 
         // Список для скроллинга - Другие плейлисты
         //OtherPlaylistList(),
-        BlockBaseWidget(
+        BlockBaseWidget.forScrollingViews(
           header: 'Смотри также',
           child: Container(
             height: 100,
             child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: Indents.sm),
               scrollDirection: Axis.horizontal,
               children: [
                 Container(
@@ -98,13 +98,10 @@ class PlaylistScreen extends StatelessWidget {
 class HeaderPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final double screenWigth = MediaQuery.of(context).size.width;
-    final double cardHeigth = 240;
     return Stack(
       children: <Widget>[
         Container(
-            width: screenWigth,
-            height: cardHeigth,
+            height: MediaQuery.of(context).size.height/3,
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
@@ -125,46 +122,47 @@ class HeaderPlaylist extends StatelessWidget {
                 ),
               ),
             )),
-        Positioned(
-          bottom: 15,
-          child: Container(
-            color: Colors.transparent,
-            width: screenWigth,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(bottom: Indents.sm),
-                  child: Text("Название плейлиста",
-                      style: Theme.of(context).textTheme.headline6.merge(
-                          TextStyle(
-                              fontSize: 34,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 0.25))),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: Indents.sm),
-                  child: Text("Описание данного плейлиста",
-                      style: Theme.of(context).textTheme.bodyText2),
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Stats(
-                      icon: Icons.thumb_up,
-                      text: 105.toString(),
-                      marginBetween: 5,
-                    ),
-                    Stats(
-                      icon: Icons.local_movies,
-                      text: 354.toString(),
-                    ),
-                  ],
-                ),
-              ],
+        Positioned.fill(
+          bottom: Indents.md,
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              color: Colors.transparent,
+              alignment: Alignment.center,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(bottom: Indents.sm),
+                    child: Text("Название плейлиста",
+                        style: Theme.of(context).textTheme.headline5.merge(
+                            TextStyle(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.25))),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: Indents.sm),
+                    child: Text("Описание данного плейлиста",
+                        style: Theme.of(context).textTheme.bodyText2),
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Stats(
+                        icon: Icons.thumb_up,
+                        text: 105.toString(),
+                        marginBetween: 5,
+                      ),
+                      Stats(
+                        icon: Icons.local_movies,
+                        text: 354.toString(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

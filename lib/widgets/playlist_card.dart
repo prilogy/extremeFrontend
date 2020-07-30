@@ -16,6 +16,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final int likes;
   final int videos;
   final bool isLiked;
+
   PlayListCard(
       {EdgeInsetsGeometry margin,
       EdgeInsetsGeometry padding,
@@ -30,6 +31,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     this.padding = padding;
     this.aspectRatio = aspectRatio;
   }
+
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
