@@ -1,14 +1,8 @@
-import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/services/localstorage.dart';
-import 'package:extreme/store/main.dart';
-import 'package:extreme/store/user/actions.dart';
-import 'package:extreme/styles/intents.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:extreme/models/main.dart' as Models;
-import 'package:extreme/services/api/main.dart' as Api;
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -19,6 +13,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _rePasswordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _birthDayController = TextEditingController();
 
   @override
   void dispose() {
@@ -29,10 +26,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var format = DateFormat('dd.MM.yyyy');
+
     return ScreenBaseWidget(
-      appBar: AppBar(
-        title: Text('Sign up'),
-      ),
+        appBar: AppBar(
+          title: Text('Sign up'),
+        ),
         builder: (context) => <Widget>[
               BlockBaseWidget(
                 child: Form(
@@ -40,6 +39,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+                      TextFormField(
+                        controller: _nameController,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Введите текст самфинг';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.perm_identity),
+                            hintText: 'Walter White',
+                            labelText: 'Name'),
+                      ),
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
@@ -68,8 +80,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                         obscureText: true,
                         decoration: const InputDecoration(
-                            icon: Icon(Icons.lock), labelText: 'Password'),
+                            icon: Icon(Icons.lock_open), labelText: 'Password'),
                       ),
+                      TextFormField(
+                        controller: _rePasswordController,
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Подтвердите проль самфинг';
+                          }
+                          if (value != _passwordController.text)
+                            return 'Пароли не совпадают';
+                          return null;
+                        },
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.lock),
+                            labelText: 'Confirm password'),
+                      ),
+                      DateTimeField(
+                          controller: _birthDayController,
+                          format: format,
+                          validator: (value) {
+                            if(value == null) {
+                              return 'Введите дату';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            icon: Icon(Icons.date_range)
+                          ),
+                          onShowPicker: (context, currentValue) async {
+                            return showDatePicker(
+                                context: context,
+                                firstDate: DateTime(1900),
+                            initialDate: currentValue ?? DateTime.now(),
+                            lastDate: DateTime(2100));
+                          }),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
@@ -81,7 +127,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             RaisedButton(
                               onPressed: () async {
-                                // TODO: call api
+                                if(_formKey.currentState.validate()) {
+                                  //TODO: call api
+                                }
                               },
                               child: Text('Continue'),
                             ),
