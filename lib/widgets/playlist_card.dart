@@ -8,13 +8,11 @@ import 'package:flutter/material.dart';
 
 import 'like_state.dart';
 import 'stats.dart';
+import 'package:extreme/models/main.dart' as Models;
 
 class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
+  Models.Playlist model;
   final bool small;
-  final String title;
-  final String description;
-  final int likes;
-  final int videos;
   final bool isLiked;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
@@ -25,16 +23,13 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
       this.padding,
       this.aspectRatio,
       this.small = false,
-      this.title = "Название плейлиста",
-      this.description = 'Краткое описание плейлиста',
-      this.likes = 123,
-      this.videos = 87,
+
       this.isLiked = false});
 
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-
+    String title = model?.content?.name ?? 'Название плейлиста';
     if (!small) {
       return withIndents(
         child: withAspectRatio(
@@ -104,14 +99,14 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                   Container(
                                     child: Stats(
                                       icon: Icons.thumb_up,
-                                      text: likes.toString(),
+                                      text: '??',
                                       marginBetween: Indents.sm,
                                       widgetMarginRight: Indents.md,
                                     ),
                                   ),
                                   Stats(
                                       icon: Icons.local_movies,
-                                      text: videos.toString(),
+                                      text: model?.videosIds?.length?.toString() ?? 10.toString(),
                                       marginBetween: Indents.sm),
                                 ],
                               ),
@@ -124,7 +119,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                               .colorScheme
                                               .onPrimary))),
                               Text(
-                                description,
+                                model?.content?.description ?? 'Краткое описание этого плейлиста',
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption
