@@ -38,7 +38,7 @@ class BlockBaseWidget extends StatelessWidget with IndentsMixin {
             Container(
                 alignment: Alignment.topLeft,
                 padding: headerPadding,
-                margin: EdgeInsets.only(bottom: Indents.sm),
+                margin: EdgeInsets.only(bottom: Indents.smd),
                 child:
                     Text(header, style: Theme.of(context).textTheme.headline6)),
           child

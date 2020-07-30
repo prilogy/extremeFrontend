@@ -91,11 +91,11 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                 padding: EdgeInsets.symmetric(horizontal: Indents.md),
                 scrollDirection: Axis.horizontal,
                 children: [
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 3/1,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 3/1,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 3/1,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 3/1,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 3/1,small: true,padding: EdgeInsets.only(right: Indents.md),),
                   
                 ],
               ),

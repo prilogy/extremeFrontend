@@ -1,6 +1,5 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
-import 'package:extreme/models/main.dart';
 import 'package:extreme/screens/playlist_screen.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
@@ -38,12 +37,13 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
             margin: EdgeInsets.zero,
             child: Container(
               decoration: BoxDecoration(
+                image: DecorationImage(image: NetworkImage('https://s00.yaplakal.com/pics/pics_original/4/1/0/6269014.jpg'),fit: BoxFit.cover),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: ExactAssetImage(
-                      "extreme2.jpg"), // TODO: change hardcode image to var
-                ),
+                // image: DecorationImage(
+                //   fit: BoxFit.cover,
+                //   image: ExactAssetImage(
+                //       "extreme2.jpg"), // TODO: change hardcode image to var
+                // ),
               ),
               child: Stack(
                 children: <Widget>[
