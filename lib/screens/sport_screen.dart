@@ -42,9 +42,11 @@ class SportScreen extends StatelessWidget {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
+                      stops: [0, 0.8, 1],
                       colors: [
                     theme.colorScheme.background.withOpacity(0),
-                    theme.colorScheme.background.withOpacity(1)
+                    theme.colorScheme.background.withOpacity(1),
+                    theme.colorScheme.background.withOpacity(1),
                   ])
                   ),
               child: Column(

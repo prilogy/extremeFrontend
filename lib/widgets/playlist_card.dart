@@ -59,8 +59,14 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                         decoration: BoxDecoration(
                           gradient: RadialGradient(
                             colors: [
-                              ExtremeColors.base.withOpacity(0.0),
-                              ExtremeColors.base.withOpacity(0.75)
+                              Theme.of(context)
+                                  .colorScheme
+                                  .background
+                                  .withOpacity(0.32),
+                              Theme.of(context)
+                                  .colorScheme
+                                  .background
+                                  .withOpacity(0.67),
                             ],
                             center: Alignment.center,
                             radius: 1.5,
@@ -111,22 +117,23 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                         marginBetween: Indents.sm),
                                   ],
                                 ),
-                                Text(
-                                  title,
-                                  style: TextStyle(
-                                    letterSpacing: 0.8,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: 'Roboto',
-                                    fontSize: 20.0,
-                                  ),
-                                ),
+                                Text(title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline6
+                                        .merge(TextStyle(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary))),
                                 Text(
                                   description,
                                   style: Theme.of(context)
                                       .textTheme
                                       .caption
-                                      .merge(
-                                          new TextStyle(color: Colors.white)),
+                                      .merge(new TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary)),
                                 ),
                               ]),
                         ],
@@ -140,42 +147,69 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
         ),
       );
     } else {
-      // TODO: add Inkwell
       return withIndents(
           child: withAspectRatio(
-              child: Container(
-        height: 75,
-        margin: EdgeInsets.only(right: Indents.sm, left: Indents.sm),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: ExactAssetImage("extreme2.jpg"),
-          ),
-        ),
-        child: Container(
-          padding: EdgeInsets.all(Indents.sm),
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-              colors: [
-                ExtremeColors.base.withOpacity(0.0),
-                ExtremeColors.base.withOpacity(0.75)
+              child: Stack(
+        children: [
+          Container(
+            height: 75,
+            margin: EdgeInsets.only(right: Indents.sm, left: Indents.sm),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(5)),
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: ExactAssetImage("extreme2.jpg"),
+              ),
+            ),
+            child: Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(Indents.sm),
+                  decoration: BoxDecoration(
+                    gradient: RadialGradient(
+                      colors: [
+                        Theme.of(context)
+                            .colorScheme
+                            .background
+                            .withOpacity(0.19),
+                        Theme.of(context)
+                            .colorScheme
+                            .background
+                            .withOpacity(0.53),
+                      ],
+                      center: Alignment.center,
+                      radius: 1.5,
+                      stops: <double>[0, 1],
+                    ),
+                  ),
+                ),
+                Positioned.fill(
+                    child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PlaylistScreen(),
+                      ));
+                    },
+                  ),
+                )),
+                Padding(
+                  padding: const EdgeInsets.all(Indents.sm),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        'Плейлист',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                    ],
+                  ),
+                ),
               ],
-              center: Alignment.center,
-              radius: 1.5,
-              stops: <double>[0, 1],
             ),
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              Text(
-                'Плейлист',
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-            ],
-          ),
-        ),
+        ],
       )));
     }
   }

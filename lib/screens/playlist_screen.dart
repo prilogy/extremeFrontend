@@ -1,4 +1,3 @@
-import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/playlist_card.dart';
@@ -21,7 +20,7 @@ class PlaylistScreen extends StatelessWidget {
   }) : super(key: key);
 
   void _searchIconAction() {
-    // Search some video function
+    // TODO: Search video function
   }
 
   @override
@@ -46,6 +45,7 @@ class PlaylistScreen extends StatelessWidget {
             child: Column(
               children: [
                 VideoCard(
+                  margin: EdgeInsets.only(bottom: Indents.xl),
                   aspectRatio: 16 / 9,
                 ),
                 VideoCard(
@@ -98,6 +98,8 @@ class PlaylistScreen extends StatelessWidget {
 class HeaderPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
     return Stack(
       children: <Widget>[
         Container(
@@ -110,17 +112,16 @@ class HeaderPlaylist extends StatelessWidget {
             ),
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Theme.of(context).colorScheme.background,
-                    Theme.of(context).colorScheme.background.withOpacity(0)
-                  ],
-                  tileMode:
-                      TileMode.repeated, // repeats the gradient over the canvas
-                ),
-              ),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0, 0.8, 1],
+                      colors: [
+                    theme.colorScheme.background.withOpacity(0),
+                    theme.colorScheme.background.withOpacity(1),
+                    theme.colorScheme.background.withOpacity(1),
+                  ])
+                  ),
             )),
         Positioned.fill(
           bottom: Indents.md,
