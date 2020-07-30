@@ -14,6 +14,7 @@ import '../settings_screen.dart';
 
 class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
   Key navigatorKey;
+
   AccountScreen({Key key}) : super(key: key);
 
   @override
@@ -21,100 +22,91 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
     var store = StoreProvider.of<AppState>(context);
     var user = store.state.user;
 
-    return Navigator(
-        key: navigatorKey,
-        onGenerateRoute: (settings) {
-          return MaterialPageRoute(
-            builder: (context) => ScreenBaseWidget(
-              appBar: AppBar(
-                title: Text("Профиль"),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.settings),
-                    onPressed: () {
-                      print("Settings icon pressed");
-                      // TODO: implement settings call with context
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SettingsScreen(),
-                          ));
-                    },
+    return ScreenBaseWidget(
+      navigatorKey: navigatorKey,
+      appBar: AppBar(
+        title: Text("Профиль"),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              print("Settings icon pressed");
+              // TODO: implement settings call with context
+              Navigator.of(context, rootNavigator: true).pushNamed('/settings');
+            },
+          ),
+        ],
+      ),
+      builder: (context) => [
+        Column(children: <Widget>[
+          // TODO: в accountInfo пассить объект user который выше получин из стора
+          // emailConfirmed убрать, т.к. эта инфа есть в user
+          BlockBaseWidget(child: AccountInfo(emailConfirmed: true)),
+          BlockBaseWidget(
+            header: 'Подписка',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(bottom: Indents.sm),
+                  child:
+                      Text('До истечения подписки: ' + 39.toString() + 'дней'),
+                ),
+                Subscription(
+                  margin: EdgeInsets.only(bottom: Indents.smd),
+                  color: ExtremeColors.warning,
+                  price: 200,
+                  title: 'месяц',
+                  description: 'Идеальное решение для начала',
+                ),
+                Subscription(
+                  margin: EdgeInsets.only(bottom: Indents.smd),
+                  color: ExtremeColors.success,
+                  price: 1200,
+                  title: 'полгода',
+                  description: 'Много контента на долгое время!',
+                ),
+                Subscription(
+                  margin: EdgeInsets.only(bottom: Indents.smd),
+                  color: ExtremeColors.primary,
+                  price: 2000,
+                  title: 'год',
+                  description: 'Максимум контента прямо сейчас!',
+                ),
+                Container(
+                  width: double.infinity,
+                  child: Text(
+                    'Подписка продлится с момента её текущего окончания',
+                    style: Theme.of(context).textTheme.caption,
+                    textAlign: TextAlign.center,
                   ),
-                ],
-              ),
-              builder: (context) => [
-                Column(children: <Widget>[
-                  // TODO: в accountInfo пассить объект user который выше получин из стора
-                  // emailConfirmed убрать, т.к. эта инфа есть в user
-                  BlockBaseWidget(child: AccountInfo(emailConfirmed: true)),
-                  BlockBaseWidget(
-                    header: 'Подписка',
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(bottom: Indents.sm),
-                          child: Text(
-                              'До истечения подписки: ' + 39.toString() + 'дней'),
-                        ),
-                        Subscription(
-                          margin: EdgeInsets.only(bottom: Indents.smd),
-                          color: ExtremeColors.warning,
-                          price: 200,
-                          title: 'месяц',
-                          description: 'Идеальное решение для начала',
-                        ),
-                        Subscription(
-                          margin: EdgeInsets.only(bottom: Indents.smd),
-                          color: ExtremeColors.success,
-                          price: 1200,
-                          title: 'полгода',
-                          description: 'Много контента на долгое время!',
-                        ),
-                        Subscription(
-                          margin: EdgeInsets.only(bottom: Indents.smd),
-                          color: ExtremeColors.primary,
-                          price: 2000,
-                          title: 'год',
-                          description: 'Максимум контента прямо сейчас!',
-                        ),
-                        Container(
-                          width: double.infinity,
-                          child: Text(
-                            'Подписка продлится с момента её текущего окончания',
-                            style: Theme.of(context).textTheme.caption,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  BlockBaseWidget(
-                    header: 'Подключённые аккаунты',
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        SocialAccount(
-                          name: 'Google',
-                          isConnected: false,
-                        ),
-                        SocialAccount(
-                          name: 'VK',
-                          isConnected: true,
-                        ),
-                        SocialAccount(
-                          name: 'Facebook',
-                          isConnected: false,
-                        ),
-                      ],
-                    ),
-                  )
-                ]),
+                ),
               ],
             ),
-          );
-        });
+          ),
+
+          BlockBaseWidget(
+            header: 'Подключённые аккаунты',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SocialAccount(
+                  name: 'Google',
+                  isConnected: false,
+                ),
+                SocialAccount(
+                  name: 'VK',
+                  isConnected: true,
+                ),
+                SocialAccount(
+                  name: 'Facebook',
+                  isConnected: false,
+                ),
+              ],
+            ),
+          )
+        ]),
+      ],
+    );
   }
 }

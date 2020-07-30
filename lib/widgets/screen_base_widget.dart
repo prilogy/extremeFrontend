@@ -6,15 +6,6 @@ import 'package:flutter/material.dart';
 
 typedef WidgetBuilderChildren = List<Widget> Function(BuildContext context);
 
-class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-
-  @override
-  Size get preferredSize => Size(0.0, 0.0);
-}
 
 class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
   final EdgeInsetsGeometry padding;
@@ -74,4 +65,14 @@ class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
 
     return content(context);
   }
+}
+
+class EmptyAppBar extends StatelessWidget implements PreferredSizeWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+
+  @override
+  Size get preferredSize => Size(0.0, 0.0);
 }

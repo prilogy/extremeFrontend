@@ -1,5 +1,6 @@
 import 'package:extreme/screens/auth_screen/main.dart';
 import 'package:extreme/screens/main_screen/main.dart';
+import 'package:extreme/screens/settings_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
@@ -22,7 +23,8 @@ final authRoute = RouteBuilder('/auth', (args) => AuthScreen(), false);
 
 final routes = [
   authRoute,
-  RouteBuilder('/main', (args) => MainScreen())
+  RouteBuilder('/main', (args) => MainScreen()),
+  RouteBuilder('/settings', (args) => SettingsScreen())
 ];
 
 class RouteBuilder {
