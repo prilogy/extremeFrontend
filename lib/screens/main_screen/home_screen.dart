@@ -1,11 +1,8 @@
-//import 'dart:html';
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
-//import 'package:extreme/services/api.dart' as Api;
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/playlist_card.dart';
@@ -25,7 +22,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
 
   HomeScreen({Key key, this.navigatorKey}) : super(key: key);
-  void _searchIconAction() {}
+  
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +42,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: _searchIconAction,
+            onPressed: (){Navigator.of(context, rootNavigator: true).pushNamed('/search');},
           ),
         ],
       ),
@@ -91,25 +88,15 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
             child: Container(
               height: 50,
               child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: Indents.sm),
+                padding: EdgeInsets.symmetric(horizontal: Indents.md),
                 scrollDirection: Axis.horizontal,
                 children: [
-                  SportCard(
-                    aspectRatio: 16 / 7,
-                    small: true,
-                  ),
-                  SportCard(
-                    aspectRatio: 16 / 7,
-                    small: true,
-                  ),
-                  SportCard(
-                    aspectRatio: 16 / 7,
-                    small: true,
-                  ),
-                  SportCard(
-                    aspectRatio: 16 / 7,
-                    small: true,
-                  ),
+                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
+                  
                 ],
               ),
             )),
@@ -172,14 +159,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         TextField(
           controller: _searchController,
         ),
-        RaisedButton(
-          onPressed: () {
-            print('Response is ready: ' +
-                Api.Search(Api.EntityType.Playlist, _searchController.text)
-                    .toString());
-          },
-          child: Text('Поиск'),
-        ),
+        
         FutureBuilder(
           future: Api.Recomend(1, 0),
           builder: (context, snapshot) {
