@@ -45,7 +45,6 @@ class PlaylistScreen extends StatelessWidget {
             child: Column(
               children: [
                 VideoCard(
-                  margin: EdgeInsets.only(bottom: Indents.xl),
                   aspectRatio: 16 / 9,
                 ),
                 VideoCard(
