@@ -97,6 +97,7 @@ class PlaylistScreen extends StatelessWidget {
 class HeaderPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
     final double screenWigth = MediaQuery.of(context).size.width;
     final double cardHeigth = 240;
     return Stack(
@@ -112,17 +113,16 @@ class HeaderPlaylist extends StatelessWidget {
             ),
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomCenter,
-                  end: Alignment.topCenter,
-                  colors: [
-                    Theme.of(context).colorScheme.background,
-                    Theme.of(context).colorScheme.background.withOpacity(0)
-                  ],
-                  tileMode:
-                      TileMode.repeated, // repeats the gradient over the canvas
-                ),
-              ),
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      stops: [0, 0.8, 1],
+                      colors: [
+                    theme.colorScheme.background.withOpacity(0),
+                    theme.colorScheme.background.withOpacity(1),
+                    theme.colorScheme.background.withOpacity(1),
+                  ])
+                  ),
             )),
         Positioned(
           bottom: 15,
