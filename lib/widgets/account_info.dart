@@ -47,14 +47,13 @@ class AccountInfo extends StatelessWidget {
               icon: Icon(
                 Icons.edit,
                 color: Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
-              ),
+              )),
             ])
           ],
         ),
       );
-    });
+    }
   }
-}
 
 class Confirmation extends StatelessWidget {
   const Confirmation({Key key}) : super(key: key);
