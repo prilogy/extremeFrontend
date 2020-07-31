@@ -26,13 +26,11 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  final Store<AppState> store; // redux store
+  final Store<AppState> store;
   App({Key key, this.store});
 
   @override
   Widget build(BuildContext context) {
-    // debug message for theme debug(still not working properly)
-    //print("myapp - " + Theme.of(context).backgroundColor.toString());
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(

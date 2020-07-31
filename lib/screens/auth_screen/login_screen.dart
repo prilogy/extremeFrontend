@@ -1,8 +1,10 @@
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/router/main.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
 import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
+import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -34,11 +36,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     print('from local storage: ' + localStorage.getItem('user').toString());
+    var colorScheme = Theme.of(context).colorScheme;
 
     return ScreenBaseWidget(
-        builderChild: (context) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
+        builderChild: (context) =>
+            Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+                Widget>[
               BlockBaseWidget(
                 header: 'Log in',
                 child: Form(
@@ -83,32 +86,46 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: <Widget>[
                             OutlineButton(
                               onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpScreen()));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => SignUpScreen()));
                               },
                               child: Text('Sign up'),
                             ),
                             RaisedButton(
+                              color: Theme.of(context).colorScheme.primary,
                               onPressed: () async {
+                                var scf = Scaffold.of(context);
                                 if (_formKey.currentState.validate()) {
-                                  Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text('Logging in...' +
-                                          _emailController.text +
-                                          _passwordController.text)));
+                                  scf.showSnackBar(SnackBar(
+                                      backgroundColor: colorScheme.primary,
+                                      content: Text(
+                                        'Logging in...' +
+                                            _emailController.text +
+                                            _passwordController.text,
+                                        style: TextStyle(
+                                            color: colorScheme.onPrimary),
+                                      )));
                                   var user = await Api.Authentication.login(
                                       email: _emailController.text,
                                       password: _passwordController.text);
-                                  Scaffold.of(context).removeCurrentSnackBar();
+                                  scf.removeCurrentSnackBar();
                                   if (user == null)
-                                    Scaffold.of(context).showSnackBar(SnackBar(
-                                      content: Text('Wrong password or else'),
-                                      backgroundColor: Colors.redAccent,
+                                    scf.showSnackBar(SnackBar(
+                                      content: Text(
+                                        'Wrong password or else',
+                                        style: TextStyle(
+                                            color: colorScheme.onError),
+                                      ),
+                                      backgroundColor: colorScheme.error,
                                     ));
                                   else {
-                                    Scaffold.of(
-                                      context,
-                                    ).showSnackBar(SnackBar(
-                                      content: Text('Logged in successfully'),
-                                      backgroundColor: Colors.green,
+                                    scf.showSnackBar(SnackBar(
+                                      content: Text(
+                                        'Logged in successfully',
+                                        style: TextStyle(
+                                            color: colorScheme.onError),
+                                      ),
+                                      backgroundColor: ExtremeColors.success,
                                     ));
                                     store.dispatch(SetUser(user));
                                     Navigator.of(context, rootNavigator: true)

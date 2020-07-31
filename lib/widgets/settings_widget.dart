@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 // TODO: неправильный неймнг, нужно более конкретное название. Также лучше перенести этот компонент прямо в файл страницы settings_screen ибо этот виджет юзается только там
 class SettingsWidget extends StatelessWidget {
   final String title;
-  SettingsWidget({this.title});
+  final VoidCallback onPressed;
+  SettingsWidget({this.title, this.onPressed});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,7 +21,7 @@ class SettingsWidget extends StatelessWidget {
             color: Colors.transparent,
             child: InkWell(
               onTap: () {
-                print(title + ' was tapped');
+                onPressed();
               },
             ),
           ))

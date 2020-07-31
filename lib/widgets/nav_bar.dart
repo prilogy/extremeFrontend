@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 class NavBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) setIndex;
+  final Function(int) toRootScreenOfRoute;
 
   static const double height = 54.0;
 
-  NavBar(this.selectedIndex, this.setIndex);
+  NavBar(this.selectedIndex, this.setIndex, this.toRootScreenOfRoute);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,8 @@ class NavBar extends StatelessWidget {
         selectedItemColor: Colors.white,
         onTap: (int idx) {
           setIndex(idx);
+          if(selectedIndex == idx)
+            this.toRootScreenOfRoute(idx);
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -34,13 +37,6 @@ class NavBar extends StatelessWidget {
             icon: Icon(Icons.video_library),
             title: Text(
               'Browse',
-              style: TextStyle(),
-            ),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_books),
-            title: Text(
-              'News',
               style: TextStyle(),
             ),
           ),
