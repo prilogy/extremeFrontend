@@ -20,20 +20,17 @@ class SearchScreen extends StatelessWidget {
     String _query = query ?? 'Поиск Extreme Insiders';
     print('_query: ' + _query);
     TextEditingController _searchController = new TextEditingController();
-    //_searchController.text = 'test';
+    _searchController.text = query;
     return ScreenBaseWidget(
       appBar: AppBar(
         title: TextField(
-          decoration:
-              // TODO: если переход был вместе с текстом запроса, то _query должен быть в _searchController, а не в hint
-              InputDecoration.collapsed(hintText: _query),
+          decoration: InputDecoration.collapsed(hintText: _query),
           controller: _searchController,
           onSubmitted: (query) {
             if (query.length > 2) {
               Navigator.of(context, rootNavigator: true)
                   .pushNamed('/search', arguments: query);
             } else {
-              //Scaffold.of(context).showSnackBar(SnackBar(content: Text(' А больше 2 пожалуйста')));
               Fluttertoast.showToast(
                   msg: 'Поисковой запрос должен иметь больше 2 символов',
                   backgroundColor: Colors.grey);
@@ -43,7 +40,7 @@ class SearchScreen extends StatelessWidget {
       ),
       builder: (context) => [
         FutureBuilder<Models.SearchResult>(
-            future: Api.Search.global(query: _searchController.text),
+            future: Api.Search.global(query: _query),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var _movies = snapshot.data.movies
@@ -68,25 +65,32 @@ class SearchScreen extends StatelessWidget {
                         ))
                     .toList();
                 List<Widget> mass;
-
                 mass = [
-                  CategoryBlock(
-                    header: "Видео",
-                    cards: [..._videos],
-                  ),
-                  CategoryBlock(
-                    header: "Плейлисты",
-                    cards: [..._playlists],
-                  ),
-                  CategoryBlock(
-                    header: "Фильмы",
-                    cards: [..._movies],
-                  ),
-                  CategoryBlock(
-                    header: "Виды спорта",
-                    cards: [..._sports],
-                    grid: true,
-                  ),
+                  _videos.isNotEmpty
+                      ? CategoryBlock(
+                          header: "Видео",
+                          cards: [..._videos],
+                        )
+                      : Container(),
+                  _playlists.isNotEmpty
+                      ? CategoryBlock(
+                          header: "Плейлисты",
+                          cards: [..._playlists],
+                        )
+                      : Container(),
+                  _movies.isNotEmpty
+                      ? CategoryBlock(
+                          header: "Фильмы",
+                          cards: [..._movies],
+                        )
+                      : Container(),
+                  _sports.isNotEmpty
+                      ? CategoryBlock(
+                          header: "Виды спорта",
+                          cards: [..._sports],
+                          grid: true,
+                        )
+                      : Container(),
                 ];
                 return Column(
                   children: mass,

@@ -6,7 +6,7 @@ class Search {
   static Future<Models.SearchResult> global({String query}) async {
     try {
       var response = await dio.post('/search', data: json.encode(query));
-      print('Response data: \n ' + response.data.toString());
+      print('Response data for query($query): \n ' + response.data.toString());
       var result = Models.SearchResult.fromJson(response.data);
       return result;
     } on DioError catch (e) {
