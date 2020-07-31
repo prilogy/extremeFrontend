@@ -68,7 +68,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
               Carousel(
                 images: [
                   // TODO: fetch photos with rest api
-                  ExactAssetImage("extreme2.jpg"),
+                  NetworkImage('https://all4desktop.com/data_images/original/4234511-formula-1.jpg'),
                   ExactAssetImage("extreme2.jpg"),
                   ExactAssetImage("extreme2.jpg"),
                   ExactAssetImage("extreme2.jpg"),
@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                 noRadiusForIndicator: true,
                 overlayShadow: true,
                 overlayShadowColors: Theme.of(context).colorScheme.background,
-                overlayShadowSize: 0.7,
+                overlayShadowSize: 1,
               ),
               // Container(
               //   decoration: BoxDecoration(
