@@ -7,15 +7,21 @@ import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
+var rootScaffold = GlobalKey<ScaffoldState>();
+
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
 
-    var route = routes.firstWhere((x) => x.routeName == settings.name, orElse: () => null);
+    var route = routes.firstWhere((x) => x.routeName == settings.name,
+        orElse: () => null);
 
-    if(route != null) {
-      var pass = !route.requireAuthorization || (route.requireAuthorization && store.state.user != null);
-      return MaterialPageRoute(builder: (_) => pass ? route.widget(args) : authRoute.widget(args));
+    if (route != null) {
+      var pass = !route.requireAuthorization ||
+          (route.requireAuthorization && store.state.user != null);
+      return MaterialPageRoute(
+          builder: (context) =>
+              pass ? route.widget(args) : authRoute.widget(args));
     }
   }
 }
@@ -34,5 +40,5 @@ class RouteBuilder {
   final Widget Function(dynamic args) widget;
   final bool requireAuthorization;
 
-  RouteBuilder(this.routeName, this.widget, [this.requireAuthorization=true]);
+  RouteBuilder(this.routeName, this.widget, [this.requireAuthorization = true]);
 }

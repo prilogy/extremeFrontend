@@ -167,6 +167,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
               ],
             )),
         BlockBaseWidget.forScrollingViews(
+            margin: EdgeInsets.all(0),
             header: 'Последние обновления',
             child: Container(
               height: 100,
@@ -197,50 +198,10 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                   SportCard(
                     aspectRatio: 16 / 9,
                     small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
                   ),
                 ],
               ),
             )),
-      ],
-    );
-  }
-}
-
-class User {
-  final int id;
-  final String email;
-  final String jwt;
-
-  User({this.id, this.email, this.jwt});
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(id: json['id'], email: json['email'], jwt: json['token']);
-  }
-}
-
-class Auth extends StatelessWidget {
-  const Auth({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    TextEditingController _emailController = TextEditingController();
-    TextEditingController _passController = TextEditingController();
-    return Column(
-      children: <Widget>[
-        TextFormField(
-          controller: _emailController,
-          //
-        ),
-        TextFormField(
-          controller: _passController,
-          //onFieldSubmitted: _search,
-        ),
-        RaisedButton(
-          child: (Text('Submit')),
-          onPressed: () {
-            // Api.Login(_emailController.text, _passController.text);
-          },
-        )
       ],
     );
   }

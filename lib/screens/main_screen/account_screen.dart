@@ -41,7 +41,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
         Column(children: <Widget>[
           // TODO: в accountInfo пассить объект user который выше получин из стора
           // emailConfirmed убрать, т.к. эта инфа есть в user
-          BlockBaseWidget(child: AccountInfo(emailConfirmed: true)),
+          BlockBaseWidget(child: AccountInfo(user: user)),
           BlockBaseWidget(
             header: 'Подписка',
             child: Column(
@@ -49,8 +49,12 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(bottom: Indents.sm),
-                  child:
-                      Text('До истечения подписки: ' + 39.toString() + 'дней'),
+                  child: () {
+                    var isSubscribed = user.subscription?.dateEnd != null && user.subscription.dateEnd.isAfter(DateTime.now());
+                    var text = isSubscribed ? 'До истечения подписки ${user.subscription.dateEnd.difference(DateTime.now()).inDays} дня(-ей)'
+                        : 'Нет активной подписки';
+                    return Text(text);
+                  } ()
                 ),
                 Subscription(
                   margin: EdgeInsets.only(bottom: Indents.smd),
