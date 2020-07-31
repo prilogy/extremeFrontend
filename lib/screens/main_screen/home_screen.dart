@@ -3,6 +3,7 @@ import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
+import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/playlist_card.dart';
@@ -22,7 +23,6 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
 
   HomeScreen({Key key, this.navigatorKey}) : super(key: key);
-  
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,9 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: (){Navigator.of(context, rootNavigator: true).pushNamed('/search');},
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pushNamed('/search');
+            },
           ),
         ],
       ),
@@ -50,28 +52,30 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
       builder: (context) => <Widget>[
         SizedBox(
           height: 250.0,
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                stops: [0, 0.8, 1],
-                colors: [
-                  theme.colorScheme.background.withOpacity(0),
-                  theme.colorScheme.background.withOpacity(1),
-                  theme.colorScheme.background.withOpacity(1),
-                ]
-              )
-            ),
-            child: Carousel(
+          // child: Container(
+          //   decoration: BoxDecoration(
+          //       gradient: LinearGradient(stops: [
+          //     0,
+          //     0.8,
+          //     1
+          //   ], colors: [
+          //     theme.colorScheme.background.withOpacity(0),
+          //     theme.colorScheme.background.withOpacity(1),
+          //     theme.colorScheme.background.withOpacity(1),
+          //   ])),
+          child: Stack(
+            children: [
+              Carousel(
                 images: [
-                  ExactAssetImage(
-                      "extreme2.jpg"), // TODO: fetch photos with rest api
+                  // TODO: fetch photos with rest api
+                  ExactAssetImage("extreme2.jpg"),
                   ExactAssetImage("extreme2.jpg"),
                   ExactAssetImage("extreme2.jpg"),
                   ExactAssetImage("extreme2.jpg"),
                   // TODO: сделать компонент под дизайн
                 ],
-                dotSize: Indents.sm / 2,
-                dotSpacing: Indents.md,
+                dotSize: Indents.md / 2,
+                dotSpacing: Indents.lg,
                 dotColor: Theme.of(context).backgroundColor,
                 indicatorBgPadding: 10.0,
                 borderRadius: false,
@@ -81,9 +85,44 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                 overlayShadowColors: Theme.of(context).colorScheme.background,
                 overlayShadowSize: 0.7,
               ),
+              // Container(
+              //   decoration: BoxDecoration(
+              //       gradient: LinearGradient(
+              //         begin: Alignment.topCenter,
+              //         end:  Alignment.bottomCenter,
+              //         stops: [
+              //     0,
+              //     0.8,
+              //     1
+              //   ], colors: [
+              //     theme.colorScheme.background.withOpacity(0),
+              //     theme.colorScheme.background.withOpacity(1),
+              //     theme.colorScheme.background.withOpacity(1),
+              //   ])),
+              // ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('GT3 Today',
+                      style: Theme.of(context).textTheme.headline6),
+                  Text('Race starts in 17:00 an Monza today',
+                      style: Theme.of(context).textTheme.bodyText2.merge(
+                          TextStyle(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onPrimary
+                                  .withOpacity(0.7)))),
+                  Container(
+                    height: 25,
+                  )
+                ],
+              )
+            ],
           ),
         ),
         BlockBaseWidget.forScrollingViews(
+            padding: EdgeInsets.only(top: Indents.md),
             header: 'Интересные виды спорта',
             child: Container(
               height: 50,
@@ -91,12 +130,31 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                 padding: EdgeInsets.symmetric(horizontal: Indents.md),
                 scrollDirection: Axis.horizontal,
                 children: [
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  SportCard(aspectRatio: 16 / 7,small: true,padding: EdgeInsets.only(right: Indents.md),),
-                  
+                  SportCard(
+                    aspectRatio: 3 / 1,
+                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
+                  ),
+                  SportCard(
+                    aspectRatio: 3 / 1,
+                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
+                  ),
+                  SportCard(
+                    aspectRatio: 3 / 1,
+                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
+                  ),
+                  SportCard(
+                    aspectRatio: 3 / 1,
+                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
+                  ),
+                  SportCard(
+                    aspectRatio: 3 / 1,
+                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
+                  ),
                 ],
               ),
             )),
@@ -119,68 +177,31 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                   SportCard(
                     aspectRatio: 16 / 9,
                     small: true,
-                  ),
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
                   ),
                   SportCard(
                     aspectRatio: 16 / 9,
                     small: true,
-                  ),
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
                   ),
                   SportCard(
                     aspectRatio: 16 / 9,
                     small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
+                  ),
+                  SportCard(
+                    aspectRatio: 16 / 9,
+                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
+                  ),
+                  SportCard(
+                    aspectRatio: 16 / 9,
+                    small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
                   ),
                 ],
               ),
             )),
-        Text(store.state.user.email),
-        RaisedButton(
-          onPressed: () {
-            store.dispatch(SetUser(null));
-            Navigator.of(context, rootNavigator: true).pushNamed('/auth');
-          },
-          child: Text('log out'),
-        ),
-        RaisedButton(
-          onPressed: () {
-            Api.Authentication.login(
-                email: "ar.luckjanov@yandex.ru", password: "123456");
-          },
-          child: Text("Auto login"),
-        ),
-        Auth(),
-        Text('Найти плейлист: '),
-        TextField(
-          controller: _searchController,
-        ),
-        
-        FutureBuilder(
-          future: Api.Recomend(1, 0),
-          builder: (context, snapshot) {
-            print('Snapshot has data: ' + snapshot.hasData.toString());
-            if (snapshot.hasData) {
-              print('Snapshot data 105: ' + snapshot.data.toString());
-              return VideoCard(
-                aspectRatio: 16 / 9,
-                model: Video(
-                    content: Content(name: snapshot.data['content']['name'])),
-              ); //snapshot.data[0].toString())),);
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
-            }
-            // By default, show a loading spinner.
-            return CircularProgressIndicator();
-          },
-        ),
-        Column(
-          children: [],
-        )
       ],
     );
   }

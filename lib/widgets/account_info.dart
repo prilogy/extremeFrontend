@@ -3,7 +3,7 @@ import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
-
+import 'package:extreme/services/api/main.dart' as Api;
 class AccountInfo extends StatelessWidget {
   final User user;
 
@@ -48,13 +48,11 @@ class AccountInfo extends StatelessWidget {
                 Icons.edit,
                 color: Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
               ),
-              tooltip: 'Редактировать',
-              onPressed: () {},
-            ),
-          ])
-        ],
-      ),
-    );
+            ])
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -77,10 +75,9 @@ class Confirmation extends StatelessWidget {
             ),
             Text(
               'Подтвердить',
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  .merge(TextStyle(color: Theme.of(context).colorScheme.error,)),
+              style: Theme.of(context).textTheme.caption.merge(TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  )),
             )
           ],
         ),

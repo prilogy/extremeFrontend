@@ -32,11 +32,7 @@ final routes = [
   authRoute,
   RouteBuilder('/main', (args) => MainScreen()),
   RouteBuilder('/settings', (args) => SettingsScreen()),
-  RouteBuilder(
-      '/search',
-      (args) => SearchScreen(
-            query: args.toString(),
-          )),
+  RouteBuilder('/search', (args) => SearchScreen(query: args is String ? args as String : null,)),
 ];
 
 class RouteBuilder {
