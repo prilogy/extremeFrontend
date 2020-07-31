@@ -1,7 +1,7 @@
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
-
+import 'package:extreme/services/api/main.dart' as Api;
 class AccountInfo extends StatelessWidget {
   final bool emailConfirmed;
 
@@ -14,46 +14,53 @@ class AccountInfo extends StatelessWidget {
         ? confirmation = Confirmation()
         : confirmation = Container(); // TODO: change to something more logic
 
-    return Container(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Text(
-                  'Имя Фамилия',
-                  style: Theme.of(context).textTheme.headline6,
+    return FutureBuilder<dynamic>(
+      future: Api.User.info(),
+      builder: (context, snapshot) {
+      return Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text(
+                    'Имя Фамилия',
+                    style: Theme.of(context).textTheme.headline6,
+                  ),
+                  Text('С Exteme Insiders с ' + '13.03.2019',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2
+                          .merge(TextStyle(color: ExtremeColors.base70[200]))),
+                  Row(
+                    children: <Widget>[
+                      Text(
+                        'Email: ' + 'example@gmail.com',
+                        style: Theme.of(context).textTheme.bodyText2,
+                      ),
+                      confirmation,
+                    ],
+                  )
+                ]),
+            Column(children: <Widget>[
+              IconButton(
+                icon: Icon(
+                  Icons.edit,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onBackground
+                      .withOpacity(0.6),
                 ),
-                Text('С Exteme Insiders с ' + '13.03.2019',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        .merge(TextStyle(color: ExtremeColors.base70[200]))),
-                Row(
-                  children: <Widget>[
-                    Text(
-                      'Email: ' + 'example@gmail.com',
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                    confirmation,
-                  ],
-                )
-              ]),
-          Column(children: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.edit,
-                color: Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
+                tooltip: 'Редактировать',
+                onPressed: () {},
               ),
-              tooltip: 'Редактировать',
-              onPressed: () {},
-            ),
-          ])
-        ],
-      ),
-    );
+            ])
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -76,10 +83,9 @@ class Confirmation extends StatelessWidget {
             ),
             Text(
               'Подтвердить',
-              style: Theme.of(context)
-                  .textTheme
-                  .caption
-                  .merge(TextStyle(color: Theme.of(context).colorScheme.error,)),
+              style: Theme.of(context).textTheme.caption.merge(TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  )),
             )
           ],
         ),
