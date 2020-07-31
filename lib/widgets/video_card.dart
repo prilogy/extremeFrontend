@@ -25,7 +25,7 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   @override
   Widget build(BuildContext context) {
     String testText = model?.content?.name ??
-        'Blancpain GT3 - 3 hours Monza Race / Replay yyyyyyyyyyyyyy';
+        'Blancpain GT3 - 3 hours Monza Race / Replay';
     return withIndents(
       child: Container(
         // padding: EdgeInsets.all(Indents.md),
