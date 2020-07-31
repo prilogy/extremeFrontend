@@ -1,5 +1,4 @@
 import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/screens/main_screen/some_screen.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,6 @@ final screens = [
   (Key key) => HomeScreen(navigatorKey: key,),
   (Key key) => BrowseScreen(navigatorKey: key,),
   (Key key) => AccountScreen(navigatorKey: key,),
-  (Key key) => SomeScreen(description: "smsmsm", navigatorKey: key)
 ];
 
 class _MainScreenState extends State<MainScreen>
@@ -98,6 +96,10 @@ class _MainScreenState extends State<MainScreen>
                   setState(() {
                     _selectedIndex = idx;
                   });
+                }, (int idx) {
+                  var navigator = _navigatorKeys[idx].currentState;
+                  if(navigator.canPop())
+                    _navigatorKeys[idx].currentState.popUntil((route) => !route.navigator.canPop());
                 }),
               ))
         ])),

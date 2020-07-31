@@ -126,67 +126,74 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           controller: _birthDayController,
                           format: format,
                           validator: (value) {
-                            if(value == null) {
+                            if (value == null) {
                               return 'Введите дату';
                             }
                             return null;
                           },
                           decoration: const InputDecoration(
-                            icon: Icon(Icons.date_range)
-                          ),
+                              icon: Icon(Icons.date_range),
+                              labelText: 'Birthday date'),
                           onShowPicker: (context, currentValue) async {
                             return showDatePicker(
                                 context: context,
                                 firstDate: DateTime(1900),
-                            initialDate: currentValue ?? DateTime.now(),
-                            lastDate: DateTime(2100));
+                                initialDate: currentValue ?? DateTime.now(),
+                                lastDate: DateTime(2100));
                           }),
                       TextFormField(
                         controller: _imageController,
                         focusNode: AlwaysDisabledFocusNode(),
                         decoration: const InputDecoration(
-                          icon: Icon(Icons.photo)
-                        ),
+                            icon: Icon(Icons.photo), labelText: 'Avatar'),
                         onTap: () {
-                          print('lsdlsl');
                           getImage();
                         },
                       ),
-                      if(_image != null)
+                      if (_image != null)
                         Container(
-                          margin: EdgeInsets.only(top: Indents.sm),
-                          height: 100,
-                          decoration: new BoxDecoration(
-                              image: new DecorationImage(
-                                image: FileImage(_image),
-                                fit: BoxFit.contain,
-                              ))),
+                            margin: EdgeInsets.only(top: Indents.sm),
+                            height: 100,
+                            decoration: new BoxDecoration(
+                                image: new DecorationImage(
+                              image: FileImage(_image),
+                              fit: BoxFit.contain,
+                            ))),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             OutlineButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/auth');
+                              },
                               child: Text('Log in'),
                             ),
                             RaisedButton(
+                              color: Theme.of(context).colorScheme.primary,
                               onPressed: () async {
-                                if(_formKey.currentState.validate()) {
+                                var scf = Scaffold.of(context);
+                                if (_formKey.currentState.validate()) {
                                   var result = await Api.Authentication.signUp(
-                                    email: _emailController.text,
-                                    password: _passwordController.text,
-                                    avatar: _image,
-                                    dateBirthday: _birthDayController.text,
-                                    name: _nameController.text,
-                                    phoneNumber: _phoneNumberController.text
-                                  );
-                                  if(result == true) {
-                                    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Регистрация успешна'),));
+                                      email: _emailController.text,
+                                      password: _passwordController.text,
+                                      avatar: _image,
+                                      dateBirthday: _birthDayController.text,
+                                      name: _nameController.text,
+                                      phoneNumber: _phoneNumberController.text);
+                                  if (result == true) {
+                                    scf.showSnackBar(SnackBar(
+                                      content: Text('Регистрация успешна'),
+                                    ));
                                     Navigator.of(context).pop();
-                                  }
-                                  else {
-                                    Scaffold.of(context).showSnackBar(SnackBar(backgroundColor: Theme.of(context).colorScheme.error,content: Text('Email уже зарегистрирован'),));
+                                  } else {
+                                    scf.showSnackBar(SnackBar(
+                                      backgroundColor:
+                                          Theme.of(context).colorScheme.error,
+                                      content:
+                                          Text('Email уже зарегистрирован'),
+                                    ));
                                   }
                                 }
                               },

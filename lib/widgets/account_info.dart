@@ -1,16 +1,18 @@
+import 'package:extreme/helpers/helper_methods.dart';
+import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 class AccountInfo extends StatelessWidget {
-  final bool emailConfirmed;
+  final User user;
 
-  AccountInfo({this.emailConfirmed});
+  AccountInfo({this.user});
 
   @override
   Widget build(BuildContext context) {
     Widget confirmation;
-    emailConfirmed
+    !user.emailVerified
         ? confirmation = Confirmation()
         : confirmation = Container(); // TODO: change to something more logic
 
@@ -20,13 +22,12 @@ class AccountInfo extends StatelessWidget {
         children: <Widget>[
           Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Text(
-                  'Имя Фамилия',
-                  style: Theme.of(context).textTheme.headline6,
+                  user.name,
+                  style: Theme.of(context).textTheme.headline6.merge(TextStyle(height: 1.6)),
                 ),
-                Text('С Exteme Insiders с ' + '13.03.2019',
+                Text('С Exteme Insiders с ' + HelperMethods.DateToString(user.dateSignUp),
                     style: Theme.of(context)
                         .textTheme
                         .bodyText2
@@ -34,7 +35,7 @@ class AccountInfo extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Text(
-                      'Email: ' + 'example@gmail.com',
+                      'Email: ' + user.email,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     confirmation,
