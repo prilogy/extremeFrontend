@@ -37,13 +37,11 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
             margin: EdgeInsets.zero,
             child: Container(
               decoration: BoxDecoration(
-                image: DecorationImage(image: NetworkImage('https://s00.yaplakal.com/pics/pics_original/4/1/0/6269014.jpg'),fit: BoxFit.cover),
+                image: DecorationImage(
+                    image: NetworkImage(
+                        'https://s00.yaplakal.com/pics/pics_original/4/1/0/6269014.jpg'),
+                    fit: BoxFit.cover),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
-                // image: DecorationImage(
-                //   fit: BoxFit.cover,
-                //   image: ExactAssetImage(
-                //       "extreme2.jpg"), // TODO: change hardcode image to var
-                // ),
               ),
               child: Stack(
                 children: <Widget>[
@@ -106,7 +104,9 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                   ),
                                   Stats(
                                       icon: Icons.local_movies,
-                                      text: model?.videosIds?.length?.toString() ?? 10.toString(),
+                                      text: model?.videosIds?.length
+                                              ?.toString() ??
+                                          10.toString(),
                                       marginBetween: Indents.sm),
                                 ],
                               ),
@@ -119,7 +119,8 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                               .colorScheme
                                               .onPrimary))),
                               Text(
-                                model?.content?.description ?? 'Краткое описание этого плейлиста',
+                                model?.content?.description ??
+                                    'Краткое описание этого плейлиста',
                                 style: Theme.of(context)
                                     .textTheme
                                     .caption

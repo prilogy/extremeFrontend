@@ -71,20 +71,21 @@ class SearchScreen extends StatelessWidget {
 
                 mass = [
                   CategoryBlock(
-                    header:"Видео",
+                    header: "Видео",
                     cards: [..._videos],
                   ),
                   CategoryBlock(
-                    header:"Плейлисты",
+                    header: "Плейлисты",
                     cards: [..._playlists],
                   ),
                   CategoryBlock(
-                    header:"Фильмы",
+                    header: "Фильмы",
                     cards: [..._movies],
                   ),
                   CategoryBlock(
-                    header:"Виды спорта",
+                    header: "Виды спорта",
                     cards: [..._sports],
+                    grid: true,
                   ),
                 ];
                 return Column(
@@ -106,13 +107,30 @@ class SearchScreen extends StatelessWidget {
 class CategoryBlock extends StatelessWidget {
   final List<Widget> cards;
   final String header;
-  const CategoryBlock({Key key, this.cards, this.header}) : super(key: key);
+  final bool grid;
+  const CategoryBlock({Key key, this.cards, this.header, this.grid = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlockBaseWidget(
-      header: header,
-      child: Column(children: cards),
-    );
+    if (!grid)
+      return BlockBaseWidget(
+        header: header,
+        child: Column(children: cards),
+      );
+    else {
+      return BlockBaseWidget(
+        header: header,
+        child: GridView.count(
+          primary: false,
+          crossAxisSpacing: Indents.md,
+          mainAxisSpacing: Indents.md,
+          childAspectRatio: 16 / 9,
+          shrinkWrap: true,
+          crossAxisCount: 2,
+          children: cards,
+        ),
+      );
+    }
   }
 }
