@@ -4,14 +4,23 @@ import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:extreme/store/main.dart';
+import 'package:extreme/store/user/actions.dart';
 
-class AccountInfo extends StatelessWidget {
+class AccountInfo extends StatefulWidget {
   final User user;
-  final bool edit;
-  AccountInfo({this.user, this.edit = false});
+  AccountInfo({this.user});
 
   @override
+  _AccountInfoState createState() => _AccountInfoState();
+}
+
+class _AccountInfoState extends State<AccountInfo> {
+  bool edit = false;
+  @override
   Widget build(BuildContext context) {
+    User user = widget.user;
     Widget confirmation;
     !user.emailVerified
         ? confirmation = Confirmation()
@@ -50,11 +59,18 @@ class AccountInfo extends StatelessWidget {
                 ]),
             Column(children: <Widget>[
               IconButton(
+                  onPressed: () {
+                    setState(() {
+                      edit = !edit;
+                    });
+                  },
                   icon: Icon(
-                Icons.edit,
-                color:
-                    Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
-              )),
+                    Icons.edit,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onBackground
+                        .withOpacity(0.6),
+                  )),
             ])
           ],
         ),
@@ -92,10 +108,20 @@ class AccountInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
+                  onPressed: () async {
+                    var _user = await Api.User.edit(
+                        _nameController.text, _emailController.text);
+                        _user.token = user.token;
+                    store.dispatch(SetUser(_user));
+                    user = _user;
+                    setState(() {
+                      edit = !edit;
+                    });
+                  },
                   icon: Icon(
-                Icons.done,
-                color: ExtremeColors.success,
-              )),
+                    Icons.done,
+                    color: ExtremeColors.success,
+                  )),
             ],
           )
         ],

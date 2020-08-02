@@ -7,6 +7,7 @@ class Authentication {
           .post('/auth/login', data: {"email": email, "password": password});
 
       var user = Models.User.fromJson(response.data);
+      print('successful login: /n' + response.data.toString());
       return user;
     } on DioError catch(e) {
       //обработка ошибочных кодов
