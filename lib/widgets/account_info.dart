@@ -64,49 +64,42 @@ class AccountInfo extends StatelessWidget {
       _nameController.text = user.name;
       TextEditingController _emailController = TextEditingController();
       _emailController.text = user.email;
-      return Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    child: TextField(
-                      controller: _nameController,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline6
-                          .merge(TextStyle(height: 1.6)),
-                    ),
-                  ),
-                  Text(
-                      'С Exteme Insiders с ' +
-                          HelperMethods.DateToString(user.dateSignUp),
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2
-                          .merge(TextStyle(color: ExtremeColors.base70[200]))),
-                  Container(
-                    height: 50,
-                    child: TextField(
-                      controller: _emailController,
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                  ),
-                ]),
-            Column(children: <Widget>[
+      return Form(
+          child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextFormField(
+            controller: _nameController,
+            decoration: const InputDecoration(
+                labelText: 'Имя', icon: Icon(Icons.person)),
+          ),
+          TextFormField(
+            controller: _emailController,
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Введите текст самфинг';
+              }
+              if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                  .hasMatch(value)) return 'Неправильный формат email';
+              return null;
+            },
+            decoration: const InputDecoration(
+                icon: Icon(Icons.alternate_email),
+                hintText: 'example@gmail.com',
+                labelText: 'Email'),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
               IconButton(
                   icon: Icon(
                 Icons.done,
-                color:
-                    Theme.of(context).colorScheme.onBackground.withOpacity(0.6),
+                color: ExtremeColors.success,
               )),
-            ])
-          ],
-        ),
-      );
+            ],
+          )
+        ],
+      ));
     }
   }
 }
