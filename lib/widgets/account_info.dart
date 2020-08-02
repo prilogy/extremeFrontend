@@ -9,7 +9,7 @@ import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 
 class AccountInfo extends StatefulWidget {
-  final User user;
+  User user;
   AccountInfo({this.user});
 
   @override
@@ -20,6 +20,7 @@ class _AccountInfoState extends State<AccountInfo> {
   bool edit = false;
   @override
   Widget build(BuildContext context) {
+    // TODO: user всегда рисуется из widget.user, который не обновляется. Нужно добавить изменение user вместо с состоянием
     User user = widget.user;
     Widget confirmation;
     !user.emailVerified
@@ -110,10 +111,15 @@ class _AccountInfoState extends State<AccountInfo> {
               IconButton(
                   onPressed: () async {
                     var _user = await Api.User.edit(
-                        _nameController.text, _emailController.text);
-                        _user.token = user.token;
+                        user.name != _nameController.text
+                            ? _nameController.text
+                            : null,
+                        user.email != _emailController.text
+                            ? _emailController.text
+                            : null);
+                    _user.token = user.token;
                     store.dispatch(SetUser(_user));
-                    user = _user;
+                    widget.user = _user;
                     setState(() {
                       edit = !edit;
                     });

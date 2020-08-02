@@ -17,7 +17,17 @@ class User {
   }
 
   static Future<Models.User> edit(String name, String email) async {
-    var form = FormData.fromMap({'name': name, 'email': email});
+    var form;
+    if (name != null && email != null) {
+      form = FormData.fromMap({'name': name, 'email': email});
+    } else if (name != null && email == null)
+    {
+      form = FormData.fromMap({'name': name});
+    } else if (name == null && email != null)
+    {
+      form = FormData.fromMap({'email': email});
+    } 
+    
     var params = {
       'token': true,
     };
