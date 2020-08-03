@@ -65,7 +65,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                 Subscription(
                   margin: EdgeInsets.only(bottom: Indents.smd),
                   color: ExtremeColors.success,
-                  price: 1200,
+                  price: 800,
                   title: 'полгода',
                   description: 'Много контента на долгое время!',
                 ),

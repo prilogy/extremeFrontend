@@ -20,14 +20,12 @@ class User {
     var form;
     if (name != null && email != null) {
       form = FormData.fromMap({'name': name, 'email': email});
-    } else if (name != null && email == null)
-    {
+    } else if (name != null && email == null) {
       form = FormData.fromMap({'name': name});
-    } else if (name == null && email != null)
-    {
+    } else if (name == null && email != null) {
       form = FormData.fromMap({'email': email});
-    } 
-    
+    }
+
     var params = {
       'token': true,
     };
