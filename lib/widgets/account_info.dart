@@ -18,6 +18,8 @@ class AccountInfo extends StatefulWidget {
 
 class _AccountInfoState extends State<AccountInfo> {
   bool edit = false;
+
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     // TODO: user всегда рисуется из widget.user, который не обновляется. Нужно добавить изменение user вместо с состоянием
@@ -82,56 +84,61 @@ class _AccountInfoState extends State<AccountInfo> {
       TextEditingController _emailController = TextEditingController();
       _emailController.text = user.email;
       return Form(
+          key: _formKey,
           child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextFormField(
-            controller: _nameController,
-            decoration: const InputDecoration(
-                labelText: 'Имя', icon: Icon(Icons.person)),
-          ),
-          TextFormField(
-            controller: _emailController,
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'Введите текст самфинг';
-              }
-              if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                  .hasMatch(value)) return 'Неправильный формат email';
-              return null;
-            },
-            decoration: const InputDecoration(
-                icon: Icon(Icons.alternate_email),
-                hintText: 'example@gmail.com',
-                labelText: 'Email'),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconButton(
-                  onPressed: () async {
-                    var _user = await Api.User.edit(
-                        user.name != _nameController.text
-                            ? _nameController.text
-                            : null,
-                        user.email != _emailController.text
-                            ? _emailController.text
-                            : null);
-                    _user.token = user.token;
-                    store.dispatch(SetUser(_user));
-                    widget.user = _user;
-                    setState(() {
-                      edit = !edit;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.done,
-                    color: ExtremeColors.success,
-                  )),
+              TextFormField(
+                controller: _nameController,
+                decoration: const InputDecoration(
+                    labelText: 'Имя', icon: Icon(Icons.person)),
+              ),
+              TextFormField(
+                controller: _emailController,
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Введите текст самфинг';
+                  }
+                  if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                      .hasMatch(value)) return 'Неправильный формат email';
+                  return null;
+                },
+                decoration: const InputDecoration(
+                    icon: Icon(Icons.alternate_email),
+                    hintText: 'example@gmail.com',
+                    labelText: 'Email'),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () async {
+                        if(_formKey.currentState.validate())
+                        {
+                           var _user = await Api.User.edit(
+                            user.name != _nameController.text
+                                ? _nameController.text
+                                : null,
+                            user.email != _emailController.text
+                                ? _emailController.text
+                                : null);
+                        _user.token = user.token;
+                        store.dispatch(SetUser(_user));
+                        widget.user = _user;
+                        setState(() {
+                          edit = !edit;
+                        });
+                        }
+                       
+                      },
+                      icon: Icon(
+                        Icons.done,
+                        color: ExtremeColors.success,
+                      )),
+                ],
+              )
             ],
-          )
-        ],
-      ));
+          ));
     }
   }
 }
