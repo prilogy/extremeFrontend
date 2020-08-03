@@ -125,7 +125,7 @@ class Saving extends StatelessWidget {
               Baseline(
                 baseline: 10,
                 baselineType: TextBaseline.alphabetic,
-                child: Text('ЭКОНОМИЯ 400₽',
+                child: Text('ЭКОНОМИЯ 400₽', //TODO: исправить на нужную цену
                     style: Theme.of(context).textTheme.overline),
               ),
             ],

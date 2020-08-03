@@ -40,7 +40,6 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
       builder: (context) => [
         Column(children: <Widget>[
           // TODO: в accountInfo пассить объект user который выше получин из стора
-          // emailConfirmed убрать, т.к. эта инфа есть в user
           BlockBaseWidget(child: AccountInfo(user: user)),
           BlockBaseWidget(
             header: 'Подписка',
@@ -66,7 +65,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                 Subscription(
                   margin: EdgeInsets.only(bottom: Indents.smd),
                   color: ExtremeColors.success,
-                  price: 1200,
+                  price: 800,
                   title: 'полгода',
                   description: 'Много контента на долгое время!',
                 ),
