@@ -68,7 +68,8 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
               Carousel(
                 images: [
                   // TODO: fetch photos with rest api
-                  NetworkImage('https://all4desktop.com/data_images/original/4234511-formula-1.jpg'),
+                  NetworkImage(
+                      'https://all4desktop.com/data_images/original/4234511-formula-1.jpg'),
                   ExactAssetImage("extreme2.jpg"),
                   ExactAssetImage("extreme2.jpg"),
                   ExactAssetImage("extreme2.jpg"),
@@ -159,15 +160,19 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
               ),
             )),
         BlockBaseWidget(
+            margin: const EdgeInsets.only(bottom: Indents.smd),
             header: 'Рекомендуемые видео',
             child: Column(
               children: [
-                VideoCard(aspectRatio: 16 / 9),
+                VideoCard(
+                  aspectRatio: 16 / 9,
+                  margin: EdgeInsets.only(bottom: Indents.md),
+                ),
                 VideoCard(aspectRatio: 16 / 9),
               ],
             )),
         BlockBaseWidget.forScrollingViews(
-            margin: EdgeInsets.all(0),
+            margin: EdgeInsets.zero,
             header: 'Последние обновления',
             child: Container(
               height: 100,
@@ -175,29 +180,30 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                 padding: EdgeInsets.symmetric(horizontal: Indents.md),
                 scrollDirection: Axis.horizontal,
                 children: [
-                  SportCard(
+                  PlayListCard(
                     aspectRatio: 16 / 9,
                     small: true,
                     padding: EdgeInsets.only(right: Indents.md),
                   ),
-                  SportCard(
+                  PlayListCard(
                     aspectRatio: 16 / 9,
                     small: true,
                     padding: EdgeInsets.only(right: Indents.md),
                   ),
-                  SportCard(
+                  PlayListCard(
                     aspectRatio: 16 / 9,
                     small: true,
                     padding: EdgeInsets.only(right: Indents.md),
                   ),
-                  SportCard(
+                  PlayListCard(
                     aspectRatio: 16 / 9,
                     small: true,
                     padding: EdgeInsets.only(right: Indents.md),
                   ),
-                  SportCard(
+                  PlayListCard(
                     aspectRatio: 16 / 9,
                     small: true,
+                    padding: EdgeInsets.only(right: Indents.md),
                   ),
                 ],
               ),

@@ -106,11 +106,10 @@ class SportScreen extends StatelessWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                MovieCard(aspectRatio: 11 / 16),
-                MovieCard(aspectRatio: 11 / 16),
-                MovieCard(aspectRatio: 11 / 16),
-                MovieCard(aspectRatio: 11 / 16),
-                MovieCard(aspectRatio: 11 / 16),
+                MovieCard(aspectRatio: 11 / 16, margin: EdgeInsets.only(right: Indents.smd),),
+                MovieCard(aspectRatio: 11 / 16, margin: EdgeInsets.only(right: Indents.smd),),
+                MovieCard(aspectRatio: 11 / 16, margin: EdgeInsets.only(right: Indents.smd),),
+                MovieCard(aspectRatio: 11 / 16, margin: EdgeInsets.only(right: Indents.smd),),
               ],
             ),
           ),
