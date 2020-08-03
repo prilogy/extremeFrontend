@@ -9,6 +9,8 @@
 .history
 .svn/
 
+*.mp4
+
 # IntelliJ related
 *.iml
 *.ipr
