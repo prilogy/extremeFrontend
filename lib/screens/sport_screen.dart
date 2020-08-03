@@ -34,7 +34,7 @@ class SportScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 image: DecorationImage(
               fit: BoxFit.cover,
-              image: ExactAssetImage("extreme2.jpg"),
+              image: ExactAssetImage("assets/images/extreme2.jpg"),
             )),
             child: Container(
               padding: EdgeInsets.all(Indents.md),

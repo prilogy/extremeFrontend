@@ -153,7 +153,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
             borderRadius: BorderRadius.all(Radius.circular(5)),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: ExactAssetImage("extreme2.jpg"),
+              image: ExactAssetImage("assets/images/extreme2.jpg"),
             ),
           ),
           child: Stack(

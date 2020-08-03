@@ -32,7 +32,7 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                 fit: BoxFit.cover,
                 image: 
                 ExactAssetImage(
-                    "extreme2.jpg"), // TODO: change hardcode image to var
+                    "assets/images/extreme2.jpg"), // TODO: change hardcode image to var
               ),
             ),
             child: Container(

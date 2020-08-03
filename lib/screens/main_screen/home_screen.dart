@@ -70,9 +70,9 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                   // TODO: fetch photos with rest api
                   NetworkImage(
                       'https://all4desktop.com/data_images/original/4234511-formula-1.jpg'),
-                  ExactAssetImage("extreme2.jpg"),
-                  ExactAssetImage("extreme2.jpg"),
-                  ExactAssetImage("extreme2.jpg"),
+                  ExactAssetImage("assets/images/extreme2.jpg"),
+                  ExactAssetImage("assets/images/extreme2.jpg"),
+                  ExactAssetImage("assets/images/extreme2.jpg"),
                   // TODO: сделать компонент под дизайн
                 ],
                 dotSize: Indents.md / 2,
