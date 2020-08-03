@@ -108,26 +108,26 @@ class _AccountInfoState extends State<AccountInfo> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              IconButton(
-                  onPressed: () async {
-                    var _user = await Api.User.edit(
-                        user.name != _nameController.text
-                            ? _nameController.text
-                            : null,
-                        user.email != _emailController.text
-                            ? _emailController.text
-                            : null);
-                    _user.token = user.token;
-                    store.dispatch(SetUser(_user));
-                    widget.user = _user;
-                    setState(() {
-                      edit = !edit;
-                    });
-                  },
-                  icon: Icon(
-                    Icons.done,
-                    color: ExtremeColors.success,
-                  )),
+              RaisedButton(
+                color: Theme.of(context).colorScheme.primary,
+                child: Text('Сохранить',),
+                onPressed: () async {
+                  var _user = await Api.User.edit(
+                      user.name != _nameController.text
+                          ? _nameController.text
+                          : null,
+                      user.email != _emailController.text
+                          ? _emailController.text
+                          : null);
+                  _user.token = user.token;
+                  store.dispatch(SetUser(_user));
+                  widget.user = _user;
+                  setState(() {
+                    edit = !edit;
+                  });
+                },
+              )
+
             ],
           )
         ],

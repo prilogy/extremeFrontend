@@ -13,6 +13,7 @@ class Subscription extends StatelessWidget with IndentsMixin {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   final double aspectRatio;
+  final VoidCallback onPressed;
 
   Subscription(
       {this.color,
@@ -21,7 +22,8 @@ class Subscription extends StatelessWidget with IndentsMixin {
       this.price,
       this.padding,
       this.margin,
-      this.aspectRatio});
+      this.aspectRatio,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +80,7 @@ class Subscription extends StatelessWidget with IndentsMixin {
                               borderRadius: BorderRadius.circular(5),
                             ),
                             onPressed: () {
-                              print(price.toString() +
-                                  '₽ subscription button pressed');
+                              onPressed();
                             },
                             child: Text('Продлить'))
                       ],

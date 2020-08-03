@@ -15,6 +15,7 @@ part 'user.dart';
 part 'search.dart';
 part 'authentication.dart';
 part 'recomend.dart';
+part 'subscription.dart';
 
 enum EntityType { Movie, Video, Sport, Playlist }
 /// Выполняет поиск контента по заданному тексту.

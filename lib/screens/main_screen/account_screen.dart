@@ -1,4 +1,5 @@
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
@@ -9,6 +10,7 @@ import 'package:extreme/widgets/social_account.dart';
 import 'package:extreme/widgets/subsciption.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:extreme/services/api/main.dart' as Api;
 
 import '../settings_screen.dart';
 
@@ -47,15 +49,25 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(bottom: Indents.sm),
-                  child: () {
-                    var isSubscribed = user.subscription?.dateEnd != null && user.subscription.dateEnd.isAfter(DateTime.now());
-                    var text = isSubscribed ? 'До истечения подписки ${user.subscription.dateEnd.difference(DateTime.now()).inDays} дня(-ей)'
-                        : 'Нет активной подписки';
-                    return Text(text);
-                  } ()
-                ),
+                    margin: EdgeInsets.only(bottom: Indents.sm),
+                    child: () {
+                      var isSubscribed = user.subscription?.dateEnd != null &&
+                          user.subscription.dateEnd.isAfter(DateTime.now());
+                      var text = isSubscribed
+                          ? 'До истечения подписки ${user.subscription.dateEnd.difference(DateTime.now()).inDays} дня(-ей)'
+                          : 'Нет активной подписки';
+                      return Text(text);
+                    }()),
                 Subscription(
+                  onPressed: () async {
+                    var url = await Api.Subscription.getPaymentUrl(1);
+                    Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(
+                            builder: (ctx) => PaymentScreen(
+                                  title: 'Оплата подписки',
+                                  url: url,
+                                )));
+                  },
                   margin: EdgeInsets.only(bottom: Indents.smd),
                   color: ExtremeColors.warning,
                   price: 200,
