@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/screens/playlist_screen.dart';
@@ -28,7 +30,8 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   @override
   Widget build(BuildContext context) {
     ThemeData theme = Theme.of(context);
-    String title = model?.content?.name ?? 'Название плейлиста';
+    //String title = model?.content?.name ?? 'Название плейлиста';
+    var title = 'Название плейлиста';
     if (!small) {
       return withIndents(
         child: withAspectRatio(
@@ -97,7 +100,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                   Container(
                                     child: Stats(
                                       icon: Icons.thumb_up,
-                                      text: '??',
+                                      text: Random().nextInt(100).toString(),
                                       marginBetween: Indents.sm,
                                       widgetMarginRight: Indents.md,
                                     ),
@@ -106,7 +109,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                       icon: Icons.local_movies,
                                       text: model?.videosIds?.length
                                               ?.toString() ??
-                                          10.toString(),
+                                          Random().nextInt(20).toString().toString(),
                                       marginBetween: Indents.sm),
                                 ],
                               ),
@@ -119,7 +122,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                               .colorScheme
                                               .onPrimary))),
                               Text(
-                                model?.content?.description ??
+                                //model?.content?.description ??
                                     'Краткое описание этого плейлиста',
                                 style: Theme.of(context)
                                     .textTheme
