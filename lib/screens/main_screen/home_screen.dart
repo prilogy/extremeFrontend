@@ -52,17 +52,6 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
       builder: (context) => <Widget>[
         SizedBox(
           height: 250.0,
-          // child: Container(
-          //   decoration: BoxDecoration(
-          //       gradient: LinearGradient(stops: [
-          //     0,
-          //     0.8,
-          //     1
-          //   ], colors: [
-          //     theme.colorScheme.background.withOpacity(0),
-          //     theme.colorScheme.background.withOpacity(1),
-          //     theme.colorScheme.background.withOpacity(1),
-          //   ])),
           child: Stack(
             children: [
               Carousel(
@@ -86,21 +75,6 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                 overlayShadowColors: Theme.of(context).colorScheme.background,
                 overlayShadowSize: 1,
               ),
-              // Container(
-              //   decoration: BoxDecoration(
-              //       gradient: LinearGradient(
-              //         begin: Alignment.topCenter,
-              //         end:  Alignment.bottomCenter,
-              //         stops: [
-              //     0,
-              //     0.8,
-              //     1
-              //   ], colors: [
-              //     theme.colorScheme.background.withOpacity(0),
-              //     theme.colorScheme.background.withOpacity(1),
-              //     theme.colorScheme.background.withOpacity(1),
-              //   ])),
-              // ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
