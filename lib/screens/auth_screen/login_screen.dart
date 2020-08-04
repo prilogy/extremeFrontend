@@ -5,7 +5,9 @@ import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:video_player/video_player.dart';
+import 'package:extreme/services/api/main.dart' as Api;
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -27,6 +29,8 @@ class _LoginScreenState extends State<LoginScreen> {
         setState(() {});
       });
   }
+
+  final _googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +98,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 color: Color(0xffffffff),
                                 name: 'Google',
                                 svgPath: 'google',
-                                iconSize: 20),
+                                iconSize: 20,
+                            onPressed: () async {
+                                  var result = await _googleSignIn.signIn();
+                                  var googleKey = await result.authentication;
+                                  await Api.Authentication.signUpSocialGetInfo(googleKey.idToken);
+                            },),
                             AuthMethodTypeButton(
                                 color: Color(0xffffffff).withOpacity(0.5),
                                 name: 'Email',

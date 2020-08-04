@@ -16,7 +16,7 @@ class Authentication {
     }
   }
 
-  // dateBirthday в виде ДД.ММ.ГГГГ
+  /// dateBirthday в виде ДД.ММ.ГГГГ
   static Future<bool> signUp({String name, String email, String password, String dateBirthday, String phoneNumber, File avatar}) async {
     var form = FormData.fromMap({
       "name": name,
@@ -36,6 +36,20 @@ class Authentication {
     } on DioError catch(e) {
       print(e.response.statusCode);
       return false;
+    }
+  }
+
+  static Future signUpSocialGetInfo(String token) async {
+    try {
+      var response = await dio
+          .post('/auth/signup/google', data: {token: token});
+
+      print(response.data);
+
+    } on DioError catch(e) {
+      //обработка ошибочных кодов
+      print(e.response.statusCode);
+      return null;
     }
   }
 }
