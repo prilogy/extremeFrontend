@@ -48,64 +48,67 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
                     CategoryButton(
                         text: "Плейлисты",
                         icon: Icons.playlist_play,
-                        // TODO: сделать переход к списку плейлистов
                         pushTo: Playlists()),
                     CategoryButton(
-                        text: "Фильмы",
-                        icon: Icons.movie,
-
-                        // TODO: сделать переход к списку фильмов
-                        pushTo: MoviesList())
+                        text: "Фильмы", icon: Icons.movie, pushTo: MoviesList())
                   ],
                 ),
               ),
-              FutureBuilder(
-                future: Api.Search.sports(),
-                builder: (context, snapshot) {
-                  var _sports = snapshot.data
-                    .map<Widget>((e) => SportCard(
-                          aspectRatio: 16 / 9,
-                          model: e,
-                          padding: EdgeInsets.symmetric(vertical: Indents.sm),
-                        ))
-                    .toList();
-                return BlockBaseWidget(
-                  child: GridView.count(
-                    primary: false,
-                    crossAxisSpacing: Indents.md,
-                    mainAxisSpacing: Indents.md,
-                    childAspectRatio: 16 / 9,
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    children: [
-                      for (var item in [SportCard(), SportCard(), SportCard()])
-                        item
-                    ],
-                  ),
-                );
-              }),
+              BlockBaseWidget(
+                child: FutureBuilder(
+                    future: Api.Entities.sports(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        var _sports = snapshot.data
+                            .map<Widget>((e) => SportCard(
+                                  aspectRatio: 16 / 9,
+                                  model: e,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: Indents.sm),
+                                ))
+                            .toList();
+                        return GridView.count(
+                          primary: false,
+                          crossAxisSpacing: Indents.md,
+                          mainAxisSpacing: Indents.md,
+                          childAspectRatio: 16 / 9,
+                          shrinkWrap: true,
+                          crossAxisCount: 2,
+                          children: _sports,
+                        );
+                      } else if (snapshot.hasError)
+                        return Text(snapshot.error.toString());
+                      else
+                        return Center(child: CircularProgressIndicator());
+                    }),
+              ),
               BlockBaseWidget(
                 header: "Популярные плейлисты",
                 margin: EdgeInsets.zero,
-                child: ListView(
-                  shrinkWrap: true,
-                  primary: false,
-                  children: [
-                    for (var item in [
-                      PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.only(bottom: Indents.md),
-                        isLiked: false,
-                      ),
-                      PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.only(bottom: Indents.md),
-                        isLiked: true,
-                      ),
-                    ])
-                      item
-                  ],
-                ),
+                child: FutureBuilder(
+                    future: Api.Entities.playlists(1,2),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List _plsylists = snapshot.data
+                            .map<Widget>((e) => PlayListCard(
+                                  aspectRatio: 16 / 9,
+                                  model: e,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: Indents.sm),
+                                ))
+                            .toList();
+                        return ListView(
+                          shrinkWrap: true,
+                          primary: false,
+                          children: _plsylists,
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      } else
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                    }),
               ),
             ]);
   }

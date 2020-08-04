@@ -11,6 +11,7 @@ import 'package:extreme/models/main.dart' as Models;
 import '../api/../dio.dart';
 import 'package:http/http.dart' as http;
 
+part 'entities.dart';
 part 'user.dart';
 part 'search.dart';
 part 'authentication.dart';

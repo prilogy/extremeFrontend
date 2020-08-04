@@ -21,8 +21,8 @@ class Playlist {
         this.dateCreated});
 
   Playlist.fromJson(Map<String, dynamic> json) {
-    sportId = json['sportId'];
-    videosIds = json['videosIds'].cast<int>();
+    sportId = json['sportId'] ?? [];
+    videosIds = json['videosIds']?.cast<int>() ?? [];
     content =
     json['content'] != null ? new Content.fromJson(json['content']) : null;
     price = json['price'] != null ? new Price.fromJson(json['price']) : null;
