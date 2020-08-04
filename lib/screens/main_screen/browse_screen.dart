@@ -13,11 +13,11 @@ import 'package:extreme/widgets/sport_card.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import '../../store/info.dart' as Redux;
+import 'package:extreme/services/api/main.dart' as Api;
 
 // Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
-class BrowseScreen extends StatelessWidget
-    implements IWithNavigatorKey {
+class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
 
   BrowseScreen({Key key, this.navigatorKey}) : super(key: key);
@@ -53,34 +53,37 @@ class BrowseScreen extends StatelessWidget
                     CategoryButton(
                         text: "Фильмы",
                         icon: Icons.movie,
-                        
+
                         // TODO: сделать переход к списку фильмов
-                        pushTo: MoviesList()
-                        )
+                        pushTo: MoviesList())
                   ],
                 ),
               ),
-              BlockBaseWidget(
-                child: GridView.count(
-                  primary: false,
-                  crossAxisSpacing: Indents.md,
-                  mainAxisSpacing: Indents.md,
-                  childAspectRatio: 16 / 9,
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  children: [
-                    for (var item in [
-                      SportCard(
-                      ),
-                      SportCard(
-                      ),
-                      SportCard(
-                      )
-                    ])
-                      item
-                  ],
-                ),
-              ),
+              FutureBuilder(
+                future: Api.Search.sports(),
+                builder: (context, snapshot) {
+                  var _sports = snapshot.data
+                    .map<Widget>((e) => SportCard(
+                          aspectRatio: 16 / 9,
+                          model: e,
+                          padding: EdgeInsets.symmetric(vertical: Indents.sm),
+                        ))
+                    .toList();
+                return BlockBaseWidget(
+                  child: GridView.count(
+                    primary: false,
+                    crossAxisSpacing: Indents.md,
+                    mainAxisSpacing: Indents.md,
+                    childAspectRatio: 16 / 9,
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    children: [
+                      for (var item in [SportCard(), SportCard(), SportCard()])
+                        item
+                    ],
+                  ),
+                );
+              }),
               BlockBaseWidget(
                 header: "Популярные плейлисты",
                 margin: EdgeInsets.zero,
@@ -92,13 +95,11 @@ class BrowseScreen extends StatelessWidget
                       PlayListCard(
                         aspectRatio: 16 / 9,
                         padding: EdgeInsets.only(bottom: Indents.md),
-
                         isLiked: false,
                       ),
                       PlayListCard(
                         aspectRatio: 16 / 9,
                         padding: EdgeInsets.only(bottom: Indents.md),
-
                         isLiked: true,
                       ),
                     ])
