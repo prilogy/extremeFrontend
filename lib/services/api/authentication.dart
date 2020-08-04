@@ -45,7 +45,6 @@ class Authentication {
           .post('/auth/signup/google', data: {token: token});
 
       print(response.data);
-
     } on DioError catch(e) {
       //обработка ошибочных кодов
       print(e.response.statusCode);

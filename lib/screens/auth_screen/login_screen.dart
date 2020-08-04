@@ -22,10 +22,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     _controller = VideoPlayerController.asset("assets/videos/bg.mp4")
       ..initialize().then((_) {
-        // Once the video has been loaded we play the video and set looping to true.
         _controller.play();
         _controller.setLooping(true);
-        // Ensure the first frame is shown after the video is initialized.
         setState(() {});
       });
   }
@@ -82,38 +80,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       Container(
+                        height: MediaQuery.of(context).size.height/3,
                         padding: EdgeInsets.symmetric(horizontal: Indents.xl),
-                        child: Column(
-                          children: <Widget>[
-                            AuthMethodTypeButton(
-                                color: Color(0xff4A76A8),
-                                name: 'VK',
-                                svgPath: 'vk'),
-                            AuthMethodTypeButton(
-                                color: Color(0xff4267B2),
-                                name: 'Facebook',
-                                svgPath: 'fb',
-                                iconSize: 18),
-                            AuthMethodTypeButton(
-                                color: Color(0xffffffff),
-                                name: 'Google',
-                                svgPath: 'google',
-                                iconSize: 20,
-                            onPressed: () async {
-                                  var result = await _googleSignIn.signIn();
-                                  var googleKey = await result.authentication;
-                                  await Api.Authentication.signUpSocialGetInfo(googleKey.idToken);
-                            },),
-                            AuthMethodTypeButton(
-                                color: Color(0xffffffff).withOpacity(0.5),
-                                name: 'Email',
-                                prependText: 'Войти с',
-                                icon: Icons.alternate_email,
-                                iconSize: 20,
-                            onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginEmailScreen()));
-                            },)
-                          ],
+                        child: ScrollConfiguration(
+                          behavior: MyBehavior(),
+                          child: ListView(
+                            children: <Widget>[
+                              AuthMethodTypeButton(
+                                  color: Color(0xff4A76A8),
+                                  name: 'VK',
+                                  svgPath: 'vk'),
+                              AuthMethodTypeButton(
+                                  color: Color(0xff4267B2),
+                                  name: 'Facebook',
+                                  svgPath: 'fb',
+                                  iconSize: 18),
+                              AuthMethodTypeButton(
+                                  color: Color(0xffffffff),
+                                  name: 'Google',
+                                  svgPath: 'google',
+                                  iconSize: 20,
+                              onPressed: () async {
+                                    var result = await _googleSignIn.signIn();
+                                    var googleKey = await result.authentication;
+                                    await Api.Authentication.signUpSocialGetInfo(googleKey.idToken);
+                              },),
+                              AuthMethodTypeButton(
+                                  color: Color(0xffffffff).withOpacity(0.5),
+                                  name: 'Email',
+                                  prependText: 'Войти с',
+                                  icon: Icons.alternate_email,
+                                  iconSize: 20,
+                              onPressed: () {
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginEmailScreen()));
+                              },)
+                            ],
+                          ),
                         ),
                       )
                     ],
@@ -179,11 +181,16 @@ class AuthMethodTypeButton extends StatelessWidget {
                           : Colors.white,
                     ),
             ),
-            Text('$prependText $name',
-                style: theme.textTheme.subtitle1.merge(TextStyle(
-                    color: color == Color(0xffffffff)
-                        ? Colors.grey[600]
-                        : Colors.white))),
+            Flexible(
+              child: Text('$prependText $name',
+                  overflow: TextOverflow.fade,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: theme.textTheme.subtitle1.merge(TextStyle(
+                      color: color == Color(0xffffffff)
+                          ? Colors.grey[600]
+                          : Colors.white))),
+            ),
           ],
         ),
         onPressed: () {
@@ -192,5 +199,13 @@ class AuthMethodTypeButton extends StatelessWidget {
         color: color,
       ),
     );
+  }
+}
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }
