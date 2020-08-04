@@ -1,3 +1,4 @@
+import 'package:extreme/helpers/custom_snack_bar.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/screens/auth_screen/login_email_screen.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
@@ -6,7 +7,6 @@ import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
-import 'package:extreme/widgets/custom_snack_bar.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +22,7 @@ void logInUser(BuildContext context, Models.User user) {
 }
 
 void toSocialSignUp(BuildContext context, Models.SocialAccountProvider provider, String token) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpScreen()));
+  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpScreen(token: token, accountProvider: provider)));
 }
 
 class LoginScreen extends StatefulWidget {
@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   var result = await _googleSignIn.signIn();
                                   if(result == null) {
                                     Scaffold.of(context).showSnackBar(
-                                        CustomSnackBar.error(
+                                        SnackBarExtension.error(
                                             'Ошибка при получении данных от Google'));
                                     return;
                                   }

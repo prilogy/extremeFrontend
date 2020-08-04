@@ -1,8 +1,7 @@
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomSnackBar{
-
+extension SnackBarExtension on SnackBar {
   static SnackBar error(String text) {
     return SnackBar(
       content: Text(text, style: TextStyle(color: ExtremeColors.base[100]),),
@@ -30,5 +29,4 @@ class CustomSnackBar{
       backgroundColor: ExtremeColors.primary,
     );
   }
-
 }
