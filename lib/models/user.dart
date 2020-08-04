@@ -121,7 +121,7 @@ class User {
 class SocialAccount {
   int id;
   String key;
-  _SocialAccountProvider provider;
+  SocialAccountProvider provider;
 
   SocialAccount({this.id, this.key, this.provider});
 
@@ -129,7 +129,7 @@ class SocialAccount {
     id = json['id'];
     key = json['key'];
     provider = json['provider'] != null
-        ? new _SocialAccountProvider.fromJson(json['provider'])
+        ? new SocialAccountProvider.fromJson(json['provider'])
         : null;
   }
 
@@ -144,13 +144,13 @@ class SocialAccount {
   }
 }
 
-class _SocialAccountProvider {
+class SocialAccountProvider {
   int id;
   String name;
 
-  _SocialAccountProvider({this.id, this.name});
+  SocialAccountProvider({this.id, this.name});
 
-  _SocialAccountProvider.fromJson(Map<String, dynamic> json) {
+  SocialAccountProvider.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
@@ -161,6 +161,10 @@ class _SocialAccountProvider {
     data['name'] = this.name;
     return data;
   }
+
+  static final Vk = SocialAccountProvider(name: 'vk');
+  static final Facebook = SocialAccountProvider(name: 'facebook');
+  static final Google = SocialAccountProvider(name: 'google');
 }
 
 
