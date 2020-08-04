@@ -9,7 +9,10 @@
 .history
 .svn/
 
+*.jks
 *.mp4
+
+android/app/src/main/res/values/strings.xml
 
 # IntelliJ related
 *.iml
