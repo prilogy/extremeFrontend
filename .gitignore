@@ -9,6 +9,7 @@
 .history
 .svn/
 
+*.jks
 *.mp4
 
 # IntelliJ related
