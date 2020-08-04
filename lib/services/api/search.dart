@@ -15,4 +15,17 @@ class Search {
       return null;
     }
   }
+
+  static Future<List<Models.Sport>> sports() async {
+    try {
+      var response = await dio.get('/sport');
+      print('Response data for sports: \n ' + response.data.toString());
+      var result = response.data.map<Models.Sport>((e) => Models.Sport.fromJson(response.data)).toList();
+      return result;
+    } on DioError catch (e) {
+      //обработка ошибочных кодов
+      print('Error: ' + e.response.statusCode.toString());
+      return null;
+    }
+  }
 }
