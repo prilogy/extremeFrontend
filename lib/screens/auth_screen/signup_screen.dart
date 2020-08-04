@@ -49,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text('Sign up'),
+          title: Text('Регистрация с Email'),
         ),
         builder: (context) => <Widget>[
               BlockBaseWidget(
@@ -69,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         decoration: const InputDecoration(
                             icon: Icon(Icons.perm_identity),
                             hintText: 'Walter White',
-                            labelText: 'Name'),
+                            labelText: 'Имя'),
                       ),
                       TextFormField(
                         controller: _emailController,
@@ -99,13 +99,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         },
                         obscureText: true,
                         decoration: const InputDecoration(
-                            icon: Icon(Icons.lock_open), labelText: 'Password'),
-                      ),
-                      TextFormField(
-                        controller: _phoneNumberController,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.phone_android),
-                            labelText: 'Phone number'),
+                            icon: Icon(Icons.lock_open), labelText: 'Пароль'),
                       ),
                       TextFormField(
                         controller: _rePasswordController,
@@ -120,7 +114,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         decoration: const InputDecoration(
                             icon: Icon(Icons.lock),
-                            labelText: 'Confirm password'),
+                            labelText: 'Подтвердите пароль'),
+                      ),
+                      TextFormField(
+                        controller: _phoneNumberController,
+                        decoration: const InputDecoration(
+                            icon: Icon(Icons.phone_android),
+                            labelText: 'Телефонный номер'),
                       ),
                       DateTimeField(
                           controller: _birthDayController,
@@ -133,7 +133,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                           decoration: const InputDecoration(
                               icon: Icon(Icons.date_range),
-                              labelText: 'Birthday date'),
+                              labelText: 'Дата рождения'),
                           onShowPicker: (context, currentValue) async {
                             return showDatePicker(
                                 context: context,
@@ -145,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _imageController,
                         focusNode: AlwaysDisabledFocusNode(),
                         decoration: const InputDecoration(
-                            icon: Icon(Icons.photo), labelText: 'Avatar'),
+                            icon: Icon(Icons.photo), labelText: 'Аватар'),
                         onTap: () {
                           getImage();
                         },
@@ -168,7 +168,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onPressed: () {
                                 Navigator.pushNamed(context, '/auth');
                               },
-                              child: Text('Log in'),
+                              child: Text('Вход'),
                             ),
                             RaisedButton(
                               color: Theme.of(context).colorScheme.primary,
@@ -197,7 +197,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   }
                                 }
                               },
-                              child: Text('Continue'),
+                              child: Text('Продолжить'),
                             ),
                           ],
                         ),

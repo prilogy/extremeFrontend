@@ -50,7 +50,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: ExactAssetImage(
-                            "extreme2.jpg"), // TODO: change hardcode image to var from db
+                            "assets/images/extreme2.jpg"), // TODO: change hardcode image to var from db
                       ),
                     ),
                     child: Container(
