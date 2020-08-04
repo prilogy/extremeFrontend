@@ -16,3 +16,4 @@ part 'culture.dart';
 part 'price.dart';
 part 'currency.dart';
 part 'search_result.dart';
+part 'social_identity.dart';

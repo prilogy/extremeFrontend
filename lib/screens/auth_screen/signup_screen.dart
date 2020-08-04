@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -10,6 +11,12 @@ import 'package:intl/intl.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 
 class SignUpScreen extends StatefulWidget {
+  final String token;
+  final SocialAccountProvider accountProvider;
+
+
+  SignUpScreen({this.token, this.accountProvider});
+
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -25,6 +32,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _imageController = TextEditingController();
   File _image;
 
+  SocialIdentity socialIdentity;
+
   final picker = ImagePicker();
 
   Future getImage() async {
@@ -36,20 +45,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    Api.Authentication.signUpSocialGetInfo(widget.accountProvider, widget.token)
+    .then((value) {
+      socialIdentity = value;
+      _nameController.text = socialIdentity?.name ?? '';
+      _emailController.text = socialIdentity?.email ?? '';
+    });
+  }
+
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _rePasswordController.dispose();
+    _nameController.dispose();
+    _phoneNumberController.dispose();
+    _birthDayController.dispose();
+    _imageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    var providerName = widget.accountProvider.name;
+    providerName = providerName[0].toUpperCase()+providerName.substring(1);
+    var title = widget.token == null ? 'Регистрация с Email' : 'Регистрация через $providerName';
     var format = DateFormat('dd.MM.yyyy');
 
     return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text('Регистрация с Email'),
+          title: Text(title),
         ),
         builder: (context) => <Widget>[
               BlockBaseWidget(
@@ -181,7 +210,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       avatar: _image,
                                       dateBirthday: _birthDayController.text,
                                       name: _nameController.text,
-                                      phoneNumber: _phoneNumberController.text);
+                                      phoneNumber: _phoneNumberController.text,
+                                      socialIdentity: socialIdentity ?? null,
+                                      socialProvider: widget.accountProvider ?? null);
                                   if (result == true) {
                                     scf.showSnackBar(SnackBar(
                                       content: Text('Регистрация успешна'),

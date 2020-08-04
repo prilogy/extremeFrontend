@@ -9,7 +9,7 @@ class Authentication {
       var user = Models.User.fromJson(response.data);
       print('successful login: /n' + response.data.toString());
       return user;
-    } on DioError catch(e) {
+    } on DioError catch (e) {
       //обработка ошибочных кодов
       print(e.response.statusCode);
       return null;
@@ -17,37 +17,63 @@ class Authentication {
   }
 
   /// dateBirthday в виде ДД.ММ.ГГГГ
-  static Future<bool> signUp({String name, String email, String password, String dateBirthday, String phoneNumber, File avatar}) async {
-    var form = FormData.fromMap({
+  static Future<bool> signUp(
+      {@required String name,
+      @required String email,
+      @required String password,
+      @required String dateBirthday,
+      String phoneNumber,
+      File avatar,
+      Models.SocialIdentity socialIdentity,
+      Models.SocialAccountProvider socialProvider}) async {
+    var isSocial = socialIdentity != null && socialProvider != null;
+    var map = {
       "name": name,
       "email": email,
       "password": password,
-      "dateBirthday": dateBirthday,
       "phoneNumber": phoneNumber,
-      "file": await MultipartFile.fromFile(
+      "avatar": await MultipartFile.fromFile(
         avatar.path,
         filename: avatar.path.split('/').last,
       ),
-    });
+    };
+
+    if (isSocial)
+      map.addAll({
+        "socialAccountId": socialIdentity.socialAccountId,
+        "socialAccountKey": socialIdentity.socialAccountKey,
+        "birthDate": dateBirthday
+      });
+    else map.addAll({'dateBirthday': dateBirthday});
 
     try {
-      var response = await dio.put('/auth/signUp', data: form);
+      var response = await dio.put(isSocial? '/auth/signup/${socialProvider.name}' : '/auth/signup', data: FormData.fromMap(map));
       return true;
-    } on DioError catch(e) {
+    } on DioError catch (e) {
       print(e.response.statusCode);
       return false;
     }
   }
 
-  static Future signUpSocialGetInfo(String token) async {
+  static Future<Models.SocialIdentity> signUpSocialGetInfo(
+      Models.SocialAccountProvider provider, String token) async {
     try {
       var response = await dio
-          .post('/auth/signup/google', data: {token: token});
+          .post('/auth/signup/${provider.name}', data: {'token': token});
 
-      print(response.data);
-    } on DioError catch(e) {
-      //обработка ошибочных кодов
-      print(e.response.statusCode);
+      return Models.SocialIdentity.fromJson(response.data);
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
+  static Future<Models.User> loginSocial(
+      Models.SocialAccountProvider provider, String token) async {
+    try {
+      var response = await dio
+          .post('/auth/login/${provider.name}', data: {'token': token});
+      return Models.User.fromJson(response.data);
+    } on DioError catch (e) {
       return null;
     }
   }
