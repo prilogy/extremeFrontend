@@ -19,7 +19,7 @@ class ListGenerator<T> extends StatelessWidget {
           var _widgets;
              _widgets = models
                 .map((e) => PlayListCard(
-                      model: e,
+                     // model: e,
                       aspectRatio: 16 / 9,
                     ))
                 .toList();

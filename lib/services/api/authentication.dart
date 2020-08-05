@@ -32,6 +32,7 @@ class Authentication {
       "email": email,
       "password": password,
       "phoneNumber": phoneNumber,
+      'dateBirthday': dateBirthday,
       "avatar": await MultipartFile.fromFile(
         avatar.path,
         filename: avatar.path.split('/').last,
@@ -41,10 +42,8 @@ class Authentication {
     if (isSocial)
       map.addAll({
         "socialAccountId": socialIdentity.socialAccountId,
-        "socialAccountKey": socialIdentity.socialAccountKey,
-        "birthDate": dateBirthday
+        "socialAccountKey": socialIdentity.socialAccountKey
       });
-    else map.addAll({'dateBirthday': dateBirthday});
 
     try {
       var response = await dio.put(isSocial? '/auth/signup/${socialProvider.name}' : '/auth/signup', data: FormData.fromMap(map));

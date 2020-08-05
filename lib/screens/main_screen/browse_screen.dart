@@ -7,6 +7,7 @@ import 'package:extreme/screens/playlist_screen.dart';
 import 'package:extreme/screens/playlists_screen.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/sport_card.dart';
@@ -59,23 +60,14 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
                     future: Api.Entities.sports(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        var _sports = snapshot.data
-                            .map<Widget>((e) => SportCard(
+                        var _sports = snapshot.data;
+                        return CustomListBuilder(
+                            type: CustomListBuilderTypes.grid,
+                            items: _sports,
+                            itemBuilder: (item) => SportCard(
+                                  model: item,
                                   aspectRatio: 16 / 9,
-                                  model: e,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: Indents.sm),
-                                ))
-                            .toList();
-                        return GridView.count(
-                          primary: false,
-                          crossAxisSpacing: Indents.md,
-                          mainAxisSpacing: Indents.md,
-                          childAspectRatio: 16 / 9,
-                          shrinkWrap: true,
-                          crossAxisCount: 2,
-                          children: _sports,
-                        );
+                                ));
                       } else if (snapshot.hasError)
                         return Text(snapshot.error.toString());
                       else
@@ -86,22 +78,16 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
                 header: "Популярные плейлисты",
                 margin: EdgeInsets.zero,
                 child: FutureBuilder(
-                    future: Api.Entities.playlists(1,2),
+                    future: Api.Entities.playlists(1, 2),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        List _plsylists = snapshot.data
-                            .map<Widget>((e) => PlayListCard(
+                        return CustomListBuilder(
+                          type: CustomListBuilderTypes.verticalList,
+                            items: snapshot.data,
+                            itemBuilder: (item) => PlayListCard(
+                                  model: item,
                                   aspectRatio: 16 / 9,
-                                  model: e,
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: Indents.sm),
-                                ))
-                            .toList();
-                        return ListView(
-                          shrinkWrap: true,
-                          primary: false,
-                          children: _plsylists,
-                        );
+                                ));
                       } else if (snapshot.hasError) {
                         return Text(snapshot.error.toString());
                       } else

@@ -6,6 +6,7 @@ import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/sport_card.dart';
@@ -13,7 +14,7 @@ import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
+import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 
 // Домашняя страница пользователя - Главная
@@ -99,40 +100,13 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         BlockBaseWidget.forScrollingViews(
             padding: EdgeInsets.only(top: Indents.md),
             header: 'Интересные виды спорта',
-            child: Container(
-              height: 50,
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: Indents.md),
-                scrollDirection: Axis.horizontal,
-                children: [
-                  SportCard(
-                    aspectRatio: 3 / 1,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                  SportCard(
-                    aspectRatio: 3 / 1,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                  SportCard(
-                    aspectRatio: 3 / 1,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                  SportCard(
-                    aspectRatio: 3 / 1,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                  SportCard(
-                    aspectRatio: 3 / 1,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                ],
-              ),
-            )),
+            child: FutureBuilder(
+              future: Api.Entities.sports(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if(snapshot.hasData){return CustomListBuilder(type:CustomListBuilderTypes.horizontalList,height: 50, items: snapshot.data, itemBuilder: (item) => SportCard(model: item, aspectRatio: 3/1, small: true));}else if(snapshot.hasError){return Text(snapshot.error.toString());}else return Center(child: CircularProgressIndicator(),);
+              },
+            ),
+            ),
         BlockBaseWidget(
             margin: const EdgeInsets.only(bottom: Indents.smd),
             header: 'Рекомендуемые видео',
@@ -146,42 +120,27 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
               ],
             )),
         BlockBaseWidget.forScrollingViews(
-            margin: EdgeInsets.zero,
-            header: 'Последние обновления',
-            child: Container(
-              height: 100,
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: Indents.md),
-                scrollDirection: Axis.horizontal,
-                children: [
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                  PlayListCard(
-                    aspectRatio: 16 / 9,
-                    small: true,
-                    padding: EdgeInsets.only(right: Indents.md),
-                  ),
-                ],
-              ),
-            )),
+          margin: EdgeInsets.zero,
+          header: 'Последние обновления',
+          child: FutureBuilder(
+            future: Api.Entities.playlists(1, 10),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return CustomListBuilder<Models.Playlist>(
+                    type: CustomListBuilderTypes.horizontalList,
+                    height: 100,
+                    items: snapshot.data,
+                    itemBuilder: (item) => PlayListCard(
+                        model: item, aspectRatio: 16 / 9, small: true));
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+            },
+          ),
+        ),
       ],
     );
   }
