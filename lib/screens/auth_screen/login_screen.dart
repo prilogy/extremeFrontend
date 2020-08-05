@@ -2,6 +2,7 @@ import 'package:extreme/helpers/custom_snack_bar.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/screens/auth_screen/login_email_screen.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
+import 'package:extreme/services/social_auth.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -117,22 +118,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                 svgPath: 'google',
                                 iconSize: 20,
                                 onPressed: () async {
-                                  var result = await _googleSignIn.signIn();
-                                  if(result == null) {
+                                  var googleAuth = GoogleAuthService(_googleSignIn);
+                                  var token = await googleAuth.getToken();
+                                  if(token == null) {
                                     Scaffold.of(context).showSnackBar(
                                         SnackBarExtension.error(
                                             'Ошибка при получении данных от Google'));
                                     return;
                                   }
-                                  var googleKey = await result.authentication;
+
                                   var user = await Api.Authentication
                                       .loginSocial(
                                           Models.SocialAccountProvider.Google,
-                                          googleKey.idToken);
+                                          token);
+
                                   if (user == null) {
-                                    toSocialSignUp(context, Models.SocialAccountProvider.Google, googleKey.idToken);
+                                    toSocialSignUp(context, Models.SocialAccountProvider.Google, token);
                                     return;
                                   }
+
                                   logInUser(context, user);
                                 },
                               ),
