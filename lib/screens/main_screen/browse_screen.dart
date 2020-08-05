@@ -15,8 +15,9 @@ import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import '../../store/info.dart' as Redux;
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:extreme/models/main.dart' as Models;
 
-// Вторая страница - Просмотр (Browse в bottomNavigationBar)
+/// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
 class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
@@ -60,10 +61,9 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
                     future: Api.Entities.sports(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        var _sports = snapshot.data;
-                        return CustomListBuilder(
+                        return CustomListBuilder<Models.Sport>(
                             type: CustomListBuilderTypes.grid,
-                            items: _sports,
+                            items: snapshot.data,
                             itemBuilder: (item) => SportCard(
                                   model: item,
                                   aspectRatio: 16 / 9,
@@ -81,8 +81,8 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
                     future: Api.Entities.playlists(1, 2),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
-                        return CustomListBuilder(
-                          type: CustomListBuilderTypes.verticalList,
+                        return CustomListBuilder<Models.Playlist>(
+                            type: CustomListBuilderTypes.verticalList,
                             items: snapshot.data,
                             itemBuilder: (item) => PlayListCard(
                                   model: item,

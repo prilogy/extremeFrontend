@@ -6,10 +6,18 @@ typedef ItemBuilder<T> = Widget Function(T model);
 enum CustomListBuilderTypes { verticalList, grid, horizontalList }
 
 class CustomListBuilder<T> extends StatelessWidget {
+  /// Список моделей, которые необходимо преобразовать в виджеты
   final List<T> items;
+  /// Функция-преобразователь моделей в виджеты с последующим составлением списка
   final ItemBuilder<T> itemBuilder;
+  /// Тип отображаемого листа
   final CustomListBuilderTypes type;
+  /// Высота карточки в горизонтальном скролле
   final double height;
+  /// Количество элементов в сетке (grid)
+  final int crossAxisCount;
+  /// Соотношение сторон для объектов в grid
+  final double childAspectRatio;
   // isGrid                 ------|
   // isScrollableList (типа вбок)-| Вообще это все можно объединить в enum чисто для удобства,
   // isSmth ещё что то и тд   ----| чтобы всегда конкретно один тип задавался
@@ -19,7 +27,9 @@ class CustomListBuilder<T> extends StatelessWidget {
       {@required this.items,
       @required this.itemBuilder,
       this.type = CustomListBuilderTypes.verticalList,
-      this.height = 100});
+      this.height = 100,
+      this.crossAxisCount = 2,
+      this.childAspectRatio = 16/9});
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +60,9 @@ class CustomListBuilder<T> extends StatelessWidget {
             primary: false,
             crossAxisSpacing: Indents.md,
             mainAxisSpacing: Indents.sm,
-            childAspectRatio: 16 / 9,
+            childAspectRatio: childAspectRatio,
             shrinkWrap: true,
-            crossAxisCount: 2,
+            crossAxisCount: crossAxisCount,
             children: <Widget>[
               for (var item in widgetItems) item,
             ],

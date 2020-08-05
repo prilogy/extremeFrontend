@@ -1,5 +1,6 @@
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import '../widgets/stats.dart';
 import '../widgets/video_card.dart';
+import 'package:extreme/services/api/main.dart' as Api;
+import 'package:extreme/models/main.dart' as Models;
 
 /// Создаёт экран просмотра плейлиста
 
@@ -41,21 +44,25 @@ class PlaylistScreen extends StatelessWidget {
         HeaderPlaylist(),
 
         BlockBaseWidget(
-            header: 'Видео',
-            child: Column(
-              children: [
-                VideoCard(
-                  margin: EdgeInsets.only(bottom: Indents.lg),
-                  aspectRatio: 16 / 9,
-                ),
-                VideoCard(
-                  aspectRatio: 16 / 9,
-                ),
-                VideoCard(
-                  aspectRatio: 16 / 9,
-                ),
-              ],
-            )),
+          header: 'Видео',
+          child: FutureBuilder(
+            // TODO: change to current playlist id
+            future: Api.Entities.playlistVideos(3),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return CustomListBuilder(
+                    items: snapshot.data,
+                    itemBuilder: (item) =>
+                        VideoCard(aspectRatio: 16 / 9, model: item));
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+            },
+          ),
+        ),
 
         // Список для скроллинга - Другие плейлисты
         //OtherPlaylistList(),
@@ -103,7 +110,7 @@ class HeaderPlaylist extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-            height: MediaQuery.of(context).size.height/3,
+            height: MediaQuery.of(context).size.height / 3,
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
@@ -115,13 +122,16 @@ class HeaderPlaylist extends StatelessWidget {
                   gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      stops: [0, 0.8, 1],
+                      stops: [
+                    0,
+                    0.8,
+                    1
+                  ],
                       colors: [
                     theme.colorScheme.background.withOpacity(0),
                     theme.colorScheme.background.withOpacity(1),
                     theme.colorScheme.background.withOpacity(1),
-                  ])
-                  ),
+                  ])),
             )),
         Positioned.fill(
           bottom: Indents.md,
@@ -136,7 +146,8 @@ class HeaderPlaylist extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(bottom: Indents.sm),
-                    child: Text("Название плейлиста лалал лалала лала алала лалал ал аа лал ",
+                    child: Text(
+                        "Название плейлиста лалал лалала лала алала лалал ал аа лал ",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline5.merge(
                             TextStyle(
