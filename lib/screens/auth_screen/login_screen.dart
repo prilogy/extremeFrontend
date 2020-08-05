@@ -1,4 +1,4 @@
-import 'package:extreme/helpers/custom_snack_bar.dart';
+import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/screens/auth_screen/login_email_screen.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
@@ -95,7 +95,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               AuthMethodTypeButton(
                                   color: Color(0xff4A76A8),
                                   name: 'VK',
-                                  svgPath: 'vk'),
+                                  svgPath: 'vk',
+                              onPressed: () async {
+                                    var vkAuth = VkAuthService();
+                                    var token = await vkAuth.getToken();
+                                    print(token);
+                                    await _authWithSocial(context, Models.SocialAccountProvider.Vk, token);
+                              },),
                               AuthMethodTypeButton(
                                 color: Color(0xff4267B2),
                                 name: 'Facebook',
