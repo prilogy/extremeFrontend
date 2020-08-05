@@ -27,17 +27,21 @@ class Authentication {
       Models.SocialIdentity socialIdentity,
       Models.SocialAccountProvider socialProvider}) async {
     var isSocial = socialIdentity != null && socialProvider != null;
-    var map = {
+    var map = <String,dynamic>{
       "name": name,
       "email": email,
       "password": password,
       "phoneNumber": phoneNumber,
-      'dateBirthday': dateBirthday,
-      "avatar": await MultipartFile.fromFile(
-        avatar.path,
-        filename: avatar.path.split('/').last,
-      ),
+      'dateBirthday': dateBirthday
     };
+
+    if(avatar != null)
+      map.addAll({
+        "avatar": await MultipartFile.fromFile(
+          avatar.path,
+          filename: avatar.path.split('/').last,
+        )
+      });
 
     if (isSocial)
       map.addAll({

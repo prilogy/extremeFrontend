@@ -15,17 +15,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:video_player/video_player.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 
-
-void logInUser(BuildContext context, Models.User user) {
-  store.dispatch(SetUser(user));
-  Navigator.of(context, rootNavigator: true)
-      .pushNamed('/main');
-}
-
-void toSocialSignUp(BuildContext context, Models.SocialAccountProvider provider, String token) {
-  Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignUpScreen(token: token, accountProvider: provider)));
-}
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -108,36 +97,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                   name: 'VK',
                                   svgPath: 'vk'),
                               AuthMethodTypeButton(
-                                  color: Color(0xff4267B2),
-                                  name: 'Facebook',
-                                  svgPath: 'fb',
-                                  iconSize: 18),
+                                color: Color(0xff4267B2),
+                                name: 'Facebook',
+                                svgPath: 'fb',
+                                iconSize: 18,
+                                onPressed: () async {
+                                  var fbAuth = FacebookAuthService();
+                                  var token = await fbAuth.getToken();
+                                  await _authWithSocial(context, Models.SocialAccountProvider.Facebook, token);
+                                },
+                              ),
                               AuthMethodTypeButton(
                                 color: Color(0xffffffff),
                                 name: 'Google',
                                 svgPath: 'google',
                                 iconSize: 20,
                                 onPressed: () async {
-                                  var googleAuth = GoogleAuthService(_googleSignIn);
+                                  var googleAuth =
+                                      GoogleAuthService(_googleSignIn);
                                   var token = await googleAuth.getToken();
-                                  if(token == null) {
-                                    Scaffold.of(context).showSnackBar(
-                                        SnackBarExtension.error(
-                                            'Ошибка при получении данных от Google'));
-                                    return;
-                                  }
-
-                                  var user = await Api.Authentication
-                                      .loginSocial(
-                                          Models.SocialAccountProvider.Google,
-                                          token);
-
-                                  if (user == null) {
-                                    toSocialSignUp(context, Models.SocialAccountProvider.Google, token);
-                                    return;
-                                  }
-
-                                  logInUser(context, user);
+                                  await _authWithSocial(context, Models.SocialAccountProvider.Google, token);
                                 },
                               ),
                               AuthMethodTypeButton(
@@ -161,6 +140,29 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ],
             ));
+  }
+
+
+  Future _authWithSocial(BuildContext context, Models.SocialAccountProvider provider,
+      String token) async {
+    if (token == null) {
+      var socialName = provider.name[0].toUpperCase() + provider.name.substring(1);
+      Scaffold.of(context).showSnackBar(
+          SnackBarExtension.error('Ошибка при получении данных от $socialName'));
+      return;
+    }
+
+    var user = await Api.Authentication.loginSocial(provider, token);
+
+    if (user == null) {
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) =>
+              SignUpScreen(token: token, accountProvider: provider)));
+      return;
+    }
+
+    store.dispatch(SetUser(user));
+    Navigator.of(context, rootNavigator: true).pushNamed('/main');
   }
 }
 
