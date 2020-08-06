@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_redux: ^0.6.0
   localstorage: ^3.0.0
   datetime_picker_formfield: ^1.0.0
@@ -34,6 +36,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - lang/en.json
+    - lang/ru.json
     - assets/svg/fb_logo.svg
     - assets/svg/vk_logo.svg
     - assets/svg/google_logo.svg

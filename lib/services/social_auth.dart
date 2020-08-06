@@ -9,7 +9,7 @@ abstract class SocialAuthService {
 class GoogleAuthService implements SocialAuthService {
   final GoogleSignIn googleSignIn;
 
-  GoogleAuthService(this.googleSignIn);
+  GoogleAuthService(): googleSignIn = GoogleSignIn();
 
   @override
   Future<String> getToken() async {
