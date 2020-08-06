@@ -13,7 +13,6 @@ import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/sport_card.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
-import '../../store/info.dart' as Redux;
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/models/main.dart' as Models;
 

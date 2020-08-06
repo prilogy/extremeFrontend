@@ -1,9 +1,10 @@
 part of api;
 
 class Entities {
-  static Future<List<T>> getAll<T>([int page, int pageSize, String sortByDate = 'desc']) async {
+  static Future<List<T>> getAll<T>(
+      [int page, int pageSize, String sortByDate = 'desc']) async {
     var entityName = _entityNameFromType(T);
-    if(entityName == null) return null;
+    if (entityName == null) return null;
 
     try {
       var params = _generateParams(page, pageSize, sortByDate);
@@ -35,16 +36,16 @@ class Entities {
       return null;
     }
   }
+
   /// Возвращает список всех плейлистов и информацию о каждом
   static Future<List<Models.Playlist>> playlists(int page, int pageSize) async {
-    var params ={
-      'page':page.toString(),
-      'pageSize':pageSize.toString(),
-      'sortByDate':'desc',
+    var params = {
+      'page': page.toString(),
+      'pageSize': pageSize.toString(),
+      'sortByDate': 'desc',
     };
     try {
-      
-      var response = await dio.get('/playlist',queryParameters: params);
+      var response = await dio.get('/playlist', queryParameters: params);
       var result = List<Models.Playlist>();
       response.data.forEach((v) {
         result.add(Models.Playlist.fromJson(v));
@@ -56,11 +57,10 @@ class Entities {
       return null;
     }
   }
+
   /// Возвращает список видео в плейлисте
   static Future<List<Models.Video>> playlistVideos(int playlistID) async {
-    
     try {
-      
       var response = await dio.get('/playlist/$playlistID');
       var result = List<Models.Video>();
       response.data.forEach((v) {
@@ -73,16 +73,16 @@ class Entities {
       return null;
     }
   }
+
   /// Возвращает список всех фильмов и информацию о каждом
   static Future<List<Models.Movie>> movies(int page, int pageSize) async {
-    var params ={
-      'page':page.toString(),
-      'pageSize':pageSize.toString(),
-      'sortByDate':'desc',
+    var params = {
+      'page': page.toString(),
+      'pageSize': pageSize.toString(),
+      'sortByDate': 'desc',
     };
     try {
-      
-      var response = await dio.get('/movie',queryParameters: params);
+      var response = await dio.get('/movie', queryParameters: params);
       var result = List<Models.Movie>();
       response.data.forEach((v) {
         result.add(Models.Movie.fromJson(v));
@@ -96,7 +96,7 @@ class Entities {
   }
 
   static String _entityNameFromType(Type t) {
-    switch(t) {
+    switch (t) {
       case Models.Video:
         return 'video';
       case Models.Playlist:
@@ -110,16 +110,18 @@ class Entities {
     }
   }
 
-  static Map<String, dynamic> _generateParams(int page, int pageSize, String sortByDate) {
+  static Map<String, dynamic> _generateParams(
+      int page, int pageSize, String sortByDate) {
     var map = Map<String, dynamic>();
-    if(page != null) map.addAll({'page': page});
-    if(pageSize != null) map.addAll({'pageSize': pageSize});
-    if(sortByDate != null && sortByDate == 'desc' || sortByDate == 'asc') map.addAll({'sortByDate': sortByDate});
+    if (page != null) map.addAll({'page': page});
+    if (pageSize != null) map.addAll({'pageSize': pageSize});
+    if (sortByDate != null && sortByDate == 'desc' || sortByDate == 'asc')
+      map.addAll({'sortByDate': sortByDate});
     return map;
   }
 
   static T _entityFromJson<T>(dynamic v) {
-    switch(T) {
+    switch (T) {
       case Models.Video:
         return Models.Video.fromJson(v) as T;
       case Models.Movie:
@@ -132,5 +134,4 @@ class Entities {
         return null;
     }
   }
-  
 }

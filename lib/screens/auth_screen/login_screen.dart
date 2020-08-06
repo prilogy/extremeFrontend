@@ -5,6 +5,7 @@ import 'package:extreme/screens/auth_screen/login_email_screen.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
 import 'package:extreme/services/social_auth.dart';
 import 'package:extreme/store/main.dart';
+import 'package:extreme/store/settings/actions.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
@@ -38,6 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     super.dispose();
+    _controller.pause();
     _controller.dispose();
   }
 
@@ -179,7 +181,9 @@ class _LoginScreenState extends State<LoginScreen> {
       return;
     }
 
+
     store.dispatch(SetUser(user));
+    store.dispatch(SetSettings(culture: user.culture, currency: user.currency));
     Navigator.of(context, rootNavigator: true).pushNamed('/main');
   }
 }

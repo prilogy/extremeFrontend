@@ -24,9 +24,10 @@ class AppLocalizations {
 
   Map<String, String> _localizedStrings;
 
-  Future<bool> load() async {
-    String value =
-        await rootBundle.loadString('lang/${locale.languageCode}.json');
+  Future<bool> load([Locale newLocale]) async {
+    var localeName = newLocale == null ? locale.languageCode : newLocale.languageCode;
+    var value =
+        await rootBundle.loadString('lang/$localeName.json');
     Map<String, dynamic> jsonMap = jsonDecode(value);
     _localizedStrings = flattenTranslations(jsonMap);
     return true;
