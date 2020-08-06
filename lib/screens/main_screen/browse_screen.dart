@@ -58,7 +58,7 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
               ),
               BlockBaseWidget(
                 child: FutureBuilder(
-                    future: Api.Entities.sports(),
+                    future: Api.Entities.getAll<Models.Sport>(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return CustomListBuilder<Models.Sport>(

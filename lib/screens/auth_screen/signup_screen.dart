@@ -14,7 +14,6 @@ class SignUpScreen extends StatefulWidget {
   final String token;
   final SocialAccountProvider accountProvider;
 
-
   SignUpScreen({this.token, this.accountProvider});
 
   @override
@@ -45,15 +44,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
-
   @override
   void initState() {
     super.initState();
     Api.Authentication.signUpSocialGetInfo(widget.accountProvider, widget.token)
-    .then((value) {
-      socialIdentity = value;
-      _nameController.text = socialIdentity?.name ?? '';
-      _emailController.text = socialIdentity?.email ?? '';
+        .then((value) {
+        socialIdentity = value;
+        _nameController.text = socialIdentity?.name ?? '';
+        _emailController.text = socialIdentity?.email ?? '';
     });
   }
 
@@ -72,8 +70,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     var providerName = widget.accountProvider.name;
-    providerName = providerName[0].toUpperCase()+providerName.substring(1);
-    var title = widget.token == null ? 'Регистрация с Email' : 'Регистрация через $providerName';
+    providerName = providerName[0].toUpperCase() + providerName.substring(1);
+    var title = widget.token == null
+        ? 'Регистрация с Email'
+        : 'Регистрация через $providerName';
     var format = DateFormat('dd.MM.yyyy');
 
     return ScreenBaseWidget(
@@ -212,7 +212,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       name: _nameController.text,
                                       phoneNumber: _phoneNumberController.text,
                                       socialIdentity: socialIdentity ?? null,
-                                      socialProvider: widget.accountProvider ?? null);
+                                      socialProvider:
+                                          widget.accountProvider ?? null);
                                   if (result == true) {
                                     scf.showSnackBar(SnackBar(
                                       content: Text('Регистрация успешна'),
