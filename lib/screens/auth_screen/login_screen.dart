@@ -34,6 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
       });
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
   final _googleSignIn = GoogleSignIn();
 
   @override
@@ -93,15 +99,17 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: ListView(
                             children: <Widget>[
                               AuthMethodTypeButton(
-                                  color: Color(0xff4A76A8),
-                                  name: 'VK',
-                                  svgPath: 'vk',
-                              onPressed: () async {
-                                    var vkAuth = VkAuthService();
-                                    var token = await vkAuth.getToken();
-                                    print(token);
-                                    await _authWithSocial(context, Models.SocialAccountProvider.Vk, token);
-                              },),
+                                color: Color(0xff4A76A8),
+                                name: 'VK',
+                                svgPath: 'vk',
+                                onPressed: () async {
+                                  var vkAuth = VkAuthService();
+                                  var token = await vkAuth.getToken();
+                                  print(token);
+                                  await _authWithSocial(context,
+                                      Models.SocialAccountProvider.Vk, token);
+                                },
+                              ),
                               AuthMethodTypeButton(
                                 color: Color(0xff4267B2),
                                 name: 'Facebook',
@@ -110,7 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () async {
                                   var fbAuth = FacebookAuthService();
                                   var token = await fbAuth.getToken();
-                                  await _authWithSocial(context, Models.SocialAccountProvider.Facebook, token);
+                                  await _authWithSocial(
+                                      context,
+                                      Models.SocialAccountProvider.Facebook,
+                                      token);
                                 },
                               ),
                               AuthMethodTypeButton(
@@ -122,7 +133,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   var googleAuth =
                                       GoogleAuthService(_googleSignIn);
                                   var token = await googleAuth.getToken();
-                                  await _authWithSocial(context, Models.SocialAccountProvider.Google, token);
+                                  await _authWithSocial(
+                                      context,
+                                      Models.SocialAccountProvider.Google,
+                                      token);
                                 },
                               ),
                               AuthMethodTypeButton(
@@ -148,13 +162,13 @@ class _LoginScreenState extends State<LoginScreen> {
             ));
   }
 
-
-  Future _authWithSocial(BuildContext context, Models.SocialAccountProvider provider,
-      String token) async {
+  Future _authWithSocial(BuildContext context,
+      Models.SocialAccountProvider provider, String token) async {
     if (token == null) {
-      var socialName = provider.name[0].toUpperCase() + provider.name.substring(1);
-      Scaffold.of(context).showSnackBar(
-          SnackBarExtension.error('Ошибка при получении данных от $socialName'));
+      var socialName =
+          provider.name[0].toUpperCase() + provider.name.substring(1);
+      Scaffold.of(context).showSnackBar(SnackBarExtension.error(
+          'Ошибка при получении данных от $socialName'));
       return;
     }
 

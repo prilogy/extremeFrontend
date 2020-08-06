@@ -69,12 +69,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if(socialIdentity == null) {
-      // TODO: create root scaffold for snackbar
-      //Scaffold.of(context).showSnackBar(SnackBarExtension.error('Ошибка получения данных'));
-      Navigator.of(context).pushNamed('/');
-    }
-
     var providerName = widget.accountProvider.name;
     providerName = providerName[0].toUpperCase() + providerName.substring(1);
     var title = widget.token == null
