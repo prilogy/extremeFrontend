@@ -1,4 +1,5 @@
 import 'package:extreme/helpers/snack_bar_extension.dart';
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/screens/auth_screen/login_email_screen.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
@@ -40,10 +41,9 @@ class _LoginScreenState extends State<LoginScreen> {
     _controller.dispose();
   }
 
-  final _googleSignIn = GoogleSignIn();
-
   @override
   Widget build(BuildContext context) {
+    var loc = AppLocalizations.of(context).withBaseKey('login_screen');
     var theme = Theme.of(context);
 
     return ScreenBaseWidget(
@@ -78,13 +78,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                                 margin: EdgeInsets.only(bottom: Indents.md),
                                 child: Text(
-                                  'Подпишитесь, чтобы всегда быть в Экстриме',
+                                  loc.translate('header'),
                                   textAlign: TextAlign.center,
                                   style: theme.textTheme.headline5.merge(
                                       TextStyle(fontWeight: FontWeight.w500)),
                                 )),
                             Text(
-                                'Создайте персональный аккаунт, чтобы иметь полный функционал приложения Extreme Insiders.',
+                                loc.translate('description'),
                                 textAlign: TextAlign.center,
                                 style: theme.textTheme.subtitle1.merge(
                                     TextStyle(fontWeight: FontWeight.w400)))
@@ -131,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 iconSize: 20,
                                 onPressed: () async {
                                   var googleAuth =
-                                      GoogleAuthService(_googleSignIn);
+                                      GoogleAuthService();
                                   var token = await googleAuth.getToken();
                                   await _authWithSocial(
                                       context,
@@ -142,7 +142,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               AuthMethodTypeButton(
                                 color: Color(0xffffffff).withOpacity(0.5),
                                 name: 'Email',
-                                prependText: 'Войти с',
                                 icon: Icons.alternate_email,
                                 iconSize: 20,
                                 onPressed: () {
@@ -192,7 +191,6 @@ class AuthMethodTypeButton extends StatelessWidget {
       this.name,
       this.svgPath,
       this.iconSize = 16,
-      this.prependText = 'Войти через',
       this.typeText,
       this.icon,
       this.onPressed,
@@ -204,13 +202,15 @@ class AuthMethodTypeButton extends StatelessWidget {
   final String name;
   final String svgPath;
   final double iconSize;
-  final String prependText;
   final String typeText;
   final IconData icon;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
+    var loc = AppLocalizations.of(context).withBaseKey('login_screen');
+    var prependText = loc.translate('sign_in', [name]);
+
     var theme = Theme.of(context);
 
     return Container(
@@ -241,7 +241,7 @@ class AuthMethodTypeButton extends StatelessWidget {
                     ),
             ),
             Flexible(
-              child: Text('$prependText $name',
+              child: Text(prependText,
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                   softWrap: false,
