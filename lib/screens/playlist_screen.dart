@@ -47,9 +47,10 @@ class PlaylistScreen extends StatelessWidget {
           header: 'Видео',
           child: FutureBuilder(
             // TODO: change to current playlist id
-            future: Api.Entities.playlistVideos(3),
+            future: Api.Entities.playlistVideos(2),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
+                print('snapshot has data: ' + snapshot.hasData.toString());
                 return CustomListBuilder(
                     items: snapshot.data,
                     itemBuilder: (item) =>
