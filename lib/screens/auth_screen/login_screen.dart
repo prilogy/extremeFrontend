@@ -173,7 +173,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     var user = await Api.Authentication.loginSocial(provider, token);
-
     if (user == null) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
