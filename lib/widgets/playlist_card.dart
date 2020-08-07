@@ -74,7 +74,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                     child: InkWell(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PlaylistScreen(),
+                          builder: (context) => PlaylistScreen(model: model,),
                         ));
                       },
                     ),
@@ -184,7 +184,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                 child: InkWell(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PlaylistScreen(),
+                      builder: (context) => PlaylistScreen(model: model,),
                     ));
                   },
                 ),

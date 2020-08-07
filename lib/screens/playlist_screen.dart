@@ -14,24 +14,17 @@ import 'package:extreme/models/main.dart' as Models;
 /// Создаёт экран просмотра плейлиста
 
 class PlaylistScreen extends StatelessWidget {
-//  final String text;
+  final Models.Playlist model;
+  PlaylistScreen({Key key, @required this.model}) : super(key: key);
 
-  // receive data from the FirstScreen as a parameter
-  PlaylistScreen({
-    Key key,
-//    @required this.text
-  }) : super(key: key);
-
-  void _searchIconAction() {
-    // TODO: Search video function
-  }
+  void _searchIconAction() {}
 
   @override
   Widget build(BuildContext context) {
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
-        title: Text('Название плейлиста'),
+        title: Text(model?.content?.name ?? 'Название плейлиста'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -40,17 +33,13 @@ class PlaylistScreen extends StatelessWidget {
         ],
       ),
       builder: (context) => <Widget>[
-        // Карточка плейлиста в самом верху страницы
-        HeaderPlaylist(),
-
+        HeaderPlaylist(model: model),
         BlockBaseWidget(
           header: 'Видео',
           child: FutureBuilder(
-            // TODO: change to current playlist id
-            future: Api.Entities.playlistVideos(2),
+            future: Api.Entities.getByIds<Models.Video>(model.videosIds),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-                print('snapshot has data: ' + snapshot.hasData.toString());
                 return CustomListBuilder(
                     items: snapshot.data,
                     itemBuilder: (item) =>
@@ -64,37 +53,28 @@ class PlaylistScreen extends StatelessWidget {
             },
           ),
         ),
-
-        // Список для скроллинга - Другие плейлисты
-        //OtherPlaylistList(),
         BlockBaseWidget.forScrollingViews(
           header: 'Смотри также',
-          child: Container(
-            height: 100,
-            child: ListView(
-              padding: EdgeInsets.symmetric(horizontal: Indents.sm),
-              scrollDirection: Axis.horizontal,
-              children: [
-                Container(
-                  child: PlayListCard(
-                    small: true,
-                    aspectRatio: 16 / 9,
-                  ),
-                ),
-                PlayListCard(
-                  small: true,
-                  aspectRatio: 16 / 9,
-                ),
-                PlayListCard(
-                  small: true,
-                  aspectRatio: 16 / 9,
-                ),
-                PlayListCard(
-                  small: true,
-                  aspectRatio: 16 / 9,
-                ),
-              ],
-            ),
+          child: FutureBuilder(
+            future: Api.Entities.getAll<Models.Playlist>(1, 5, 'desc'),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return CustomListBuilder(
+                    type: CustomListBuilderTypes.horizontalList,
+                    height: 100,
+                    items: snapshot.data,
+                    itemBuilder: (item) => PlayListCard(
+                          model: item,
+                          aspectRatio: 16 / 9,
+                          small: true,
+                        ));
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+            },
           ),
         )
       ],
@@ -102,8 +82,11 @@ class PlaylistScreen extends StatelessWidget {
   }
 }
 
-// Карточка плейлиста в самом верху страницы
+/// Карточка плейлиста в самом верху страницы
 class HeaderPlaylist extends StatelessWidget {
+  final Models.Playlist model;
+
+  HeaderPlaylist({this.model});
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -115,6 +98,7 @@ class HeaderPlaylist extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
+                // TODO: заменить изображение на изображение с Api
                 image: ExactAssetImage("assets/images/extreme2.jpg"),
               ),
             ),
@@ -148,7 +132,8 @@ class HeaderPlaylist extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(bottom: Indents.sm),
                     child: Text(
-                        "Название плейлиста лалал лалала лала алала лалал ал аа лал ",
+                        model?.content?.name ??
+                            "Название плейлиста лалал лалала лала алала лалал ал аа лал ",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline5.merge(
                             TextStyle(
@@ -157,7 +142,9 @@ class HeaderPlaylist extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: Indents.sm),
-                    child: Text("Описание данного плейлиста",
+                    child: Text(
+                        model?.content?.description ??
+                            "Описание данного плейлиста",
                         style: Theme.of(context).textTheme.bodyText2),
                   ),
                   Row(

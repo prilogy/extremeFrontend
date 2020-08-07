@@ -1,9 +1,10 @@
 part of api;
 
 class Entities {
-  static Future<List<T>> getAll<T>([int page, int pageSize, String sortByDate = 'desc']) async {
+  static Future<List<T>> getAll<T>(
+      [int page, int pageSize, String sortByDate = 'desc']) async {
     var entityName = _entityNameFromType(T);
-    if(entityName == null) return null;
+    if (entityName == null) return null;
 
     try {
       var params = _generateParams(page, pageSize, sortByDate);
@@ -22,15 +23,10 @@ class Entities {
 
   static Future<T> getById<T>([int id]) async {
     var entityName = _entityNameFromType(T);
-    if(entityName == null) return null;
+    if (entityName == null) return null;
 
     try {
-      //var params = _generateParams(page, pageSize, sortByDate);
       var response = await dio.get('/$entityName/$id');
-      // var entities = List<T>();
-      // response.data.forEach((v) {
-      //   entities.add(_entityFromJson<T>(v));
-      // });
       var entity = _entityFromJson<T>(response.data);
       return entity;
     } on DioError catch (e) {
@@ -39,6 +35,25 @@ class Entities {
     }
   }
 
+  static Future<List<T>> getByIds<T>(
+      [List<int> ids, String sortByDate = 'desc']) async {
+    var entityName = _entityNameFromType(T);
+    if (entityName == null) return null;
+
+    try {
+      var body = json.encode(ids);
+      var params = {"sortByDate": sortByDate};
+      var response = await dio.post('/$entityName', queryParameters: params, data: body);
+      var entities = List<T>();
+      response.data.forEach((v) {
+        entities.add(_entityFromJson<T>(v));
+      });
+      return entities;
+    } on DioError catch (e) {
+      print(e);
+      return null;
+    }
+  }
   /// Возвращает список всех видов спорта и информацию о каждом
   static Future<List<Models.Sport>> sports() async {
     try {
@@ -84,7 +99,7 @@ class Entities {
       var result = List<Models.Video>();
       var secondResponse = await dio.post('/video/');
 
-        result.add(Models.Video.fromJson(secondResponse.data));
+      result.add(Models.Video.fromJson(secondResponse.data));
 
       return result;
     } on DioError catch (e) {
@@ -116,7 +131,7 @@ class Entities {
   }
 
   static String _entityNameFromType(Type t) {
-    switch(t) {
+    switch (t) {
       case Models.Video:
         return 'video';
       case Models.Playlist:
@@ -130,16 +145,18 @@ class Entities {
     }
   }
 
-  static Map<String, dynamic> _generateParams(int page, int pageSize, String sortByDate) {
+  static Map<String, dynamic> _generateParams(
+      int page, int pageSize, String sortByDate) {
     var map = Map<String, dynamic>();
-    if(page != null) map.addAll({'page': page});
-    if(pageSize != null) map.addAll({'pageSize': pageSize});
-    if(sortByDate != null && sortByDate == 'desc' || sortByDate == 'asc') map.addAll({'sortByDate': sortByDate});
+    if (page != null) map.addAll({'page': page});
+    if (pageSize != null) map.addAll({'pageSize': pageSize});
+    if (sortByDate != null && sortByDate == 'desc' || sortByDate == 'asc')
+      map.addAll({'sortByDate': sortByDate});
     return map;
   }
 
   static T _entityFromJson<T>(dynamic v) {
-    switch(T) {
+    switch (T) {
       case Models.Video:
         return Models.Video.fromJson(v) as T;
       case Models.Movie:
@@ -152,5 +169,4 @@ class Entities {
         return null;
     }
   }
-  
 }

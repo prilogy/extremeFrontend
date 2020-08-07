@@ -35,8 +35,6 @@ class CustomListBuilder<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     var widgetItems = items.map<Widget>((e) => itemBuilder(e)).toList();
 
-    // if(isGrid) GridView...
-    // else if()
     switch (type) {
       case CustomListBuilderTypes.verticalList:
         {
