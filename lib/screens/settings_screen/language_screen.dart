@@ -11,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 /// Создаёт экран настроек приложения
-class SettingsScreen extends StatelessWidget {
-  SettingsScreen({Key key}) : super(key: key);
+class LanguageScreen extends StatelessWidget {
+  LanguageScreen({Key key}) : super(key: key);
   final Widget appBar = AppBar(
-    title: Text("Настройки"),
+    title: Text("Язык и локализация"),
   );
 
   @override
@@ -32,7 +32,9 @@ class SettingsScreen extends StatelessWidget {
             BlockBaseWidget(
                 child: Column(
                   children: [
-                    SettingsWidget(title: 'Язык и локализация'),
+                    SettingsWidget(title: 'Язык и локализация', onPressed: () {
+
+                    },),
                     SettingsWidget(title: 'Управление уведомлениями'),
                     SettingsWidget(title: 'Качество видео'),
                     SettingsWidget(title: 'Очистить историю просмотров'),

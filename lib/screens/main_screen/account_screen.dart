@@ -15,8 +15,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 
-import '../settings_screen.dart';
-
 class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
 
@@ -100,27 +98,6 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                   ),
                 ),
               ],
-            ),
-          ),
-
-          BlockBaseWidget(
-            header: 'Test',
-            child: FutureBuilder<List<Models.Video>>(
-              // TODO: change to current playlist id
-              future: Api.Entities.getAll<Models.Video>(1, 3),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return CustomListBuilder<Models.Video>(
-                      items: snapshot.data,
-                      itemBuilder: (item) =>
-                          VideoCard(aspectRatio: 16 / 9, model: item));
-                } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                } else
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-              },
             ),
           ),
 

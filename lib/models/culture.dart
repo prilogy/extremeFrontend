@@ -2,31 +2,30 @@ part of models;
 
 class Culture {
   String key;
+  String name;
 
-  CultureTypes get value {
-    CultureTypes type;
-    CultureTypes.values.forEach((culture) {
-      if(culture.toString().split('.').last == key)
-        type = culture;
-    });
-
-    return type;
-  }
-
-  Culture({this.key});
+  Culture({this.key, this.name});
 
   Culture.fromJson(Map<String, dynamic> json) {
     key = json['key'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['key'] = this.key;
+    data['name'] = this.name;
     return data;
   }
-}
 
-enum CultureTypes {
-  en,
-  ru
+  static List<Culture> all = [ru, en];
+
+  static Culture ru = Culture(key: 'ru', name: 'Русский');
+  static Culture en = Culture(key: 'en', name: 'English');
+
+  bool operator ==(dynamic other) =>
+      other != null && other is Culture && this.key == other.key;
+
+  @override
+  int get hashCode => super.hashCode;
 }

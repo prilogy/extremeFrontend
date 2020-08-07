@@ -2,18 +2,10 @@ part of models;
 
 class Currency {
   String key;
+  String name;
+  String symbol;
 
-  CurrencyTypes get value {
-    CurrencyTypes type;
-    CurrencyTypes.values.forEach((currency) {
-      if(currency.toString().split('.').last == key)
-        type = currency;
-    });
-
-    return type;
-  }
-
-  Currency({this.key});
+  Currency({this.key, this.name, this.symbol});
 
   Currency.fromJson(Map<String, dynamic> json) {
     key = json['key'];
@@ -24,10 +16,16 @@ class Currency {
     data['key'] = this.key;
     return data;
   }
-}
 
-enum CurrencyTypes {
-  RUB,
-  EUR,
-  USD
+  bool operator ==(dynamic other) =>
+      other != null && other is Currency && this.key == other.key;
+
+  @override
+  int get hashCode => super.hashCode;
+
+  static Currency RUB = Currency(key: 'RUB', name: "Рубль", symbol: '₽');
+  static Currency USD = Currency(key: 'USD', name: "Dollar", symbol: '\$');
+  static Currency EUR = Currency(key: 'EUR', name: "Euro", symbol: '€');
+
+  static List<Currency> all = [RUB, USD, EUR];
 }

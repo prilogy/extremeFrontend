@@ -3,15 +3,24 @@ part of api;
 // Класс только для эндпоинтов User из постман
 class User {
   // так же другие методы
-  static Future<Models.User> info() async {
+  static Future<Models.User> refresh(
+      [bool token = false, bool updateStore = false]) async {
     try {
-      var response = await dio.get('/auth/refresh', queryParameters: {
-        'token': false,
-      });
-      return Models.User.fromJson(response.data);
+      var headers = {
+        'Culture': store.state.settings?.culture?.key,
+        'Currency': store.state.settings?.currency?.key
+      };
+
+      var response = await dio.get('/auth/refresh',
+          queryParameters: {
+            'token': token,
+          },
+          options: Options(headers: headers));
+
+      var user = Models.User.fromJson(response.data);
+      if (updateStore) store.dispatch(SetUser(user));
+      return user;
     } on DioError catch (e) {
-      //обработка ошибочных кодов
-      print('Error: ' + e.response.statusCode.toString());
       return null;
     }
   }

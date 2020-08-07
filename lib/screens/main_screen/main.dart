@@ -6,16 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
 
-import '../../store/info.dart';
 import 'account_screen.dart';
 import 'browse_screen.dart';
 import 'home_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  final Store<Info> store;
   final String title;
 
-  MainScreen({Key key, this.title, this.store}) : super(key: key);
+  MainScreen({Key key, this.title}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
