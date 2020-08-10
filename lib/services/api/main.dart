@@ -15,6 +15,7 @@ import 'package:flutter/cupertino.dart';
 import '../api/../dio.dart';
 import 'package:http/http.dart' as http;
 
+part 'helper.dart';
 part 'entities.dart';
 part 'user.dart';
 part 'search.dart';

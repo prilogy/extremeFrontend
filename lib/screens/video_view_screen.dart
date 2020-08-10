@@ -1,3 +1,4 @@
+import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -7,23 +8,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:vimeoplayer/vimeoplayer.dart';
 import '../widgets/video_card.dart';
+import 'package:extreme/models/main.dart' as Models;
 
 /// Создаёт экран просмотра видео
 
 class VideoViewScreen extends StatelessWidget {
-  final String description;
-  VideoViewScreen({Key key, this.description}) : super(key: key);
+  final Models.Video model;
+  VideoViewScreen({Key key, @required this.model}) : super(key: key);
 
   void _searchIconAction() {
     //TODO: Search some video function
   }
   @override
   Widget build(BuildContext context) {
-    String _description = description ??
-        'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...';
     return ScreenBaseWidget(
-      padding:
-          EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
+      padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
         title: Text('Название видео'), // TODO: Title
         actions: <Widget>[
@@ -39,8 +38,9 @@ class VideoViewScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BlockBaseWidget(
-              padding: EdgeInsets.only(top: Indents.md, left: Indents.md, right: Indents.md),
-              header: 'Название видео',
+              padding: EdgeInsets.only(
+                  top: Indents.md, left: Indents.md, right: Indents.md),
+              header: model?.content?.name ?? 'Название видео',
               child: Text('Название спорта - Плейлист',
                   style: Theme.of(context).textTheme.caption),
             ),
@@ -64,7 +64,9 @@ class VideoViewScreen extends StatelessWidget {
               ),
             ),
             BlockBaseWidget(
-              child: Text(_description,
+              child: Text(
+                  model?.content?.description ??
+                      'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...',
                   style: Theme.of(context).textTheme.bodyText2),
             ),
             BlockBaseWidget(
@@ -110,7 +112,7 @@ class ActionIcon extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           IconButton(
-            padding: EdgeInsets.fromLTRB(0, 0, 0, 0), // like Icon padding
+            padding: EdgeInsets.zero, // like Icon padding
             alignment: Alignment.centerRight,
             icon: Icon(icon, //Icons.thumb_up,
                 size: 45,
@@ -122,14 +124,12 @@ class ActionIcon extends StatelessWidget {
 
           Container(
             margin:
-                EdgeInsets.fromLTRB(0, 5, 0, 0), // Sign below like icon margin
+                EdgeInsets.only(top: Indents.sm), // Sign below like icon margin
             child: Text(
               signText, //'244',
-              style: TextStyle(
-                fontFamily: 'RobotoMono',
-                fontSize: 14.0,
-                color: Color.fromRGBO(182, 181, 189, 1),
-              ),
+              style: Theme.of(context).textTheme.caption.merge(TextStyle(
+                    color: Theme.of(context).colorScheme.surface,
+                  )),
             ),
           ),
 

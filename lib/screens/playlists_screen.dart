@@ -37,51 +37,6 @@ class Playlists extends StatelessWidget {
               );
           },
         ),
-
-        /*
-        BlockBaseWidget(
-                //header: "Популярные плейлисты",
-                margin: EdgeInsets.zero,
-                child: ListView(
-                  shrinkWrap: true,
-                  primary: false,
-                  children: [
-                    for (var item in [
-                      PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.only(bottom: Indents.md),
-                        isLiked: false,
-                      ),
-                      PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.only(bottom: Indents.md),
-                        isLiked: true,
-                      ),
-                      PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.only(bottom: Indents.md),
-                        isLiked: false,
-                      ),
-                      PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.only(bottom: Indents.md),
-                        isLiked: true,
-                      ),
-                      PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.only(bottom: Indents.md),
-                        isLiked: false,
-                      ),
-                      PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.only(bottom: Indents.md),
-                        isLiked: true,
-                      ),
-                    ])
-                      item
-                  ],
-                ),
-              ),*/
       ],
     );
   }

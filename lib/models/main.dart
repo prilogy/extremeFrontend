@@ -5,6 +5,8 @@ import 'dart:convert';
 import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/services/localstorage.dart';
 
+part 'banner.dart';
+part 'subscription_plan.dart';
 part "movie.dart";
 part "image.dart";
 part "playlist.dart";

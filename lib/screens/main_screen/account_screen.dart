@@ -59,35 +59,36 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                           : 'Нет активной подписки';
                       return Text(text);
                     }()),
-                Subscription(
-                  onPressed: () async {
-                    var url = await Api.Subscription.getPaymentUrl(1);
-                    Navigator.of(context, rootNavigator: true)
-                        .push(MaterialPageRoute(
-                            builder: (ctx) => PaymentScreen(
-                                  title: 'Оплата подписки',
-                                  url: url,
-                                )));
+                FutureBuilder(
+                  future: Api.Subscription.getPlans(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      print(snapshot.hasData.toString() + '? ');
+                      print(snapshot.data[0].toString());
+                      return CustomListBuilder(
+                          items: snapshot.data,
+                          itemBuilder: (item) => Subscription(
+                                model: item,
+                                margin: EdgeInsets.only(bottom: Indents.smd),
+                               /* onPressed: () async {
+                                  var url =
+                                      await Api.Subscription.getPaymentUrl(
+                                          item?.id ?? 1);
+                                  Navigator.of(context, rootNavigator: true)
+                                      .push(MaterialPageRoute(
+                                          builder: (ctx) => PaymentScreen(
+                                                title: 'Оплата подписки',
+                                                url: url,
+                                              )));
+                                }, */
+                              ));
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    } else
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
                   },
-                  margin: EdgeInsets.only(bottom: Indents.smd),
-                  color: ExtremeColors.warning,
-                  price: 200,
-                  title: 'месяц',
-                  description: 'Идеальное решение для начала',
-                ),
-                Subscription(
-                  margin: EdgeInsets.only(bottom: Indents.smd),
-                  color: ExtremeColors.success,
-                  price: 800,
-                  title: 'полгода',
-                  description: 'Много контента на долгое время!',
-                ),
-                Subscription(
-                  margin: EdgeInsets.only(bottom: Indents.smd),
-                  color: ExtremeColors.primary,
-                  price: 2000,
-                  title: 'год',
-                  description: 'Максимум контента прямо сейчас!',
                 ),
                 Container(
                   width: double.infinity,
