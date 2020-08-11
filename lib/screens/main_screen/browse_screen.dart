@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:extreme/config/env.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/movies_screen.dart';
 import 'package:extreme/screens/playlist_screen.dart';
 import 'package:extreme/screens/playlists_screen.dart';
@@ -37,6 +38,8 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
 
   @override
   Widget build(BuildContext context) {
+    var loc = AppLocalizations.of(context).withBaseKey('browse_screen');
+
     return ScreenBaseWidget(
         appBar: appBar,
         navigatorKey: navigatorKey,
@@ -47,11 +50,11 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CategoryButton(
-                        text: "Плейлисты",
+                        text: loc.translate('playlists'),
                         icon: Icons.playlist_play,
                         pushTo: Playlists()),
                     CategoryButton(
-                        text: "Фильмы", icon: Icons.movie, pushTo: MoviesList())
+                        text: loc.translate('movies'), icon: Icons.movie, pushTo: MoviesList())
                   ],
                 ),
               ),
@@ -74,7 +77,7 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
                     }),
               ),
               BlockBaseWidget(
-                header: "Популярные плейлисты",
+                header: loc.translate('popular_playlists'),
                 margin: EdgeInsets.zero,
                 child: FutureBuilder(
                     future: Api.Entities.getAll<Models.Playlist>(1, 2),

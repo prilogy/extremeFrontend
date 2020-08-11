@@ -1,5 +1,6 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
@@ -27,6 +28,8 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
 
   @override
   Widget build(BuildContext context) {
+    var loc = AppLocalizations.of(context).withBaseKey('home_screen');
+
     // TODO: неправильная тема из контекста
     var theme = Theme.of(context);
     TextEditingController _searchController = TextEditingController();
@@ -65,7 +68,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         ),
         BlockBaseWidget.forScrollingViews(
           padding: EdgeInsets.only(top: Indents.md),
-          header: 'Интересные виды спорта',
+          header: loc.translate('interesting_sports'),
           child: FutureBuilder(
             future: Api.Entities.getAll<Models.Sport>(1, 8),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -87,7 +90,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         ),
         BlockBaseWidget(
           margin: const EdgeInsets.only(bottom: Indents.smd),
-          header: 'Рекомендуемые видео',
+          header: loc.translate('recommended_videos'),
           child: FutureBuilder(
             future: Api.Entities.recommended<Models.Video>(1, 2),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -109,7 +112,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         ),
         BlockBaseWidget.forScrollingViews(
           margin: EdgeInsets.zero,
-          header: 'Последние обновления',
+          header: loc.translate('last_updates'),
           child: FutureBuilder(
             future: Api.Entities.getAll<Models.Playlist>(1, 10),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -188,8 +191,7 @@ class _BannerInfoState extends State<BannerInfo> {
 class BannerInformation extends StatelessWidget {
   final int id;
   final Models.Content content;
-  const BannerInformation({Key key, this.id, this.content})
-      : super(key: key);
+  const BannerInformation({Key key, this.id, this.content}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -233,7 +235,10 @@ class _HeadBannerState extends State<HeadBanner> {
       child: Stack(
         children: [
           Carousel(
-            images: contents.map((e) => NetworkImage(e?.image?.path ?? 'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg')).toList(),
+            images: contents
+                .map((e) => NetworkImage(e?.image?.path ??
+                    'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'))
+                .toList(),
             // TODO: fetch photos with rest api
             // images: [
             //   NetworkImage(

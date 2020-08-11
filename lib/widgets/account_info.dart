@@ -22,6 +22,7 @@ class _AccountInfoState extends State<AccountInfo> {
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    var store = StoreProvider.of<AppState>(context);
     // TODO: user всегда рисуется из widget.user, который не обновляется. Нужно добавить изменение user вместо с состоянием
     User user = widget.user;
     Widget confirmation;

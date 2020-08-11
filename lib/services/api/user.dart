@@ -27,8 +27,23 @@ class User {
 
   static Future<dynamic> confirmEmailRequset() async {
     try {
-      var response = await dio.get('user/verifyEmail');
-      var user = Models.User.fromJson(response.data);
+      var response = await dio.get('/user/verifyEmail');
+      // var user = Models.User.fromJson(response.data);
+      print('confirm Email request: \n \n ' + response.data.toString());
+      return response;
+    } on DioError catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  static Future confirmEmailAttempt(int code) async {
+    try {
+      var body = json.encode(code);
+      var response = await dio.post('/user/verifyEmail', data: body);
+      if (response.statusCode == 200) {
+        
+      }
       return response;
     } on DioError catch (e) {
       print(e);

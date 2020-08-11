@@ -2,6 +2,26 @@
   "login_screen": {
     "header": "Подпишитесь, чтобы всегда быть в Экстриме",
     "description": "Создайте персональный аккаунт чтобы получить полный функционал приложения ExtremeInsiders",
-    "sign_in" : "Войти с {0}"
+    "sign_in": "Войти с {0}"
+  },
+  "home_screen": {
+    "interesting_sports": "Интересные виды спорта",
+    "recommended_videos": "Рекомендуемые видео",
+    "last_updates": "Последние обновления"
+  },
+  "browse_screen": {
+    "playlists": "Плейлисты",
+    "movies": "Фильмы",
+    "popular_playlists": "Популярные плейлисты"
+  },
+  "account_screen": {
+    "appbar": "Account",
+    "duration": "With Extreme Insiders since {0}",
+    "subscribtion": "Subscription",
+    "expiration": "Subscription expires in {0} days",
+    "hint": "The subscription will renew from the moment it ends",
+    "connected_accounts": "Connected accounts",
+    "connect": "Connect",
+    "disconnect": "Disconnect"
   }
 }

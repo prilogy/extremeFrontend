@@ -2,6 +2,26 @@
   "login_screen": {
     "header": "Subscribe to always be in Extreme",
     "description": "Create personal account to get full functionality of ExtemeInsiders application.",
-    "sign_in" : "Sign in with {0}"
+    "sign_in": "Sign in with {0}"
+  },
+  "home_screen": {
+    "interesting_sports": "Interesting sports",
+    "recommended_videos": "Recommended videos",
+    "last_updates": "Recently updated"
+  },
+  "browse_screen": {
+    "playlists": "Playlists",
+    "movies": "Movies",
+    "popular_playlists": "Popular playlists"
+  },
+  "account_screen": {
+    "appbar": "Account",
+    "duration": "With Extreme Insiders since {0}",
+    "subscribtion": "Subscription",
+    "expiration": "Subscription expires in {0} days",
+    "hint": "The subscription will renew from the moment it ends",
+    "connected_accounts": "Connected accounts",
+    "connect": "Connect",
+    "disconnect": "Disconnect"
   }
 }
