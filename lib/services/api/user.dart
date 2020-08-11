@@ -25,6 +25,17 @@ class User {
     }
   }
 
+  static Future<dynamic> confirmEmailRequset() async {
+    try {
+      var response = await dio.get('user/verifyEmail');
+      var user = Models.User.fromJson(response.data);
+      return response;
+    } on DioError catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   static Future<Models.User> edit(String name, String email) async {
     var form;
     if (name != null && email != null) {

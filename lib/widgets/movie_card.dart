@@ -30,9 +30,8 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
               borderRadius: BorderRadius.all(Radius.circular(5)),
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: 
-                ExactAssetImage(
-                    "assets/images/extreme2.jpg"), // TODO: change hardcode image to var
+                image: NetworkImage(model?.content?.image?.path ??
+                    'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'),
               ),
             ),
             child: Container(
@@ -43,8 +42,14 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                       decoration: BoxDecoration(
                         gradient: RadialGradient(
                           colors: [
-                            Theme.of(context).colorScheme.background.withOpacity(0),
-                            Theme.of(context).colorScheme.background.withOpacity(0.75),
+                            Theme.of(context)
+                                .colorScheme
+                                .background
+                                .withOpacity(0),
+                            Theme.of(context)
+                                .colorScheme
+                                .background
+                                .withOpacity(0.75),
                           ],
                           center: Alignment.center,
                           radius: 1.5,
@@ -57,37 +62,19 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                       child: Material(
                     color: Colors.transparent,
                     child: InkWell(
+                      // TODO: implement movie view open
                       onTap: () {},
                     ),
                   )),
                   Padding(
                     padding: const EdgeInsets.all(Indents.md),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Like(
-                                isLiked: false,
-                              ),
-                            ]),
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                model?.content?.name ?? 'Фильм',
-                                style: TextStyle(
-                                  // TODO: исправить текст стайл
-                                  letterSpacing: 0.8,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Roboto',
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                            ]),
-                      ],
-                    ),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Like(
+                            isLiked: false,
+                          ),
+                        ]),
                   ),
                 ],
               ),

@@ -99,7 +99,7 @@ class HeaderPlaylist extends StatelessWidget {
               image: DecorationImage(
                 fit: BoxFit.cover,
                 // TODO: заменить изображение на изображение с Api
-                image: ExactAssetImage("assets/images/extreme2.jpg"),
+                image: NetworkImage(model.content.image.path)
               ),
             ),
             child: Container(

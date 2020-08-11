@@ -63,8 +63,6 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                   future: Api.Subscription.getPlans(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
-                      print(snapshot.hasData.toString() + '? ');
-                      print(snapshot.data[0].toString());
                       return CustomListBuilder(
                           items: snapshot.data,
                           itemBuilder: (item) => Subscription(

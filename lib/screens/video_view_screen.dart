@@ -24,7 +24,7 @@ class VideoViewScreen extends StatelessWidget {
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
-        title: Text('Название видео'), // TODO: Title
+        title: Text(model?.content?.name ?? 'Название видео'), // TODO: Title
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -70,6 +70,7 @@ class VideoViewScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText2),
             ),
             BlockBaseWidget(
+              // TODO: omplement api request
                 header: 'Другие видео из плейлиста',
                 child: Column(
                   children: [
@@ -106,17 +107,17 @@ class ActionIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       // Like
-      margin: EdgeInsets.fromLTRB(0, 0, 15, 0), // like container margin
+      margin: EdgeInsets.only(right: Indents.lg), // like container margin
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           IconButton(
-            padding: EdgeInsets.zero, // like Icon padding
+            padding: EdgeInsets.zero, 
             alignment: Alignment.centerRight,
-            icon: Icon(icon, //Icons.thumb_up,
+            icon: Icon(icon,
                 size: 45,
-                color: iconColor //Color.fromRGBO(34, 163, 210, 1),
+                color: iconColor 
                 ),
             tooltip: 'Placeholder',
             onPressed: onPressed,
@@ -128,7 +129,7 @@ class ActionIcon extends StatelessWidget {
             child: Text(
               signText, //'244',
               style: Theme.of(context).textTheme.caption.merge(TextStyle(
-                    color: Theme.of(context).colorScheme.surface,
+                    color: Theme.of(context).colorScheme.onPrimary,
                   )),
             ),
           ),

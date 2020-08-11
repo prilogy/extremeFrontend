@@ -5,6 +5,7 @@ import 'package:extreme/widgets/movie_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:extreme/models/main.dart' as Models;
 
 /// Страница со списком фильмов
 class MoviesList extends StatelessWidget {
@@ -19,7 +20,7 @@ class MoviesList extends StatelessWidget {
         builder: (context) => [
               BlockBaseWidget(
                 child: FutureBuilder(
-                  future: Api.Entities.movies(1, 10),
+                  future: Api.Entities.getAll<Models.Movie>(1, 10),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return CustomListBuilder(

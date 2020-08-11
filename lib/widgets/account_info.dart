@@ -26,7 +26,7 @@ class _AccountInfoState extends State<AccountInfo> {
     User user = widget.user;
     Widget confirmation;
     !user.emailVerified
-        ? confirmation = Confirmation()
+        ? confirmation = ConfirmationSign()
         : confirmation = Container(); // TODO: change to something more logic
     if (!edit) {
       return Container(
@@ -113,7 +113,9 @@ class _AccountInfoState extends State<AccountInfo> {
                 children: [
                   RaisedButton(
                     color: Theme.of(context).colorScheme.primary,
-                    child: Text('Сохранить',),
+                    child: Text(
+                      'Сохранить',
+                    ),
                     onPressed: () async {
                       var _user = await Api.User.edit(
                           user.name != _nameController.text
@@ -138,8 +140,8 @@ class _AccountInfoState extends State<AccountInfo> {
   }
 }
 
-class Confirmation extends StatelessWidget {
-  const Confirmation({Key key}) : super(key: key);
+class ConfirmationSign extends StatelessWidget {
+  const ConfirmationSign({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +166,8 @@ class Confirmation extends StatelessWidget {
           ],
         ),
         onTap: () {
-          print('Email confirmation InkWell pressed');
+          Api.User.confirmEmailRequset();
+          Navigator.of(context, rootNavigator: true).pushNamed('/confirmation');
         },
       ),
     );

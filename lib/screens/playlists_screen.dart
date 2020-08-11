@@ -19,7 +19,7 @@ class Playlists extends StatelessWidget {
       appBar: AppBar(title: Text('Плейлисты')),
       builder: (context) => [
         FutureBuilder(
-          future: Api.Entities.playlists(1, 10),
+          future: Api.Entities.getAll<Models.Playlist>(1, 10),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return BlockBaseWidget(

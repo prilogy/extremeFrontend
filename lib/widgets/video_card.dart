@@ -21,17 +21,19 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     this.aspectRatio,
   });
 
-
   @override
   Widget build(BuildContext context) {
-    String testText = model?.content?.name ??
-        'Blancpain GT3 - 3 hours Monza Race / Replay';
+    String testText =
+        model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
     return withIndents(
       child: Container(
         // padding: EdgeInsets.all(Indents.md),
         child: Column(
           children: <Widget>[
-            withAspectRatio(child: VideoCardWithoutCaption()),
+            withAspectRatio(
+                child: VideoCardWithoutCaption(
+              model: model,
+            )),
             Container(
               margin: EdgeInsets.only(top: Indents.md),
               child: Row(
@@ -48,7 +50,12 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                             style: Theme.of(context).textTheme.subtitle1),
                         Text('5 дней назад',
                             style: Theme.of(context).textTheme.subtitle2.merge(
-                                TextStyle(height: 1.4,color: Theme.of(context).colorScheme.onBackground.withOpacity(0.6)))),
+                                TextStyle(
+                                    height: 1.4,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground
+                                        .withOpacity(0.6)))),
                       ],
                     ),
                   ),
@@ -73,6 +80,8 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
 }
 
 class VideoCardWithoutCaption extends StatelessWidget {
+  final Models.Video model;
+  VideoCardWithoutCaption({@required this.model});
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -83,6 +92,7 @@ class VideoCardWithoutCaption extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
             fit: BoxFit.cover,
+            // TODO: change to api image
             image: ExactAssetImage("assets/images/extreme2.jpg"),
           ),
         ),
@@ -112,7 +122,9 @@ class VideoCardWithoutCaption extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => VideoViewScreen(),
+                          builder: (context) => VideoViewScreen(
+                            model: model,
+                          ),
                         ));
                   },
                 ),
@@ -146,11 +158,10 @@ class VideoCardWithoutCaption extends StatelessWidget {
   }
 }
 
-class VideoDuration extends StatelessWidget{
+class VideoDuration extends StatelessWidget {
   final int hours;
   final int minutes;
   final int seconds;
-
 
   VideoDuration({this.hours = 0, this.minutes, this.seconds});
   String _time(int hours, int minutes, int seconds) {
@@ -167,16 +178,16 @@ class VideoDuration extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-        padding: EdgeInsets.all(Indents.sm / 2),
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.7),
-          borderRadius: BorderRadius.all(Radius.circular(5)),
-        ),
-        child: Text(
-          _time(hours, minutes, seconds),
-          style: Theme.of(context).textTheme.overline,
-        ),
+    return Container(
+      padding: EdgeInsets.all(Indents.sm / 2),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.7),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+      ),
+      child: Text(
+        _time(hours, minutes, seconds),
+        style: Theme.of(context).textTheme.overline,
+      ),
     );
   }
 }

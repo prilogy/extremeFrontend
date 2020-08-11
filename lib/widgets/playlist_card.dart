@@ -41,7 +41,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: NetworkImage(
-                        'https://s00.yaplakal.com/pics/pics_original/4/1/0/6269014.jpg'),
+                        model?.content?.image?.path ?? 'https://img2.akspic.ru/image/1601-nebo-priklyucheniya-skachok-bejsdzhamping-kaskader-1920x1080.jpg'),
                     fit: BoxFit.cover),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
               ),
@@ -153,7 +153,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
             borderRadius: BorderRadius.all(Radius.circular(5)),
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: ExactAssetImage("assets/images/extreme2.jpg"),
+              image: NetworkImage(model?.content?.image?.path ?? 'https://img2.akspic.ru/image/1601-nebo-priklyucheniya-skachok-bejsdzhamping-kaskader-1920x1080.jpg'),
             ),
           ),
           child: Stack(

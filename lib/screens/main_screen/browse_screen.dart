@@ -77,7 +77,7 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
                 header: "Популярные плейлисты",
                 margin: EdgeInsets.zero,
                 child: FutureBuilder(
-                    future: Api.Entities.playlists(1, 2),
+                    future: Api.Entities.getAll<Models.Playlist>(1, 2),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return CustomListBuilder<Models.Playlist>(
