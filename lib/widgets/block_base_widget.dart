@@ -12,21 +12,24 @@ class BlockBaseWidget extends StatelessWidget with IndentsMixin {
 
   final EdgeInsetsGeometry headerPadding;
 
+  static const EdgeInsetsGeometry _defaultMargin =
+      const EdgeInsets.only(bottom: Indents.md);
+
   BlockBaseWidget(
       {this.child,
       this.header = "",
       this.headerPadding = const EdgeInsets.all(0),
       this.crossAxisAlignment = CrossAxisAlignment.start,
-      this.padding =
-          const EdgeInsets.symmetric(horizontal: Indents.md),
-      this.margin = const EdgeInsets.only(bottom: Indents.lg)});
+      this.padding = const EdgeInsets.symmetric(horizontal: Indents.md),
+      this.margin = _defaultMargin});
 
   BlockBaseWidget.forScrollingViews(
       {this.child,
       this.header,
       this.crossAxisAlignment = CrossAxisAlignment.start,
       this.headerPadding = const EdgeInsets.only(left: Indents.md),
-      this.padding = const EdgeInsets.all(0), this.margin = const EdgeInsets.only(bottom: Indents.lg)});
+      this.padding = const EdgeInsets.all(0),
+      this.margin = _defaultMargin});
 
   @override
   Widget build(BuildContext context) {

@@ -7,6 +7,7 @@ import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -19,24 +20,16 @@ import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 
 // Домашняя страница пользователя - Главная
-var _authToken;
 
 class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
-  int index = 0;
+
   HomeScreen({Key key, this.navigatorKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var loc = AppLocalizations.of(context).withBaseKey('home_screen');
-
-    // TODO: неправильная тема из контекста
-    var theme = Theme.of(context);
-    TextEditingController _searchController = TextEditingController();
-    _searchController.text = 'a';
-
     var store = StoreProvider.of<AppState>(context);
-    print(store.state.user.email);
 
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
@@ -57,8 +50,11 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
           future: Api.Helper.getBanner(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
-              return HeadBanner(
-                contents: snapshot.data,
+              return Container(
+                margin: EdgeInsets.only(bottom: Indents.md),
+                child: HeadBanner(
+                  contents: snapshot.data,
+                ),
               );
             } else if (snapshot.hasError) {
               return Text(snapshot.error.toString());
@@ -67,7 +63,6 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
           },
         ),
         BlockBaseWidget.forScrollingViews(
-          padding: EdgeInsets.only(top: Indents.md),
           header: loc.translate('interesting_sports'),
           child: FutureBuilder(
             future: Api.Entities.getAll<Models.Sport>(1, 8),
@@ -89,46 +84,31 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
           ),
         ),
         BlockBaseWidget(
-          margin: const EdgeInsets.only(bottom: Indents.smd),
           header: loc.translate('recommended_videos'),
-          child: FutureBuilder(
+          child: CustomFutureBuilder<List<Models.Video>>(
             future: Api.Entities.recommended<Models.Video>(1, 2),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return CustomListBuilder(
-                    items: snapshot.data,
-                    itemBuilder: (item) => VideoCard(
-                          model: item,
-                          aspectRatio: 16 / 9,
-                        ));
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+            builder: (data) {
+              return CustomListBuilder(
+                  items: data,
+                  itemBuilder: (item) => VideoCard(
+                        model: item,
+                        aspectRatio: 16 / 9,
+                      ));
             },
           ),
         ),
         BlockBaseWidget.forScrollingViews(
           margin: EdgeInsets.zero,
           header: loc.translate('last_updates'),
-          child: FutureBuilder(
+          child: CustomFutureBuilder(
             future: Api.Entities.getAll<Models.Playlist>(1, 10),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return CustomListBuilder<Models.Playlist>(
-                    type: CustomListBuilderTypes.horizontalList,
-                    height: 100,
-                    items: snapshot.data,
-                    itemBuilder: (item) => PlayListCard(
-                        model: item, aspectRatio: 16 / 9, small: true));
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+            builder: (data) {
+              return CustomListBuilder<Models.Playlist>(
+                  type: CustomListBuilderTypes.horizontalList,
+                  height: 100,
+                  items: data,
+                  itemBuilder: (item) => PlayListCard(
+                      model: item, aspectRatio: 16 / 9, small: true));
             },
           ),
         ),
@@ -139,7 +119,9 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
 
 class BannerInfo extends StatefulWidget {
   final List models;
+
   BannerInfo({Key key, this.models}) : super(key: key);
+
   //void updateInfo(int index);
   @override
   _BannerInfoState createState() => _BannerInfoState();
@@ -147,6 +129,7 @@ class BannerInfo extends StatefulWidget {
 
 class _BannerInfoState extends State<BannerInfo> {
   int modelId;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -191,6 +174,7 @@ class _BannerInfoState extends State<BannerInfo> {
 class BannerInformation extends StatelessWidget {
   final int id;
   final Models.Content content;
+
   const BannerInformation({Key key, this.id, this.content}) : super(key: key);
 
   @override
@@ -219,7 +203,9 @@ class BannerInformation extends StatelessWidget {
 
 class HeadBanner extends StatefulWidget {
   final List<Content> contents;
+
   HeadBanner({this.contents});
+
   @override
   _HeadBannerState createState() => _HeadBannerState();
 }
@@ -227,6 +213,7 @@ class HeadBanner extends StatefulWidget {
 class _HeadBannerState extends State<HeadBanner> {
   int index = 0;
   List<Content> contents;
+
   @override
   Widget build(BuildContext context) {
     contents = widget.contents;

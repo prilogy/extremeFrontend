@@ -12,7 +12,6 @@ import 'package:extreme/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-
 class SettingsScreen extends StatefulWidget {
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -22,7 +21,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final Widget appBar = AppBar(
     title: Text("Настройки"),
   );
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,30 +36,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
           children: <Widget>[
             BlockBaseWidget(
                 child: Column(
-                  children: [
-                    SettingsWidget(
-                      title: 'Язык и локализация',
-                      append: DropdownButton<Culture>(
-                        value: store.state.settings.culture,
-                        onChanged: (val) async {
-                          store.dispatch(SetSettings(culture: val));
-                          loc.load(Locale(val.key, ''));
-                          await Api.User.refresh(true, true);
-                        },
-                        items: Culture.all.map((val) {
-                          return DropdownMenuItem<Culture>(
-                            value: val,
-                            child: new Text(val.name),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                    SettingsWidget(title: 'Управление уведомлениями'),
-                    SettingsWidget(title: 'Качество видео'),
-                    SettingsWidget(title: 'Очистить историю просмотров'),
-                    SettingsWidget(title: 'Очистить историю поиска'),
-                  ],
-                )),
+              children: [
+                SettingsWidget(
+                  title: 'Язык и локализация',
+                  append: DropdownButton<Culture>(
+                    value: store.state.settings.culture,
+                    onChanged: (val) async {
+                      store.dispatch(SetSettings(culture: val));
+                      loc.load(Locale(val.key, ''));
+                      await Api.User.refresh(true, true);
+                      setState(() {});
+                    },
+                    items: Culture.all.map((val) {
+                      return DropdownMenuItem<Culture>(
+                        value: val,
+                        child: new Text(val.name),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                SettingsWidget(title: 'Управление уведомлениями'),
+                SettingsWidget(title: 'Качество видео'),
+                SettingsWidget(title: 'Очистить историю просмотров'),
+                SettingsWidget(title: 'Очистить историю поиска'),
+              ],
+            )),
             BlockBaseWidget(
                 header: 'Другое',
                 child: Column(
@@ -78,7 +77,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         var scf = Scaffold.of(context);
                         scf.showSnackBar(SnackBar(
                           backgroundColor:
-                          Theme.of(context).colorScheme.primary,
+                              Theme.of(context).colorScheme.primary,
                           content: Text(
                             'Successfully logged out',
                             style: TextStyle(
@@ -104,5 +103,3 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 }
-
-

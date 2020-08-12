@@ -15,13 +15,13 @@
     "popular_playlists": "Популярные плейлисты"
   },
   "account_screen": {
-    "appbar": "Account",
-    "duration": "With Extreme Insiders since {0}",
-    "subscribtion": "Subscription",
-    "expiration": "Subscription expires in {0} days",
-    "hint": "The subscription will renew from the moment it ends",
-    "connected_accounts": "Connected accounts",
-    "connect": "Connect",
-    "disconnect": "Disconnect"
+    "appbar": "Профиль",
+    "duration": "С Extreme Insiders с {0}",
+    "subscribtion": "Подписка",
+    "expiration": "Подписка истекает через {0} дней",
+    "hint": "Подписка продлится с момента её окончания",
+    "connected_accounts": "Привязанные аккаунты",
+    "connect": "Привязать",
+    "disconnect": "Отвязать"
   }
 }

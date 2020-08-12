@@ -16,7 +16,6 @@ class Entities {
 
       return entities;
     } on DioError catch (e) {
-      print(e);
       return null;
     }
   }
@@ -30,7 +29,6 @@ class Entities {
       var entity = _entityFromJson<T>(response.data);
       return entity;
     } on DioError catch (e) {
-      print(e);
       return null;
     }
   }
@@ -50,7 +48,6 @@ class Entities {
       });
       return entities;
     } on DioError catch (e) {
-      print(e);
       return null;
     }
   }
@@ -70,7 +67,6 @@ static Future<List<T>> recommended<T>(
 
       return entities;
     } on DioError catch (e) {
-      print(e);
       return null;
     }
       }

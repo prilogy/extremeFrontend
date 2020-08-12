@@ -6,6 +6,7 @@ import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/account_info.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/social_account.dart';
@@ -50,7 +51,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                    margin: EdgeInsets.only(bottom: Indents.sm),
+                    margin: EdgeInsets.only(bottom: Indents.smd),
                     child: () {
                       var isSubscribed = user.subscription?.dateEnd != null &&
                           user.subscription.dateEnd.isAfter(DateTime.now());
@@ -59,16 +60,15 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                           : 'Нет активной подписки';
                       return Text(text);
                     }()),
-                FutureBuilder(
+                CustomFutureBuilder<List<Models.SubscriptionPlan>>(
                   future: Api.Subscription.getPlans(),
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      return CustomListBuilder(
-                          items: snapshot.data,
-                          itemBuilder: (item) => Subscription(
-                                model: item,
-                                margin: EdgeInsets.only(bottom: Indents.smd),
-                               /* onPressed: () async {
+                  builder: (data) {
+                    return CustomListBuilder(
+                        lastItemHasGap: true,
+                        items: data,
+                        itemBuilder: (item) => Subscription(
+                              model: item,
+                              /* onPressed: () async {
                                   var url =
                                       await Api.Subscription.getPaymentUrl(
                                           item?.id ?? 1);
@@ -79,13 +79,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                                 url: url,
                                               )));
                                 }, */
-                              ));
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    } else
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
+                            ));
                   },
                 ),
                 Container(

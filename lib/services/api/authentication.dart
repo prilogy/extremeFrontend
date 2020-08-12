@@ -5,13 +5,9 @@ class Authentication {
     try {
       var response = await dio
           .post('/auth/login', data: {"email": email, "password": password});
-
       var user = Models.User.fromJson(response.data);
-      print('successful login: /n' + response.data.toString());
       return user;
     } on DioError catch (e) {
-      //обработка ошибочных кодов
-      print(e.response.statusCode);
       return null;
     }
   }
@@ -27,7 +23,7 @@ class Authentication {
       Models.SocialIdentity socialIdentity,
       Models.SocialAccountProvider socialProvider}) async {
     var isSocial = socialIdentity != null && socialProvider != null;
-    var map = <String,dynamic>{
+    var map = <String, dynamic>{
       "name": name,
       "email": email,
       "password": password,
@@ -35,7 +31,7 @@ class Authentication {
       'dateBirthday': dateBirthday
     };
 
-    if(avatar != null)
+    if (avatar != null)
       map.addAll({
         "avatar": await MultipartFile.fromFile(
           avatar.path,
@@ -50,10 +46,11 @@ class Authentication {
       });
 
     try {
-      var response = await dio.put(isSocial? '/auth/signup/${socialProvider.name}' : '/auth/signup', data: FormData.fromMap(map));
+      var response = await dio.put(
+          isSocial ? '/auth/signup/${socialProvider.name}' : '/auth/signup',
+          data: FormData.fromMap(map));
       return true;
     } on DioError catch (e) {
-      print(e.response.statusCode);
       return false;
     }
   }

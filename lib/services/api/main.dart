@@ -1,7 +1,5 @@
 library api;
 
-//TODO: сюда весь апи из ../api.dart (по примеру ./user.dart)
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -11,9 +9,8 @@ import 'package:dio/dio.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
-import 'package:flutter/cupertino.dart';
 import '../api/../dio.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
 
 part 'helper.dart';
 part 'entities.dart';

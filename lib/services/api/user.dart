@@ -28,11 +28,8 @@ class User {
   static Future<dynamic> confirmEmailRequset() async {
     try {
       var response = await dio.get('/user/verifyEmail');
-      // var user = Models.User.fromJson(response.data);
-      print('confirm Email request: \n \n ' + response.data.toString());
       return response;
     } on DioError catch (e) {
-      print(e);
       return null;
     }
   }
@@ -46,7 +43,6 @@ class User {
       }
       return response;
     } on DioError catch (e) {
-      print(e);
       return null;
     }
   }
@@ -67,12 +63,8 @@ class User {
     try {
       var response =
           await dio.patch('/user/edit', data: form, queryParameters: params);
-      print('It is okay: ' + response.statusCode.toString());
-      print(response.data);
       return Models.User.fromJson(response.data);
     } on DioError catch (e) {
-      //обработка ошибочных кодов
-      print('Error: ' + e.response.statusCode.toString());
       return null;
     }
   }

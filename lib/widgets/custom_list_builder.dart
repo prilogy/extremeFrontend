@@ -18,10 +18,11 @@ class CustomListBuilder<T> extends StatelessWidget {
   final int crossAxisCount;
   /// Соотношение сторон для объектов в grid
   final double childAspectRatio;
-  // isGrid                 ------|
-  // isScrollableList (типа вбок)-| Вообще это все можно объединить в enum чисто для удобства,
-  // isSmth ещё что то и тд   ----| чтобы всегда конкретно один тип задавался
-  // itemMargin                   \ напр enum CustomListBuilderTypes { verticalList, grid, scrollableList }
+  // Расстояние между элементами
+  final double gap;
+  // Форсит отступ для последнего элемента
+  final bool lastItemHasGap;
+
 
   CustomListBuilder(
       {@required this.items,
@@ -29,7 +30,9 @@ class CustomListBuilder<T> extends StatelessWidget {
       this.type = CustomListBuilderTypes.verticalList,
       this.height = 100,
       this.crossAxisCount = 2,
-      this.childAspectRatio = 16/9});
+      this.childAspectRatio = 16/9,
+      this.gap = Indents.smd,
+      this.lastItemHasGap = false});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class CustomListBuilder<T> extends StatelessWidget {
               for (var item in widgetItems)
                 Container(
                   margin: EdgeInsets.only(
-                      bottom: widgetItems.last == item ? 0 : Indents.md),
+                      bottom: widgetItems.last == item && !lastItemHasGap ? 0 : gap),
                   child: item,
                 )
             ],
@@ -86,6 +89,7 @@ class CustomListBuilder<T> extends StatelessWidget {
         }
         break;
       default:
+        return Container();
     }
   }
 }
