@@ -1,3 +1,4 @@
+import 'package:extreme/helpers/app_builder.dart';
 import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -9,8 +10,8 @@ import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 
 class AccountInfo extends StatefulWidget {
-  User user;
-  AccountInfo({this.user});
+
+  AccountInfo();
 
   @override
   _AccountInfoState createState() => _AccountInfoState();
@@ -20,16 +21,18 @@ class _AccountInfoState extends State<AccountInfo> {
   bool edit = false;
 
   final _formKey = GlobalKey<FormState>();
+
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    var store = StoreProvider.of<AppState>(context);
-    // TODO: user всегда рисуется из widget.user, который не обновляется. Нужно добавить изменение user вместо с состоянием
-    User user = widget.user;
-    Widget confirmation;
-    !user.emailVerified
-        ? confirmation = ConfirmationSign()
-        : confirmation = Container(); // TODO: change to something more logic
-    if (!edit) {
+    var user = StoreProvider.of<AppState>(context).state.user;
+    var confirmation = !user.emailVerified ? ConfirmationSign() : Container();
+    _nameController.text = user.name;
+    _emailController.text = user.email;
+
+    if (!edit)
       return Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,7 +48,7 @@ class _AccountInfoState extends State<AccountInfo> {
                         .merge(TextStyle(height: 1.6)),
                   ),
                   Text(
-                      'С Exteme Insiders с ' +
+                      'С Extreme Insiders с ' +
                           HelperMethods.DateToString(user.dateSignUp),
                       style: Theme.of(context)
                           .textTheme
@@ -79,65 +82,81 @@ class _AccountInfoState extends State<AccountInfo> {
           ],
         ),
       );
-    } else {
-      TextEditingController _nameController = TextEditingController();
-      _nameController.text = user.name;
-      TextEditingController _emailController = TextEditingController();
-      _emailController.text = user.email;
-      return Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                    labelText: 'Имя', icon: Icon(Icons.person)),
-              ),
-              TextFormField(
-                controller: _emailController,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Введите текст самфинг';
-                  }
-                  if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                      .hasMatch(value)) return 'Неправильный формат email';
-                  return null;
-                },
-                decoration: const InputDecoration(
-                    icon: Icon(Icons.alternate_email),
-                    hintText: 'example@gmail.com',
-                    labelText: 'Email'),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  RaisedButton(
-                    color: Theme.of(context).colorScheme.primary,
+
+    return Form(
+        key: _formKey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                  labelText: 'Имя', icon: Icon(Icons.person)),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Введите текст самфинг';
+                }
+
+                return null;
+              },
+            ),
+            TextFormField(
+              controller: _emailController,
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Введите текст самфинг';
+                }
+                if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                    .hasMatch(value)) return 'Неправильный формат email';
+                return null;
+              },
+              decoration: const InputDecoration(
+                  icon: Icon(Icons.alternate_email),
+                  hintText: 'example@gmail.com',
+                  labelText: 'Email'),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(right: Indents.sm),
+                  child: FlatButton(
+                    color: Colors.transparent,
                     child: Text(
-                      'Сохранить',
+                      'Отменить',
                     ),
-                    onPressed: () async {
-                      var _user = await Api.User.edit(
-                          user.name != _nameController.text
-                              ? _nameController.text
-                              : null,
-                          user.email != _emailController.text
-                              ? _emailController.text
-                              : null);
-                      _user.token = user.token;
-                      store.dispatch(SetUser(_user));
-                      widget.user = _user;
+                    onPressed: () {
                       setState(() {
-                        edit = !edit;
+                        edit = false;
                       });
                     },
-                  )
-                ],
-              )
-            ],
-          ));
-    }
+                  ),
+                ),
+                RaisedButton(
+                  color: Theme.of(context).colorScheme.primary,
+                  child: Text(
+                    'Сохранить',
+                  ),
+                  onPressed: () async {
+                    if (!_formKey.currentState.validate()) return null;
+                    await Api.User.edit(
+                        name: _nameController.text != user.name
+                            ? _nameController.text
+                            : null,
+                        email: _emailController.text != user.email
+                            ? _emailController.text
+                            : null);
+
+                    await Api.User.refresh(true, true);
+                    setState(() {
+                      edit = false;
+                    });
+                  },
+                )
+              ],
+            )
+          ],
+        ));
   }
 }
 

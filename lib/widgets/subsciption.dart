@@ -37,20 +37,6 @@ class Subscription extends StatelessWidget {
       default:
         color = ExtremeColors.error;
     }
-    Models.Currency currency;
-    switch (model?.price?.currency?.key ?? 'NOT') {
-      case 'RUB':
-        currency = Models.Currency.RUB;
-        break;
-      case 'USD':
-        currency = Models.Currency.USD;
-        break;
-      case 'EUR':
-        currency = Models.Currency.EUR;
-        break;
-      default:
-        currency = Models.Currency(key: 'NOT', symbol: 'NOT', name: 'Nothing');
-    }
 
     return Container(
         decoration: BoxDecoration(
@@ -87,8 +73,7 @@ class Subscription extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          model?.price?.value.toString()+ currency?.symbol ??
-                              '777 Руб',
+                          model?.price?.toString(),
                           style: Theme.of(context)
                               .textTheme
                               .subtitle2

@@ -34,25 +34,32 @@ class App extends StatelessWidget {
       child: AppBuilder(
         builder: (context) => MaterialApp(
           title: 'ExtremeInsiders',
-          supportedLocales: [Locale(Culture.en.key, ''), Locale(Culture.ru.key, '')],
+          supportedLocales: [
+            Locale(Culture.en.key, ''),
+            Locale(Culture.ru.key, '')
+          ],
           localizationsDelegates: [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate
           ],
           localeListResolutionCallback: (locales, supportedLocales) {
-            if(store.state.settings?.culture != null)
+            if (store.state.settings?.culture != null)
               return Locale(store.state.settings.culture.key, '');
             for (var loc in locales) {
               for (var supp in supportedLocales) {
                 if (supp.languageCode == loc.languageCode) {
-                  var culture = Culture.all.firstWhere((x) => x.key == supp.languageCode);
-                  store.dispatch(SetSettings(culture: culture));
+                  var culture =
+                      Culture.all.firstWhere((x) => x.key == supp.languageCode);
+                  store.dispatch(SetSettings(
+                      culture: culture,
+                      currency: culture.key == 'en'
+                          ? Currency.USD
+                          : culture.key == 'ru' ? Currency.RUB : Currency.USD));
                   return supp;
                 }
               }
             }
-
             return supportedLocales.first;
           },
           theme: AppTheme.dark,

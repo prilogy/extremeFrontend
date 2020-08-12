@@ -15,13 +15,24 @@
     "popular_playlists": "Популярные плейлисты"
   },
   "account_screen": {
-    "appbar": "Профиль",
+    "app_bar": "Профиль",
     "duration": "С Extreme Insiders с {0}",
-    "subscribtion": "Подписка",
+    "subscription": "Подписка",
     "expiration": "Подписка истекает через {0} дней",
     "hint": "Подписка продлится с момента её окончания",
     "connected_accounts": "Привязанные аккаунты",
     "connect": "Привязать",
     "disconnect": "Отвязать"
+  },
+  "settings_screen": {
+    "app_bar": "Настройки",
+    "language": "Язык и локализация",
+    "currency": "Валюта",
+    "other": "Другое",
+    "policy": "Политика конфиденциальности",
+    "about": "О приложении",
+    "exit": "Выход",
+    "version": "Версия: {0}",
+    "restart_hint": "Для применения изменений перезапустите приложение"
   }
 }

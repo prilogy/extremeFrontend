@@ -47,22 +47,15 @@ class User {
     }
   }
 
-  static Future<Models.User> edit(String name, String email) async {
-    var form;
-    if (name != null && email != null) {
-      form = FormData.fromMap({'name': name, 'email': email});
-    } else if (name != null && email == null) {
-      form = FormData.fromMap({'name': name});
-    } else if (name == null && email != null) {
-      form = FormData.fromMap({'email': email});
-    }
+  static Future<Models.User> edit({String name, String email}) async {
+    var map = Map<String, dynamic>();
+    if(name != null) map.addAll({'name': name});
+    if(email != null) map.addAll({'email': name});
 
-    var params = {
-      'token': true,
-    };
     try {
       var response =
-          await dio.patch('/user/edit', data: form, queryParameters: params);
+          await dio.patch('/user/edit', data: FormData.fromMap(map));
+      print(response.data);
       return Models.User.fromJson(response.data);
     } on DioError catch (e) {
       return null;

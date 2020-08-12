@@ -43,8 +43,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
       ),
       builder: (context) => [
         Column(children: <Widget>[
-          // TODO: в accountInfo пассить объект user который выше получин из стора
-          BlockBaseWidget(child: AccountInfo(user: user)),
+          BlockBaseWidget(child: AccountInfo()),
           BlockBaseWidget(
             header: 'Подписка',
             child: Column(

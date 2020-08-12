@@ -55,9 +55,6 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
-    final theme =
-        Theme.of(context); // TODO: берется неправильная тема из контекста
-
     return WillPopScope(
       onWillPop: () async {
         final NavigatorState navigator =

@@ -1,17 +1,20 @@
 import 'package:extreme/helpers/app_builder.dart';
 import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/main.dart';
 import 'package:extreme/models/main.dart';
+import 'package:extreme/router/main.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/settings/actions.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
-import 'package:extreme/styles/intents.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SettingsScreen extends StatefulWidget {
   @override
@@ -19,17 +22,23 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  final Widget appBar = AppBar(
-    title: Text("Настройки"),
-  );
 
   @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
-    var loc = AppLocalizations.of(context);
+    var loc = AppLocalizations.of(context).withBaseKey('settings_screen');
+
+    void _toastRestart() {
+      Fluttertoast.showToast(
+          msg: loc.translate('restart_hint'),
+          backgroundColor: Colors.black.withOpacity(0.5));
+      return null;
+    }
 
     return ScreenBaseWidget(
-      appBar: appBar,
+      appBar: AppBar(
+        title: Text(loc.translate('app_bar')),
+      ),
       builder: (context) => <Widget>[
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,14 +48,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: Column(
               children: [
                 SettingsWidget(
-                  title: 'Язык и локализация',
+                  margin: EdgeInsets.all(0),
+                  title: loc.translate('language'),
                   append: DropdownButton<Culture>(
                     value: store.state.settings.culture,
                     onChanged: (val) async {
                       store.dispatch(SetSettings(culture: val));
-                      loc.load(Locale(val.key, ''));
                       await Api.User.refresh(true, true);
+                      AppLocalizations.of(context).load(Locale(val.key, ''));
                       AppBuilder.of(context).rebuild();
+                      _toastRestart();
                     },
                     items: Culture.all.map((val) {
                       return DropdownMenuItem<Culture>(
@@ -56,41 +67,44 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     }).toList(),
                   ),
                 ),
-                SettingsWidget(title: 'Управление уведомлениями'),
-                SettingsWidget(title: 'Качество видео'),
-                SettingsWidget(title: 'Очистить историю просмотров'),
-                SettingsWidget(title: 'Очистить историю поиска'),
+                SettingsWidget(
+                  margin: EdgeInsets.all(0),
+                  title: loc.translate('currency'),
+                  append: DropdownButton<Currency>(
+                    value: store.state.settings.currency,
+                    onChanged: (val) async {
+                      store.dispatch(SetSettings(currency: val));
+                      await Api.User.refresh(true, true);
+                      AppBuilder.of(context).rebuild();
+                      _toastRestart();
+                    },
+                    items: Currency.all.map((val) {
+                      return DropdownMenuItem<Currency>(
+                        value: val,
+                        child: new Text(val.name),
+                      );
+                    }).toList(),
+                  ),
+                ),
               ],
             )),
             BlockBaseWidget(
-                header: 'Другое',
+                header: loc.translate('other'),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SettingsWidget(title: 'Политика конфидециальности'),
-                    SettingsWidget(title: 'Обратная связь'),
-                    SettingsWidget(title: 'Обратиться в поддержку'),
-                    SettingsWidget(title: 'О приложении'),
+                    SettingsWidget(title: loc.translate('policy')),
+                    SettingsWidget(title: loc.translate('about')),
                     SettingsWidget(
-                      title: 'Выход',
+                      title: loc.translate('exit'),
                       onPressed: () {
                         store.dispatch(SetUser(null));
-                        var scf = Scaffold.of(context);
-                        scf.showSnackBar(SnackBar(
-                          backgroundColor:
-                              Theme.of(context).colorScheme.primary,
-                          content: Text(
-                            'Successfully logged out',
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary),
-                          ),
-                        ));
                         Navigator.of(context, rootNavigator: true)
                             .pushNamed('/auth');
                       },
                     ),
                     Text(
-                      'Версия: ' + "0.6",
+                      loc.translate('version', ["0.6"]),
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -103,4 +117,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ],
     );
   }
+
 }

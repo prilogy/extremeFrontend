@@ -4,8 +4,9 @@ class Currency {
   String key;
   String name;
   String symbol;
+  String pattern;
 
-  Currency({this.key, this.name, this.symbol});
+  Currency({this.key, this.name, this.symbol, this.pattern});
 
   Currency.fromJson(Map<String, dynamic> json) {
     key = json['key'];
@@ -23,9 +24,9 @@ class Currency {
   @override
   int get hashCode => super.hashCode;
 
-  static Currency RUB = Currency(key: 'RUB', name: "Рубль", symbol: '₽');
-  static Currency USD = Currency(key: 'USD', name: "Dollar", symbol: '\$');
-  static Currency EUR = Currency(key: 'EUR', name: "Euro", symbol: '€');
+  static Currency RUB = Currency(key: 'RUB', name: "Рубль", symbol: '₽', pattern: '{0}₽');
+  static Currency USD = Currency(key: 'USD', name: "Dollar", symbol: '\$', pattern: '\${0}');
+  static Currency EUR = Currency(key: 'EUR', name: "Euro", symbol: '€', pattern: '€{0}');
 
   static List<Currency> all = [RUB, USD, EUR];
 }
