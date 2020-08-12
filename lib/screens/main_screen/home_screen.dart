@@ -3,8 +3,7 @@ import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
-import 'package:extreme/store/user/actions.dart';
-import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
@@ -28,7 +27,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context).withBaseKey('home_screen');
+    final loc = AppLocalizations.of(context).withBaseKey('home_screen');
     var store = StoreProvider.of<AppState>(context);
 
     return ScreenBaseWidget(

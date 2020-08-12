@@ -20,9 +20,15 @@ class MainScreen extends StatefulWidget {
 }
 
 final screens = [
-  (Key key) => HomeScreen(navigatorKey: key,),
-  (Key key) => BrowseScreen(navigatorKey: key,),
-  (Key key) => AccountScreen(navigatorKey: key,),
+  (Key key) => HomeScreen(
+        navigatorKey: key,
+      ),
+  (Key key) => BrowseScreen(
+        navigatorKey: key,
+      ),
+  (Key key) => AccountScreen(
+        navigatorKey: key,
+      ),
 ];
 
 class _MainScreenState extends State<MainScreen>
@@ -96,8 +102,10 @@ class _MainScreenState extends State<MainScreen>
                   });
                 }, (int idx) {
                   var navigator = _navigatorKeys[idx].currentState;
-                  if(navigator.canPop())
-                    _navigatorKeys[idx].currentState.popUntil((route) => !route.navigator.canPop());
+                  if (navigator.canPop())
+                    _navigatorKeys[idx]
+                        .currentState
+                        .popUntil((route) => !route.navigator.canPop());
                 }),
               ))
         ])),

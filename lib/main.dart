@@ -1,4 +1,5 @@
 import 'package:extreme/config/env.dart' as Env;
+import 'package:extreme/helpers/app_builder.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/router/main.dart';
@@ -30,32 +31,34 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
       store: store,
-      child: MaterialApp(
-        title: 'ExtremeInsiders',
-        supportedLocales: [Locale(Culture.en.key, ''), Locale(Culture.ru.key, '')],
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate
-        ],
-        localeListResolutionCallback: (locales, supportedLocales) {
-          if(store.state.settings?.culture != null)
-            return Locale(store.state.settings.culture.key, '');
-          for (var loc in locales) {
-            for (var supp in supportedLocales) {
-              if (supp.languageCode == loc.languageCode) {
-                var culture = Culture.all.firstWhere((x) => x.key == supp.languageCode);
-                store.dispatch(SetSettings(culture: culture));
-                return supp;
+      child: AppBuilder(
+        builder: (context) => MaterialApp(
+          title: 'ExtremeInsiders',
+          supportedLocales: [Locale(Culture.en.key, ''), Locale(Culture.ru.key, '')],
+          localizationsDelegates: [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate
+          ],
+          localeListResolutionCallback: (locales, supportedLocales) {
+            if(store.state.settings?.culture != null)
+              return Locale(store.state.settings.culture.key, '');
+            for (var loc in locales) {
+              for (var supp in supportedLocales) {
+                if (supp.languageCode == loc.languageCode) {
+                  var culture = Culture.all.firstWhere((x) => x.key == supp.languageCode);
+                  store.dispatch(SetSettings(culture: culture));
+                  return supp;
+                }
               }
             }
-          }
 
-          return supportedLocales.first;
-        },
-        theme: AppTheme.dark,
-        onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: store.state.user == null ? '/auth' : '/main',
+            return supportedLocales.first;
+          },
+          theme: AppTheme.dark,
+          onGenerateRoute: RouteGenerator.generateRoute,
+          initialRoute: store.state.user == null ? '/auth' : '/main',
+        ),
       ),
     );
   }

@@ -18,5 +18,3 @@ part 'user.dart';
 part 'search.dart';
 part 'authentication.dart';
 part 'subscription.dart';
-
-enum EntityType { Movie, Video, Sport, Playlist }

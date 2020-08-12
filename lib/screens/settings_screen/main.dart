@@ -1,3 +1,4 @@
+import 'package:extreme/helpers/app_builder.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/services/api/main.dart' as Api;
@@ -45,7 +46,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       store.dispatch(SetSettings(culture: val));
                       loc.load(Locale(val.key, ''));
                       await Api.User.refresh(true, true);
-                      setState(() {});
+                      AppBuilder.of(context).rebuild();
                     },
                     items: Culture.all.map((val) {
                       return DropdownMenuItem<Culture>(

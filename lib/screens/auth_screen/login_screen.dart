@@ -8,12 +8,11 @@ import 'package:extreme/store/main.dart';
 import 'package:extreme/store/settings/actions.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
-import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:video_player/video_player.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 

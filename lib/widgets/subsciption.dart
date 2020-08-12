@@ -4,12 +4,11 @@ import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 
-class Subscription extends StatelessWidget with IndentsMixin {
+class Subscription extends StatelessWidget {
   final int price;
   final String title;
   final String description;
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
+
   final double aspectRatio;
   final VoidCallback onPressed;
   final Models.SubscriptionPlan model;
@@ -18,8 +17,6 @@ class Subscription extends StatelessWidget with IndentsMixin {
       {this.description,
       this.title,
       this.price,
-      this.padding,
-      this.margin,
       this.aspectRatio,
       this.onPressed,
       @required this.model});
@@ -54,9 +51,8 @@ class Subscription extends StatelessWidget with IndentsMixin {
       default:
         currency = Models.Currency(key: 'NOT', symbol: 'NOT', name: 'Nothing');
     }
-    print('I\'ve got currency and color: ' + currency.symbol + color.toString());
-    return withIndents(
-      child: Container(
+
+    return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(5)),
             border: Border.all(color: color, width: 2)),
@@ -115,7 +111,6 @@ class Subscription extends StatelessWidget with IndentsMixin {
             ),
           ],
         ),
-      ),
     );
   }
 }

@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 
 class AppLocalizations {
   final Locale locale;
-  String _baseKey;
 
   AppLocalizations(this.locale);
 
@@ -14,12 +13,6 @@ class AppLocalizations {
   // Localizations are accessed using an InheritedWidget "of" syntax
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
-  }
-
-  AppLocalizations withBaseKey(String key) {
-    if (key[key.length - 1] != '.') key += '.';
-    _baseKey = key;
-    return this;
   }
 
   Map<String, String> _localizedStrings;
@@ -49,7 +42,7 @@ class AppLocalizations {
       _AppLocalizationsDelegate();
 
   String translate(String key, [List<String> args]) {
-    var str = _localizedStrings[(_baseKey ?? '') + key] ?? key;
+    var str = _localizedStrings[key] ?? key;
     if (args != null)
       for (var i = 0; i < args.length; i++) {
         str = str.replaceFirst('{$i}', args[i] ?? '');
