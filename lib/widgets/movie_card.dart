@@ -4,7 +4,7 @@ import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 
-import 'like_state.dart';
+import 'favorite_toggler.dart';
 
 class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final EdgeInsetsGeometry padding;
@@ -71,8 +71,8 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Like(
-                            isLiked: false,
+                          FavoriteToggler(
+                            status: false,
                           ),
                         ]),
                   ),

@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 
 import '../screens/video_view_screen.dart';
-import 'like_state.dart';
+import 'favorite_toggler.dart';
 
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final Models.Video model;
@@ -137,8 +137,8 @@ class VideoCardWithoutCaption extends StatelessWidget {
                     Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Like(
-                            isLiked: true,
+                          FavoriteToggler(
+                            status: true,
                           ),
                         ]),
                     Row(

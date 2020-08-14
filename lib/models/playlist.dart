@@ -9,6 +9,9 @@ class Playlist {
   int salesAmount;
   int id;
   DateTime dateCreated;
+  bool isFavorite() {
+    return store.state.user?.favoriteIds?.playlists?.contains(id) ?? false;
+  }
 
   Playlist(
       {this.sportId,

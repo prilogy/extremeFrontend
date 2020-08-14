@@ -7,14 +7,13 @@ import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
-import 'like_state.dart';
+import 'favorite_toggler.dart';
 import 'stats.dart';
 import 'package:extreme/models/main.dart' as Models;
 
 class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final Models.Playlist model;
   final bool small;
-  final bool isLiked;
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   final double aspectRatio;
@@ -24,12 +23,11 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
       this.padding,
       this.aspectRatio,
       this.small = false,
-      this.model,
-      this.isLiked = false});
+      this.model});
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = Theme.of(context);
+
     String title = model?.content?.name ?? 'Название плейлиста';
     if (!small) {
       return withIndents(
@@ -87,8 +85,9 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Like(
-                                isLiked: isLiked,
+                              FavoriteToggler(
+                                id: model?.id,
+                                status: model?.isFavorite(),
                               ),
                             ]),
                         Column(

@@ -3,6 +3,7 @@ import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/movies_screen.dart';
 import 'package:extreme/screens/playlists_screen.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
@@ -12,13 +13,21 @@ import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/models/main.dart' as Models;
+import 'package:flutter_redux/flutter_redux.dart';
 
 /// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
-class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
+class BrowseScreen extends StatefulWidget {
   final Key navigatorKey;
 
-  BrowseScreen({Key key, this.navigatorKey}) : super(key: key);
+  BrowseScreen({this.navigatorKey});
+
+  @override
+  _BrowseScreenState createState() => _BrowseScreenState();
+}
+
+
+class _BrowseScreenState extends State<BrowseScreen> {
 
   final Widget appBar = AppBar(
     title: Text("Просмотр"),
@@ -38,7 +47,7 @@ class BrowseScreen extends StatelessWidget implements IWithNavigatorKey {
 
     return ScreenBaseWidget(
         appBar: appBar,
-        navigatorKey: navigatorKey,
+        navigatorKey: widget.navigatorKey,
         builder: (context) => [
               Container(
                 margin: EdgeInsets.only(bottom: Indents.lg),

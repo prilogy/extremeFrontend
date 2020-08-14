@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/services/localstorage.dart';
+import 'package:extreme/store/main.dart';
 
 part 'banner.dart';
 part 'subscription_plan.dart';
@@ -18,4 +19,5 @@ part 'culture.dart';
 part 'price.dart';
 part 'currency.dart';
 part 'search_result.dart';
+part 'user_action.dart';
 part 'social_identity.dart';

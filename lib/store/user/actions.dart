@@ -7,6 +7,17 @@ class SetUser {
 
   @override
   String toString() {
-    return 'SetUser{user: $user}';
+    return 'User -> SetUser{user: $user}';
+  }
+}
+
+class ToggleFavorite {
+  final Models.UserAction userAction;
+
+  ToggleFavorite(this.userAction);
+
+  @override
+  String toString() {
+    return 'User -> ToggleFavorite{userAction: $userAction}';
   }
 }

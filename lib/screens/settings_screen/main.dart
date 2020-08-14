@@ -2,7 +2,7 @@ import 'package:extreme/helpers/app_builder.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/main.dart';
 import 'package:extreme/models/main.dart';
-import 'package:extreme/router/main.dart';
+import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/settings/actions.dart';
@@ -10,6 +10,8 @@ import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
+import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
@@ -111,7 +113,32 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           .merge(TextStyle(color: ExtremeColors.base70[200])),
                     )
                   ],
-                )),
+                )
+            ),
+
+            Text(store.state.user.favoriteIds.playlists.contains(8) ? "lol": "lmao"),
+            BlockBaseWidget(
+              header: loc.translate('popular_playlists'),
+              margin: EdgeInsets.zero,
+              child: FutureBuilder(
+                  future: Api.Entities.getAll<Models.Playlist>(1, 2),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return CustomListBuilder<Models.Playlist>(
+                          type: CustomListBuilderTypes.verticalList,
+                          items: snapshot.data,
+                          itemBuilder: (item) => PlayListCard(
+                            model: item,
+                            aspectRatio: 16 / 9,
+                          ));
+                    } else if (snapshot.hasError) {
+                      return Text(snapshot.error.toString());
+                    } else
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                  }),
+            ),
           ],
         ),
       ],

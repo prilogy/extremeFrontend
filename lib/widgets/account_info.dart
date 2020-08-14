@@ -1,13 +1,10 @@
-import 'package:extreme/helpers/app_builder.dart';
 import 'package:extreme/helpers/helper_methods.dart';
-import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/store/main.dart';
-import 'package:extreme/store/user/actions.dart';
 
 class AccountInfo extends StatefulWidget {
 
@@ -37,6 +34,7 @@ class _AccountInfoState extends State<AccountInfo> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[

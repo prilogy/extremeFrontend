@@ -34,5 +34,9 @@
     "exit": "Exit",
     "version": "Version: {0}",
     "restart_hint": "Restart application to apply changes"
+  },
+  "tooltips": {
+    "favorite": "Add to favorites",
+    "like": "Set like"
   }
 }

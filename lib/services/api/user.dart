@@ -38,9 +38,6 @@ class User {
     try {
       var body = json.encode(code);
       var response = await dio.post('/user/verifyEmail', data: body);
-      if (response.statusCode == 200) {
-        
-      }
       return response;
     } on DioError catch (e) {
       return null;
@@ -50,13 +47,21 @@ class User {
   static Future<Models.User> edit({String name, String email}) async {
     var map = Map<String, dynamic>();
     if(name != null) map.addAll({'name': name});
-    if(email != null) map.addAll({'email': name});
+    if(email != null) map.addAll({'email': email});
 
     try {
       var response =
           await dio.patch('/user/edit', data: FormData.fromMap(map));
-      print(response.data);
       return Models.User.fromJson(response.data);
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
+  static Future<Models.UserAction> toggleFavorite(int id) async {
+    try {
+      var response = await dio.get('/user/favorite/$id');
+      return Models.UserAction.fromJson(response.data);
     } on DioError catch (e) {
       return null;
     }
