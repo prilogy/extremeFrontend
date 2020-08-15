@@ -26,7 +26,7 @@
     "disconnect": "Отвязать",
     "name": "Имя",
     "field_is_empty": "Поле должно быть заполнено",
-    "incorrent_email": "Неверный формат email",
+    "invalid_email": "Неверный формат email",
     "cancel": "Отменить",
     "save": "Сохранить",
     "email_confirm": "Подтвердить" 

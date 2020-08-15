@@ -26,7 +26,7 @@
     "disconnect": "Disconnect",
     "name": "Name",
     "field_is_empty": "The field must be filled",
-    "incorrent_email": "Incorrect email format",
+    "invalid_email": "Incorrect email format",
     "cancel": "Cancel",
     "save": "Save",
     "email_confirm": "Confirm" 
