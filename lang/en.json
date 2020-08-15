@@ -50,5 +50,8 @@
       "added": "Added to favorites",
       "removed": "Removed from favorites"
     }
+  },
+  "chips": {
+    "no_localization": "No localization"
   }
 }

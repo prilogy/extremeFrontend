@@ -16,6 +16,10 @@ class Playlist {
     return store.state.user?.favoriteIds?.playlists?.contains(id) ?? false;
   }
 
+  bool get isInPreferredLanguage {
+    return store.state?.settings?.culture == content.culture ?? false;
+  }
+
   Playlist(
       {this.sportId,
       this.videosIds,
