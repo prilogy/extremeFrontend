@@ -8,31 +8,38 @@ class Playlist {
   bool isPaid;
   int salesAmount;
   int id;
+  int likesAmount;
+  String entityType;
   DateTime dateCreated;
-  bool isFavorite() {
+
+  bool get isFavorite {
     return store.state.user?.favoriteIds?.playlists?.contains(id) ?? false;
   }
 
   Playlist(
       {this.sportId,
-        this.videosIds,
-        this.content,
-        this.price,
-        this.isPaid,
-        this.salesAmount,
-        this.id,
-        this.dateCreated});
+      this.videosIds,
+      this.content,
+      this.price,
+      this.isPaid,
+      this.salesAmount,
+      this.id,
+      this.dateCreated,
+      this.likesAmount,
+      this.entityType});
 
   Playlist.fromJson(Map<String, dynamic> json) {
     sportId = json['sportId'] ?? [];
     videosIds = json['videosIds']?.cast<int>() ?? [];
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+        json['content'] != null ? new Content.fromJson(json['content']) : null;
     price = json['price'] != null ? new Price.fromJson(json['price']) : null;
     isPaid = json['isPaid'];
     salesAmount = json['salesAmount'];
     id = json['id'];
     dateCreated = DateTime.parse(json['dateCreated']).toLocal();
+    likesAmount = json['likesAmount'] ?? 0;
+    entityType = json['entityType']?.toString()?.toLowerCase() ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +56,8 @@ class Playlist {
     data['salesAmount'] = this.salesAmount;
     data['id'] = this.id;
     data['dateCreated'] = this.dateCreated.toString();
+    data['likesAmount'] = this.likesAmount.toString();
+    data['entityType'] = this.entityType.toString();
     return data;
   }
 }
