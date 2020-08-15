@@ -1,4 +1,5 @@
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -23,6 +24,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
 
   @override
   Widget build(BuildContext context) {
+    //final loc = AppLocalizations.of(context).withBaseKey('account_screen');
     var store = StoreProvider.of<AppState>(context);
     var user = store.state.user;
 

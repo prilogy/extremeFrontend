@@ -25,3 +25,13 @@ class ToggleFavorite {
     return 'User -> ToggleFavorite{userAction: $userAction}';
   }
 }
+class ToggleLike {
+  final Models.UserAction userAction;
+
+  ToggleLike(this.userAction);
+
+  @override
+  String toString() {
+    return 'User -> ToggleLike{userAction: $userAction}';
+  }
+}
