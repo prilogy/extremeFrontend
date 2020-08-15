@@ -29,7 +29,8 @@
     "invalid_email": "Incorrect email format",
     "cancel": "Cancel",
     "save": "Save",
-    "email_confirm": "Confirm" 
+    "email_confirm": "Confirm",
+    "account_connect_error": "This account is already being used by one of ExtremeInsiders users"
   },
   "settings_screen": {
     "app_bar": "Options",

@@ -37,7 +37,6 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              // TODO: implement settings call with context
               Navigator.of(context, rootNavigator: true).pushNamed('/settings');
             },
           ),
@@ -100,18 +99,10 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SocialAccount(
-                  name: 'Google',
-                  isConnected: false,
-                ),
-                SocialAccount(
-                  name: 'VK',
-                  isConnected: true,
-                ),
-                SocialAccount(
-                  name: 'Facebook',
-                  isConnected: false,
-                ),
+                for(var item in Models.SocialAccountProvider.all)
+                  SocialAccount(
+                    model: item,
+                  )
               ],
             ),
           )

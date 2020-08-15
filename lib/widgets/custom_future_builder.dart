@@ -1,3 +1,4 @@
+import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 typedef WidgetBuilderGeneric<T> = Widget Function(T model);
@@ -18,8 +19,11 @@ class CustomFutureBuilder<T> extends StatelessWidget {
         } else if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         } else
-          return Center(
-            child: CircularProgressIndicator(),
+          return Container(
+            padding: EdgeInsets.symmetric(vertical: Indents.xl),
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
           );
       },
     );

@@ -29,7 +29,8 @@
     "invalid_email": "Неверный формат email",
     "cancel": "Отменить",
     "save": "Сохранить",
-    "email_confirm": "Подтвердить" 
+    "email_confirm": "Подтвердить",
+    "account_connect_error": "Этот аккаунт уже привязан к одному из профилей ExtremeInsiders"
   },
   "settings_screen": {
     "app_bar": "Настройки",

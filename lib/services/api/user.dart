@@ -46,12 +46,11 @@ class User {
 
   static Future<Models.User> edit({String name, String email}) async {
     var map = Map<String, dynamic>();
-    if(name != null) map.addAll({'name': name});
-    if(email != null) map.addAll({'email': email});
+    if (name != null) map.addAll({'name': name});
+    if (email != null) map.addAll({'email': email});
 
     try {
-      var response =
-          await dio.patch('/user/edit', data: FormData.fromMap(map));
+      var response = await dio.patch('/user/edit', data: FormData.fromMap(map));
       return Models.User.fromJson(response.data);
     } on DioError catch (e) {
       return null;
@@ -69,10 +68,35 @@ class User {
       return null;
     }
   }
+
   static Future<Models.UserAction> toggleLike(int id) async {
     try {
       var response = await dio.get('/user/like/$id');
       return Models.UserAction.fromJson(response.data);
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
+  static Future<bool> addSocialAccount(
+      Models.SocialAccountProvider provider, String token) async {
+    try {
+      await dio
+          .put('/user/socialAccount/${provider.name}', data: {'token': token});
+
+      return true;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
+  static Future<bool> removeSocialAccount(
+      Models.SocialAccountProvider provider) async {
+    try {
+      await dio
+          .delete('/user/socialAccount/${provider.name}');
+
+      return true;
     } on DioError catch (e) {
       return null;
     }

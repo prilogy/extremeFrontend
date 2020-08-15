@@ -45,20 +45,15 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
       ),
       navigatorKey: navigatorKey,
       builder: (context) => <Widget>[
-        FutureBuilder(
+        CustomFutureBuilder(
           future: Api.Helper.getBanner(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return Container(
-                margin: EdgeInsets.only(bottom: Indents.md),
-                child: HeadBanner(
-                  contents: snapshot.data,
-                ),
-              );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            } else
-              return Center(child: CircularProgressIndicator());
+          builder: (data) {
+            return Container(
+              margin: EdgeInsets.only(bottom: Indents.md),
+              child: HeadBanner(
+                contents: data,
+              ),
+            );
           },
         ),
         BlockBaseWidget.forScrollingViews(
