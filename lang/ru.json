@@ -16,9 +16,10 @@
   },
   "account_screen": {
     "app_bar": "Профиль",
-    "duration": "С Extreme Insiders с {0}",
+    "duration": "С Extreme Insiders с ",
     "subscription": "Подписка",
     "expiration": "Подписка истекает через {0} дней",
+    "no_sub": "Нет активной подписки",
     "hint": "Подписка продлится с момента её окончания",
     "connected_accounts": "Привязанные аккаунты",
     "connect": "Привязать",

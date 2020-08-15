@@ -12,6 +12,7 @@ import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/social_account.dart';
 import 'package:extreme/widgets/subsciption.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -24,19 +25,18 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
 
   @override
   Widget build(BuildContext context) {
-    //final loc = AppLocalizations.of(context).withBaseKey('account_screen');
+    final loc = AppLocalizations.of(context).withBaseKey('account_screen');
     var store = StoreProvider.of<AppState>(context);
     var user = store.state.user;
 
     return ScreenBaseWidget(
       navigatorKey: navigatorKey,
       appBar: AppBar(
-        title: Text("Профиль"),
+        title: Text(loc.translate("app_bar")),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              print("Settings icon pressed");
               // TODO: implement settings call with context
               Navigator.of(context, rootNavigator: true).pushNamed('/settings');
             },
@@ -47,7 +47,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
         Column(children: <Widget>[
           BlockBaseWidget(child: AccountInfo()),
           BlockBaseWidget(
-            header: 'Подписка',
+            header: loc.translate("subscription"),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -57,8 +57,8 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                       var isSubscribed = user.subscription?.dateEnd != null &&
                           user.subscription.dateEnd.isAfter(DateTime.now());
                       var text = isSubscribed
-                          ? 'До истечения подписки ${user.subscription.dateEnd.difference(DateTime.now()).inDays} дня(-ей)'
-                          : 'Нет активной подписки';
+                          ? loc.translate("expiration", [user.subscription.dateEnd.difference(DateTime.now()).inDays.toString()])
+                          : loc.translate("no_sub");
                       return Text(text);
                     }()),
                 CustomFutureBuilder<List<Models.SubscriptionPlan>>(
@@ -86,7 +86,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                 Container(
                   width: double.infinity,
                   child: Text(
-                    'Подписка продлится с момента её текущего окончания',
+                    loc.translate("hint"),
                     style: Theme.of(context).textTheme.caption,
                     textAlign: TextAlign.center,
                   ),
@@ -96,7 +96,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
           ),
 
           BlockBaseWidget(
-            header: 'Подключённые аккаунты',
+            header: loc.translate("connected_accounts"),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
