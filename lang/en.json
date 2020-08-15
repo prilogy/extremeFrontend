@@ -1,0 +1,59 @@
+{
+  "login_screen": {
+    "header": "Subscribe to always be in Extreme",
+    "description": "Create personal account to get full functionality of ExtemeInsiders application.",
+    "sign_in": "Sign in with {0}"
+  },
+  "home_screen": {
+    "interesting_sports": "Interesting sports",
+    "recommended_videos": "Recommended videos",
+    "last_updates": "Recently updated"
+  },
+  "browse_screen": {
+    "playlists": "Playlists",
+    "movies": "Movies",
+    "popular_playlists": "Popular playlists"
+  },
+  "account_screen": {
+    "app_bar": "Account",
+    "duration": "With Extreme Insiders since ",
+    "subscription": "Subscription",
+    "expiration": "Subscription expires in {0} days",
+    "no_sub": "There is no active subsctiption",
+    "hint": "The subscription will renew from the moment it ends",
+    "connected_accounts": "Connected accounts",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "name": "Name",
+    "field_is_empty": "The field must be filled",
+    "invalid_email": "Incorrect email format",
+    "cancel": "Cancel",
+    "save": "Save",
+    "email_confirm": "Confirm",
+    "account_connect_error": "This account is already being used by one of ExtremeInsiders users"
+  },
+  "settings_screen": {
+    "app_bar": "Options",
+    "language": "Language and locale",
+    "currency": "Currency",
+    "other": "Other",
+    "policy": "Privacy  policy",
+    "about": "About application",
+    "exit": "Exit",
+    "version": "Version: {0}",
+    "restart_hint": "Restart application to apply changes"
+  },
+  "tooltips": {
+    "favorite": "Add to favorites",
+    "like": "Set like"
+  },
+  "snack_bars": {
+    "favorite": {
+      "added": "Added to favorites",
+      "removed": "Removed from favorites"
+    }
+  },
+  "chips": {
+    "no_localization": "No localization"
+  }
+}
