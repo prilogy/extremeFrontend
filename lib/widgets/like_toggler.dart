@@ -1,6 +1,5 @@
 import 'package:extreme/helpers/app_builder.dart';
 import 'package:extreme/lang/app_localizations.dart';
-import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 
-// TODO: icon, iconColor должны быть локальны для build (пример в )
 class LikeToggler extends StatelessWidget {
   final bool status;
   final int id;

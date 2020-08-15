@@ -22,7 +22,13 @@
     "hint": "Подписка продлится с момента её окончания",
     "connected_accounts": "Привязанные аккаунты",
     "connect": "Привязать",
-    "disconnect": "Отвязать"
+    "disconnect": "Отвязать",
+    "name": "Имя",
+    "field_is_empty": "Поле должно быть заполнено",
+    "incorrent_email": "Неверный формат email",
+    "cancel": "Отменить",
+    "save": "Сохранить",
+    "email_confirm": "Подтвердить" 
   },
   "settings_screen": {
     "app_bar": "Настройки",
