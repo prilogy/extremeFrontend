@@ -1,4 +1,6 @@
 import 'package:extreme/helpers/helper_methods.dart';
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +9,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/store/main.dart';
 
 class AccountInfo extends StatefulWidget {
-
   AccountInfo();
 
   @override
@@ -24,6 +25,8 @@ class _AccountInfoState extends State<AccountInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('account_screen');
+
     var user = StoreProvider.of<AppState>(context).state.user;
     var confirmation = !user.emailVerified ? ConfirmationSign() : Container();
     _nameController.text = user.name;
@@ -34,7 +37,6 @@ class _AccountInfoState extends State<AccountInfo> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -46,7 +48,7 @@ class _AccountInfoState extends State<AccountInfo> {
                         .merge(TextStyle(height: 1.6)),
                   ),
                   Text(
-                      'С Extreme Insiders с ' +
+                      loc.translate("duration") +
                           HelperMethods.DateToString(user.dateSignUp),
                       style: Theme.of(context)
                           .textTheme
@@ -88,11 +90,11 @@ class _AccountInfoState extends State<AccountInfo> {
           children: [
             TextFormField(
               controller: _nameController,
-              decoration: const InputDecoration(
-                  labelText: 'Имя', icon: Icon(Icons.person)),
+              decoration: InputDecoration(
+                  labelText: loc.translate("name"), icon: Icon(Icons.person)),
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Введите текст самфинг';
+                  return loc.translate("field_is_empty");
                 }
 
                 return null;
@@ -102,10 +104,10 @@ class _AccountInfoState extends State<AccountInfo> {
               controller: _emailController,
               validator: (value) {
                 if (value.isEmpty) {
-                  return 'Введите текст самфинг';
+                  return loc.translate("field_is_empty");
                 }
                 if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                    .hasMatch(value)) return 'Неправильный формат email';
+                    .hasMatch(value)) return loc.translate("incorrect_email");
                 return null;
               },
               decoration: const InputDecoration(
@@ -121,7 +123,7 @@ class _AccountInfoState extends State<AccountInfo> {
                   child: FlatButton(
                     color: Colors.transparent,
                     child: Text(
-                      'Отменить',
+                      loc.translate("cancel"),
                     ),
                     onPressed: () {
                       setState(() {
@@ -133,7 +135,7 @@ class _AccountInfoState extends State<AccountInfo> {
                 RaisedButton(
                   color: Theme.of(context).colorScheme.primary,
                   child: Text(
-                    'Сохранить',
+                    loc.translate("save"),
                   ),
                   onPressed: () async {
                     if (!_formKey.currentState.validate()) return null;
@@ -163,6 +165,7 @@ class ConfirmationSign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('account_screen');
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Indents.md),
       child: InkWell(
@@ -176,7 +179,7 @@ class ConfirmationSign extends StatelessWidget {
               ),
             ),
             Text(
-              'Подтвердить',
+              loc.translate("confirm"),
               style: Theme.of(context).textTheme.caption.merge(TextStyle(
                     color: Theme.of(context).colorScheme.error,
                   )),

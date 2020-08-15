@@ -16,9 +16,10 @@
   },
   "account_screen": {
     "app_bar": "Account",
-    "duration": "With Extreme Insiders since {0}",
+    "duration": "With Extreme Insiders since ",
     "subscription": "Subscription",
     "expiration": "Subscription expires in {0} days",
+    "no_sub": "There is no active subsctiption",
     "hint": "The subscription will renew from the moment it ends",
     "connected_accounts": "Connected accounts",
     "connect": "Connect",
