@@ -44,5 +44,11 @@
   "tooltips": {
     "favorite": "Add to favorites",
     "like": "Set like"
+  },
+  "snack_bars": {
+    "favorite": {
+      "added": "Added to favorites",
+      "removed": "Removed from favorites"
+    }
   }
 }

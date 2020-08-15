@@ -30,187 +30,171 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
 
   @override
   Widget build(BuildContext context) {
+    var title = model?.content?.name ?? 'Название плейлиста';
+    var description = model?.content?.description ?? 'Какое то описание';
+    var imageUrl = model?.content?.image?.path ??
+        'https://img2.akspic.ru/image/1601-nebo-priklyucheniya-skachok-bejsdzhamping-kaskader-1920x1080.jpg';
+    var videosAmount = (model?.videosIds?.length ?? 0).toString();
+    var likesAmount = (model?.likesAmount ?? 0).toString();
 
-    String title = model?.content?.name ?? 'Название плейлиста';
-    if (!small) {
-      return StoreConnector<AppState, User>(
-        converter: (store) => store.state.user,
-        builder: (context, state) => withIndents(
-          child: withAspectRatio(
-            child: Card(
-              clipBehavior: Clip.antiAlias,
-              margin: EdgeInsets.zero,
-              child: Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: NetworkImage(
-                          model?.content?.image?.path ?? 'https://img2.akspic.ru/image/1601-nebo-priklyucheniya-skachok-bejsdzhamping-kaskader-1920x1080.jpg'),
-                      fit: BoxFit.cover),
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                ),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned.fill(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          gradient: RadialGradient(
-                            colors: [
-                              Theme.of(context)
-                                  .colorScheme
-                                  .background
-                                  .withOpacity(0.32),
-                              Theme.of(context)
-                                  .colorScheme
-                                  .background
-                                  .withOpacity(0.67),
-                            ],
-                            center: Alignment.center,
-                            radius: 1.5,
-                            stops: <double>[0, 1],
+
+    return StoreConnector<AppState, User>(
+      converter: (store) => store.state.user,
+      builder: (context, state) => withIndents(
+        child: withAspectRatio(
+          child: Card(
+            clipBehavior: Clip.antiAlias,
+            margin: EdgeInsets.zero,
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: NetworkImage(imageUrl), fit: BoxFit.cover),
+                borderRadius: BorderRadius.all(Radius.circular(5)),
+              ),
+              child: small
+                  ? Stack(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(Indents.sm),
+                          decoration: BoxDecoration(
+                            gradient: RadialGradient(
+                              colors: [
+                                Theme.of(context)
+                                    .colorScheme
+                                    .background
+                                    .withOpacity(0.2),
+                                Theme.of(context)
+                                    .colorScheme
+                                    .background
+                                    .withOpacity(0.6),
+                              ],
+                              center: Alignment.center,
+                              radius: 1.5,
+                              stops: <double>[0, 1],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Positioned.fill(
-                        child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PlaylistScreen(model: model,),
-                          ));
-                        },
-                      ),
-                    )),
-                    Padding(
-                      padding: const EdgeInsets.all(Indents.md),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: <Widget>[
-                                FavoriteToggler(
-                                  id: model?.id,
-                                  status: model?.isFavorite(),
+                        Positioned.fill(
+                            child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PlaylistScreen(
+                                  model: model,
                                 ),
-                              ]),
-                          Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
+                              ));
+                            },
+                          ),
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.all(Indents.sm),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(title,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : Stack(
+                      children: <Widget>[
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: RadialGradient(
+                                colors: [
+                                  Theme.of(context)
+                                      .colorScheme
+                                      .background
+                                      .withOpacity(0.35),
+                                  Theme.of(context)
+                                      .colorScheme
+                                      .background
+                                      .withOpacity(0.7),
+                                ],
+                                center: Alignment.center,
+                                radius: 1.5,
+                                stops: <double>[0, 1],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned.fill(
+                            child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PlaylistScreen(
+                                  model: model,
+                                ),
+                              ));
+                            },
+                          ),
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.all(Indents.md),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
-                                    Container(
-                                      child: Stats(
-                                        icon: Icons.thumb_up,
-                                        text: Random().nextInt(100).toString(),
-                                        marginBetween: Indents.sm,
-                                        widgetMarginRight: Indents.md,
-                                      ),
+                                    FavoriteToggler(
+                                      id: model?.id,
+                                      status: model?.isFavorite,
                                     ),
-                                    Stats(
-                                        icon: Icons.local_movies,
-                                        text: model?.videosIds?.length
-                                                ?.toString() ??
-                                            Random().nextInt(20).toString().toString(),
-                                        marginBetween: Indents.sm),
-                                  ],
-                                ),
-                                Text(title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .merge(TextStyle(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onPrimary))),
-                                Text(
-                                  model?.content?.description ??
-                                      'Краткое описание этого плейлиста',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .caption
-                                      .merge(new TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary)),
-                                ),
-                              ]),
-                        ],
-                      ),
+                                  ]),
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Row(
+                                      children: <Widget>[
+                                        Container(
+                                          child: Stats(
+                                            icon: Icons.thumb_up,
+                                            text: likesAmount,
+                                            marginBetween: Indents.sm,
+                                            widgetMarginRight: Indents.md,
+                                          ),
+                                        ),
+                                        Stats(
+                                            icon: Icons.local_movies,
+                                            text: videosAmount,
+                                            marginBetween: Indents.sm),
+                                      ],
+                                    ),
+                                    Text(title,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headline6
+                                            .merge(TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .onPrimary))),
+                                    Text(description,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption
+                                          .merge(new TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onPrimary)),
+                                    ),
+                                  ]),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
             ),
           ),
         ),
-      );
-    } else {
-      return withIndents(
-          child: withAspectRatio(
-              child: Card(
-        margin: EdgeInsets.zero,
-        clipBehavior: Clip.antiAlias,
-        child: Container(
-          height: 75,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(model?.content?.image?.path ?? 'https://img2.akspic.ru/image/1601-nebo-priklyucheniya-skachok-bejsdzhamping-kaskader-1920x1080.jpg'),
-            ),
-          ),
-          child: Stack(
-            children: [
-              Container(
-                padding: EdgeInsets.all(Indents.sm),
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    colors: [
-                      Theme.of(context)
-                          .colorScheme
-                          .background
-                          .withOpacity(0.19),
-                      Theme.of(context)
-                          .colorScheme
-                          .background
-                          .withOpacity(0.53),
-                    ],
-                    center: Alignment.center,
-                    radius: 1.5,
-                    stops: <double>[0, 1],
-                  ),
-                ),
-              ),
-              Positioned.fill(
-                  child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => PlaylistScreen(model: model,),
-                    ));
-                  },
-                ),
-              )),
-              Padding(
-                padding: const EdgeInsets.all(Indents.sm),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    Text(
-                      // TODO: поменять на некостыльное
-                     model?.content?.name ??'Плейлист',
-                      style: Theme.of(context).textTheme.subtitle1,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      )));
-    }
+      ),
+    );
   }
 }
