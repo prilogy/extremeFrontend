@@ -1,4 +1,6 @@
-import 'package:extreme/models/main.dart';
+import 'package:extreme/helpers/app_builder.dart';
+import 'package:extreme/store/main.dart';
+import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -6,9 +8,11 @@ import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:vimeoplayer/vimeoplayer.dart';
 import '../widgets/video_card.dart';
 import 'package:extreme/models/main.dart' as Models;
+import 'package:extreme/services/api/main.dart' as Api;
 
 /// Создаёт экран просмотра видео
 
@@ -48,14 +52,35 @@ class VideoViewScreen extends StatelessWidget {
               child: Row(
                 children: [
                   ActionIcon(
-                    signText: '224',
+                    signText: model?.likesAmount.toString() ?? '224' ,
                     icon: Icons.thumb_up,
                     iconColor: ExtremeColors.primary,
+                    onPressed: () async {
+                      var userAction =
+                          await Api.User.toggleLike(model?.id ?? null);
+                      if (userAction != null) {
+                        StoreProvider.of<AppState>(context)
+                            .dispatch(ToggleLike(userAction));
+                        var appb = AppBuilder.of(context);
+                        appb.rebuild();
+                      }
+                    },
                   ),
                   ActionIcon(
-                      signText: 'В избранное',
-                      icon: Icons.favorite,
-                      iconColor: ExtremeColors.error),
+                    signText: 'В избранное',
+                    icon: Icons.favorite,
+                    iconColor: ExtremeColors.error,
+                    onPressed: () async {
+                      var userAction =
+                          await Api.User.toggleFavorite(model?.id ?? null);
+                      if (userAction != null) {
+                        StoreProvider.of<AppState>(context)
+                            .dispatch(ToggleLike(userAction));
+                        var appb = AppBuilder.of(context);
+                        appb.rebuild();
+                      }
+                    },
+                  ),
                   ActionIcon(
                       signText: 'Поделиться',
                       icon: Icons.share,
@@ -70,7 +95,7 @@ class VideoViewScreen extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyText2),
             ),
             BlockBaseWidget(
-              // TODO: omplement api request
+                // TODO: omplement api request
                 header: 'Другие видео из плейлиста',
                 child: Column(
                   children: [
@@ -113,12 +138,9 @@ class ActionIcon extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           IconButton(
-            padding: EdgeInsets.zero, 
+            padding: EdgeInsets.zero,
             alignment: Alignment.centerRight,
-            icon: Icon(icon,
-                size: 45,
-                color: iconColor 
-                ),
+            icon: Icon(icon, size: 45, color: iconColor),
             tooltip: 'Placeholder',
             onPressed: onPressed,
           ),

@@ -10,16 +10,15 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 
 // TODO: icon, iconColor должны быть локальны для build (пример в )
-class FavoriteToggler extends StatelessWidget {
+class LikeToggler extends StatelessWidget {
   final bool status;
   final int id;
   final String toolTip;
 
-  FavoriteToggler({this.status, this.id, this.toolTip});
+  LikeToggler({this.status, this.id, this.toolTip});
 
   @override
   Widget build(BuildContext context) {
-    var icon = status ? Icons.favorite : Icons.favorite_border;
     var color = status ? ExtremeColors.error : Colors.white;
     var toolTipText =
         toolTip ?? AppLocalizations.of(context).translate('tooltips.favorite');
@@ -28,16 +27,16 @@ class FavoriteToggler extends StatelessWidget {
       alignment: Alignment.topRight,
       padding: EdgeInsets.all(0),
       icon: Icon(
-        icon,
+        Icons.thumb_up,
         color: color,
         size: 30,
       ),
       tooltip: toolTipText,
       onPressed: () async {
-        var userAction = await Api.User.toggleFavorite(id);
+        var userAction = await Api.User.toggleLike(id);
         if (userAction != null) {
           StoreProvider.of<AppState>(context)
-              .dispatch(ToggleFavorite(userAction));
+              .dispatch(ToggleLike(userAction));
           var appb =AppBuilder.of(context);
           appb.rebuild();
         }

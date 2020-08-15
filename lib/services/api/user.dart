@@ -66,4 +66,12 @@ class User {
       return null;
     }
   }
+  static Future<Models.UserAction> toggleLike(int id) async {
+    try {
+      var response = await dio.get('/user/like/$id');
+      return Models.UserAction.fromJson(response.data);
+    } on DioError catch (e) {
+      return null;
+    }
+  }
 }
