@@ -22,6 +22,8 @@ class CustomListBuilder<T> extends StatelessWidget {
   final double gap;
   // Форсит отступ для последнего элемента
   final bool lastItemHasGap;
+  /// Коннектит к рут стору
+  final bool connectToStore ;
 
 
   CustomListBuilder(
@@ -32,7 +34,8 @@ class CustomListBuilder<T> extends StatelessWidget {
       this.crossAxisCount = 2,
       this.childAspectRatio = 16/9,
       this.gap = Indents.smd,
-      this.lastItemHasGap = false});
+      this.lastItemHasGap = false,
+      this.connectToStore = false});
 
   @override
   Widget build(BuildContext context) {

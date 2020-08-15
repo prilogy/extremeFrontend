@@ -1,5 +1,6 @@
-import 'package:extreme/helpers/app_builder.dart';
+import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/main.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
@@ -8,13 +9,6 @@ import 'package:extreme/services/api/main.dart' as Api;
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-// TODO: отрефакторить
-// 0. виджет не Stateful
-// 1. isLiked должен быть final (состояние будет изменяться из родительского виджета)
-// 2. название файла должно соответстовать названию главного класса
-// 3. название класса нужно более конкретное, ибо на других экранах есть похожие по семантике кнопки, (напр. OnCardLikeButton)
-
-// TODO: icon, iconColor должны быть локальны для build (пример в )
 class FavoriteToggler extends StatelessWidget {
   final bool status;
   final int id;
@@ -39,12 +33,15 @@ class FavoriteToggler extends StatelessWidget {
       ),
       tooltip: toolTipText,
       onPressed: () async {
+        // #favorites
+        // тут коллим добавление в избранное к апи и диспатчим экшн для изменения стора
+
+        // TODO: можно отрефакторить в Redux Thunk
         var userAction = await Api.User.toggleFavorite(id);
         if (userAction != null) {
           StoreProvider.of<AppState>(context)
               .dispatch(ToggleFavorite(userAction));
-          var appb =AppBuilder.of(context);
-          appb.rebuild();
+          rootScaffold.currentState.showSnackBar(SnackBarExtension.info('added to favorite'));
         }
       },
     );

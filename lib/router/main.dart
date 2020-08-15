@@ -8,8 +8,6 @@ import 'package:extreme/styles/app_theme.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
-var rootScaffold = GlobalKey<ScaffoldState>();
-
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;

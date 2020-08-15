@@ -58,6 +58,9 @@ class User {
     }
   }
 
+  // #favorite
+  // колл к апи тоже прост как вода
+  // возвращаем модель UserAction
   static Future<Models.UserAction> toggleFavorite(int id) async {
     try {
       var response = await dio.get('/user/favorite/$id');

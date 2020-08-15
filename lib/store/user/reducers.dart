@@ -12,6 +12,10 @@ User _setUser(User user, Actions.SetUser action) {
   return action.user;
 }
 
+// #favorite
+// редьюсер для экшена, тут самое некрасивое место
+// из за дарта и архитекруты апи сделать лучше вряд ли получится
+// просто на основе entityType делаем дело, для лайка будет похожее, только там 2 сущности
 User _toggleFavorite(User user, Actions.ToggleFavorite action) {
   switch (action.userAction.entityType) {
     case UserAction.video:
@@ -37,6 +41,8 @@ User _toggleFavorite(User user, Actions.ToggleFavorite action) {
   return user;
 }
 
+// #favorite
+// функция котоаря делает лапшу выше чуть меньше
 List<int> _processFavoriteIdByUserAction(
     List<int> list, UserAction userAction) {
   if (userAction.status == true)

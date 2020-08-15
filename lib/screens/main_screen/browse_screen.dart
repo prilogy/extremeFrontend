@@ -26,9 +26,7 @@ class BrowseScreen extends StatefulWidget {
   _BrowseScreenState createState() => _BrowseScreenState();
 }
 
-
 class _BrowseScreenState extends State<BrowseScreen> {
-
   final Widget appBar = AppBar(
     title: Text("Просмотр"),
     actions: <Widget>[
@@ -59,7 +57,9 @@ class _BrowseScreenState extends State<BrowseScreen> {
                         icon: Icons.playlist_play,
                         pushTo: Playlists()),
                     CategoryButton(
-                        text: loc.translate('movies'), icon: Icons.movie, pushTo: MoviesList())
+                        text: loc.translate('movies'),
+                        icon: Icons.movie,
+                        pushTo: MoviesList())
                   ],
                 ),
               ),
@@ -89,6 +89,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return CustomListBuilder<Models.Playlist>(
+                            connectToStore: true,
                             type: CustomListBuilderTypes.verticalList,
                             items: snapshot.data,
                             itemBuilder: (item) => PlayListCard(

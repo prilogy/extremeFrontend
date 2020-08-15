@@ -1,5 +1,4 @@
 import 'package:extreme/config/env.dart' as Env;
-import 'package:extreme/helpers/app_builder.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/router/main.dart';
@@ -14,6 +13,8 @@ import 'package:redux/redux.dart';
 
 import './config/env.dart' as Env;
 import 'package:flutter_redux/flutter_redux.dart';
+
+final rootScaffold = GlobalKey<ScaffoldState>();
 
 void main() async {
   await Env.init("./.env");
@@ -31,8 +32,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
       store: store,
-      child: AppBuilder(
-        builder: (context) => MaterialApp(
+      child: MaterialApp(
           title: 'ExtremeInsiders',
           supportedLocales: [
             Locale(Culture.en.key, ''),
@@ -63,10 +63,13 @@ class App extends StatelessWidget {
             return supportedLocales.first;
           },
           theme: AppTheme.dark,
-          onGenerateRoute: RouteGenerator.generateRoute,
-          initialRoute: store.state.user == null ? '/auth' : '/main',
-        ),
-      ),
+          builder: (context, w) => Scaffold(
+                key: rootScaffold,
+                body: Navigator(
+                  onGenerateRoute: RouteGenerator.generateRoute,
+                  initialRoute: store.state.user == null ? '/auth' : '/main',
+                ),
+              )),
     );
   }
 }
