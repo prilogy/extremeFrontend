@@ -1,4 +1,14 @@
 {
+  "base": {
+    "playlist": "плейлист",
+    "video": "видео",
+    "sport": "вид спорта",
+    "movie": "фильм",
+    "playlists": "плейлисты",
+    "videos": "видео",
+    "sports": "виды спорта",
+    "movies": "фильмы"
+  },
   "login_screen": {
     "header": "Подпишитесь, чтобы всегда быть в Экстриме",
     "description": "Создайте персональный аккаунт чтобы получить полный функционал приложения ExtremeInsiders",
@@ -30,7 +40,9 @@
     "cancel": "Отменить",
     "save": "Сохранить",
     "email_confirm": "Подтвердить",
-    "account_connect_error": "Этот аккаунт уже привязан к одному из профилей ExtremeInsiders"
+    "account_connect_error": "Этот аккаунт уже привязан к одному из профилей ExtremeInsiders",
+    "account_connect_success": "Аккаунт {0} успешно привязан",
+    "account_disconnect_success": "Аккаунт {0} успешно отвязан"
   },
   "settings_screen": {
     "app_bar": "Настройки",
@@ -42,6 +54,9 @@
     "exit": "Выход",
     "version": "Версия: {0}",
     "restart_hint": "Для применения изменений перезапустите приложение"
+  },
+  "favorite_screen": {
+    "app_bar": "Избранное"
   },
   "tooltips": {
     "favorite": "Добавить в избанное",

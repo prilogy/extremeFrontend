@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
 
-import 'account_screen.dart';
+import 'account_screen/main.dart';
 import 'browse_screen.dart';
 import 'home_screen.dart';
 
