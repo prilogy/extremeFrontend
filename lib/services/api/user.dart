@@ -46,21 +46,18 @@ class User {
 
   static Future<Models.User> edit({String name, String email}) async {
     var map = Map<String, dynamic>();
-    if(name != null) map.addAll({'name': name});
-    if(email != null) map.addAll({'email': email});
+    if (name != null) map.addAll({'name': name});
+    if (email != null) map.addAll({'email': email});
 
     try {
-      var response =
-          await dio.patch('/user/edit', data: FormData.fromMap(map));
+      var response = await dio.patch('/user/edit', data: FormData.fromMap(map));
       return Models.User.fromJson(response.data);
     } on DioError catch (e) {
       return null;
     }
   }
 
-  // #favorite
-  // колл к апи тоже прост как вода
-  // возвращаем модель UserAction
+  /// Переключатель favorite
   static Future<Models.UserAction> toggleFavorite(int id) async {
     try {
       var response = await dio.get('/user/favorite/$id');
@@ -69,6 +66,8 @@ class User {
       return null;
     }
   }
+
+  /// Переключатель like
   static Future<Models.UserAction> toggleLike(int id) async {
     try {
       var response = await dio.get('/user/like/$id');

@@ -11,8 +11,7 @@ class SetUser {
   }
 }
 
-// #favorite
-// экшн прост как вода
+///  Action, отвечающий за favorite
 class ToggleFavorite {
   final Models.UserAction userAction;
 
