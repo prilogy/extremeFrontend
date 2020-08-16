@@ -170,6 +170,7 @@ class ConfirmationSign extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: Indents.md),
       child: InkWell(
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(right: Indents.sm),
@@ -179,11 +180,14 @@ class ConfirmationSign extends StatelessWidget {
               ),
             ),
             Text(
-              loc.translate("confirm"),
+              loc.translate("email_confirm"),
+              overflow: TextOverflow.fade,
+              maxLines: 1,
+              softWrap: false,
               style: Theme.of(context).textTheme.caption.merge(TextStyle(
                     color: Theme.of(context).colorScheme.error,
                   )),
-            )
+            ),
           ],
         ),
         onTap: () {

@@ -84,8 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: theme.textTheme.headline5.merge(
                                       TextStyle(fontWeight: FontWeight.w500)),
                                 )),
-                            Text(
-                                loc.translate('description'),
+                            Text(loc.translate('description'),
                                 textAlign: TextAlign.center,
                                 style: theme.textTheme.subtitle1.merge(
                                     TextStyle(fontWeight: FontWeight.w400)))
@@ -108,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   var token = await vkAuth.getToken();
                                   print(token);
                                   await _authWithSocial(context,
-                                      Models.SocialAccountProvider.Vk, token);
+                                      Models.SocialAccountProvider.vk, token);
                                 },
                               ),
                               AuthMethodTypeButton(
@@ -121,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   var token = await fbAuth.getToken();
                                   await _authWithSocial(
                                       context,
-                                      Models.SocialAccountProvider.Facebook,
+                                      Models.SocialAccountProvider.facebook,
                                       token);
                                 },
                               ),
@@ -131,12 +130,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 svgPath: 'google',
                                 iconSize: 20,
                                 onPressed: () async {
-                                  var googleAuth =
-                                      GoogleAuthService();
+                                  var googleAuth = GoogleAuthService();
                                   var token = await googleAuth.getToken();
                                   await _authWithSocial(
                                       context,
-                                      Models.SocialAccountProvider.Google,
+                                      Models.SocialAccountProvider.google,
                                       token);
                                 },
                               ),
@@ -179,7 +177,6 @@ class _LoginScreenState extends State<LoginScreen> {
               SignUpScreen(token: token, accountProvider: provider)));
       return;
     }
-
 
     store.dispatch(SetUser(user));
     store.dispatch(SetSettings(culture: user.culture, currency: user.currency));

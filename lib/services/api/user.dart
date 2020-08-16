@@ -76,4 +76,28 @@ class User {
       return null;
     }
   }
+
+  static Future<bool> addSocialAccount(
+      Models.SocialAccountProvider provider, String token) async {
+    try {
+      await dio
+          .put('/user/socialAccount/${provider.name}', data: {'token': token});
+
+      return true;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
+  static Future<bool> removeSocialAccount(
+      Models.SocialAccountProvider provider) async {
+    try {
+      await dio
+          .delete('/user/socialAccount/${provider.name}');
+
+      return true;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
 }

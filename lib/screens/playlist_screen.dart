@@ -1,6 +1,8 @@
+import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
+import 'package:extreme/widgets/hint_chips.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -98,7 +100,6 @@ class HeaderPlaylist extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                // TODO: заменить изображение на изображение с Api
                 image: NetworkImage(model.content.image.path)
               ),
             ),
@@ -153,12 +154,12 @@ class HeaderPlaylist extends StatelessWidget {
                     children: <Widget>[
                       Stats(
                         icon: Icons.thumb_up,
-                        text: 105.toString(),
+                        text: model.likesAmount.toString(),
                         marginBetween: 5,
                       ),
                       Stats(
                         icon: Icons.local_movies,
-                        text: 354.toString(),
+                        text: (model.videosIds?.length ?? 0).toString(),
                       ),
                     ],
                   ),
@@ -167,6 +168,7 @@ class HeaderPlaylist extends StatelessWidget {
             ),
           ),
         ),
+        model.isInPreferredLanguage ? Container() :HintChip.noLocalization(margin: EdgeInsets.only(left: Indents.sm))
       ],
     );
   }

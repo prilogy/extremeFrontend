@@ -11,9 +11,11 @@ import 'package:flutter/material.dart';
 /// Создаёт экран вида спорта
 class SportScreen extends StatelessWidget {
   const SportScreen({Key key}) : super(key: key);
+
   void _searchIconAction() {
     //TODO: Search some video function
   }
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
@@ -57,8 +59,8 @@ class SportScreen extends StatelessWidget {
                 children: [
                   Text(
                     'Вид спорта',
-                    style: theme.textTheme.headline5
-                        .merge(TextStyle(fontWeight: FontWeight.bold, letterSpacing: 0.25)),
+                    style: theme.textTheme.headline5.merge(TextStyle(
+                        fontWeight: FontWeight.bold, letterSpacing: 0.25)),
                   ),
                   Text('Этот вид спорта просто крут. Вот так! Описание...',
                       style: Theme.of(context).textTheme.bodyText2),
@@ -106,14 +108,27 @@ class SportScreen extends StatelessWidget {
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                MovieCard(aspectRatio: 11 / 16, margin: EdgeInsets.only(right: Indents.smd),),
-                MovieCard(aspectRatio: 11 / 16, margin: EdgeInsets.only(right: Indents.smd),),
-                MovieCard(aspectRatio: 11 / 16, margin: EdgeInsets.only(right: Indents.smd),),
-                MovieCard(aspectRatio: 11 / 16, margin: EdgeInsets.only(right: Indents.smd),),
+                MovieCard(
+                  aspectRatio: 11 / 16,
+                  margin: EdgeInsets.only(right: Indents.smd),
+                ),
+                MovieCard(
+                  aspectRatio: 11 / 16,
+                  margin: EdgeInsets.only(right: Indents.smd),
+                ),
+                MovieCard(
+                  aspectRatio: 11 / 16,
+                  margin: EdgeInsets.only(right: Indents.smd),
+                ),
+                MovieCard(
+                  aspectRatio: 11 / 16,
+                  margin: EdgeInsets.only(right: Indents.smd),
+                ),
               ],
             ),
           ),
         ),
+        // TODO: выбивает исключение
         BlockBaseWidget(
           header: 'Лучший плейлист',
           child: PlayListCard(
