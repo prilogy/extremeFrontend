@@ -26,7 +26,7 @@ class FavoriteToggler extends StatelessWidget {
 
     return IconButton(
       alignment: Alignment.topRight,
-      padding: EdgeInsets.all(0),
+      padding: EdgeInsets.zero,
       icon: Icon(
         icon,
         color: color,
@@ -34,9 +34,6 @@ class FavoriteToggler extends StatelessWidget {
       ),
       tooltip: toolTipText,
       onPressed: () async {
-        // #favorites
-        // тут коллим добавление в избранное к апи и диспатчим экшн для изменения стора
-
         // TODO: можно отрефакторить в Redux Thunk
         var userAction = await Api.User.toggleFavorite(id);
         if (userAction == null) return;

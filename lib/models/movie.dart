@@ -9,21 +9,24 @@ class Movie {
   int salesAmount;
   int id;
   DateTime dateCreated;
+  bool get isFavorite {
+    return store.state.user?.favoriteIds?.movies?.contains(id) ?? false;
+  }
 
   Movie(
       {this.sportId,
-        this.content,
-        this.likesAmount,
-        this.price,
-        this.isPaid,
-        this.salesAmount,
-        this.id,
-        this.dateCreated});
+      this.content,
+      this.likesAmount,
+      this.price,
+      this.isPaid,
+      this.salesAmount,
+      this.id,
+      this.dateCreated});
 
   Movie.fromJson(Map<String, dynamic> json) {
     sportId = json['sportId'];
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+        json['content'] != null ? new Content.fromJson(json['content']) : null;
     likesAmount = json['likesAmount'];
     price = json['price'] != null ? new Price.fromJson(json['price']) : null;
     isPaid = json['isPaid'];

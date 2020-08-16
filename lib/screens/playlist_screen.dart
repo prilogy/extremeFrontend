@@ -1,6 +1,6 @@
-import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/hint_chips.dart';
 import 'package:extreme/widgets/playlist_card.dart';
@@ -38,46 +38,26 @@ class PlaylistScreen extends StatelessWidget {
         HeaderPlaylist(model: model),
         BlockBaseWidget(
           header: 'Видео',
-          child: FutureBuilder(
-            future: Api.Entities.getByIds<Models.Video>(model.videosIds),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return CustomListBuilder(
-                    items: snapshot.data,
-                    itemBuilder: (item) =>
-                        VideoCard(aspectRatio: 16 / 9, model: item));
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-            },
-          ),
+          child: CustomFutureBuilder<List<Models.Video>>(
+              future: Api.Entities.getByIds<Models.Video>(model.videosIds),
+              builder: (data) => CustomListBuilder(
+                  items: data,
+                  itemBuilder: (item) =>
+                      VideoCard(aspectRatio: 16 / 9, model: item))),
         ),
         BlockBaseWidget.forScrollingViews(
           header: 'Смотри также',
-          child: FutureBuilder(
-            future: Api.Entities.getAll<Models.Playlist>(1, 5, 'desc'),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return CustomListBuilder(
-                    type: CustomListBuilderTypes.horizontalList,
-                    height: 100,
-                    items: snapshot.data,
-                    itemBuilder: (item) => PlayListCard(
-                          model: item,
-                          aspectRatio: 16 / 9,
-                          small: true,
-                        ));
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-            },
-          ),
+          child: CustomFutureBuilder<List<Models.Playlist>>(
+              future: Api.Entities.getAll<Models.Playlist>(1, 5, 'desc'),
+              builder: (data) => CustomListBuilder(
+                  type: CustomListBuilderTypes.horizontalList,
+                  height: 100,
+                  items: data,
+                  itemBuilder: (item) => PlayListCard(
+                        model: item,
+                        aspectRatio: 16 / 9,
+                        small: true,
+                      ))),
         )
       ],
     );
@@ -99,9 +79,8 @@ class HeaderPlaylist extends StatelessWidget {
             height: MediaQuery.of(context).size.height / 3,
             decoration: BoxDecoration(
               image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(model.content.image.path)
-              ),
+                  fit: BoxFit.cover,
+                  image: NetworkImage(model.content.image.path)),
             ),
             child: Container(
               decoration: BoxDecoration(
@@ -168,7 +147,9 @@ class HeaderPlaylist extends StatelessWidget {
             ),
           ),
         ),
-        model.isInPreferredLanguage ? Container() :HintChip.noLocalization(margin: EdgeInsets.only(left: Indents.sm))
+        model.isInPreferredLanguage
+            ? Container()
+            : HintChip.noLocalization(margin: EdgeInsets.only(left: Indents.sm))
       ],
     );
   }

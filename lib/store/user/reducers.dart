@@ -4,7 +4,8 @@ import 'actions.dart' as Actions;
 
 final userReducer = combineReducers<User>([
   TypedReducer<User, Actions.SetUser>(_setUser),
-  TypedReducer<User, Actions.ToggleFavorite>(_toggleFavorite)
+  TypedReducer<User, Actions.ToggleFavorite>(_toggleFavorite),
+  TypedReducer<User, Actions.ToggleLike>(_toggleLike)
 ]);
 
 User _setUser(User user, Actions.SetUser action) {
@@ -12,10 +13,7 @@ User _setUser(User user, Actions.SetUser action) {
   return action.user;
 }
 
-// #favorite
-// редьюсер для экшена, тут самое некрасивое место
-// из за дарта и архитекруты апи сделать лучше вряд ли получится
-// просто на основе entityType делаем дело, для лайка будет похожее, только там 2 сущности
+
 User _toggleFavorite(User user, Actions.ToggleFavorite action) {
   switch (action.userAction.entityType) {
     case UserAction.video:
@@ -41,10 +39,33 @@ User _toggleFavorite(User user, Actions.ToggleFavorite action) {
   return user;
 }
 
-// #favorite
-// функция котоаря делает лапшу выше чуть меньше
 List<int> _processFavoriteIdByUserAction(
     List<int> list, UserAction userAction) {
+  if (userAction.status == true)
+    list.add(userAction.id);
+  else
+    list.remove(userAction.id);
+  return list;
+}
+
+User _toggleLike(User user, Actions.ToggleLike action) {
+  switch (action.userAction.entityType) {
+    case UserAction.video:
+      user.likeIds.videos =
+          _processLikeIdByUserAction(user.likeIds.videos, action.userAction);
+      break;
+    case UserAction.movie:
+      user.likeIds.movies =
+          _processLikeIdByUserAction(user.likeIds.movies, action.userAction);
+      break;
+  }
+
+  User.saveToLocalStorage(user);
+
+  return user;
+}
+
+List<int> _processLikeIdByUserAction(List<int> list, UserAction userAction) {
   if (userAction.status == true)
     list.add(userAction.id);
   else

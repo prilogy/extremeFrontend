@@ -36,7 +36,7 @@
     "disconnect": "Отвязать",
     "name": "Имя",
     "field_is_empty": "Поле должно быть заполнено",
-    "invalid_email": "Неверный формат email",
+    "incorrect_email": "Неверный формат email",
     "cancel": "Отменить",
     "save": "Сохранить",
     "email_confirm": "Подтвердить",
@@ -66,9 +66,13 @@
     "favorite": {
       "added": "Добавлено в избранное",
       "removed": "Убрано из избанного"
+    },
+    "like": {
+      "liked": "Добавлено в понравившиеся видео",
+      "unliked": "Убрано из понравившихся видео"
+    },
+    "chips": {
+      "no_localization": "Нет локализации"
     }
-  },
-  "chips": {
-    "no_localization": "Нет локализации"
   }
 }
