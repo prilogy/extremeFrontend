@@ -1,5 +1,6 @@
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/movie_card.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -39,69 +40,59 @@ class SearchScreen extends StatelessWidget {
         ),
       ),
       builder: (context) => [
-        FutureBuilder<Models.SearchResult>(
+        CustomFutureBuilder<Models.SearchResult>(
             future: Api.Search.global(query: _query),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var _movies = snapshot.data.movies
-                    .map<Widget>(
-                        (e) => MovieCard(aspectRatio: 16 / 9, model: e))
-                    .toList();
-                var _videos = snapshot.data.videos
-                    .map<Widget>(
-                        (e) => VideoCard(aspectRatio: 16 / 9, model: e))
-                    .toList();
-                var _playlists = snapshot.data.playlists
-                    .map<Widget>((e) => PlayListCard(
+            builder: (data) {
+              var _movies = data.movies
+                  .map<Widget>((e) => MovieCard(aspectRatio: 16 / 9, model: e))
+                  .toList();
+              var _videos = data.videos
+                  .map<Widget>((e) => VideoCard(aspectRatio: 16 / 9, model: e))
+                  .toList();
+              var _playlists = data.playlists
+                  .map<Widget>((e) => PlayListCard(
+                      aspectRatio: 16 / 9,
+                      padding: EdgeInsets.symmetric(vertical: Indents.sm),
+                      model: e))
+                  .toList();
+              var _sports = data.sports
+                  .map<Widget>((e) => SportCard(
                         aspectRatio: 16 / 9,
+                        model: e,
                         padding: EdgeInsets.symmetric(vertical: Indents.sm),
-                        model: e))
-                    .toList();
-                var _sports = snapshot.data.sports
-                    .map<Widget>((e) => SportCard(
-                          aspectRatio: 16 / 9,
-                          model: e,
-                          padding: EdgeInsets.symmetric(vertical: Indents.sm),
-                        ))
-                    .toList();
-                List<Widget> mass;
-                mass = [
-                  _videos.isNotEmpty
-                      ? CategoryBlock(
-                          header: "Видео",
-                          cards: [..._videos],
-                        )
-                      : Container(),
-                  _playlists.isNotEmpty
-                      ? CategoryBlock(
-                          header: "Плейлисты",
-                          cards: [..._playlists],
-                        )
-                      : Container(),
-                  _movies.isNotEmpty
-                      ? CategoryBlock(
-                          header: "Фильмы",
-                          cards: [..._movies],
-                        )
-                      : Container(),
-                  _sports.isNotEmpty
-                      ? CategoryBlock(
-                          header: "Виды спорта",
-                          cards: [..._sports],
-                          grid: true,
-                        )
-                      : Container(),
-                ];
-                return Column(
-                  children: mass,
-                );
-              } else if (snapshot.hasError)
-                return (Text(snapshot.error.toString()));
-              return Container(
-                  alignment: Alignment.center,
-                  height: 100,
-                  width: 100,
-                  child: CircularProgressIndicator());
+                      ))
+                  .toList();
+              List<Widget> mass;
+              mass = [
+                _videos.isNotEmpty
+                    ? CategoryBlock(
+                        header: "Видео",
+                        cards: [..._videos],
+                      )
+                    : Container(),
+                _playlists.isNotEmpty
+                    ? CategoryBlock(
+                        header: "Плейлисты",
+                        cards: [..._playlists],
+                      )
+                    : Container(),
+                _movies.isNotEmpty
+                    ? CategoryBlock(
+                        header: "Фильмы",
+                        cards: [..._movies],
+                      )
+                    : Container(),
+                _sports.isNotEmpty
+                    ? CategoryBlock(
+                        header: "Виды спорта",
+                        cards: [..._sports],
+                        grid: true,
+                      )
+                    : Container(),
+              ];
+              return Column(
+                children: mass,
+              );
             })
       ],
     );

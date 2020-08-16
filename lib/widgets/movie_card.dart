@@ -72,7 +72,8 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           FavoriteToggler(
-                            status: false,
+                            id: model?.id, // TODO: сделать состояние из модели
+                            status: model?.isFavorite,
                           ),
                         ]),
                   ),

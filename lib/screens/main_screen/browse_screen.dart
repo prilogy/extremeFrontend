@@ -6,6 +6,7 @@ import 'package:extreme/screens/playlists_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -64,45 +65,31 @@ class _BrowseScreenState extends State<BrowseScreen> {
                 ),
               ),
               BlockBaseWidget(
-                child: FutureBuilder(
-                    future: Api.Entities.getAll<Models.Sport>(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CustomListBuilder<Models.Sport>(
-                            type: CustomListBuilderTypes.grid,
-                            items: snapshot.data,
-                            itemBuilder: (item) => SportCard(
-                                  model: item,
-                                  aspectRatio: 16 / 9,
-                                ));
-                      } else if (snapshot.hasError)
-                        return Text(snapshot.error.toString());
-                      else
-                        return Center(child: CircularProgressIndicator());
-                    }),
-              ),
+                  child: CustomFutureBuilder<List<Models.Sport>>(
+                future: Api.Entities.getAll<Models.Sport>(),
+                builder: (data) => CustomListBuilder<Models.Sport>(
+                    type: CustomListBuilderTypes.grid,
+                    items: data,
+                    itemBuilder: (item) => SportCard(
+                          model: item,
+                          aspectRatio: 16 / 9,
+                        )),
+              )),
               BlockBaseWidget(
                 header: loc.translate('popular_playlists'),
                 margin: EdgeInsets.zero,
-                child: FutureBuilder(
-                    future: Api.Entities.getAll<Models.Playlist>(1, 2),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CustomListBuilder<Models.Playlist>(
-                            connectToStore: true,
-                            type: CustomListBuilderTypes.verticalList,
-                            items: snapshot.data,
-                            itemBuilder: (item) => PlayListCard(
-                                  model: item,
-                                  aspectRatio: 16 / 9,
-                                ));
-                      } else if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      } else
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                    }),
+                child: CustomFutureBuilder<List<Models.Playlist>>(
+                  future: Api.Entities.getAll<Models.Playlist>(1, 2),
+                  builder: (data) => CustomListBuilder<Models.Playlist>(
+                    connectToStore: true,
+                    type: CustomListBuilderTypes.verticalList,
+                    items: data,
+                    itemBuilder: (item) => PlayListCard(
+                      model: item,
+                      aspectRatio: 16 / 9,
+                    ),
+                  ),
+                ),
               ),
             ]);
   }

@@ -58,24 +58,14 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         ),
         BlockBaseWidget.forScrollingViews(
           header: loc.translate('interesting_sports'),
-          child: FutureBuilder(
-            future: Api.Entities.getAll<Models.Sport>(1, 8),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.hasData) {
-                return CustomListBuilder(
-                    type: CustomListBuilderTypes.horizontalList,
-                    height: 50,
-                    items: snapshot.data,
-                    itemBuilder: (item) => SportCard(
-                        model: item, aspectRatio: 3 / 1, small: true));
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-            },
-          ),
+          child: CustomFutureBuilder<List<Models.Sport>>(
+              future: Api.Entities.getAll<Models.Sport>(1, 8),
+              builder: (List<Models.Sport> data) => CustomListBuilder(
+                  type: CustomListBuilderTypes.horizontalList,
+                  height: 50,
+                  items: data,
+                  itemBuilder: (item) =>
+                      SportCard(model: item, aspectRatio: 3 / 1, small: true))),
         ),
         BlockBaseWidget(
           header: loc.translate('recommended_videos'),

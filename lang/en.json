@@ -53,6 +53,10 @@
       "removed": "Removed from favorites"
     }
   },
+  "like": {
+    "liked": "Added to Liked videos",
+    "unliked": "Removed from Liked videos"
+  },
   "chips": {
     "no_localization": "No localization"
   }
