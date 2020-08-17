@@ -1,9 +1,11 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
+import 'package:flutter_redux/flutter_redux.dart';
 
 import '../screens/video_view_screen.dart';
 import 'favorite_toggler.dart';
@@ -18,62 +20,68 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     this.model,
     this.margin,
     this.padding,
-    this.aspectRatio=16/9,
+    this.aspectRatio = 16 / 9,
   });
 
   @override
   Widget build(BuildContext context) {
-    var title = model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
+    var title =
+        model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
 
-    return withIndents(
-      child: Container(
-        // padding: EdgeInsets.all(Indents.md),
-        child: Column(
-          children: <Widget>[
-            withAspectRatio(
-                child: VideoCardWithoutCaption(
-              model: model,
-            )),
-            Container(
-              margin: EdgeInsets.only(top: Indents.md),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(title,
-                            style: Theme.of(context).textTheme.subtitle1),
-                        Text('5 дней назад',
-                            style: Theme.of(context).textTheme.subtitle2.merge(
-                                TextStyle(
-                                    height: 1.4,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground
-                                        .withOpacity(0.6)))),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.topRight,
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                    tooltip: 'Placeholder',
-                    onPressed: () {},
-                  ),
-                ],
+    return StoreConnector<AppState, Models.User>(
+        converter: (store) => store.state.user,
+        builder: (context, state) => withIndents(
+              child: Container(
+                // padding: EdgeInsets.all(Indents.md),
+                child: Column(
+                  children: <Widget>[
+                    withAspectRatio(
+                        child: VideoCardWithoutCaption(
+                      model: model,
+                    )),
+                    Container(
+                      margin: EdgeInsets.only(top: Indents.md),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(title,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1),
+                                Text('5 дней назад',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        .merge(TextStyle(
+                                            height: 1.4,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground
+                                                .withOpacity(0.6)))),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            alignment: Alignment.topRight,
+                            icon: Icon(
+                              Icons.more_vert,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                            tooltip: 'Placeholder',
+                            onPressed: () {},
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            ));
   }
 }
 
