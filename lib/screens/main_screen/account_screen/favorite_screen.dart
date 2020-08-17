@@ -1,8 +1,12 @@
+import 'package:extreme/helpers/custom_paginated_list_callback.dart';
 import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
+import 'package:extreme/widgets/movie_card.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/sport_card.dart';
@@ -41,8 +45,17 @@ class _FavoriteScreenTabViewState extends State<FavoriteScreenTabView>
   @override
   bool get wantKeepAlive => true;
 
+  CustomPaginatedListCallback itemListCallback;
+
+  @override
+  void initState() {
+    super.initState();
+    itemListCallback = widget.itemListCallback;
+  }
+
   @override
   void dispose() {
+    itemListCallback.page = 1;
     super.dispose();
   }
 
@@ -51,6 +64,12 @@ class _FavoriteScreenTabViewState extends State<FavoriteScreenTabView>
     super.build(context);
 
     return PaginatedListWidget(
+      progressWidget: Container(
+        padding: EdgeInsets.symmetric(vertical: Indents.lg),
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
       itemListCallback: widget.itemListCallback,
     );
   }
@@ -60,43 +79,56 @@ final _config = <FavoriteScreenTab>[
   FavoriteScreenTab(
     localizationKey: 'videos',
     itemListCallback: CustomPaginatedListCallback<Video>(
-        itemsGetter: (page) async {
-          return Api.Entities.getAll<Video>(page, 5);
+        itemsGetter: (page, pageSize) async {
+          return Api.Entities.getByIds<Video>(
+              store.state.user.favoriteIds.videos, page, pageSize);
         },
         itemBuilder: (model) => VideoCard(
-              model: model,
+              model: model[0],
             )),
   ),
   FavoriteScreenTab(
       localizationKey: 'movies',
-      itemListCallback: CustomPaginatedListCallback<Video>(
-          itemsGetter: (page) async {
-            return Api.Entities.getAll<Video>(page, 5);
-          },
-          itemBuilder: (model) => VideoCard(
-                model: model,
-              ))),
+      itemListCallback: CustomPaginatedListCallback<Movie>(
+        pageSize: 6,
+        itemsGetter: (page, pageSize) async {
+          return Api.Entities.getByIds<Movie>(
+              store.state.user.favoriteIds.movies, page, pageSize);
+        },
+        modelListSize: 3,
+        itemBuilder: (data) => CustomListBuilder(
+            childAspectRatio: 9 / 16,
+            type: CustomListBuilderTypes.grid,
+            crossAxisCount: 3,
+            items: data,
+            itemBuilder: (item) => MovieCard(model: item)),
+      )),
   FavoriteScreenTab(
       localizationKey: 'playlists',
       itemListCallback: CustomPaginatedListCallback<Playlist>(
-          itemsGetter: (page) async {
-            return Api.Entities.getAll<Playlist>(page, 5);
+          itemsGetter: (page, pageSize) async {
+            return Api.Entities.getByIds<Playlist>(
+                store.state.user.favoriteIds.playlists, page, pageSize);
           },
           itemBuilder: (model) => PlayListCard(
-                model: model,
+                aspectRatio: 16 / 9,
+                model: model[0],
               ))),
   FavoriteScreenTab(
       localizationKey: 'sports',
       itemListCallback: CustomPaginatedListCallback<Sport>(
-          itemsGetter: (page) async {
-            return Api.Entities.getAll<Sport>(page, 4);
-          },
-          itemBuilder: (model) => Container(
-            height: 100,
-            child: SportCard(
-                  model: model,
-                ),
-          )))
+        modelListSize: 2,
+        itemsGetter: (page, pageSize) async {
+          return Api.Entities.getByIds<Sport>(
+              store.state.user.favoriteIds.sports, page, pageSize);
+        },
+        itemBuilder: (data) => CustomListBuilder(
+            childAspectRatio: 16 / 9,
+            type: CustomListBuilderTypes.grid,
+            crossAxisCount: 2,
+            items: data,
+            itemBuilder: (item) => SportCard(model: item)),
+      ))
 ];
 
 class FavoriteScreen extends StatelessWidget {
@@ -127,51 +159,5 @@ class FavoriteScreen extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-typedef ItemBuilder<T> = Widget Function(T model);
-typedef PagingItemsGetter<T> = Future<List<T>> Function(int page);
-
-class CustomPaginatedListCallback<T> extends ItemListCallback {
-  int page = 1;
-
-  final PagingItemsGetter<T> itemsGetter;
-  final double bottomIndent;
-  final double gap;
-  final VoidCallback onStopLoading;
-
-  CustomPaginatedListCallback(
-      {this.itemBuilder,
-      this.itemsGetter,
-      this.onStopLoading,
-      this.bottomIndent = ScreenBaseWidget.screenBottomIndent,
-      this.gap = Indents.md});
-
-  final ItemBuilder<T> itemBuilder;
-
-  @override
-  Future<EventModel> getItemList() async {
-    var items = await itemsGetter(page);
-    page++;
-
-    var widgets = <Widget>[];
-
-    if (items.length == 0) {
-      widgets.add(Container(height: bottomIndent));
-      onStopLoading?.call();
-      return EventModel(
-          data: widgets, error: null, progress: false, stopLoading: true);
-    }
-
-    for (var item in items) {
-      widgets.add(BlockBaseWidget(
-        child: itemBuilder(item),
-        margin: EdgeInsets.only(top: gap),
-      ));
-    }
-
-    return EventModel(
-        data: widgets, error: null, progress: false, stopLoading: false);
   }
 }

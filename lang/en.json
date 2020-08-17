@@ -74,5 +74,8 @@
   },
   "chips": {
     "no_localization": "No localization"
+  },
+  "helper": {
+    "empty_list": "The list is empty"
   }
 }
