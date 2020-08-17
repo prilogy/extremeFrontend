@@ -1,5 +1,6 @@
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/screens/main_screen/account_screen/favorite_screen.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -31,9 +32,15 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
 
     return ScreenBaseWidget(
       navigatorKey: navigatorKey,
-      appBar: AppBar(
+      appBarWithContext: (context) => AppBar(
         title: Text(loc.translate("app_bar")),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.favorite),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => FavoriteScreen()));
+            },
+          ),
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {

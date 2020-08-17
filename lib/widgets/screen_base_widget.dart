@@ -11,6 +11,7 @@ class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
   final EdgeInsetsGeometry margin;
 
   final Widget appBar;
+  final WidgetBuilder appBarWithContext;
   final WidgetBuilderChildren builder;
   final WidgetBuilder builderChild;
   final Key navigatorKey;
@@ -27,13 +28,14 @@ class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
       this.appBar,
       this.builder,
       this.builderChild,
-      this.navigatorKey});
+      this.navigatorKey,
+      this.appBarWithContext});
 
   @override
   Widget build(BuildContext context) {
     Widget content(BuildContext ctx) {
       return Scaffold(
-          appBar: appBar ?? EmptyAppBar(),
+          appBar: appBar != null ? appBar : appBarWithContext != null ? appBarWithContext(ctx) : EmptyAppBar(),
           body: Builder(
             builder: (context) {
               var res =

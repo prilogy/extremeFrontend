@@ -1,4 +1,14 @@
 {
+  "base": {
+    "playlist": "playlist",
+    "video": "video",
+    "sport": "sport",
+    "movie": "movie",
+    "playlists": "playlists",
+    "videos": "videos",
+    "sports": "sports",
+    "movies": "movies"
+  },
   "login_screen": {
     "header": "Subscribe to always be in Extreme",
     "description": "Create personal account to get full functionality of ExtemeInsiders application.",
@@ -30,7 +40,9 @@
     "cancel": "Cancel",
     "save": "Save",
     "email_confirm": "Confirm",
-    "account_connect_error": "This account is already being used by one of ExtremeInsiders users"
+    "account_connect_error": "This account is already being used by one of ExtremeInsiders users",
+    "account_connect_success": "{0} account successfully connected",
+    "account_disconnect_success": "{0} account successfully disconnected"
   },
   "settings_screen": {
     "app_bar": "Options",
@@ -42,6 +54,9 @@
     "exit": "Exit",
     "version": "Version: {0}",
     "restart_hint": "Restart application to apply changes"
+  },
+  "favorite_screen": {
+    "app_bar": "Favorites"
   },
   "tooltips": {
     "favorite": "Add to favorites",

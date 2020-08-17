@@ -18,13 +18,13 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     this.model,
     this.margin,
     this.padding,
-    this.aspectRatio,
+    this.aspectRatio=16/9,
   });
 
   @override
   Widget build(BuildContext context) {
-    String testText =
-        model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
+    var title = model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
+
     return withIndents(
       child: Container(
         // padding: EdgeInsets.all(Indents.md),
@@ -44,9 +44,7 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        //Text('Blancpain GT3 - 3 hours Monza Race / Replay',
-                        // TODO: добавить перенос строки
-                        Text(testText,
+                        Text(title,
                             style: Theme.of(context).textTheme.subtitle1),
                         Text('5 дней назад',
                             style: Theme.of(context).textTheme.subtitle2.merge(

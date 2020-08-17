@@ -49,7 +49,7 @@ class _AccountInfoState extends State<AccountInfo> {
                   ),
                   Text(
                       loc.translate("duration") +
-                          HelperMethods.DateToString(user.dateSignUp),
+                          HelperMethods.dateToString(user.dateSignUp),
                       style: Theme.of(context)
                           .textTheme
                           .bodyText2
