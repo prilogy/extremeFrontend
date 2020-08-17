@@ -29,6 +29,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('home_screen');
     var store = StoreProvider.of<AppState>(context);
+    
 
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),

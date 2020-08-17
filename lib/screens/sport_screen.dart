@@ -1,12 +1,15 @@
-import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/movie_card.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/stats.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
+import 'package:extreme/services/api/main.dart' as Api;
+import 'package:extreme/models/main.dart' as Models;
 
 /// Создаёт экран вида спорта
 class SportScreen extends StatelessWidget {
@@ -102,45 +105,33 @@ class SportScreen extends StatelessWidget {
               ),
             )),
         BlockBaseWidget(
-          header: 'Рекомендуем',
-          child: Container(
-            height: 200,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: [
-                MovieCard(
-                  aspectRatio: 11 / 16,
-                  margin: EdgeInsets.only(right: Indents.smd),
-                ),
-                MovieCard(
-                  aspectRatio: 11 / 16,
-                  margin: EdgeInsets.only(right: Indents.smd),
-                ),
-                MovieCard(
-                  aspectRatio: 11 / 16,
-                  margin: EdgeInsets.only(right: Indents.smd),
-                ),
-                MovieCard(
-                  aspectRatio: 11 / 16,
-                  margin: EdgeInsets.only(right: Indents.smd),
-                ),
-              ],
-            ),
-          ),
-        ),
-        // TODO: выбивает исключение
-        BlockBaseWidget(
-          header: 'Лучший плейлист',
-          child: PlayListCard(
-            aspectRatio: 16 / 9,
-          ),
-        ),
-        BlockBaseWidget(
-          header: 'Лучшее видео',
-          child: VideoCard(
-            aspectRatio: 16 / 9,
-          ),
-        )
+            header: 'Рекомендуем',
+            child: CustomFutureBuilder<List<Models.Movie>>(
+              future: Api.Entities.recommended<Models.Movie>(1, 5),
+              builder: (data) => CustomListBuilder(
+                  type: CustomListBuilderTypes.horizontalList,
+                  connectToStore: true,
+                  items: data,
+                  height: 150,
+                  itemBuilder: (item) => MovieCard(
+                    
+                        model: item,
+                        aspectRatio: 9 / 16,
+                      )),
+            )),
+        // TODO: реализовать вывод лучшего плейлиста и лучшего вывода
+        // BlockBaseWidget(
+        //   header: 'Лучший плейлист',
+        //   child: PlayListCard(
+        //     aspectRatio: 16 / 9,
+        //   ),
+        // ),
+        // BlockBaseWidget(
+        //   header: 'Лучшее видео',
+        //   child: VideoCard(
+        //     aspectRatio: 16 / 9,
+        //   ),
+        // )
       ],
     );
   }

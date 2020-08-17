@@ -138,7 +138,7 @@ class VideoCardWithoutCaption extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           FavoriteToggler(
-                            status: false,
+                            status: model?.isFavorite,
                             id: model?.id,
                           ),
                         ]),
