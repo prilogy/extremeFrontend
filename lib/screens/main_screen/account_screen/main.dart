@@ -75,7 +75,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                         items: data,
                         itemBuilder: (item) => Subscription(
                               model: item,
-                              /* onPressed: () async {
+                               onPressed: () async {
                                   var url =
                                       await Api.Subscription.getPaymentUrl(
                                           item?.id ?? 1);
@@ -85,7 +85,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                                 title: 'Оплата подписки',
                                                 url: url,
                                               )));
-                                }, */
+                                },
                             ));
                   },
                 ),

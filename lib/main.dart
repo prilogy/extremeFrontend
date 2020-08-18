@@ -15,10 +15,12 @@ import './config/env.dart' as Env;
 import 'package:flutter_redux/flutter_redux.dart';
 
 final rootScaffold = GlobalKey<ScaffoldState>();
+final rootNavigator = GlobalKey<NavigatorState>();
 
 void main() async {
   await Env.init("./.env");
   Dio.init();
+  print('kek');
   await localStorage.ready;
   runApp(App(store: store));
 }
@@ -33,43 +35,43 @@ class App extends StatelessWidget {
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
-          title: 'ExtremeInsiders',
-          supportedLocales: [
-            Locale(Culture.en.key, ''),
-            Locale(Culture.ru.key, '')
-          ],
-          localizationsDelegates: [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate
-          ],
-          localeListResolutionCallback: (locales, supportedLocales) {
-            if (store.state.settings?.culture != null)
-              return Locale(store.state.settings.culture.key, '');
-            for (var loc in locales) {
-              for (var supp in supportedLocales) {
-                if (supp.languageCode == loc.languageCode) {
-                  var culture =
-                      Culture.all.firstWhere((x) => x.key == supp.languageCode);
-                  store.dispatch(SetSettings(
-                      culture: culture,
-                      currency: culture.key == 'en'
-                          ? Currency.USD
-                          : culture.key == 'ru' ? Currency.RUB : Currency.USD));
-                  return supp;
-                }
+        title: 'ExtremeInsiders',
+        supportedLocales: [
+          Locale(Culture.en.key, ''),
+          Locale(Culture.ru.key, '')
+        ],
+        localizationsDelegates: [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate
+        ],
+        localeListResolutionCallback: (locales, supportedLocales) {
+          if (store.state.settings?.culture != null)
+            return Locale(store.state.settings.culture.key, '');
+          for (var loc in locales) {
+            for (var supp in supportedLocales) {
+              if (supp.languageCode == loc.languageCode) {
+                var culture =
+                    Culture.all.firstWhere((x) => x.key == supp.languageCode);
+                store.dispatch(SetSettings(
+                    culture: culture,
+                    currency: culture.key == 'en'
+                        ? Currency.USD
+                        : culture.key == 'ru' ? Currency.RUB : Currency.USD));
+                return supp;
               }
             }
-            return supportedLocales.first;
-          },
-          theme: AppTheme.dark,
-          builder: (context, w) => Scaffold(
-                key: rootScaffold,
-                body: Navigator(
-                  onGenerateRoute: RouteGenerator.generateRoute,
-                  initialRoute: store.state.user == null ? '/auth' : '/main',
-                ),
-              )),
+          }
+          return supportedLocales.first;
+        },
+        theme: AppTheme.dark,
+        onGenerateRoute: RouteGenerator.generateRoute,
+        initialRoute: store.state.user == null ? '/auth' : '/main',
+        builder: (context, child) => Scaffold(
+          key: rootScaffold,
+          body: child,
+        ),
+      ),
     );
   }
 }
