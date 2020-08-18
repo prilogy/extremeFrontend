@@ -2,7 +2,7 @@ part of api;
 
 class Entities {
   static Future<List<T>> getAll<T>(
-      [int page, int pageSize, String sortByDate = 'desc']) async {
+      [int page, int pageSize, String sortByDate]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
 
@@ -33,15 +33,16 @@ class Entities {
     }
   }
 
-  static Future<List<T>> getByIds<T>(
-      [List<int> ids, String sortByDate = 'desc']) async {
+  static Future<List<T>> getByIds<T>(List<int> ids,
+      [int page, int pageSize, String sortByDate]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
 
     try {
       var body = json.encode(ids);
-      var params = {"sortByDate": sortByDate};
-      var response = await dio.post('/$entityName', queryParameters: params, data: body);
+      var params = _generateParams(page, pageSize, sortByDate);
+      var response =
+          await dio.post('/$entityName', queryParameters: params, data: body);
       var entities = List<T>();
       response.data.forEach((v) {
         entities.add(_entityFromJson<T>(v));
@@ -51,15 +52,16 @@ class Entities {
       return null;
     }
   }
+
   /// Возвращает рекомендованный контент
-static Future<List<T>> recommended<T>(
-      [int page, int pageSize]) async {
+  static Future<List<T>> recommended<T>([int page, int pageSize]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
 
     try {
       var params = _generateParams(page, pageSize, null);
-      var response = await dio.get('/$entityName/recommended', queryParameters: params);
+      var response =
+          await dio.get('/$entityName/recommended', queryParameters: params);
       var entities = List<T>();
       response.data.forEach((v) {
         entities.add(_entityFromJson<T>(v));
@@ -69,7 +71,7 @@ static Future<List<T>> recommended<T>(
     } on DioError catch (e) {
       return null;
     }
-      }
+  }
 
   static String _entityNameFromType(Type t) {
     switch (t) {
