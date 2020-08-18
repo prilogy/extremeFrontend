@@ -55,6 +55,12 @@
     "version": "Version: {0}",
     "restart_hint": "Restart application to apply changes"
   },
+  "video_view_screen": {
+    "favorite": "Favorite",
+    "like": "Like",
+    "share": "Share",
+    "other_videos": "Other playlist videos"
+  },
   "favorite_screen": {
     "app_bar": "Favorites"
   },

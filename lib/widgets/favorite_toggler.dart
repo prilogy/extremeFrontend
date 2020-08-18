@@ -13,8 +13,9 @@ class FavoriteToggler extends StatelessWidget {
   final bool status;
   final int id;
   final String toolTip;
+  final double size;
 
-  FavoriteToggler({this.status, this.id, this.toolTip});
+  FavoriteToggler({this.status, this.id, this.toolTip, this.size = 30});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class FavoriteToggler extends StatelessWidget {
       icon: Icon(
         icon,
         color: color,
-        size: 30,
+        size: size,
       ),
       tooltip: toolTipText,
       onPressed: () async {
