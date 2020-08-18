@@ -1,3 +1,5 @@
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
@@ -23,6 +25,8 @@ class PlaylistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('playlist_screen');
+
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
@@ -37,7 +41,7 @@ class PlaylistScreen extends StatelessWidget {
       builder: (context) => <Widget>[
         HeaderPlaylist(model: model),
         BlockBaseWidget(
-          header: 'Видео',
+          header: loc.translate("videos"),
           child: CustomFutureBuilder<List<Models.Video>>(
               future: Api.Entities.getByIds<Models.Video>(model.videosIds),
               builder: (data) => CustomListBuilder(
@@ -46,7 +50,7 @@ class PlaylistScreen extends StatelessWidget {
                       VideoCard(aspectRatio: 16 / 9, model: item))),
         ),
         BlockBaseWidget.forScrollingViews(
-          header: 'Смотри также',
+          header: loc.translate("see_also"),
           child: CustomFutureBuilder<List<Models.Playlist>>(
               future: Api.Entities.getAll<Models.Playlist>(1, 5, 'desc'),
               builder: (data) => CustomListBuilder(

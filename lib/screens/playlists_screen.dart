@@ -1,3 +1,5 @@
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
@@ -10,8 +12,10 @@ import 'package:extreme/services/api/main.dart' as Api;
 class Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('browse_screen');
+
     return ScreenBaseWidget(
-      appBar: AppBar(title: Text('Плейлисты')),
+      appBar: AppBar(title: Text(loc.translate("playlists"))),
       builder: (context) => [
         CustomFutureBuilder<List<Models.Playlist>>(
             future: Api.Entities.getAll<Models.Playlist>(1, 10),

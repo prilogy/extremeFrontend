@@ -13,7 +13,8 @@ import 'package:extreme/models/main.dart' as Models;
 
 /// Создаёт экран вида спорта
 class SportScreen extends StatelessWidget {
-  const SportScreen({Key key}) : super(key: key);
+  final Models.Sport model;
+  const SportScreen({Key key, this.model}) : super(key: key);
 
   void _searchIconAction() {
     //TODO: Search some video function

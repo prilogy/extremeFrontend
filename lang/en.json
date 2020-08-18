@@ -22,7 +22,8 @@
   "browse_screen": {
     "playlists": "Playlists",
     "movies": "Movies",
-    "popular_playlists": "Popular playlists"
+    "popular_playlists": "Popular playlists",
+    "browse": "Browse"
   },
   "account_screen": {
     "app_bar": "Account",
@@ -55,11 +56,23 @@
     "version": "Version: {0}",
     "restart_hint": "Restart application to apply changes"
   },
+  "search_screen": {
+    "videos": "Videos",
+    "playlists": "Playlists",
+    "movies": "Movies",
+    "sports": "Sports",
+    "few_symbols": "Request must have at least 3 letters",
+    "hint": "Search on Extreme Insiders"
+  },
   "video_view_screen": {
     "favorite": "Favorite",
     "like": "Like",
     "share": "Share",
     "other_videos": "Other playlist videos"
+  },
+  "playlist_screen": {
+    "videos": "Videos",
+    "see_also": "See also"
   },
   "favorite_screen": {
     "app_bar": "Favorites"

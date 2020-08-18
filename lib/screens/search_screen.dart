@@ -1,6 +1,8 @@
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/movie_card.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -18,6 +20,8 @@ class SearchScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('search_screen');
+
     String _query = query ?? 'Поиск Extreme Insiders';
     print('_query: ' + _query);
     TextEditingController _searchController = new TextEditingController();
@@ -33,7 +37,7 @@ class SearchScreen extends StatelessWidget {
                   .pushNamed('/search', arguments: query);
             } else {
               Fluttertoast.showToast(
-                  msg: 'Поисковой запрос должен иметь больше 2 символов',
+                  msg: loc.translate("few_symbols"),
                   backgroundColor: Colors.grey);
             }
           },
@@ -66,25 +70,25 @@ class SearchScreen extends StatelessWidget {
               mass = [
                 _videos.isNotEmpty
                     ? CategoryBlock(
-                        header: "Видео",
+                        header: loc.translate("videos"),
                         cards: [..._videos],
                       )
                     : Container(),
                 _playlists.isNotEmpty
                     ? CategoryBlock(
-                        header: "Плейлисты",
+                        header: loc.translate("playlists"),
                         cards: [..._playlists],
                       )
                     : Container(),
                 _movies.isNotEmpty
                     ? CategoryBlock(
-                        header: "Фильмы",
+                        header: loc.translate("movies"),
                         cards: [..._movies],
                       )
                     : Container(),
                 _sports.isNotEmpty
                     ? CategoryBlock(
-                        header: "Виды спорта",
+                        header: loc.translate("sports"),
                         cards: [..._sports],
                         grid: true,
                       )
