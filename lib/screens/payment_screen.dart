@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:extreme/main.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,9 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 class PaymentScreen extends StatefulWidget {
   final String url;
   final String title;
+  final Future Function()  onPaymentDone;
 
-  final ChromeSafariBrowser browser = new MyChromeSafariBrowser(new MyInAppBrowser());
-
-
-  PaymentScreen({this.url, this.title});
+  PaymentScreen({this.url, this.title, this.onPaymentDone});
 
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
@@ -21,84 +20,62 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
 
-  bool webViewIsOpen = true;
+  bool progressIsActive;
 
   @override
   void initState() {
-    widget.browser.addMenuItem(new ChromeSafariBrowserMenuItem(id: 1, label: 'Custom item menu 1', action: (url, title) {
-      print('Custom item menu 1 clicked!');
-      print(url);
-      print(title);
-    }));
-    widget.browser.addMenuItem(new ChromeSafariBrowserMenuItem(id: 2, label: 'Custom item menu 2', action: (url, title) {
-      print('Custom item menu 2 clicked!');
-      print(url);
-      print(title);
-    }));
     super.initState();
   }
 
+  // TODO: Доделать
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final browser = MyInAppBrowser(
+        onUrlLoadStart: (ctx, url) async {
+          if(url.contains('localhost')) {
+            ctx.close();
+            setState(() {
+              progressIsActive = true;
+            });
+            await widget.onPaymentDone;
+            setState(() {
+              progressIsActive = false;
+            });
+          }
+        }
+    );
+    browser.setOptions(options: InAppBrowserClassOptions(crossPlatform: InAppBrowserOptions(toolbarTopBackgroundColor: Theme.of(context).backgroundColor.toString())));
+    browser.openUrl(url: widget.url);
+
+    return ScreenBaseWidget(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Container(
-        child: RaisedButton(
-            onPressed: () async {
-              await widget.browser.open(
-                  url: widget.url,
-                  options: ChromeSafariBrowserClassOptions(
-                      android: AndroidChromeCustomTabsOptions(addDefaultShareMenuItem: false),
-                      ios: IOSSafariOptions(barCollapsingEnabled: true)));
-            },
-            child: Text("Open Chrome Safari Browser")),
+      builderChild: (context) => BlockBaseWidget(
+        padding: EdgeInsets.symmetric(vertical: Indents.xl),
+        child: Center(
+          child: CircularProgressIndicator(),
         ),
+      ),
     );
   }
 }
 
 class MyInAppBrowser extends InAppBrowser {
+  final void Function(MyInAppBrowser ctx, String url) onUrlLoadStart;
+  final VoidCallback onBrowserClose;
+
+
+  MyInAppBrowser({this.onUrlLoadStart, this.onBrowserClose});
 
   @override
   Future onLoadStart(String url) async {
-    print("\n\nStarted $url\n\n");
-  }
-
-  @override
-  Future onLoadStop(String url) async {
-    print("\n\nStopped $url\n\n");
-  }
-
-  @override
-  void onLoadError(String url, int code, String message) {
-    print("\n\nCan't load $url.. Error: $message\n\n");
+    print(url);
+    onUrlLoadStart?.call(this, url);
   }
 
   @override
   void onExit() {
-    print("\n\nBrowser closed!\n\n");
-  }
-
-}
-
-class MyChromeSafariBrowser extends ChromeSafariBrowser {
-
-  MyChromeSafariBrowser(browserFallback) : super(bFallback: browserFallback);
-
-  @override
-  void onOpened() {
-    print("ChromeSafari browser opened");
-  }
-
-  @override
-  void onCompletedInitialLoad() {
-    print("ChromeSafari browser initial load completed");
-  }
-
-  @override
-  void onClosed() {
-    print("ChromeSafari browser closed");
+    onBrowserClose?.call();
   }
 }

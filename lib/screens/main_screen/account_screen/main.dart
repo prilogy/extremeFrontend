@@ -84,6 +84,10 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                           builder: (ctx) => PaymentScreen(
                                                 title: 'Оплата подписки',
                                                 url: url,
+                                              onPaymentDone: () async {
+                                                  Future.delayed(Duration(seconds: 3));
+                                                  print('ekk');
+                                              },
                                               )));
                                 },
                             ));

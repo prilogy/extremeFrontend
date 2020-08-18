@@ -20,7 +20,6 @@ final rootNavigator = GlobalKey<NavigatorState>();
 void main() async {
   await Env.init("./.env");
   Dio.init();
-  print('kek');
   await localStorage.ready;
   runApp(App(store: store));
 }
