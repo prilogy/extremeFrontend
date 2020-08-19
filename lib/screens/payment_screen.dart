@@ -10,43 +10,55 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 class PaymentScreen extends StatefulWidget {
   final String url;
   final String title;
-  final Future Function()  onPaymentDone;
+  final Future Function() onPaymentDone;
+  final bool closeOnDone;
+  final Future Function() onBrowserClose;
 
-  PaymentScreen({this.url, this.title, this.onPaymentDone});
+  PaymentScreen(
+      {this.url,
+      this.title,
+      this.onPaymentDone,
+      this.closeOnDone = true,
+      this.onBrowserClose});
 
   @override
   _PaymentScreenState createState() => _PaymentScreenState();
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-
   bool progressIsActive;
+  final browser = MyInAppBrowser();
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    browser.onUrlLoadStart = (ctx, url) async {
+      if (url.contains('localhost')) {
+        ctx.close();
+        setState(() {
+          progressIsActive = true;
+        });
+        await widget.onPaymentDone?.call();
+        setState(() {
+          progressIsActive = false;
+        });
+      }
+    };
+    browser.onBrowserClose = () async {
+      setState(() {
+        progressIsActive = true;
+      });
+      await widget.onBrowserClose?.call();
+      setState(() {
+        progressIsActive = false;
+      });
+      if (widget.closeOnDone) Navigator.of(context).pop();
+    };
+    browser.openUrl(url: widget.url);
+    super.didChangeDependencies();
   }
 
-  // TODO: Доделать
   @override
   Widget build(BuildContext context) {
-    final browser = MyInAppBrowser(
-        onUrlLoadStart: (ctx, url) async {
-          if(url.contains('localhost')) {
-            ctx.close();
-            setState(() {
-              progressIsActive = true;
-            });
-            await widget.onPaymentDone;
-            setState(() {
-              progressIsActive = false;
-            });
-          }
-        }
-    );
-    browser.setOptions(options: InAppBrowserClassOptions(crossPlatform: InAppBrowserOptions(toolbarTopBackgroundColor: Theme.of(context).backgroundColor.toString())));
-    browser.openUrl(url: widget.url);
-
     return ScreenBaseWidget(
       appBar: AppBar(
         title: Text(widget.title),
@@ -62,9 +74,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 }
 
 class MyInAppBrowser extends InAppBrowser {
-  final void Function(MyInAppBrowser ctx, String url) onUrlLoadStart;
-  final VoidCallback onBrowserClose;
-
+  void Function(MyInAppBrowser ctx, String url) onUrlLoadStart;
+  VoidCallback onBrowserClose;
 
   MyInAppBrowser({this.onUrlLoadStart, this.onBrowserClose});
 
