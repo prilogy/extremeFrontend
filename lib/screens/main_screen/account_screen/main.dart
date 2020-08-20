@@ -1,5 +1,7 @@
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/main.dart';
 import 'package:extreme/screens/main_screen/account_screen/favorite_screen.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
@@ -31,6 +33,9 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
     var user = store.state.user;
 
     return ScreenBaseWidget(
+      onRefresh: () async {
+        await Api.User.refresh(true, true);
+      },
       navigatorKey: navigatorKey,
       appBarWithContext: (context) => AppBar(
         title: Text(loc.translate("app_bar")),
@@ -38,7 +43,8 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
           IconButton(
             icon: Icon(Icons.favorite),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => FavoriteScreen()));
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => FavoriteScreen()));
             },
           ),
           IconButton(
@@ -57,16 +63,24 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                    margin: EdgeInsets.only(bottom: Indents.smd),
-                    child: () {
-                      var isSubscribed = user.subscription?.dateEnd != null &&
-                          user.subscription.dateEnd.isAfter(DateTime.now());
-                      var text = isSubscribed
-                          ? loc.translate("expiration", [user.subscription.dateEnd.difference(DateTime.now()).inDays.toString()])
-                          : loc.translate("no_sub");
-                      return Text(text);
-                    }()),
+                StoreConnector<AppState, Models.User>(
+                  converter: (store) => store.state.user,
+                  builder: (ctx, state) => Container(
+                      margin: EdgeInsets.only(bottom: Indents.smd),
+                      child: () {
+                        var isSubscribed = user.subscription?.dateEnd != null &&
+                            user.subscription.dateEnd.isAfter(DateTime.now());
+                        var text = isSubscribed
+                            ? loc.translate("expiration", [
+                                state.subscription.dateEnd
+                                    .difference(DateTime.now())
+                                    .inDays
+                                    .toString()
+                              ])
+                            : loc.translate("no_sub");
+                        return Text(text);
+                      }()),
+                ),
                 CustomFutureBuilder<List<Models.SubscriptionPlan>>(
                   future: Api.Subscription.getPlans(),
                   builder: (data) {
@@ -75,17 +89,37 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                         items: data,
                         itemBuilder: (item) => Subscription(
                               model: item,
-                              /* onPressed: () async {
-                                  var url =
-                                      await Api.Subscription.getPaymentUrl(
-                                          item?.id ?? 1);
+                              onPressed: () async {
+                                var url = await Api.Subscription.getPaymentUrl(
+                                    item.id);
+
+                                if (url == null) {
+                                  SnackBarExtension.show(
+                                      SnackBarExtension.error(
+                                          AppLocalizations.of(context)
+                                              .translate('payment.error')));
+                                } else {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
                                           builder: (ctx) => PaymentScreen(
-                                                title: 'Оплата подписки',
+                                                title: loc.translate(
+                                                    'subscription_payment_app_bar'),
                                                 url: url,
+                                                onPaymentDone: () async {
+                                                  await Api.User.refresh(
+                                                      true, true);
+                                                  SnackBarExtension.show(
+                                                      SnackBarExtension.success(
+                                                          loc.translate(
+                                                              'subscription_payment_success'), Duration(seconds: 7)));
+                                                },
+                                                onBrowserClose: () async {
+                                                  await Api.User.refresh(
+                                                      true, true);
+                                                },
                                               )));
-                                }, */
+                                }
+                              },
                             ));
                   },
                 ),
@@ -100,13 +134,12 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
               ],
             ),
           ),
-
           BlockBaseWidget(
             header: loc.translate("connected_accounts"),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                for(var item in Models.SocialAccountProvider.all)
+                for (var item in Models.SocialAccountProvider.all)
                   SocialAccount(
                     model: item,
                   )

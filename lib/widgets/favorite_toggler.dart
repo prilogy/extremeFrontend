@@ -41,9 +41,8 @@ class FavoriteToggler extends StatelessWidget {
 
         StoreProvider.of<AppState>(context)
             .dispatch(ToggleFavorite(userAction));
-        rootScaffold.currentState.showSnackBar(SnackBarExtension.info(
+        SnackBarExtension.show(SnackBarExtension.info(
             loc.translate(userAction.status ? 'added' : 'removed')));
-            print(status);
       },
     );
   }

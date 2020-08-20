@@ -43,7 +43,9 @@
     "email_confirm": "Confirm",
     "account_connect_error": "This account is already being used by one of ExtremeInsiders users",
     "account_connect_success": "{0} account successfully connected",
-    "account_disconnect_success": "{0} account successfully disconnected"
+    "account_disconnect_success": "{0} account successfully disconnected",
+    "subscription_payment_app_bar": "Subscription payment",
+    "subscription_payment_success": "Payment for subscription was successful. Subscription status update might take a few of minutes. You can always refresh status on account screen by pulling it up"
   },
   "settings_screen": {
     "app_bar": "Options",
@@ -104,5 +106,8 @@
   },
   "helper": {
     "empty_list": "The list is empty"
+  },
+  "payment": {
+    "error": "Payment service error... Try again later"
   }
 }
