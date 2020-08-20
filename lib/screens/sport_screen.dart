@@ -1,3 +1,5 @@
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
@@ -22,11 +24,13 @@ class SportScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('search_screen');
+
     var theme = Theme.of(context);
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
-        title: Text('Вид спорта'),
+        title: Text(model.content.name ?? "Unnamed sport"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
@@ -62,11 +66,11 @@ class SportScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    'Вид спорта',
+                    model.content.name ?? 'Unnamed sport',
                     style: theme.textTheme.headline5.merge(TextStyle(
                         fontWeight: FontWeight.bold, letterSpacing: 0.25)),
                   ),
-                  Text('Этот вид спорта просто крут. Вот так! Описание...',
+                  Text(model.content.description ?? '',
                       style: Theme.of(context).textTheme.bodyText2),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: Indents.sm),
@@ -85,19 +89,19 @@ class SportScreen extends StatelessWidget {
                       RaisedButton(
                           onPressed: () {},
                           color: theme.colorScheme.onSurface,
-                          child: Text('ВИДЕО',
+                          child: Text(loc.translate("button.videos"),
                               style: theme.textTheme.button.merge(TextStyle(
                                   color: theme.colorScheme.surface)))),
                       RaisedButton(
                           onPressed: () {},
                           color: theme.colorScheme.onSurface,
-                          child: Text('ПЛЕЙЛИСТЫ',
+                          child: Text(loc.translate("button.playlists"),
                               style: theme.textTheme.button.merge(TextStyle(
                                   color: theme.colorScheme.surface)))),
                       RaisedButton(
                           onPressed: () {},
                           color: theme.colorScheme.onSurface,
-                          child: Text('ФИЛЬМЫ',
+                          child: Text(loc.translate("button.movies"),
                               style: theme.textTheme.button.merge(TextStyle(
                                   color: theme.colorScheme.surface)))),
                     ],
@@ -106,7 +110,7 @@ class SportScreen extends StatelessWidget {
               ),
             )),
         BlockBaseWidget(
-            header: 'Рекомендуем',
+            header: loc.translate("recommended"),
             child: CustomFutureBuilder<List<Models.Movie>>(
               future: Api.Entities.recommended<Models.Movie>(1, 5),
               builder: (data) => CustomListBuilder(
@@ -115,7 +119,6 @@ class SportScreen extends StatelessWidget {
                   items: data,
                   height: 150,
                   itemBuilder: (item) => MovieCard(
-                    
                         model: item,
                         aspectRatio: 9 / 16,
                       )),

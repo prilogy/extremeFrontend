@@ -74,6 +74,14 @@
     "videos": "Видео",
     "see_also": "Смотри также"
   },
+  "sport_screen": {
+    "button": {
+      "videos": "ВИДЕО",
+      "playlists": "ПЛЕЙЛИСТЫ",
+      "movies": "ФИЛЬМЫ"
+    },
+    "recommended": "Рекомендуем"
+  },
   "favorite_screen": {
     "app_bar": "Избранное"
   },
