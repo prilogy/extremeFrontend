@@ -29,7 +29,12 @@ class SearchScreen extends StatelessWidget {
     return ScreenBaseWidget(
       appBar: AppBar(
         title: TextField(
-          decoration: InputDecoration.collapsed(hintText: _query),
+          decoration: InputDecoration(
+              hintText: _query,
+              suffixIcon: IconButton(
+                onPressed: () => _searchController.clear(),
+                icon: Icon(Icons.clear),
+              )),
           controller: _searchController,
           onSubmitted: (query) {
             if (query.length > 2) {
