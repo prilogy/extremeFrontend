@@ -23,29 +23,45 @@ class SearchScreen extends StatelessWidget {
     final loc = AppLocalizations.of(context).withBaseKey('search_screen');
 
     String _query = query ?? 'Поиск Extreme Insiders';
-    print('_query: ' + _query);
     TextEditingController _searchController = new TextEditingController();
     _searchController.text = query;
     return ScreenBaseWidget(
       appBar: AppBar(
-        title: TextField(
-          decoration: InputDecoration(
-              hintText: _query,
-              suffixIcon: IconButton(
-                onPressed: () => _searchController.clear(),
-                icon: Icon(Icons.clear),
-              )),
-          controller: _searchController,
-          onSubmitted: (query) {
-            if (query.length > 2) {
-              Navigator.of(context, rootNavigator: true)
-                  .pushNamed('/search', arguments: query);
-            } else {
-              Fluttertoast.showToast(
-                  msg: loc.translate("few_symbols"),
-                  backgroundColor: Colors.grey);
-            }
-          },
+        // titleSpacing: 10,
+
+        title: Container(
+          height: 40,
+          child: TextField(
+            decoration: InputDecoration(
+                filled: true,
+                fillColor:
+                    Theme.of(context).colorScheme.background.withOpacity(0.5),
+                focusColor:
+                    Theme.of(context).colorScheme.background.withOpacity(0.5),
+                hoverColor:
+                    Theme.of(context).colorScheme.background.withOpacity(0.5),
+                border: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                errorBorder: InputBorder.none,
+                disabledBorder: InputBorder.none,
+                hintText: _query,
+                suffixIcon: IconButton(
+                  onPressed: () => _searchController.clear(),
+                  icon: Icon(Icons.clear),
+                )),
+            controller: _searchController,
+            onSubmitted: (query) {
+              if (query.length > 2) {
+                Navigator.of(context, rootNavigator: true)
+                    .pushNamed('/search', arguments: query);
+              } else {
+                Fluttertoast.showToast(
+                    msg: loc.translate("few_symbols"),
+                    backgroundColor: Colors.grey);
+              }
+            },
+          ),
         ),
       ),
       builder: (context) => [
