@@ -1,3 +1,5 @@
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
@@ -13,9 +15,11 @@ class MoviesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var loc = AppLocalizations.of(context).withBaseKey('browse_screen');
+
     return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text('Фильмы'),
+          title: Text(loc.translate("movies")),
         ),
         builder: (context) => [
               BlockBaseWidget(

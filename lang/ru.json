@@ -22,7 +22,8 @@
   "browse_screen": {
     "playlists": "Плейлисты",
     "movies": "Фильмы",
-    "popular_playlists": "Популярные плейлисты"
+    "popular_playlists": "Популярные плейлисты",
+    "browse": "Просмотр"
   },
   "account_screen": {
     "app_bar": "Профиль",
@@ -57,11 +58,31 @@
     "version": "Версия: {0}",
     "restart_hint": "Для применения изменений перезапустите приложение"
   },
+  "search_screen": {
+    "videos": "Видео",
+    "playlists": "Плейлисты",
+    "movies": "Фильмы",
+    "sports": "Виды спорта",
+    "few_symbols": "Запрос должен содержать хотя бы 3 символа",
+    "hint": "Поиск Extreme Insiders"
+  },
   "video_view_screen": {
     "favorite": "В избранное",
     "like": "Нравится",
     "share": "Поделиться",
     "other_videos": "Другие видео из плейлиста"
+  },
+  "playlist_screen": {
+    "videos": "Видео",
+    "see_also": "Смотри также"
+  },
+  "sport_screen": {
+    "button": {
+      "videos": "ВИДЕО",
+      "playlists": "ПЛЕЙЛИСТЫ",
+      "movies": "ФИЛЬМЫ"
+    },
+    "recommended": "Рекомендуем"
   },
   "favorite_screen": {
     "app_bar": "Избранное"

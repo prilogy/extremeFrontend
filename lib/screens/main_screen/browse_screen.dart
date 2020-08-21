@@ -25,24 +25,22 @@ class BrowseScreen extends StatefulWidget {
 }
 
 class _BrowseScreenState extends State<BrowseScreen> {
-  final Widget appBar = AppBar(
-    title: Text("Просмотр"),
-    actions: <Widget>[
-      new IconButton(
-        icon: new Icon(Icons.search),
-        onPressed: () {
-          print("smth");
-        },
-      ),
-    ],
-  );
-
   @override
   Widget build(BuildContext context) {
     var loc = AppLocalizations.of(context).withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
-        appBar: appBar,
+        appBar: AppBar(
+          title: Text(loc.translate("browse")),
+          actions: <Widget>[
+            new IconButton(
+              icon: new Icon(Icons.search),
+              onPressed: () {
+                print("smth");
+              },
+            ),
+          ],
+        ),
         navigatorKey: widget.navigatorKey,
         builder: (context) => [
               Container(

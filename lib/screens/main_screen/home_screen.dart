@@ -29,7 +29,6 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('home_screen');
     var store = StoreProvider.of<AppState>(context);
-    
 
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
@@ -98,60 +97,6 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
           ),
         ),
       ],
-    );
-  }
-}
-
-class BannerInfo extends StatefulWidget {
-  final List models;
-
-  BannerInfo({Key key, this.models}) : super(key: key);
-
-  //void updateInfo(int index);
-  @override
-  _BannerInfoState createState() => _BannerInfoState();
-}
-
-class _BannerInfoState extends State<BannerInfo> {
-  int modelId;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
-  void setState(fn) {
-    // TODO: implement setState
-    super.setState(fn);
-  }
-
-  void updateInfo(int index) {
-    setState(() {
-      modelId = index;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('GT3 Today', style: Theme.of(context).textTheme.headline6),
-          Text('Race starts in 17:00 an Monza today',
-              style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onPrimary
-                      .withOpacity(0.7)))),
-          Container(
-            height: 25,
-          )
-        ],
-      ),
     );
   }
 }
