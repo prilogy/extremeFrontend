@@ -17,7 +17,6 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_pagination_helper/pagination_helper/event_model.dart';
 import 'package:flutter_pagination_helper/pagination_helper/item_list_callback.dart';
 import 'package:flutter_pagination_helper/pagination_helper/list_helper.dart';
-import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 
 class FavoriteScreenTab {

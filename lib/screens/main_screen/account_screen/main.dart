@@ -135,6 +135,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
             ),
           ),
           BlockBaseWidget(
+            margin: EdgeInsets.all(0),
             header: loc.translate("connected_accounts"),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

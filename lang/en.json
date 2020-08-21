@@ -88,5 +88,10 @@
   },
   "payment": {
     "error": "Payment service error... Try again later"
+  },
+  "subscription": {
+    "discount": "Saving {0}",
+    "extend": "Extend",
+    "subscribe": "Subscribe"
   }
 }
