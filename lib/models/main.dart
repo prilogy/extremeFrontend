@@ -21,3 +21,4 @@ part 'currency.dart';
 part 'search_result.dart';
 part 'user_action.dart';
 part 'social_identity.dart';
+part 'social_account.dart';

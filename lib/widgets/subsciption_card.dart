@@ -7,7 +7,7 @@ import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:flutter_redux/flutter_redux.dart';
 
-class Subscription extends StatelessWidget {
+class SubscriptionCard extends StatelessWidget {
   final int price;
   final String title;
   final String description;
@@ -16,7 +16,7 @@ class Subscription extends StatelessWidget {
   final VoidCallback onPressed;
   final Models.SubscriptionPlan model;
 
-  Subscription(
+  SubscriptionCard(
       {this.description,
       this.title,
       this.price,
@@ -32,7 +32,7 @@ class Subscription extends StatelessWidget {
     var title = model.content?.name ?? '';
     var desc = model.content?.description ?? '';
     var loc = AppLocalizations.of(context).withBaseKey('subscription');
-    var isSubscribed = StoreProvider.of<AppState>(context).state.user.subscription != null; // TODO: проверить поведение без подписки
+    var isSubscribed = StoreProvider.of<AppState>(context).state.user.isSubscribed;
 
 
     return Container(
@@ -131,7 +131,6 @@ class Saving extends StatelessWidget {
                   size: 16,
                 ),
               ),
-              // Измениние baseline будет двигать строку "Экономия ..." по вертикальной оси
               Baseline(
                 baseline: 10,
                 baselineType: TextBaseline.alphabetic,

@@ -13,7 +13,7 @@ class Playlist {
   DateTime dateCreated;
 
   bool get isFavorite {
-    return store.state.user?.favoriteIds?.playlists?.contains(id) ?? false;
+    return store.state.user?.favoriteIds?.playlists?.any((x) => x.entityId == id) ?? false;
   }
 
   bool get isInPreferredLanguage {
