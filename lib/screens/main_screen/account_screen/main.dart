@@ -3,6 +3,7 @@ import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/main.dart';
 import 'package:extreme/screens/main_screen/account_screen/favorite_screen.dart';
+import 'package:extreme/screens/main_screen/account_screen/promo_screen.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -40,6 +41,13 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
       appBarWithContext: (context) => AppBar(
         title: Text(loc.translate("app_bar")),
         actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.local_activity),
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => PromoScreen()));
+            },
+          ),
           IconButton(
             icon: Icon(Icons.favorite),
             onPressed: () {

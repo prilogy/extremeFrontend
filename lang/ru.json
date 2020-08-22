@@ -87,6 +87,9 @@
   "favorite_screen": {
     "app_bar": "Избранное"
   },
+  "promo_screen": {
+    "app_bar": "Активировать промокод"
+  },
   "tooltips": {
     "favorite": "Добавить в избранное",
     "like": "Поставить отметку \"нравится\""
@@ -113,6 +116,7 @@
   "subscription": {
     "discount": "Экономия {0}",
     "extend": "Продлить",
-    "subscribe": "Купить"
+    "subscribe": "Купить",
+    "is_free": "Бесплатно"
   }
 }

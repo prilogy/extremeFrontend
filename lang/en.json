@@ -87,6 +87,9 @@
   "favorite_screen": {
     "app_bar": "Favorites"
   },
+  "promo_screen": {
+    "app_bar": "Activate promo-code"
+  },
   "tooltips": {
     "favorite": "Add to favorites",
     "like": "Set like"
@@ -113,6 +116,7 @@
   "subscription": {
     "discount": "Saving {0}",
     "extend": "Extend",
-    "subscribe": "Subscribe"
+    "subscribe": "Subscribe",
+    "is_free": "For free"
   }
 }
