@@ -88,7 +88,14 @@
     "app_bar": "Favorites"
   },
   "promo_screen": {
-    "app_bar": "Activate promo-code"
+    "app_bar": "Activate promo code",
+    "you_get": "You get",
+    "enter_code": "Enter promo code",
+    "code_success": "Promo code entered",
+    "code_error": "Promo code is invalid",
+    "redeem": "Redeem",
+    "redeem_success": "Redeem succeeded!",
+    "redeem_error": "Unexpected error happened, please try again later..."
   },
   "tooltips": {
     "favorite": "Add to favorites",

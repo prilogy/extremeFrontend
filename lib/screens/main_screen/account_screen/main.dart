@@ -44,17 +44,27 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
           IconButton(
             icon: Icon(Icons.local_activity),
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => PromoScreen()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => PromoScreen()));
             },
           ),
-          IconButton(
-            icon: Icon(Icons.favorite),
-            onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FavoriteScreen()));
-            },
-          ),
+          if (user.isSubscribed)
+            IconButton(
+              icon: Icon(Icons.attach_money),
+              onPressed: () {
+                Navigator.of(context).push(
+                    //TODO: переход на страницу с купленными предметами(sale_screen.dart)(страница по коду почти как favorite_screen.dart)
+                    MaterialPageRoute(builder: (context) => FavoriteScreen()));
+              },
+            ),
+          if (user.isSubscribed)
+            IconButton(
+              icon: Icon(Icons.favorite),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => FavoriteScreen()));
+              },
+            ),
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
@@ -120,7 +130,9 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                                   SnackBarExtension.show(
                                                       SnackBarExtension.success(
                                                           loc.translate(
-                                                              'subscription_payment_success'), Duration(seconds: 7)));
+                                                              'subscription_payment_success'),
+                                                          Duration(
+                                                              seconds: 7)));
                                                 },
                                                 onBrowserClose: () async {
                                                   await Api.User.refresh(
