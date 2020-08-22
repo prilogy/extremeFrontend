@@ -84,6 +84,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                 CustomFutureBuilder<List<Models.SubscriptionPlan>>(
                   future: Api.Subscription.getPlans(),
                   builder: (data) {
+                    data.sort((a, b) => a.price.value.compareTo(b.price.value));
                     return CustomListBuilder(
                         lastItemHasGap: true,
                         items: data,

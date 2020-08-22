@@ -6,8 +6,13 @@ class Sport {
   Content content;
   int id;
   DateTime dateCreated;
+
   bool get isFavorite {
-    return store.state.user?.favoriteIds?.sports?.contains(id) ?? false;
+    return store.state.user?.favoriteIds?.sports?.any((x) => x.entityId == id) ?? false;
+  }
+
+  bool get isInPreferredLanguage {
+    return store.state?.settings?.culture == content.culture ?? false;
   }
 
   Sport(
