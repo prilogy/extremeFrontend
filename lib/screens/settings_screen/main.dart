@@ -91,6 +91,12 @@ class SettingsScreen extends StatelessWidget {
                     SettingsWidget(title: loc.translate('policy')),
                     SettingsWidget(title: loc.translate('about')),
                     SettingsWidget(
+                      title: loc.translate('reset_pass'),
+                      onPressed: () {
+                        Navigator.of(context,rootNavigator:true).pushNamed('/reset_pass');
+                      },
+                    ),
+                    SettingsWidget(
                       title: loc.translate('exit'),
                       onPressed: () {
                         store.dispatch(SetUser(null));

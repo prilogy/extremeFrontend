@@ -54,6 +54,7 @@
     "other": "Other",
     "policy": "Privacy  policy",
     "about": "About application",
+    "reset_pass": "Reset password",
     "exit": "Exit",
     "version": "Version: {0}",
     "restart_hint": "Restart application to apply changes"
@@ -86,6 +87,9 @@
   },
   "favorite_screen": {
     "app_bar": "Favorites"
+  },
+  "reset_pass_screen": {
+    "title": "Reset password"
   },
   "tooltips": {
     "favorite": "Add to favorites",

@@ -1,4 +1,5 @@
 import 'package:extreme/screens/auth_screen/main.dart';
+import 'package:extreme/screens/reset_pass_screen.dart';
 import 'package:extreme/screens/confirmation_screen.dart';
 import 'package:extreme/screens/main_screen/main.dart';
 import 'package:extreme/screens/search_screen.dart';
@@ -33,6 +34,7 @@ final routes = [
   RouteBuilder('/settings', (args) => SettingsScreen()),
   RouteBuilder('/search', (args) => SearchScreen(query: args is String ? args as String : null,)),
   RouteBuilder('/confirmation', (args) => Confirmation()),
+  RouteBuilder('/reset_pass', (args) => ResetPassScreen()),
 ];
 
 class RouteBuilder {
