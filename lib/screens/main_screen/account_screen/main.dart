@@ -14,7 +14,7 @@ import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/social_account.dart';
-import 'package:extreme/widgets/subsciption.dart';
+import 'package:extreme/widgets/subsciption_card.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +87,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                     return CustomListBuilder(
                         lastItemHasGap: true,
                         items: data,
-                        itemBuilder: (item) => Subscription(
+                        itemBuilder: (item) => SubscriptionCard(
                               model: item,
                               onPressed: () async {
                                 var url = await Api.Subscription.getPaymentUrl(
@@ -135,6 +135,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
             ),
           ),
           BlockBaseWidget(
+            margin: EdgeInsets.all(0),
             header: loc.translate("connected_accounts"),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -17,8 +17,18 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_pagination_helper/pagination_helper/event_model.dart';
 import 'package:flutter_pagination_helper/pagination_helper/item_list_callback.dart';
 import 'package:flutter_pagination_helper/pagination_helper/list_helper.dart';
-import 'package:flutter_paginator/flutter_paginator.dart';
 import 'package:extreme/services/api/main.dart' as Api;
+
+typedef LinqForT<T> = bool Function(int, T);
+
+Future<List<T>> processIds<T>(List<EntityIdItem> ids, int page, int pageSize, LinqForT<T> linq) async {
+  ids.sort((a, b) => a.id.compareTo(b.id));
+  ids = ids.reversed.toList();
+  var idsInt = ids.map<int>((e) => e.entityId).toList();
+  var data = await Api.Entities.getByIds<T>(idsInt, page, pageSize);
+  return idsInt.map<T>((e) => data.firstWhere((y) => linq(e,y))).toList();
+}
+
 
 class FavoriteScreenTab {
   final String localizationKey;
@@ -80,8 +90,7 @@ final _config = <FavoriteScreenTab>[
     localizationKey: 'videos',
     itemListCallback: CustomPaginatedListCallback<Video>(
         itemsGetter: (page, pageSize) async {
-          return Api.Entities.getByIds<Video>(
-              store.state.user.favoriteIds.videos, page, pageSize);
+          return await processIds<Video>(store.state.user.favoriteIds.videos, page, pageSize, (id, e) => id == e.id);
         },
         itemBuilder: (model) => VideoCard(
               model: model[0],
@@ -92,8 +101,7 @@ final _config = <FavoriteScreenTab>[
       itemListCallback: CustomPaginatedListCallback<Movie>(
         pageSize: 6,
         itemsGetter: (page, pageSize) async {
-          return Api.Entities.getByIds<Movie>(
-              store.state.user.favoriteIds.movies, page, pageSize);
+          return await processIds<Movie>(store.state.user.favoriteIds.movies, page, pageSize, (id, e) => id == e.id);
         },
         modelListSize: 3,
         itemBuilder: (data) => CustomListBuilder(
@@ -107,8 +115,7 @@ final _config = <FavoriteScreenTab>[
       localizationKey: 'playlists',
       itemListCallback: CustomPaginatedListCallback<Playlist>(
           itemsGetter: (page, pageSize) async {
-            return Api.Entities.getByIds<Playlist>(
-                store.state.user.favoriteIds.playlists, page, pageSize);
+            return await processIds<Playlist>(store.state.user.favoriteIds.playlists, page, pageSize, (id, e) => id == e.id);
           },
           itemBuilder: (model) => PlayListCard(
                 aspectRatio: 16 / 9,
@@ -119,8 +126,7 @@ final _config = <FavoriteScreenTab>[
       itemListCallback: CustomPaginatedListCallback<Sport>(
         modelListSize: 2,
         itemsGetter: (page, pageSize) async {
-          return Api.Entities.getByIds<Sport>(
-              store.state.user.favoriteIds.sports, page, pageSize);
+          return await processIds<Sport>(store.state.user.favoriteIds.sports, page, pageSize, (id, e) => id == e.id);
         },
         itemBuilder: (data) => CustomListBuilder(
             childAspectRatio: 16 / 9,

@@ -1,10 +1,13 @@
-import 'package:extreme/helpers/indents_mixin.dart';
-import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/helpers/color_extension.dart';
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/models/main.dart' as Models;
+import 'package:flutter_redux/flutter_redux.dart';
 
-class Subscription extends StatelessWidget {
+class SubscriptionCard extends StatelessWidget {
   final int price;
   final String title;
   final String description;
@@ -13,7 +16,7 @@ class Subscription extends StatelessWidget {
   final VoidCallback onPressed;
   final Models.SubscriptionPlan model;
 
-  Subscription(
+  SubscriptionCard(
       {this.description,
       this.title,
       this.price,
@@ -23,20 +26,14 @@ class Subscription extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color;
-    switch (model?.id ?? 4) {
-      case 1:
-        color = ExtremeColors.warning;
-        break;
-      case 2:
-        color = ExtremeColors.success;
-        break;
-      case 3:
-        color = ExtremeColors.primary;
-        break;
-      default:
-        color = ExtremeColors.error;
-    }
+    var color = HexColor.fromHex(model.color);
+    var discount = model.price.discountValue != 0 ? model.price.discountToString() : 0;
+    var price = model.price.toString();
+    var title = model.content?.name ?? '';
+    var desc = model.content?.description ?? '';
+    var loc = AppLocalizations.of(context).withBaseKey('subscription');
+    var isSubscribed = StoreProvider.of<AppState>(context).state.user.isSubscribed;
+
 
     return Container(
         decoration: BoxDecoration(
@@ -44,36 +41,42 @@ class Subscription extends StatelessWidget {
             border: Border.all(color: color, width: 2)),
         child: Stack(
           children: <Widget>[
-            Saving(color: color),
+            discount != 0 ? Saving(color: color, text: '${loc.translate('discount', [discount])}') : Container(),
             Padding(
               padding: const EdgeInsets.all(Indents.md),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: Indents.sm),
-                          child: Text(
-                            model?.content?.name ??
-                                'Неопределёный промежуток времени',
-                            style: Theme.of(context).textTheme.headline6,
+                  Flexible(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: Indents.sm),
+                            child: Text(
+                              title,
+                              style: Theme.of(context).textTheme.headline6,
+                            ),
                           ),
-                        ),
-                        Text(
-                          model?.content?.description ??
-                              'Описание плана подсписки',
-                          style: Theme.of(context).textTheme.caption,
-                        )
-                      ]),
+                          Row(
+                            children: [
+                              Flexible(
+                                child: Text(desc,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                ),
+                              ),
+                            ],
+                          )
+                        ]),
+                  ),
                   Container(
                     padding: EdgeInsets.only(right: Indents.sm),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          model?.price?.toString(),
+                          price,
                           style: Theme.of(context)
                               .textTheme
                               .subtitle2
@@ -87,7 +90,7 @@ class Subscription extends StatelessWidget {
                             onPressed: () {
                               onPressed();
                             },
-                            child: Text('Продлить'))
+                            child: Text(loc.translate(isSubscribed ? 'extend' : 'subscribe')))
                       ],
                     ),
                   )
@@ -103,8 +106,9 @@ class Subscription extends StatelessWidget {
 /// Создаёт плашку с указанием экономии
 class Saving extends StatelessWidget {
   final Color color;
+  final String text;
 
-  const Saving({Key key, this.color}) : super(key: key);
+  const Saving({Key key, this.color, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -127,11 +131,10 @@ class Saving extends StatelessWidget {
                   size: 16,
                 ),
               ),
-              // Измениние baseline будет двигать строку "Экономия ..." по вертикальной оси
               Baseline(
                 baseline: 10,
                 baselineType: TextBaseline.alphabetic,
-                child: Text('ЭКОНОМИЯ 400₽', //TODO: исправить на нужную цену
+                child: Text(text.toUpperCase(),
                     style: Theme.of(context).textTheme.overline),
               ),
             ],

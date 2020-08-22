@@ -1,3 +1,4 @@
+import 'package:extreme/helpers/enums.dart';
 import 'package:extreme/models/main.dart';
 import 'package:redux/redux.dart';
 import 'actions.dart' as Actions;
@@ -16,19 +17,19 @@ User _setUser(User user, Actions.SetUser action) {
 
 User _toggleFavorite(User user, Actions.ToggleFavorite action) {
   switch (action.userAction.entityType) {
-    case UserAction.video:
+    case Entities.video:
       user.favoriteIds.videos = _processFavoriteIdByUserAction(
           user.favoriteIds.videos, action.userAction);
       break;
-    case UserAction.movie:
+    case Entities.movie:
       user.favoriteIds.movies = _processFavoriteIdByUserAction(
           user.favoriteIds.movies, action.userAction);
       break;
-    case UserAction.playlist:
+    case Entities.playlist:
       user.favoriteIds.playlists = _processFavoriteIdByUserAction(
           user.favoriteIds.playlists, action.userAction);
       break;
-    case UserAction.sport:
+    case Entities.sport:
       user.favoriteIds.sports = _processFavoriteIdByUserAction(
           user.favoriteIds.sports, action.userAction);
       break;
@@ -39,22 +40,22 @@ User _toggleFavorite(User user, Actions.ToggleFavorite action) {
   return user;
 }
 
-List<int> _processFavoriteIdByUserAction(
-    List<int> list, UserAction userAction) {
+List<EntityIdItem> _processFavoriteIdByUserAction(
+    List<EntityIdItem> list, UserAction userAction) {
   if (userAction.status == true)
-    list.add(userAction.id);
+    list.add(userAction.entityIdItem);
   else
-    list.remove(userAction.id);
+    list.remove(userAction.entityIdItem);
   return list;
 }
 
 User _toggleLike(User user, Actions.ToggleLike action) {
   switch (action.userAction.entityType) {
-    case UserAction.video:
+    case Entities.video:
       user.likeIds.videos =
           _processLikeIdByUserAction(user.likeIds.videos, action.userAction);
       break;
-    case UserAction.movie:
+    case Entities.movie:
       user.likeIds.movies =
           _processLikeIdByUserAction(user.likeIds.movies, action.userAction);
       break;
@@ -65,10 +66,10 @@ User _toggleLike(User user, Actions.ToggleLike action) {
   return user;
 }
 
-List<int> _processLikeIdByUserAction(List<int> list, UserAction userAction) {
+List<EntityIdItem> _processLikeIdByUserAction(List<EntityIdItem> list, UserAction userAction) {
   if (userAction.status == true)
-    list.add(userAction.id);
+    list.add(userAction.entityIdItem);
   else
-    list.remove(userAction.id);
+    list.remove(userAction.entityIdItem);
   return list;
 }

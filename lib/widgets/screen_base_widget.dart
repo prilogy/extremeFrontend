@@ -66,7 +66,7 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
                     : widget.onRefresh != null
                         ? SmartRefresher(
                             controller: _refreshController,
-                            enablePullUp: true,
+                            enablePullUp: false,
                             onRefresh: () async {
                               await widget.onRefresh?.call();
                               _refreshController.refreshCompleted();
