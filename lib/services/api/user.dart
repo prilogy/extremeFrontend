@@ -25,7 +25,7 @@ class User {
     }
   }
 
-  static Future<dynamic> confirmEmailRequset() async {
+  static Future<dynamic> confirmEmailRequest() async {
     try {
       var response = await dio.get('/user/verifyEmail');
       return response;
@@ -40,7 +40,9 @@ class User {
       var response = await dio.post('/user/verifyEmail', data: body);
       return response;
     } on DioError catch (e) {
+      
       return null;
+
     }
   }
 
@@ -77,6 +79,41 @@ class User {
     }
   }
 
+  /// Запрос на смену пароля
+  static Future<dynamic> resetPasswordRequest(String email) async {
+    try {
+      var data = json.encode(email);
+      await dio.post('/user/resetPassword', data: data);
+      return null;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
+  /// Верификация кода, полученного с email
+  static Future<bool> verify(String code) async {
+    try {
+      var data = json.encode(code);
+      await dio.post('/user/resetPassword/verify', data: data);
+      return true;
+    } on DioError catch (e) {
+      print('Error occured while verification: ' + e.message);
+      return false;
+    }
+  }
+
+  /// Попытка смены пароля, после верификации
+  static Future<dynamic> resetPasswordAttempt(
+      String email, String newPass) async {
+    try {
+      var data = {'email': email, 'password': newPass};
+      var response = await dio.patch('/user/resetPassword', data: data);
+      return response;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
   static Future<bool> addSocialAccount(
       Models.SocialAccountProvider provider, String token) async {
     try {
@@ -92,8 +129,7 @@ class User {
   static Future<bool> removeSocialAccount(
       Models.SocialAccountProvider provider) async {
     try {
-      await dio
-          .delete('/user/socialAccount/${provider.name}');
+      await dio.delete('/user/socialAccount/${provider.name}');
 
       return true;
     } on DioError catch (e) {

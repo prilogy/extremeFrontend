@@ -93,6 +93,7 @@ class SettingsScreen extends StatelessWidget {
                     SettingsWidget(
                       title: loc.translate('reset_pass'),
                       onPressed: () {
+                        Api.User.resetPasswordRequest(store.state.user.email);
                         Navigator.of(context,rootNavigator:true).pushNamed('/reset_pass');
                       },
                     ),

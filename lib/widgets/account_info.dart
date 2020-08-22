@@ -191,7 +191,7 @@ class ConfirmationSign extends StatelessWidget {
           ],
         ),
         onTap: () {
-          Api.User.confirmEmailRequset();
+          Api.User.confirmEmailRequest();
           Navigator.of(context, rootNavigator: true).pushNamed('/confirmation');
         },
       ),
