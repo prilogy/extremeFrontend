@@ -89,7 +89,16 @@
     "app_bar": "Favorites"
   },
   "reset_pass_screen": {
-    "title": "Reset password"
+    "title": "Password reset",
+    "new_pass": "New password",
+    "conf_new_pass": "Confirmation",
+    "change_pass": "Cgange password",
+    "instruction": "Security code has been sent to {0}. Enter this code in the field below to change the password",
+    "error": {
+      "few_symbols": "Password must have at least 6 symbols",
+      "dont_match": "Passwords don't match",
+      "empty": "Field can't be empty"
+    }
   },
   "tooltips": {
     "favorite": "Add to favorites",

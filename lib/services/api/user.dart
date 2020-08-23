@@ -40,9 +40,7 @@ class User {
       var response = await dio.post('/user/verifyEmail', data: body);
       return response;
     } on DioError catch (e) {
-      
       return null;
-
     }
   }
 
@@ -104,11 +102,12 @@ class User {
 
   /// Попытка смены пароля, после верификации
   static Future<dynamic> resetPasswordAttempt(
-      String email, String newPass) async {
+      String code, String newPass) async {
     try {
-      var data = {'email': email, 'password': newPass};
+      var data = {'code': code, 'password': newPass};
       var response = await dio.patch('/user/resetPassword', data: data);
-      return response;
+      print(response.statusCode);
+      return null;
     } on DioError catch (e) {
       return null;
     }

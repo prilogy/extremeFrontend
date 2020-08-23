@@ -45,6 +45,7 @@ flutter:
     - assets/svg/fb_logo.svg
     - assets/svg/vk_logo.svg
     - assets/svg/google_logo.svg
+    - assets/svg/email.svg
     - assets/images/extreme1.jpg
     - assets/images/extreme2.jpg
     - assets/images/logo_big.png
