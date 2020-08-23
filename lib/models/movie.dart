@@ -9,8 +9,17 @@ class Movie {
   int salesAmount;
   int id;
   DateTime dateCreated;
+
+  bool get isLiked {
+    return store.state.user?.likeIds?.movies?.any((x) => x.entityId == id) ?? false;
+  }
+
   bool get isFavorite {
-    return store.state.user?.favoriteIds?.movies?.contains(id) ?? false;
+    return store.state.user?.favoriteIds?.movies?.any((x) => x.entityId == id) ?? false;
+  }
+
+  bool get isInPreferredLanguage {
+    return store.state?.settings?.culture == content.culture ?? false;
   }
 
   Movie(

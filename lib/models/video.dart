@@ -10,8 +10,17 @@ class Video {
   int salesAmount;
   int id;
   DateTime dateCreated;
+
+  bool get isLiked {
+    return store.state.user?.likeIds?.videos?.any((x) => x.entityId == id) ?? false;
+  }
+
   bool get isFavorite {
-    return store.state.user?.favoriteIds?.videos?.contains(id) ?? false;
+    return store.state.user?.favoriteIds?.videos?.any((x) => x.entityId == id) ?? false;
+  }
+
+  bool get isInPreferredLanguage {
+    return store.state?.settings?.culture == content.culture ?? false;
   }
 
   Video(

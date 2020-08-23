@@ -98,34 +98,45 @@
       "few_symbols": "Password must have at least 6 symbols",
       "dont_match": "Passwords don't match",
       "empty": "Field can't be empty"
+    },
+    "promo_screen": {
+      "app_bar": "Activate promo code",
+      "you_get": "You get",
+      "enter_code": "Enter promo code",
+      "code_success": "Promo code entered",
+      "code_error": "Promo code is invalid",
+      "redeem": "Redeem",
+      "redeem_success": "Redeem succeeded!",
+      "redeem_error": "Unexpected error happened, please try again later..."
+    },
+    "tooltips": {
+      "favorite": "Add to favorites",
+      "like": "Set like"
+    },
+    "snack_bars": {
+      "favorite": {
+        "added": "Added to favorites",
+        "removed": "Removed from favorites"
+      }
+    },
+    "like": {
+      "liked": "Added to Liked videos",
+      "unliked": "Removed from Liked videos"
+    },
+    "chips": {
+      "no_localization": "No localization"
+    },
+    "helper": {
+      "empty_list": "The list is empty"
+    },
+    "payment": {
+      "error": "Payment service error... Try again later"
+    },
+    "subscription": {
+      "discount": "Saving {0}",
+      "extend": "Extend",
+      "subscribe": "Subscribe",
+      "is_free": "For free"
     }
-  },
-  "tooltips": {
-    "favorite": "Add to favorites",
-    "like": "Set like"
-  },
-  "snack_bars": {
-    "favorite": {
-      "added": "Added to favorites",
-      "removed": "Removed from favorites"
-    }
-  },
-  "like": {
-    "liked": "Added to Liked videos",
-    "unliked": "Removed from Liked videos"
-  },
-  "chips": {
-    "no_localization": "No localization"
-  },
-  "helper": {
-    "empty_list": "The list is empty"
-  },
-  "payment": {
-    "error": "Payment service error... Try again later"
-  },
-  "subscription": {
-    "discount": "Saving {0}",
-    "extend": "Extend",
-    "subscribe": "Subscribe"
   }
 }

@@ -47,12 +47,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   void initState() {
     super.initState();
-    Api.Authentication.signUpSocialGetInfo(widget.accountProvider, widget.token)
-        .then((value) {
+    if (widget.accountProvider != null) {
+      Api.Authentication.signUpSocialGetInfo(
+              widget.accountProvider, widget.token)
+          .then((value) {
         socialIdentity = value;
         _nameController.text = socialIdentity?.name ?? '';
         _emailController.text = socialIdentity?.email ?? '';
-    });
+      });
+    }
   }
 
   @override
@@ -69,8 +72,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var providerName = widget.accountProvider.name;
-    providerName = providerName[0].toUpperCase() + providerName.substring(1);
+    var providerName = widget?.accountProvider?.name ?? null;
+    providerName != null
+        ? providerName =
+            providerName[0].toUpperCase() + providerName.substring(1)
+        : providerName = null;
     var title = widget.token == null
         ? 'Регистрация с Email'
         : 'Регистрация через $providerName';

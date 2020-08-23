@@ -18,3 +18,4 @@ part 'user.dart';
 part 'search.dart';
 part 'authentication.dart';
 part 'subscription.dart';
+part 'promo_core.dart';

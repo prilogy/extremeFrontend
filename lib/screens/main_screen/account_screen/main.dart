@@ -3,6 +3,7 @@ import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/main.dart';
 import 'package:extreme/screens/main_screen/account_screen/favorite_screen.dart';
+import 'package:extreme/screens/main_screen/account_screen/promo_screen.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -41,12 +42,29 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
         title: Text(loc.translate("app_bar")),
         actions: <Widget>[
           IconButton(
-            icon: Icon(Icons.favorite),
+            icon: Icon(Icons.local_activity),
             onPressed: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => FavoriteScreen()));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => PromoScreen()));
             },
           ),
+          if (user.isSubscribed)
+            IconButton(
+              icon: Icon(Icons.attach_money),
+              onPressed: () {
+                Navigator.of(context).push(
+                    //TODO: переход на страницу с купленными предметами(sale_screen.dart)(страница по коду почти как favorite_screen.dart)
+                    MaterialPageRoute(builder: (context) => FavoriteScreen()));
+              },
+            ),
+          if (user.isSubscribed)
+            IconButton(
+              icon: Icon(Icons.favorite),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => FavoriteScreen()));
+              },
+            ),
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
@@ -84,6 +102,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                 CustomFutureBuilder<List<Models.SubscriptionPlan>>(
                   future: Api.Subscription.getPlans(),
                   builder: (data) {
+                    data.sort((a, b) => a.price.value.compareTo(b.price.value));
                     return CustomListBuilder(
                         lastItemHasGap: true,
                         items: data,
@@ -111,7 +130,9 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                                   SnackBarExtension.show(
                                                       SnackBarExtension.success(
                                                           loc.translate(
-                                                              'subscription_payment_success'), Duration(seconds: 7)));
+                                                              'subscription_payment_success'),
+                                                          Duration(
+                                                              seconds: 7)));
                                                 },
                                                 onBrowserClose: () async {
                                                   await Api.User.refresh(

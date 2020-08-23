@@ -13,10 +13,9 @@ class User {
   _Subscription subscription;
 
   bool get isSubscribed {
-    return this.subscription == null ||
-        (this.subscription != null &&
+    return this.subscription != null &&
             this.subscription.dateEnd != null &&
-            this.subscription.dateEnd.isAfter(DateTime.now()));
+            this.subscription.dateEnd.isAfter(DateTime.now());
   }
 
   bool emailVerified;

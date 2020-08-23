@@ -1,4 +1,6 @@
+import 'package:extreme/store/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
 class NavBar extends StatelessWidget {
   final int selectedIndex;
@@ -11,6 +13,8 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isSubscribed = StoreProvider.of<AppState>(context).state.user.isSubscribed;
+    
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
@@ -21,12 +25,13 @@ class NavBar extends StatelessWidget {
         showUnselectedLabels: false,
         showSelectedLabels: false,
         currentIndex: selectedIndex,
-        unselectedItemColor: Colors.white.withOpacity(0.7),
+        unselectedItemColor: isSubscribed ? Colors.white.withOpacity(0.7) : Colors.white.withOpacity(0.3),
         selectedItemColor: Colors.white,
         onTap: (int idx) {
-          setIndex(idx);
           if(selectedIndex == idx)
             this.toRootScreenOfRoute(idx);
+          if(isSubscribed)
+            setIndex(idx);
         },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

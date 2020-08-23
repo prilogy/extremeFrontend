@@ -1,4 +1,5 @@
 import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
@@ -48,9 +49,12 @@ class _MainScreenState extends State<MainScreen>
         screens.length, (int index) => GlobalKey()).toList();
     _screens = screens.map<Widget>((e) {
       var idx = screens.indexOf(e);
-
       return e(_navigatorKeys[idx]);
     }).toList();
+    if(!store.state.user.isSubscribed)
+      setState(() {
+        _selectedIndex = 2;
+      });
   }
 
   @override
