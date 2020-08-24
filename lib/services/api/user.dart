@@ -34,7 +34,7 @@ class User {
     }
   }
 
-  static Future confirmEmailAttempt(int code) async {
+  static Future confirmEmailAttempt(String code) async {
     try {
       var body = json.encode(code);
       var response = await dio.post('/user/verifyEmail', data: body);

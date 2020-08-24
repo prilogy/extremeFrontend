@@ -93,7 +93,7 @@
     "new_pass": "New password",
     "conf_new_pass": "Confirmation",
     "change_pass": "Cgange password",
-    "instruction": "Security code has been sent to {0}. Enter this code in the field below to change the password",
+    "instruction": "Security code has been sent to {0}. Enter that code in the field below to change the password",
     "error": {
       "few_symbols": "Password must have at least 6 symbols",
       "dont_match": "Passwords don't match",
@@ -108,6 +108,10 @@
       "redeem": "Redeem",
       "redeem_success": "Redeem succeeded!",
       "redeem_error": "Unexpected error happened, please try again later..."
+    },
+    "confirmation_screen": {
+      "title": "Email confirmation",
+      "instruction": "Security code has been sent to {0}. Enter that code in the field below to confirm the email"
     },
     "tooltips": {
       "favorite": "Add to favorites",
