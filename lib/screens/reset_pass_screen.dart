@@ -112,56 +112,58 @@ class SetNewPassword extends StatelessWidget {
         ),
         builder: (context) => [
           BlockBaseWidget(
-            header: loc.translate('new_pass'),
-            child: TextFormField(
-              controller: _passController,
-              obscureText: true,
-              validator: (value) {
-                if (value.isEmpty) {
-                  return loc.translate("error.empty");
-                } else if (value != _verifyController.text) {
-                  return loc.translate("error.dont_match");
-                } else if (value.length < 6) {
-                  return loc.translate("error.few_symbols");
-                } else
-                  return null;
-              },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                TextFormField(
+                  controller: _passController,
+                  obscureText: true,
+                  decoration:
+                      InputDecoration(labelText: loc.translate('new_pass')),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return loc.translate("error.empty");
+                    } else if (value != _verifyController.text) {
+                      return loc.translate("error.dont_match");
+                    } else if (value.length < 6) {
+                      return loc.translate("error.few_symbols");
+                    } else
+                      return null;
+                  },
+                ),
+                TextFormField(
+                  controller: _verifyController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      labelText: loc.translate('conf_new_pass')),
+                  validator: (value) {
+                    if (_passController.text.length >= 6) {
+                      if (value.isEmpty) {
+                        return loc.translate("error.empty");
+                      } else if (value != _passController.text) {
+                        return loc.translate("error.dont_match");
+                      } else if (value.length < 6) {
+                        return loc.translate("error.few_symbols");
+                      } else
+                        return null;
+                    }
+                    return null;
+                  },
+                  onEditingComplete: () {
+                    _formKey.currentState.validate();
+                  },
+                ),
+                RaisedButton(
+                    child: Text(loc.translate('confirmation')),
+                    onPressed: () async {
+                      if (_formKey.currentState.validate()) {
+                        await Api.User.resetPasswordAttempt(
+                            code, _passController.text);
+                      }
+                    }),
+              ],
             ),
           ),
-          BlockBaseWidget(
-            header: loc.translate('conf_new_pass'),
-            child: TextFormField(
-              controller: _verifyController,
-              obscureText: true,
-              validator: (value) {
-                if (_passController.text.length >= 6) {
-                  if (value.isEmpty) {
-                  return loc.translate("error.empty");
-                } else if (value != _passController.text) {
-                  return loc.translate("error.dont_match");
-                } else if (value.length < 6) {
-                  return loc.translate("error.few_symbols");
-                } else
-                  return null;
-                }
-                return null;
-              },
-              onEditingComplete: () {
-                _formKey.currentState.validate();
-              },
-            ),
-          ),
-          BlockBaseWidget(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            child: RaisedButton(
-                child: Text(loc.translate('confirmation')),
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    await Api.User.resetPasswordAttempt(
-                        code, _passController.text);
-                  }
-                }),
-          )
         ],
       ),
     );
