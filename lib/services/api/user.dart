@@ -34,13 +34,13 @@ class User {
     }
   }
 
-  static Future confirmEmailAttempt(String code) async {
+  static Future<bool> confirmEmailAttempt(String code) async {
     try {
       var body = json.encode(code);
       var response = await dio.post('/user/verifyEmail', data: body);
-      return response;
+      return true;
     } on DioError catch (e) {
-      return null;
+      return false;
     }
   }
 
@@ -101,15 +101,15 @@ class User {
   }
 
   /// Попытка смены пароля, после верификации
-  static Future<dynamic> resetPasswordAttempt(
+  static Future<bool> resetPasswordAttempt(
       String code, String newPass) async {
     try {
       var data = {'code': code, 'password': newPass};
       var response = await dio.patch('/user/resetPassword', data: data);
       print(response.statusCode);
-      return null;
+      return true;
     } on DioError catch (e) {
-      return null;
+      return false;
     }
   }
 

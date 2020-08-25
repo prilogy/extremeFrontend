@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/models/main.dart';
@@ -74,7 +75,9 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                             code = text;
                           });
                         } else {
-                          print('oshibka');
+                          Scaffold.of(context).showSnackBar(
+                              SnackBarExtension.error(
+                                  loc.translate('snackbar.error')));
                         }
                       } else {
                         print('poshel ti! $text is not a number');
@@ -154,11 +157,18 @@ class SetNewPassword extends StatelessWidget {
                   },
                 ),
                 RaisedButton(
-                    child: Text(loc.translate('confirmation')),
+                    child: Text(loc.translate('change_pass')),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
-                        await Api.User.resetPasswordAttempt(
+                        var response = await Api.User.resetPasswordAttempt(
                             code, _passController.text);
+                        Scaffold.of(context).showSnackBar(response
+                            ? SnackBarExtension.success(
+                                loc.translate('snackbar.success'))
+                            : SnackBarExtension.error(
+                                loc.translate('snackbar.error')));
+                        Navigator.popUntil(
+                            context, ((route) => !route.navigator.canPop()));
                       }
                     }),
               ],
