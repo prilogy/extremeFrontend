@@ -1,12 +1,10 @@
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
-import 'package:extreme/main.dart';
 import 'package:extreme/screens/main_screen/account_screen/favorite_screen.dart';
 import 'package:extreme/screens/main_screen/account_screen/promo_screen.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
-import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/account_info.dart';
@@ -17,7 +15,6 @@ import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/social_account.dart';
 import 'package:extreme/widgets/subsciption_card.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
-import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/services/api/main.dart' as Api;
@@ -87,13 +84,16 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                       margin: EdgeInsets.only(bottom: Indents.smd),
                       child: () {
                         var isSubscribed = user.subscription?.dateEnd != null &&
-                            user.subscription.dateEnd.isAfter(DateTime.now());
+                                user?.subscription?.dateEnd
+                                    ?.isAfter(DateTime.now()) ??
+                            false;
                         var text = isSubscribed
                             ? loc.translate("expiration", [
-                                state.subscription.dateEnd
-                                    .difference(DateTime.now())
-                                    .inDays
-                                    .toString()
+                                state?.subscription?.dateEnd
+                                        ?.difference(DateTime.now())
+                                        ?.inDays
+                                        ?.toString() ??
+                                    null
                               ])
                             : loc.translate("no_sub");
                         return Text(text);

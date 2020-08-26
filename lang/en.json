@@ -14,6 +14,14 @@
     "description": "Create personal account to get full functionality of ExtemeInsiders application.",
     "sign_in": "Sign in with {0}"
   },
+  "login_email_screen": {
+    "header": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "forget": "Forget your password?"
+  },
   "home_screen": {
     "interesting_sports": "Interesting sports",
     "recommended_videos": "Recommended videos",
@@ -93,11 +101,16 @@
     "new_pass": "New password",
     "conf_new_pass": "Confirmation",
     "change_pass": "Change password",
-    "instruction": "Security code has been sent to {0}. Enter that code in the field below to change the password",
+    "next": "Next",
+    "instruction": {
+      "reset": "Security code has been sent to {0}. Enter that code in the field below to change the password",
+      "email": "Чтобы сбросить пароль введите адресс электронной почты, к которой привязан Ваш аккаунт"
+    },
     "error": {
       "few_symbols": "Password must have at least 6 symbols",
       "dont_match": "Passwords don't match",
-      "empty": "Field can't be empty"
+      "empty": "Field can't be empty",
+      "invalid": "Invalid email format"
     },
     "snackbar": {
       "success": "Password was succesfully reset",
@@ -117,7 +130,7 @@
   "confirmation_screen": {
     "title": "Email confirmation",
     "instruction": "Security code has been sent to {0}. Enter that code in the field below to confirm the email",
-    "snackbar":{
+    "snackbar": {
       "success": "Email successfully confirmed",
       "error": "Unknown error occurred",
       "wrong_code": "The code is wrong"

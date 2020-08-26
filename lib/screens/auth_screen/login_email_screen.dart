@@ -1,15 +1,13 @@
-import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/router/main.dart';
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
-import 'package:extreme/services/localstorage.dart';
+import 'package:extreme/screens/reset_pass_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
-import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -36,7 +34,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-
+    final loc = AppLocalizations.of(context).withBaseKey('login_email_screen');
     return ScreenBaseWidget(
         appBar: AppBar(
           title: Text('Вход с Email'),
@@ -45,7 +43,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
             Column(mainAxisAlignment: MainAxisAlignment.center, children: <
                 Widget>[
               BlockBaseWidget(
-                header: 'Вход',
+                header: loc.translate('header'),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -60,13 +58,13 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                           if (!RegExp(
                                   r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                               .hasMatch(value))
-                            return 'Неправильный формат email';
+                            return 'Неправильный формат email'; // TODO: add lozaliztion
                           return null;
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             icon: Icon(Icons.alternate_email),
                             hintText: 'example@gmail.com',
-                            labelText: 'Email'),
+                            labelText: loc.translate('email')),
                       ),
                       TextFormField(
                         controller: _passwordController,
@@ -78,11 +76,19 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                           return null;
                         },
                         obscureText: true,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.lock), labelText: 'Пароль'),
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.lock),
+                            labelText: loc.translate('password')),
+                      ),
+                      InkWell(
+                        child: Text(loc.translate('forget')),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => ResetPassScreen()));
+                        },
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
@@ -91,7 +97,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => SignUpScreen()));
                               },
-                              child: Text('Зарегистрироваться'),
+                              child: Text(loc.translate('sign_up')),
                             ),
                             RaisedButton(
                               color: Theme.of(context).colorScheme.primary,
@@ -135,8 +141,10 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   }
                                 }
                               },
-                              child: Text('Войти'),
-                            ),
+                              child: Text(
+                                loc.translate('sign_in'),
+                              ),
+                            )
                           ],
                         ),
                       ),

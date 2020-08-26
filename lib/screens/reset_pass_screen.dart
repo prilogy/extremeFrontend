@@ -23,14 +23,52 @@ class ResetPassScreen extends StatefulWidget {
 class _ResetPassScreenState extends State<ResetPassScreen> {
   bool isVerified = false;
   String code;
+  var email;
   @override
   Widget build(BuildContext context) {
     var user = StoreProvider.of<AppState>(context).state.user;
-    var email = user.email;
+    if (email == null) {
+      email = user?.email ?? null;
+    }
     final loc = AppLocalizations.of(context).withBaseKey('reset_pass_screen');
     var theme = Theme.of(context);
+    final _formKey = GlobalKey<FormState>();
+
     TextEditingController _controller = TextEditingController();
-    if (!isVerified) {
+    if (email == null) {
+      return ScreenBaseWidget(
+          appBar: AppBar(title: Text(loc.translate('title'))),
+          builder: (context) => [
+                Form(
+                  key: _formKey,
+                  child: Column(children: <Widget>[
+                    Text(loc.translate('instruction.email')),
+                    TextFormField(
+                      controller: _controller,
+                      decoration:
+                          InputDecoration(hintText: 'example@gmail.com'),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return loc.translate('error.empty');
+                        } else if (!RegExp(
+                                r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                            .hasMatch(value))
+                          return loc.translate('error.invalid');
+                        return null;
+                      },
+                    ),
+                    RaisedButton(
+                      child: Text(loc.translate('next')),
+                      onPressed: () => setState(() {
+                        if (_formKey.currentState.validate()) {
+                          email = _controller.text;
+                        }
+                      }),
+                    )
+                  ]),
+                )
+              ]);
+    } else if (!isVerified) {
       return ScreenBaseWidget(
         appBar: AppBar(
           title: Text(loc.translate('title')),
@@ -43,7 +81,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                 SvgPicture.asset('assets/svg/email.svg'),
                 Center(
                     child: Text(
-                  loc.translate('instruction', [email]),
+                  loc.translate('instruction.reset', [email]),
                   style: Theme.of(context).textTheme.bodyText2,
                   textAlign: TextAlign.center,
                 )),
@@ -177,5 +215,16 @@ class SetNewPassword extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class EmailEnter extends StatelessWidget {
+  const EmailEnter({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('reset_pass_screen');
+    final _formKey = GlobalKey<FormState>();
+    TextEditingController _controller = TextEditingController();
   }
 }

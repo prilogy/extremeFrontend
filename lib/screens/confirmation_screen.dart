@@ -64,7 +64,7 @@ class Confirmation extends StatelessWidget {
                       } else {
                         Scaffold.of(context).showSnackBar(
                             SnackBarExtension.error(
-                                loc.translate('snackbaar.error')));
+                                loc.translate('snackbaar.wrong_code')));
                       }
                     }
                   },
