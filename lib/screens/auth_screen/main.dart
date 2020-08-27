@@ -1,5 +1,3 @@
-import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/screens/auth_screen/login_email_screen.dart';
 import 'package:extreme/screens/auth_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

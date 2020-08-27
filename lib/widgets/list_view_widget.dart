@@ -1,6 +1,5 @@
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:flutter/material.dart';
-import 'package:extreme/models/main.dart' as Models;
 
 class ListGenerator<T> extends StatelessWidget {
   final List<T> models;
@@ -15,7 +14,6 @@ class ListGenerator<T> extends StatelessWidget {
         shrinkWrap: true,
         padding: const EdgeInsets.all(16.0),
         itemBuilder: (context, i) {
-        //   if (i >= _cards.length) {
           var _widgets;
              _widgets = models
                 .map((e) => PlayListCard(
@@ -28,7 +26,6 @@ class ListGenerator<T> extends StatelessWidget {
           {
             return null;
           }
-          // }
           return _cards[i];
         });
   }

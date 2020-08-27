@@ -46,7 +46,7 @@ class Authentication {
       });
 
     try {
-      var response = await dio.put(
+      await dio.put(
           isSocial ? '/auth/signup/${socialProvider.name}' : '/auth/signup',
           data: FormData.fromMap(map));
       return true;

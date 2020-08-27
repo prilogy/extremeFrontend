@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
@@ -120,24 +118,24 @@ class VideoViewScreen extends StatelessWidget {
                                 model.playlistId),
                             builder: (Models.Playlist data) {
                               List videosIds = data.videosIds;
-                              videosIds.remove(model.id); // Исключение этого же видео из выдачи
+                              // Исключение этого же видео из выдачи
+                              videosIds.remove(model.id);
+                              // Случайная перемешка видео для исключения выдачи одних и тех же видео
                               if (videosIds.length >= 3) {
-                                videosIds.shuffle(); // Случайная перемешка видео для исключения выдачи одних и тех же видео
+                                videosIds.shuffle();
                                 videosIds = videosIds.sublist(0, 3);
                               }
-                              
 
                               return CustomFutureBuilder(
-                                  future: Api.Entities.getByIds<Models.Video>(videosIds),
+                                  future: Api.Entities.getByIds<Models.Video>(
+                                      videosIds),
                                   builder: (data) => CustomListBuilder(
                                       items: data,
                                       itemBuilder: (item) => VideoCard(
                                             model: item,
                                             aspectRatio: 16 / 9,
                                           )));
-                            }
-
-                            ))
+                            }))
                   ],
                 ),
               ],
