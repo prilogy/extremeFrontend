@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
@@ -107,7 +106,6 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                       if (int.tryParse(text) != null) {
                         var response = await Api.User.verify(text);
                         if (response == true) {
-                          print('its okay');
                           setState(() {
                             isVerified = true;
                             code = text;
@@ -117,8 +115,6 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                               SnackBarExtension.error(
                                   loc.translate('snackbar.error')));
                         }
-                      } else {
-                        print('poshel ti! $text is not a number');
                       }
                     },
                   ),
@@ -149,7 +145,7 @@ class SetNewPassword extends StatelessWidget {
       key: _formKey,
       child: ScreenBaseWidget(
         appBar: AppBar(
-          title: Text(loc.translate('title')), //TODO: localization
+          title: Text(loc.translate('title')), 
         ),
         builder: (context) => [
           BlockBaseWidget(
@@ -215,16 +211,5 @@ class SetNewPassword extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-class EmailEnter extends StatelessWidget {
-  const EmailEnter({Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('reset_pass_screen');
-    final _formKey = GlobalKey<FormState>();
-    TextEditingController _controller = TextEditingController();
   }
 }

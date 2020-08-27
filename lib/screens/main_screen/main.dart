@@ -1,11 +1,9 @@
-import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:redux/redux.dart';
 
 import 'account_screen/main.dart';
 import 'browse_screen.dart';

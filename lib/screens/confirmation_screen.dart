@@ -69,21 +69,6 @@ class Confirmation extends StatelessWidget {
                     }
                   },
                 ),
-                // RaisedButton(
-                //   onPressed: () async {
-                //     if (int.tryParse(_controller.text) != null) {
-                //       var response =
-                //           await Api.User.confirmEmailAttempt(_controller.text);
-                //       if (response.statusCode == 200) {
-                //         store.state.user.emailVerified = true;
-                //         print('Email verified!');
-                //       } else
-                //         print('Somth  is wrong. statuscode: ' +
-                //             response.statusCode.toString());
-                //     }
-                //   },
-                //   child: Text('Подтвердить'),
-                // )
               ],
             ),
           ),

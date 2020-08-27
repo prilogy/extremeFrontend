@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:extreme/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';

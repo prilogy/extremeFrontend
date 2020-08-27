@@ -21,8 +21,6 @@ class PlaylistScreen extends StatelessWidget {
   final Models.Playlist model;
   PlaylistScreen({Key key, @required this.model}) : super(key: key);
 
-  void _searchIconAction() {}
-
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('playlist_screen');
@@ -34,7 +32,9 @@ class PlaylistScreen extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: _searchIconAction,
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pushNamed('/search');
+            },
           ),
         ],
       ),

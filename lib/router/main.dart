@@ -5,8 +5,6 @@ import 'package:extreme/screens/main_screen/main.dart';
 import 'package:extreme/screens/search_screen.dart';
 import 'package:extreme/screens/settings_screen/main.dart';
 import 'package:extreme/store/main.dart';
-import 'package:extreme/styles/app_theme.dart';
-import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {

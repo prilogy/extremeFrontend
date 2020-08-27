@@ -1,6 +1,7 @@
 part of api;
 
 class Entities {
+  /// Возвращает все доступные объекты выбранной модели
   static Future<List<T>> getAll<T>(
       [int page, int pageSize, String sortByDate]) async {
     var entityName = _entityNameFromType(T);
@@ -20,6 +21,7 @@ class Entities {
     }
   }
 
+  /// Возвращает объект выбранной модели с указанным id
   static Future<T> getById<T>([int id]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
@@ -84,7 +86,7 @@ class Entities {
       case Models.Sport:
         return 'sport';
       default:
-        return null;
+        throw Exception("No model Provided.");
     }
   }
 

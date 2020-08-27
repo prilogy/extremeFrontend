@@ -1,7 +1,5 @@
 import 'package:extreme/lang/app_localizations.dart';
-import 'package:extreme/main.dart';
 import 'package:extreme/models/main.dart';
-import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/settings/actions.dart';

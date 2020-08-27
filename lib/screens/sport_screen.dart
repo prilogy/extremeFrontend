@@ -18,10 +18,6 @@ class SportScreen extends StatelessWidget {
   final Models.Sport model;
   const SportScreen({Key key, this.model}) : super(key: key);
 
-  void _searchIconAction() {
-    //TODO: Search some video function
-  }
-
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('search_screen');
@@ -34,7 +30,9 @@ class SportScreen extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: _searchIconAction,
+            onPressed: () {
+              Navigator.of(context, rootNavigator: true).pushNamed('/search'); // TODO: sport search ?
+            },
           ),
         ],
       ),

@@ -156,15 +156,6 @@ class _HeadBannerState extends State<HeadBanner> {
                 .map((e) => NetworkImage(e?.image?.path ??
                     'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'))
                 .toList(),
-            // TODO: fetch photos with rest api
-            // images: [
-            //   NetworkImage(
-            //       'https://all4desktop.com/data_images/original/4234511-formula-1.jpg'),
-            //   ExactAssetImage("assets/images/extreme2.jpg"),
-            //   ExactAssetImage("assets/images/extreme2.jpg"),
-            //   ExactAssetImage("assets/images/extreme2.jpg"),
-            //   // TODO: сделать компонент под дизайн
-            // ],
             dotSize: Indents.md / 2,
             dotSpacing: Indents.lg,
             dotColor: Theme.of(context).backgroundColor,

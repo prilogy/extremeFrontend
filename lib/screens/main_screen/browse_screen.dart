@@ -33,10 +33,10 @@ class _BrowseScreenState extends State<BrowseScreen> {
         appBar: AppBar(
           title: Text(loc.translate("browse")),
           actions: <Widget>[
-            new IconButton(
-              icon: new Icon(Icons.search),
+            IconButton(
+              icon: Icon(Icons.search),
               onPressed: () {
-                print("smth");
+                Navigator.of(context, rootNavigator: true).pushNamed('/search');
               },
             ),
           ],

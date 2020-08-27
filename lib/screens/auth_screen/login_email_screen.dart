@@ -9,7 +9,6 @@ import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
-import 'package:flutter_redux/flutter_redux.dart';
 
 class LoginEmailScreen extends StatefulWidget {
   @override
@@ -37,7 +36,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
     final loc = AppLocalizations.of(context).withBaseKey('login_email_screen');
     return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text('Вход с Email'),
+          title: Text(loc.translate('email_sign_in')),
         ),
         builderChild: (context) =>
             Column(mainAxisAlignment: MainAxisAlignment.center, children: <
@@ -53,12 +52,12 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                         controller: _emailController,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Введите текст самфинг';
+                            return loc.translate('error.empty');
                           }
                           if (!RegExp(
                                   r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                               .hasMatch(value))
-                            return 'Неправильный формат email'; // TODO: add lozaliztion
+                            return loc.translate('error.invalid'); // TODO: add lozaliztion
                           return null;
                         },
                         decoration: InputDecoration(
@@ -70,9 +69,9 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                         controller: _passwordController,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Введите проль самфинг';
+                            return loc.translate('error.empty');
                           }
-                          if (value.length < 6) return 'э длина >= 6';
+                          if (value.length < 6) return loc.translate('error.few_symbols');
                           return null;
                         },
                         obscureText: true,
@@ -107,9 +106,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   scf.showSnackBar(SnackBar(
                                       backgroundColor: colorScheme.primary,
                                       content: Text(
-                                        'Logging in...' +
-                                            _emailController.text +
-                                            _passwordController.text,
+                                        loc.translate('snackbar.logging_in'),
                                         style: TextStyle(
                                             color: colorScheme.onPrimary),
                                       )));
@@ -120,7 +117,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   if (user == null)
                                     scf.showSnackBar(SnackBar(
                                       content: Text(
-                                        'Wrong password or else',
+                                        loc.translate("snackbar.fail_sign_in"),
                                         style: TextStyle(
                                             color: colorScheme.onError),
                                       ),
@@ -129,7 +126,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   else {
                                     scf.showSnackBar(SnackBar(
                                       content: Text(
-                                        'Logged in successfully',
+                                        loc.translate('shackbar.success'),
                                         style: TextStyle(
                                             color: colorScheme.onError),
                                       ),

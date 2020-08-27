@@ -17,7 +17,7 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final double aspectRatio;
 
   VideoCard({
-    this.model,
+    @required this.model,
     this.margin,
     this.padding,
     this.aspectRatio = 16 / 9,
