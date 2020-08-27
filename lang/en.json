@@ -17,10 +17,21 @@
   "login_email_screen": {
     "header": "Sign in",
     "email": "Email",
+    "email_sign_in": "EMail sign in",
     "password": "Password",
     "sign_in": "Sign in",
     "sign_up": "Sign up",
-    "forget": "Forget your password?"
+    "forget": "Forget your password?",
+    "error": {
+      "empty":"Field can't be empty",
+      "invalid":"Invalid email format",
+      "few_symbols":"Password must have at least 6 symbols",
+      "fail_sign_in": "Wrong username or password"
+    },
+    "snackbar":{
+      "logging_in": "Signing in...",
+      "success": "Successful signing in"
+    }
   },
   "home_screen": {
     "interesting_sports": "Interesting sports",
@@ -104,7 +115,7 @@
     "next": "Next",
     "instruction": {
       "reset": "Security code has been sent to {0}. Enter that code in the field below to change the password",
-      "email": "Чтобы сбросить пароль введите адресс электронной почты, к которой привязан Ваш аккаунт"
+      "email": "Type email linked to your account in the field below to reset the password"
     },
     "error": {
       "few_symbols": "Password must have at least 6 symbols",

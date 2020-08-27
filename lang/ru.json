@@ -17,10 +17,21 @@
   "login_email_screen":{
     "header": "Вход",
     "email": "Email",
+    "email_sign_in": "Вход с Email",
     "password": "Пароль",
     "sign_in": "Войти",
     "sign_up": "Зарегистрироваться",
-    "forget": "Забыли пароль?"
+    "forget": "Забыли пароль?",
+    "error": {
+      "empty":"Поле не может быть пустым",
+      "invalid":"Неверный формат email",
+      "few_symbols":"Пароль должен содержать не меньше 6 символов",
+      "fail_sign_in": "Неверное имя пользователя или пароль"
+    },
+    "snackbar":{
+      "logging_in": "Выполняется вход",
+      "success": "Вы успешно авторизовались"
+    }
   },
   "home_screen": {
     "interesting_sports": "Интересные виды спорта",
