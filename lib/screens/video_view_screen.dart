@@ -1,12 +1,17 @@
+import 'dart:math';
+
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/favorite_toggler.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
+import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -21,9 +26,6 @@ class VideoViewScreen extends StatelessWidget {
   final Models.Video model;
   VideoViewScreen({Key key, @required this.model}) : super(key: key);
 
-  void _searchIconAction() {
-    //TODO: Search some video function
-  }
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('video_view_screen');
@@ -34,12 +36,14 @@ class VideoViewScreen extends StatelessWidget {
               padding:
                   EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
               appBar: AppBar(
-                title: Text(
-                    model?.content?.name ?? 'Название видео'), 
+                title: Text(model?.content?.name ?? 'Название видео'),
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: _searchIconAction,
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed('/search');
+                    },
                   ),
                 ],
               ),
@@ -106,24 +110,33 @@ class VideoViewScreen extends StatelessWidget {
                     BlockBaseWidget(
                       child: Text(
                           model?.content?.description ??
-                              'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...',
+                              'No description provided',
                           style: Theme.of(context).textTheme.bodyText2),
                     ),
                     BlockBaseWidget(
-                        // TODO: omplement api request
                         header: loc.translate("other_videos"),
-                        child: Column(
-                            // children: [
-                            //   VideoCard(
-                            //     aspectRatio: 16 / 9,
-                            //   ),
-                            //   VideoCard(
-                            //     aspectRatio: 16 / 9,
-                            //   ),
-                            //   VideoCard(
-                            //     aspectRatio: 16 / 9,
-                            //   ),
-                            // ],
+                        child: CustomFutureBuilder(
+                            future: Api.Entities.getById<Models.Playlist>(
+                                model.playlistId),
+                            builder: (Models.Playlist data) {
+                              List videosIds = data.videosIds;
+                              videosIds.remove(model.id); // Исключение этого же видео из выдачи
+                              if (videosIds.length >= 3) {
+                                videosIds.shuffle(); // Случайная перемешка видео для исключения выдачи одних и тех же видео
+                                videosIds = videosIds.sublist(0, 3);
+                              }
+                              
+
+                              return CustomFutureBuilder(
+                                  future: Api.Entities.getByIds<Models.Video>(videosIds),
+                                  builder: (data) => CustomListBuilder(
+                                      items: data,
+                                      itemBuilder: (item) => VideoCard(
+                                            model: item,
+                                            aspectRatio: 16 / 9,
+                                          )));
+                            }
+
                             ))
                   ],
                 ),
