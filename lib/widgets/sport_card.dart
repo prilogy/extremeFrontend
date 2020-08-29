@@ -14,7 +14,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 /// Создаёт карточку спорта.
 class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final bool small;
-  // TODO: переделать под модель sport
   final Models.Sport model;
 
   final EdgeInsetsGeometry padding;
@@ -52,8 +51,8 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                         borderRadius: BorderRadius.all(Radius.circular(5)),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: ExactAssetImage(
-                              "assets/images/extreme2.jpg"), // TODO: change hardcode image to var from db
+                          image: NetworkImage(model?.content?.image?.path ??
+                              'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'),
                         ),
                       ),
                       child: Container(

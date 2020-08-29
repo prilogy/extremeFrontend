@@ -23,12 +23,12 @@
     "sign_up": "Sign up",
     "forget": "Forget your password?",
     "error": {
-      "empty":"Field can't be empty",
-      "invalid":"Invalid email format",
-      "few_symbols":"Password must have at least 6 symbols",
+      "empty": "Field can't be empty",
+      "invalid": "Invalid email format",
+      "few_symbols": "Password must have at least 6 symbols",
       "fail_sign_in": "Wrong username or password"
     },
-    "snackbar":{
+    "snackbar": {
       "logging_in": "Signing in...",
       "success": "Successful signing in"
     }
@@ -178,5 +178,37 @@
     "extend": "Extend",
     "subscribe": "Subscribe",
     "is_free": "For free"
+  },
+  "date_ago": {
+    "year": {
+      "one": "1 year ago",
+      "two_four": "{0} years ago",
+      "more": "{0} years ago"
+    },
+    "month": {
+      "one": "1 month ago",
+      "two_four": "{0} months ago",
+      "more": "{0} months ago"
+    },
+    "week": {
+      "one": "1 week ago",
+      "two_four": "{0} weeks ago"
+    },
+    "day": {
+      "one": "1 day ago",
+      "two_four": "{0} days ago",
+      "more": "{0} days ago"
+    },
+    "hour": {
+      "one": "1 hour ago",
+      "two_four": "{0} hours ago",
+      "more": "{0} hours ago"
+    },
+    "minute": {
+      "one": "1 minute ago",
+      "two_four": "{0} minutes ago",
+      "more": "{0} minutes ago",
+      "less_than_one": "Less than a minute ago"
+    }
   }
 }

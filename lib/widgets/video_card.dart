@@ -1,5 +1,7 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
@@ -52,7 +54,9 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                 Text(title,
                                     style:
                                         Theme.of(context).textTheme.subtitle1),
-                                Text('5 дней назад',
+                                Text(
+                                    dateTimeToStringInAgoFormat(
+                                        model.dateCreated, context),
                                     style: Theme.of(context)
                                         .textTheme
                                         .subtitle2
@@ -61,7 +65,7 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                             color: Theme.of(context)
                                                 .colorScheme
                                                 .onBackground
-                                                .withOpacity(0.6)))),
+                                                .withOpacity(0.6))))
                               ],
                             ),
                           ),
@@ -98,8 +102,8 @@ class VideoCardWithoutCaption extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
             fit: BoxFit.cover,
-            // TODO: change to api image
-            image: ExactAssetImage("assets/images/extreme2.jpg"),
+            image: NetworkImage(model?.content?.image?.path ??
+                'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'),
           ),
         ),
         child: Container(

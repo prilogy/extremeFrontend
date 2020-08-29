@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/services/api/main.dart' as Api;
@@ -92,7 +94,8 @@ class SettingsScreen extends StatelessWidget {
                       title: loc.translate('reset_pass'),
                       onPressed: () {
                         Api.User.resetPasswordRequest(store.state.user.email);
-                        Navigator.of(context,rootNavigator:true).pushNamed('/reset_pass');
+                        Navigator.of(context, rootNavigator: true)
+                            .pushNamed('/reset_pass');
                       },
                     ),
                     SettingsWidget(
