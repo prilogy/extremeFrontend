@@ -17,7 +17,7 @@ class Playlist {
   }
 
   bool get isInPreferredLanguage {
-    return store.state?.settings?.culture == content.culture ?? false;
+    return store.state?.settings?.culture == content?.culture ?? false;
   }
 
   Playlist(

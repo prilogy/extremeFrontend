@@ -32,7 +32,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     String _title = model?.content?.name ?? 'Вид спорта';
     void onTap() {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => SportScreen(),
+        builder: (context) => SportScreen(model: model,),
       ));
     }
 

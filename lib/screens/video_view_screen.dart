@@ -8,6 +8,7 @@ import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/favorite_toggler.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/widgets/pay_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +47,7 @@ class VideoViewScreen extends StatelessWidget {
                 ],
               ),
               builder: (context) => <Widget>[
-                VimeoPlayer(id: '395212534'),
+                (state.saleIds.videos.contains(model.id) || !model.isInPaidPlaylist) ? VimeoPlayer(id: '395212534') : PayCard(name: model.content.name, description: model.content.description, price: model.price,),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

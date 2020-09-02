@@ -27,7 +27,7 @@ String dateTimeToStringInAgoFormat(DateTime date, BuildContext context) {
   Duration difference = DateTime.now().toLocal().difference(localDate);
   int days = difference.inDays;
   int years = days ~/ 365;
-  String result;
+  String result = 'Somewhen in the Universe';
   if (years > 0) {
     if (years == 1) {
       result = loc.translate('year.one');

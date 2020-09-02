@@ -84,7 +84,8 @@ class HeaderPlaylist extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(model.content.image.path)),
+                  image: NetworkImage(model?.content?.image?.path ??
+                      'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg')),
             ),
             child: Container(
               decoration: BoxDecoration(

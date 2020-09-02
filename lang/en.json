@@ -98,7 +98,10 @@
       "playlists": "PLAYLISTS",
       "movies": "MOVIES"
     },
-    "recommended": "Recommended for You"
+    "recommended": "Recommended for You",
+    "no_data": {
+      "sport_name": "Unnamed sport"
+    }
   },
   "playlist_screen": {
     "videos": "Videos",

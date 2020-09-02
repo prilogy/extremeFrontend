@@ -102,7 +102,10 @@
       "playlists": "ПЛЕЙЛИСТЫ",
       "movies": "ФИЛЬМЫ"
     },
-    "recommended": "Рекомендуем"
+    "recommended": "Рекомендуем",
+    "no_data": {
+      "sport_name": "Неназванный вид спорта"
+    }
   },
   "favorite_screen": {
     "app_bar": "Избранное"

@@ -16,22 +16,23 @@ import 'package:extreme/models/main.dart' as Models;
 /// Создаёт экран вида спорта
 class SportScreen extends StatelessWidget {
   final Models.Sport model;
-  const SportScreen({Key key, this.model}) : super(key: key);
+  const SportScreen({Key key,@required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('search_screen');
+    final loc = AppLocalizations.of(context).withBaseKey('sport_screen');
 
     var theme = Theme.of(context);
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
       appBar: AppBar(
-        title: Text(model.content.name ?? "Unnamed sport"),
+        title: Text(model?.content?.name ?? "Unnamed sport"),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              Navigator.of(context, rootNavigator: true).pushNamed('/search'); // TODO: sport search ?
+              Navigator.of(context, rootNavigator: true)
+                  .pushNamed('/search'); // TODO: sport search ?
             },
           ),
         ],
@@ -64,20 +65,26 @@ class SportScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    model.content.name ?? 'Unnamed sport',
+                    model?.content?.name ?? loc.translate('no_data.sport_name'),
                     style: theme.textTheme.headline5.merge(TextStyle(
                         fontWeight: FontWeight.bold, letterSpacing: 0.25)),
                   ),
-                  Text(model.content.description ?? '',
+                  Text(model?.content?.description ?? '',
                       style: Theme.of(context).textTheme.bodyText2),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: Indents.sm),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Stats(icon: Icons.thumb_up, text: '1548'),
-                        Stats(icon: Icons.local_movies, text: '89'),
-                        Stats(icon: Icons.playlist_play, text: '1548'),
+                        Stats(icon: Icons.thumb_up, text: '1343'),
+                        Stats(
+                            icon: Icons.local_movies,
+                            text:
+                                model?.moviesIds?.length?.toString() ?? '222'),
+                        Stats(
+                            icon: Icons.playlist_play,
+                            text: model?.playlistsIds?.length?.toString() ??
+                                '233'),
                       ],
                     ),
                   ),
