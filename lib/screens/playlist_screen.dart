@@ -1,15 +1,18 @@
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/hint_chips.dart';
+import 'package:extreme/widgets/pay_card.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import '../widgets/stats.dart';
 import '../widgets/video_card.dart';
 import 'package:extreme/services/api/main.dart' as Api;
@@ -25,46 +28,58 @@ class PlaylistScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('playlist_screen');
 
-    return ScreenBaseWidget(
-      padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-      appBar: AppBar(
-        title: Text(model?.content?.name ?? 'Название плейлиста'),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: () {
-              Navigator.of(context, rootNavigator: true).pushNamed('/search');
-            },
-          ),
-        ],
-      ),
-      builder: (context) => <Widget>[
-        HeaderPlaylist(model: model),
-        BlockBaseWidget(
-          header: loc.translate("videos"),
-          child: CustomFutureBuilder<List<Models.Video>>(
-              future: Api.Entities.getByIds<Models.Video>(model.videosIds),
-              builder: (data) => CustomListBuilder(
-                  items: data,
-                  itemBuilder: (item) =>
-                      VideoCard(aspectRatio: 16 / 9, model: item))),
-        ),
-        BlockBaseWidget.forScrollingViews(
-          header: loc.translate("see_also"),
-          child: CustomFutureBuilder<List<Models.Playlist>>(
-              future: Api.Entities.getAll<Models.Playlist>(1, 5, 'desc'),
-              builder: (data) => CustomListBuilder(
-                  type: CustomListBuilderTypes.horizontalList,
-                  height: 100,
-                  items: data,
-                  itemBuilder: (item) => PlayListCard(
-                        model: item,
-                        aspectRatio: 16 / 9,
-                        small: true,
-                      ))),
-        )
-      ],
-    );
+    return StoreConnector<AppState, Models.User>(
+        converter: (store) => store.state.user,
+        builder: (context, state) => ScreenBaseWidget(
+              padding:
+                  EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
+              appBar: AppBar(
+                title: Text(model?.content?.name ?? 'Название плейлиста'),
+                actions: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true)
+                          .pushNamed('/search');
+                    },
+                  ),
+                ],
+              ),
+              builder: (context) => <Widget>[
+                HeaderPlaylist(model: model),
+                (state.saleIds.videos.contains(model.id) || !model.isPaid)
+                    ? BlockBaseWidget(
+                        header: loc.translate("videos"),
+                        child: CustomFutureBuilder<List<Models.Video>>(
+                            future: Api.Entities.getByIds<Models.Video>(
+                                model.videosIds),
+                            builder: (data) => CustomListBuilder(
+                                items: data,
+                                itemBuilder: (item) => VideoCard(
+                                    aspectRatio: 16 / 9, model: item))),
+                      )
+                    : PayCard(
+                        name: model.content.name,
+                        description: model.content.description,
+                        price: model.price,
+                      ),
+                BlockBaseWidget.forScrollingViews(
+                  header: loc.translate("see_also"),
+                  child: CustomFutureBuilder<List<Models.Playlist>>(
+                      future:
+                          Api.Entities.getAll<Models.Playlist>(1, 5, 'desc'),
+                      builder: (data) => CustomListBuilder(
+                          type: CustomListBuilderTypes.horizontalList,
+                          height: 100,
+                          items: data,
+                          itemBuilder: (item) => PlayListCard(
+                                model: item,
+                                aspectRatio: 16 / 9,
+                                small: true,
+                              ))),
+                )
+              ],
+            ));
   }
 }
 
