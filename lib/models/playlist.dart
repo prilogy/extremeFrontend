@@ -12,6 +12,10 @@ class Playlist {
   String entityType;
   DateTime dateCreated;
 
+  bool get isBought {
+    return isPaid && store.state.user.saleIds.playlists.any((x) => x.entityId == id);
+  }
+
   bool get isFavorite {
     return store.state.user?.favoriteIds?.playlists?.any((x) => x.entityId == id) ?? false;
   }

@@ -11,6 +11,10 @@ class Video {
   int id;
   DateTime dateCreated;
 
+  bool get isBought {
+    return isPaid && store.state.user.saleIds.videos.any((x) => x.entityId == id);
+  }
+
   bool get isLiked {
     return store.state.user?.likeIds?.videos?.any((x) => x.entityId == id) ?? false;
   }

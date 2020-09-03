@@ -1,47 +1,75 @@
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
+import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 
 class PayCard extends StatelessWidget {
   final Price price;
-  final String name;
-  final String description;
-  const PayCard({Key key, this.price, this.name, this.description})
+  final bool isBought;
+  final VoidCallback onBuy;
+
+  const PayCard({Key key, @required this.price, @required this.isBought, this.onBuy})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlockBaseWidget(
-      child: Container(
-        margin: EdgeInsets.only(top: Indents.md),
-        padding: EdgeInsets.symmetric(vertical: Indents.md),
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(5)),
-            border: Border.all(
-                color: Theme.of(context).colorScheme.error, width: 2)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Text('This content requires \n additional payment'),
-            Column(
-              children: <Widget>[
-                Text(
-                  price?.toString() ?? 'Free',
-                  style: Theme.of(context).textTheme.subtitle2.merge(TextStyle(
-                        fontSize: 24,
-                      )),
-                ),
-                RaisedButton(
-                    color: Theme.of(context).colorScheme.error,
-                    child: Text('Купить'),
-                    onPressed: () {})
-              ],
-            ),
-          ],
-        ),
-      ),
+    var loc = AppLocalizations.of(context).withBaseKey("pay_card");
+
+    return  Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          if(!isBought)
+            Flexible(
+            child: Container(
+                padding: EdgeInsets.only(right: Indents.md),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      child: Text(
+                        loc.translate('info'),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
+                      ),
+                    ),
+                  ],
+                )),
+          ),
+          Column(
+            children: <Widget>[
+              !isBought
+                  ? Text(
+                      price?.toString() ?? 'Error',
+                      style:
+                          Theme.of(context).textTheme.subtitle2.merge(TextStyle(
+                                fontSize: 24,
+                              )),
+                    )
+                  : Container(),
+              isBought
+                  ?  Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Icon(
+                            Icons.done,
+                            color: ExtremeColors.success,
+                          ),
+                          Container(
+                              margin: EdgeInsets.only(left: Indents.sm, right: Indents.md),
+                              child: Text(loc.translate('owned'), style: TextStyle(color: ExtremeColors.success),))
+                        ],
+                      )
+                  : RaisedButton(
+                      color: Theme.of(context).colorScheme.primary,
+                      child: Text(loc.translate('buy')),
+                      onPressed: () {
+                        onBuy?.call();
+                      })
+            ],
+          ),
+        ],
     );
   }
 }

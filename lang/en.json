@@ -90,7 +90,8 @@
     "favorite": "Favorite",
     "like": "Like",
     "share": "Share",
-    "other_videos": "Other playlist videos"
+    "other_videos": "Other playlist videos",
+    "is_in_paid_playlist": "This video is from playlist that requires additional payment"
   },
   "sport_screen": {
     "button": {
@@ -216,5 +217,10 @@
       "more": "{0} minutes ago",
       "less_than_one": "Less than a minute ago"
     }
+  },
+  "pay_card": {
+    "buy": "Purchase",
+    "owned": "Already purchased",
+    "info": "This content requires addition payment"
   }
 }

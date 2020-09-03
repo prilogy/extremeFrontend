@@ -1,10 +1,13 @@
+import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
+import 'package:extreme/widgets/favorite_toggler.dart';
 import 'package:extreme/widgets/hint_chips.dart';
 import 'package:extreme/widgets/pay_card.dart';
 import 'package:extreme/widgets/playlist_card.dart';
@@ -22,6 +25,7 @@ import 'package:extreme/models/main.dart' as Models;
 
 class PlaylistScreen extends StatelessWidget {
   final Models.Playlist model;
+
   PlaylistScreen({Key key, @required this.model}) : super(key: key);
 
   @override
@@ -36,6 +40,12 @@ class PlaylistScreen extends StatelessWidget {
               appBar: AppBar(
                 title: Text(model?.content?.name ?? 'Название плейлиста'),
                 actions: <Widget>[
+                  FavoriteToggler(
+                    id: model?.id,
+                    status: model?.isFavorite,
+                    noAlign: true,
+                    size: 24,
+                  ),
                   IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
@@ -47,22 +57,55 @@ class PlaylistScreen extends StatelessWidget {
               ),
               builder: (context) => <Widget>[
                 HeaderPlaylist(model: model),
-                (state.saleIds.videos.contains(model.id) || !model.isPaid)
+                model.isPaid
                     ? BlockBaseWidget(
-                        header: loc.translate("videos"),
-                        child: CustomFutureBuilder<List<Models.Video>>(
-                            future: Api.Entities.getByIds<Models.Video>(
-                                model.videosIds),
-                            builder: (data) => CustomListBuilder(
-                                items: data,
-                                itemBuilder: (item) => VideoCard(
-                                    aspectRatio: 16 / 9, model: item))),
+                        child: PayCard(
+                          price: model.price,
+                          isBought: model.isBought,
+                          onBuy: () async {
+                            var url =
+                                await Api.Sale.getPaymentUrl(model.id);
+
+                            if (url == null) {
+                              SnackBarExtension.show(SnackBarExtension.error(
+                                  AppLocalizations.of(context)
+                                      .translate('payment.error')));
+                            } else {
+                              Navigator.of(context, rootNavigator: true)
+                                  .push(MaterialPageRoute(
+                                      builder: (ctx) => PaymentScreen(
+                                            title: loc.translate(
+                                                'subscription_payment_app_bar'),
+                                            url: url,
+                                            onPaymentDone: () async {
+                                              await Api.User.refresh(
+                                                  true, true);
+                                              SnackBarExtension.show(
+                                                  SnackBarExtension.success(
+                                                      loc.translate(
+                                                          'subscription_payment_success'),
+                                                      Duration(seconds: 7)));
+                                            },
+                                            onBrowserClose: () async {
+                                              await Api.User.refresh(
+                                                  true, true);
+                                            },
+                                          )));
+                            }
+                          },
+                        ),
                       )
-                    : PayCard(
-                        name: model.content.name,
-                        description: model.content.description,
-                        price: model.price,
-                      ),
+                    : Container(),
+                BlockBaseWidget(
+                  header: loc.translate("videos"),
+                  child: CustomFutureBuilder<List<Models.Video>>(
+                      future:
+                          Api.Entities.getByIds<Models.Video>(model.videosIds),
+                      builder: (data) => CustomListBuilder(
+                          items: data,
+                          itemBuilder: (item) =>
+                              VideoCard(aspectRatio: 16 / 9, model: item))),
+                ),
                 BlockBaseWidget.forScrollingViews(
                   header: loc.translate("see_also"),
                   child: CustomFutureBuilder<List<Models.Playlist>>(
@@ -88,6 +131,7 @@ class HeaderPlaylist extends StatelessWidget {
   final Models.Playlist model;
 
   HeaderPlaylist({this.model});
+
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
