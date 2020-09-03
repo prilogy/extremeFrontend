@@ -2,6 +2,7 @@ import 'package:extreme/helpers/custom_paginated_list_callback.dart';
 import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
+import 'package:extreme/screens/main_screen/account_screen/helper.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
@@ -17,74 +18,8 @@ import 'package:flutter_pagination_helper/pagination_helper/item_list_callback.d
 import 'package:flutter_pagination_helper/pagination_helper/list_helper.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 
-typedef LinqForT<T> = bool Function(int, T);
-
-Future<List<T>> processIds<T>(List<EntityIdItem> ids, int page, int pageSize, LinqForT<T> linq) async {
-  ids.sort((a, b) => a.id.compareTo(b.id));
-  ids = ids.reversed.toList();
-  var idsInt = ids.map<int>((e) => e.entityId).toList();
-  var data = await Api.Entities.getByIds<T>(idsInt, page, pageSize);
-  return idsInt.map<T>((e) => data.firstWhere((y) => linq(e,y))).toList();
-}
-
-
-class FavoriteScreenTab {
-  final String localizationKey;
-  final FavoriteScreenTabView view;
-  final ItemListCallback itemListCallback;
-
-  FavoriteScreenTab({this.localizationKey, this.itemListCallback})
-      : view = FavoriteScreenTabView(
-          itemListCallback: itemListCallback,
-        );
-}
-
-class FavoriteScreenTabView extends StatefulWidget {
-  final ItemListCallback itemListCallback;
-
-  FavoriteScreenTabView({this.itemListCallback});
-
-  @override
-  _FavoriteScreenTabViewState createState() => _FavoriteScreenTabViewState();
-}
-
-class _FavoriteScreenTabViewState extends State<FavoriteScreenTabView>
-    with AutomaticKeepAliveClientMixin<FavoriteScreenTabView> {
-  @override
-  bool get wantKeepAlive => true;
-
-  CustomPaginatedListCallback itemListCallback;
-
-  @override
-  void initState() {
-    super.initState();
-    itemListCallback = widget.itemListCallback;
-  }
-
-  @override
-  void dispose() {
-    itemListCallback.page = 1;
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-
-    return PaginatedListWidget(
-      progressWidget: Container(
-        padding: EdgeInsets.symmetric(vertical: Indents.lg),
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-      itemListCallback: widget.itemListCallback,
-    );
-  }
-}
-
-final _config = <FavoriteScreenTab>[
-  FavoriteScreenTab(
+final _config = <PaginatedScreenTab>[
+  PaginatedScreenTab(
     localizationKey: 'videos',
     itemListCallback: CustomPaginatedListCallback<Video>(
         itemsGetter: (page, pageSize) async {
@@ -94,7 +29,7 @@ final _config = <FavoriteScreenTab>[
               model: model[0],
             )),
   ),
-  FavoriteScreenTab(
+  PaginatedScreenTab(
       localizationKey: 'movies',
       itemListCallback: CustomPaginatedListCallback<Movie>(
         pageSize: 6,
@@ -109,7 +44,7 @@ final _config = <FavoriteScreenTab>[
             items: data,
             itemBuilder: (item) => MovieCard(model: item)),
       )),
-  FavoriteScreenTab(
+  PaginatedScreenTab(
       localizationKey: 'playlists',
       itemListCallback: CustomPaginatedListCallback<Playlist>(
           itemsGetter: (page, pageSize) async {
@@ -119,7 +54,7 @@ final _config = <FavoriteScreenTab>[
                 aspectRatio: 16 / 9,
                 model: model[0],
               ))),
-  FavoriteScreenTab(
+  PaginatedScreenTab(
       localizationKey: 'sports',
       itemListCallback: CustomPaginatedListCallback<Sport>(
         modelListSize: 2,

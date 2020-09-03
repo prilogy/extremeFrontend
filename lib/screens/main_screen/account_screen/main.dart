@@ -3,6 +3,7 @@ import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/main_screen/account_screen/favorite_screen.dart';
 import 'package:extreme/screens/main_screen/account_screen/promo_screen.dart';
+import 'package:extreme/screens/main_screen/account_screen/sale_screen.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/models/main.dart' as Models;
@@ -50,8 +51,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
               icon: Icon(Icons.attach_money),
               onPressed: () {
                 Navigator.of(context).push(
-                    //TODO: переход на страницу с купленными предметами(sale_screen.dart)(страница по коду почти как favorite_screen.dart)
-                    MaterialPageRoute(builder: (context) => FavoriteScreen()));
+                    MaterialPageRoute(builder: (context) => SaleScreen()));
               },
             ),
           if (user.isSubscribed)

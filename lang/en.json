@@ -110,6 +110,9 @@
   "favorite_screen": {
     "app_bar": "Favorites"
   },
+  "sale_screen": {
+    "app_bar": "Owned paid content"
+  },
   "reset_pass_screen": {
     "title": "Password reset",
     "new_pass": "New password",

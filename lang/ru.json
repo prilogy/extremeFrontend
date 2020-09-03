@@ -110,6 +110,9 @@
   "favorite_screen": {
     "app_bar": "Избранное"
   },
+  "sale_screen": {
+    "app_bar": "Купленный контент"
+  },
   "reset_pass_screen": {
     "title": "Сброс пароля",
     "new_pass": "Новый пароль",
