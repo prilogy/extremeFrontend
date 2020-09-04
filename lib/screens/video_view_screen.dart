@@ -1,4 +1,7 @@
+import 'package:extreme/helpers/helper_methods.dart';
+import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -47,38 +50,82 @@ class VideoViewScreen extends StatelessWidget {
               ),
               builder: (context) => <Widget>[
                 if (!model.isPaid && !model.isInPaidPlaylist ||
-                    isInOwnedPlaylist)
+                    isInOwnedPlaylist || model.isBought)
                   VimeoPlayer(id: id ?? '395212534')
-                else if (model.isPaid)
+                else if (model.isPaid && !model.isBought)
                   BlockBaseWidget(
                     margin: EdgeInsets.only(top: Indents.md),
                     child: PayCard(
                       price: model.price,
                       isBought: model.isBought,
+                      onBuy: () async {
+                        var url = await Api.Sale.getPaymentUrl(model.id);
+
+                        if (url == null) {
+                          SnackBarExtension.show(SnackBarExtension.error(
+                              AppLocalizations.of(context)
+                                  .translate('payment.error')));
+                        } else {
+                          Navigator.of(context, rootNavigator: true)
+                              .push(MaterialPageRoute(
+                                  builder: (ctx) => PaymentScreen(
+                                        title: AppLocalizations.of(context)
+                                            .translate('payment.app_bar_content', [
+                                          HelperMethods.capitalizeString(
+                                              AppLocalizations.of(context)
+                                                  .translate('base.video'))
+                                        ]),
+                                        url: url,
+                                        onPaymentDone: () async {
+                                          await Api.User.refresh(true, true);
+                                          var video = await Api.Entities.getById<Models.Video>(model.id);
+                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => VideoViewScreen(model: video)));
+                                          SnackBarExtension.show(
+                                              SnackBarExtension.success(
+                                                  AppLocalizations.of(context)
+                                                      .translate(
+                                                          'payment.success_for',
+                                                          [
+                                                        AppLocalizations.of(
+                                                                context)
+                                                            .translate(
+                                                                'base.video')
+                                                      ]),
+                                                  Duration(seconds: 7)));
+                                        },
+                                        onBrowserClose: () async {
+                                          await Api.User.refresh(true, true);
+                                        },
+                                      )));
+                        }
+                      },
                     ),
                   )
                 else if (model.isInPaidPlaylist)
-                    Flexible(
-                      child: Container(
-                          padding: EdgeInsets.only(top: Indents.md, left: Indents.md, right: Indents.md),
-                          child: Row(
-                            children: <Widget>[
-                              Container(
-                                  margin: EdgeInsets.only(right: Indents.md),
-                                  child: Icon(
-                                    Icons.info,
-                                    color: ExtremeColors.primary,
-                                  )),
-                              Flexible(
-                                child: Text(
-                                  loc.translate('is_in_paid_playlist'),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 3,
-                                ),
+                  Flexible(
+                    child: Container(
+                        padding: EdgeInsets.only(
+                            top: Indents.md,
+                            left: Indents.md,
+                            right: Indents.md),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                                margin: EdgeInsets.only(right: Indents.md),
+                                child: Icon(
+                                  Icons.info,
+                                  color: ExtremeColors.primary,
+                                )),
+                            Flexible(
+                              child: Text(
+                                loc.translate('is_in_paid_playlist'),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
                               ),
-                            ],
-                          )),
-                    ),
+                            ),
+                          ],
+                        )),
+                  ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

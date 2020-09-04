@@ -178,7 +178,10 @@
     "empty_list": "The list is empty"
   },
   "payment": {
-    "error": "Payment service error... Try again later"
+    "error": "Payment service error... Try again later",
+    "success_for": "Payment for {0} was successful. If purchased content isn't available - wait a few of minutes and update account screen by pulling it up.",
+    "app_bar_content": "Content payment",
+    "processing": "Processing payment"
   },
   "subscription": {
     "discount": "Saving {0}",

@@ -1,3 +1,4 @@
+import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
@@ -74,16 +75,18 @@ class PlaylistScreen extends StatelessWidget {
                               Navigator.of(context, rootNavigator: true)
                                   .push(MaterialPageRoute(
                                       builder: (ctx) => PaymentScreen(
-                                            title: loc.translate(
-                                                'subscription_payment_app_bar'),
+                                            title: AppLocalizations.of(context)
+                                                .translate(
+                                                'payment.app_bar_content', [HelperMethods.capitalizeString(AppLocalizations.of(context).translate('base.playlist'))]),
                                             url: url,
                                             onPaymentDone: () async {
                                               await Api.User.refresh(
                                                   true, true);
                                               SnackBarExtension.show(
                                                   SnackBarExtension.success(
-                                                      loc.translate(
-                                                          'subscription_payment_success'),
+                                                      AppLocalizations.of(context)
+                                                          .translate(
+                                                          'payment.success_for', [AppLocalizations.of(context).translate('base.playlist')]),
                                                       Duration(seconds: 7)));
                                             },
                                             onBrowserClose: () async {
