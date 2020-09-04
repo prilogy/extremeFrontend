@@ -176,7 +176,8 @@
     "no_localization": "No localization"
   },
   "helper": {
-    "empty_list": "The list is empty"
+    "empty_list": "The list is empty",
+    "users_choice": "Users' choice"
   },
   "payment": {
     "error": "Payment service error... Try again later",

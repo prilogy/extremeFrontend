@@ -18,6 +18,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vimeoplayer/vimeoplayer.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
@@ -44,7 +45,8 @@ class VideoViewScreen extends StatelessWidget {
         builder: (context, state) => ScreenBaseWidget(
               padding:
                   EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-              appBar: AppBar(
+              appBarComplex: (ctx, c) => ScrollAppBar(
+                controller: c,
                 actions: <Widget>[],
               ),
               builder: (context) => <Widget>[
@@ -142,6 +144,14 @@ class VideoViewScreen extends StatelessWidget {
                       child: Text('Название спорта - Плейлист',
                           style: Theme.of(context).textTheme.caption),
                     ),
+                    if (model.isBought && model.isPaid)
+                      BlockBaseWidget(
+                        child: PayCard(
+                          isBought: model.isBought,
+                          price: model.price,
+                          alignment: MainAxisAlignment.start,
+                        ),
+                      ),
                     BlockBaseWidget(
                       child: Row(
                         children: [

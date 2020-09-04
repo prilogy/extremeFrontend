@@ -10,8 +10,9 @@ class PayCard extends StatelessWidget {
   final Price price;
   final bool isBought;
   final VoidCallback onBuy;
+  final MainAxisAlignment alignment;
 
-  const PayCard({Key key, @required this.price, @required this.isBought, this.onBuy})
+  const PayCard({Key key, @required this.price, @required this.isBought, this.onBuy, this.alignment = MainAxisAlignment.spaceAround})
       : super(key: key);
 
   @override
@@ -19,7 +20,7 @@ class PayCard extends StatelessWidget {
     var loc = AppLocalizations.of(context).withBaseKey("pay_card");
 
     return  Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: alignment,
         children: <Widget>[
           if(!isBought)
             Flexible(
@@ -50,7 +51,6 @@ class PayCard extends StatelessWidget {
                   : Container(),
               isBought
                   ?  Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Icon(
                             Icons.done,
