@@ -64,7 +64,7 @@ class VideoViewScreen extends StatelessWidget {
                           ActionIcon(
                             signText: model?.likesAmount.toString() ?? '224',
                             icon: Icons.thumb_up,
-                            iconColor: ExtremeColors.primary,
+                            iconColor: model.isLiked ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.error, // TODO: change the color
                             onPressed: () async {
                               var userAction =
                                   await Api.User.toggleLike(model?.id ?? null);
