@@ -50,7 +50,8 @@ class VideoViewScreen extends StatelessWidget {
               ),
               builder: (context) => <Widget>[
                 if (!model.isPaid && !model.isInPaidPlaylist ||
-                    isInOwnedPlaylist || model.isBought)
+                    isInOwnedPlaylist ||
+                    model.isBought)
                   VimeoPlayer(id: id ?? '395212534')
                 else if (model.isPaid && !model.isBought)
                   BlockBaseWidget(
@@ -70,7 +71,8 @@ class VideoViewScreen extends StatelessWidget {
                               .push(MaterialPageRoute(
                                   builder: (ctx) => PaymentScreen(
                                         title: AppLocalizations.of(context)
-                                            .translate('payment.app_bar_content', [
+                                            .translate(
+                                                'payment.app_bar_content', [
                                           HelperMethods.capitalizeString(
                                               AppLocalizations.of(context)
                                                   .translate('base.video'))
@@ -78,8 +80,13 @@ class VideoViewScreen extends StatelessWidget {
                                         url: url,
                                         onPaymentDone: () async {
                                           await Api.User.refresh(true, true);
-                                          var video = await Api.Entities.getById<Models.Video>(model.id);
-                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => VideoViewScreen(model: video)));
+                                          var video = await Api.Entities
+                                              .getById<Models.Video>(model.id);
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (ctx) =>
+                                                      VideoViewScreen(
+                                                          model: video)));
                                           SnackBarExtension.show(
                                               SnackBarExtension.success(
                                                   AppLocalizations.of(context)
@@ -140,9 +147,11 @@ class VideoViewScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           ActionIcon(
-                            signText: model?.likesAmount.toString() ?? '224',
+                            signText: loc.translate('like'),//model?.likesAmount.toString() ?? '224''',
                             icon: Icons.thumb_up,
-                            iconColor: model.isLiked ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.error, // TODO: change the color
+                            iconColor: model.isLiked
+                                ? Theme.of(context).colorScheme.secondary
+                                : ExtremeColors.base[200],
                             onPressed: () async {
                               var userAction =
                                   await Api.User.toggleLike(model?.id ?? null);
@@ -152,17 +161,22 @@ class VideoViewScreen extends StatelessWidget {
                               }
                             },
                           ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              FavoriteToggler(
-                                id: model?.id,
-                                size: 45,
-                                status: model?.isFavorite,
-                              ),
-                              Text(loc.translate("favorite")),
-                            ],
+                          ActionIcon(
+                            icon: model.isFavorite ? Icons.favorite : Icons.favorite_border,
+                            iconColor: model.isFavorite ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onPrimary,
+                            signText: loc.translate('favorite'),
+                            onPressed: () async {
+                              var userAction =
+                                  await Api.User.toggleFavorite(model.id);
+                              if (userAction == null) return;
+
+                              StoreProvider.of<AppState>(context)
+                                  .dispatch(ToggleFavorite(userAction));
+                              SnackBarExtension.show(SnackBarExtension.info(
+                                  loc.translate(userAction.status
+                                      ? 'added'
+                                      : 'removed')));
+                            },
                           ),
                           ActionIcon(
                               signText: loc.translate("share"),
@@ -238,7 +252,7 @@ class ActionIcon extends StatelessWidget {
             margin:
                 EdgeInsets.only(top: Indents.sm), // Sign below like icon margin
             child: Text(
-              signText,
+              signText, //signText,
               style: Theme.of(context).textTheme.caption.merge(TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
                   )),

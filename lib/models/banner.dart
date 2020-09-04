@@ -5,4 +5,5 @@ class Banner {
   // Content content;
   int entityId;
   Content content;
+  Content entityContent;
 }
