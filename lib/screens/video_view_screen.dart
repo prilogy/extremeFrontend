@@ -49,7 +49,6 @@ class VideoViewScreen extends StatelessWidget {
                   EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
               appBarComplex: (ctx, c) => ScrollAppBar(
                 controller: c,
-                actions: <Widget>[],
               ),
               builder: (context) => <Widget>[
                 if (!model.isPaid && !model.isInPaidPlaylist ||

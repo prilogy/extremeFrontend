@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_vk_login/generated/i18n.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 import 'package:vimeoplayer/vimeoplayer.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
@@ -36,13 +37,14 @@ class MovieViewScreen extends StatelessWidget {
     final loc = AppLocalizations.of(context).withBaseKey('video_view_screen');
     var splits = model.content?.url?.split('/') ?? null;
     final id = splits != null ? splits[splits.length - 1] : null;
+
     return StoreConnector<AppState, Models.User>(
         converter: (store) => store.state.user,
         builder: (context, state) => ScreenBaseWidget(
               padding:
                   EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-              appBar: AppBar(
-                actions: <Widget>[],
+              appBarComplex: (ctx, c) => ScrollAppBar(
+                controller: c
               ),
               builder: (context) => <Widget>[
                 if (!model.isPaid || model.isBought)
@@ -156,8 +158,8 @@ class MovieViewScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           ActionIcon(
-                            signText: loc.translate(
-                                'like'), //model?.likesAmount.toString() ?? '224''',
+                            signText: loc.translate('like'),
+                            //model?.likesAmount.toString() ?? '224''',
                             icon: Icons.thumb_up,
                             iconColor: model.isLiked
                                 ? Theme.of(context).colorScheme.secondary
@@ -224,20 +226,20 @@ class MovieViewScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                BlockBaseWidget(
+                BlockBaseWidget.forScrollingViews(
                   header: loc.translate('other_movies'),
+                  margin: EdgeInsets.all(0),
                   child: CustomFutureBuilder(
                       future: Api.Entities.getById<Models.Sport>(model.sportId),
                       builder: (data) {
                         List movies = data.moviesIds;
                         movies.remove(model.id);
                         return CustomFutureBuilder(
-                            future: Api.Entities.getByIds<Models.Movie>(
-                                movies),
+                            future: Api.Entities.getByIds<Models.Movie>(movies),
                             builder: (moviesData) => CustomListBuilder(
                                 type: CustomListBuilderTypes.horizontalList,
                                 items: moviesData,
-                                height: 200,
+                                height: 230,
                                 itemBuilder: (item) => MovieCard(
                                       model: item,
                                       aspectRatio: 9 / 16,

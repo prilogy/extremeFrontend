@@ -39,10 +39,9 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
         appBar: AppBar(
           title: Text(loc.translate('email_sign_in')),
         ),
-        builderChild: (context) =>
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                Widget>[
+        builder: (context) => [
               BlockBaseWidget(
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
                 header: loc.translate('header'),
                 child: Form(
                   key: _formKey,
@@ -58,7 +57,8 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                           if (!RegExp(
                                   r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                               .hasMatch(value))
-                            return loc.translate('error.invalid'); // TODO: add lozaliztion
+                            return loc.translate(
+                                'error.invalid'); // TODO: add lozaliztion
                           return null;
                         },
                         decoration: InputDecoration(
@@ -72,7 +72,8 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                           if (value.isEmpty) {
                             return loc.translate('error.empty');
                           }
-                          if (value.length < 6) return loc.translate('error.few_symbols');
+                          if (value.length < 6)
+                            return loc.translate('error.few_symbols');
                           return null;
                         },
                         obscureText: true,
@@ -86,7 +87,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                           child: Text(loc.translate('forget')),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => ResetPassScreen()));
+                                builder: (context) => ResetPassScreen()));
                           },
                         ),
                       ),
@@ -153,6 +154,6 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                   ),
                 ),
               )
-            ]));
+            ]);
   }
 }
