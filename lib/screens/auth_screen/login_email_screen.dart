@@ -5,6 +5,7 @@ import 'package:extreme/screens/reset_pass_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
@@ -79,12 +80,15 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                             icon: Icon(Icons.lock),
                             labelText: loc.translate('password')),
                       ),
-                      InkWell(
-                        child: Text(loc.translate('forget')),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => ResetPassScreen()));
-                        },
+                      Container(
+                        margin: EdgeInsets.only(top: Indents.md),
+                        child: InkWell(
+                          child: Text(loc.translate('forget')),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ResetPassScreen()));
+                          },
+                        ),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
