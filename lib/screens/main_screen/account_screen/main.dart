@@ -36,7 +36,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
         await Api.User.refresh(true, true);
       },
       navigatorKey: navigatorKey,
-      appBarWithContext: (context) => AppBar(
+      appBarComplex: (context, c) => AppBar(
         title: Text(loc.translate("app_bar")),
         actions: <Widget>[
           IconButton(

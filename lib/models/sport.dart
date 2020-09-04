@@ -6,6 +6,8 @@ class Sport {
   Content content;
   int id;
   DateTime dateCreated;
+  int bestPlaylistId;
+  int bestVideoId;
 
   bool get isFavorite {
     return store.state.user?.favoriteIds?.sports?.any((x) => x.entityId == id) ?? false;
@@ -29,6 +31,8 @@ class Sport {
         json['content'] != null ? new Content.fromJson(json['content']) : null;
     id = json['id'];
     dateCreated = DateTime.parse(json['dateCreated']).toLocal();
+    bestPlaylistId = json['bestPlaylistId'];
+    bestVideoId = json['bestVideoId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -40,6 +44,8 @@ class Sport {
     }
     data['id'] = this.id;
     data['dateCreated'] = this.dateCreated.toString();
+    data['bestPlaylistId'] = this.bestPlaylistId;
+    data['bestVideoId'] = this.bestVideoId;
     return data;
   }
 }

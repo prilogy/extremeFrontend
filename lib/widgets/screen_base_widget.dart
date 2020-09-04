@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 typedef WidgetBuilderChildren = List<Widget> Function(BuildContext context);
+typedef AppBarBuilderComplex = Widget Function(
+    BuildContext context, ScrollController controller);
 
 class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
 
   final Widget appBar;
-  final WidgetBuilder appBarWithContext;
+  final AppBarBuilderComplex appBarComplex;
   final WidgetBuilderChildren builder;
   final WidgetBuilder builderChild;
   final Key navigatorKey;
@@ -30,7 +32,7 @@ class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
       this.builder,
       this.builderChild,
       this.navigatorKey,
-      this.appBarWithContext,
+      this.appBarComplex,
       this.onRefresh});
 
   @override
@@ -39,6 +41,14 @@ class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
 
 class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
   var _refreshController = RefreshController(initialRefresh: false);
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +56,8 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
       return Scaffold(
         appBar: widget.appBar != null
             ? widget.appBar
-            : widget.appBarWithContext != null
-                ? widget.appBarWithContext(ctx)
+            : widget.appBarComplex != null
+                ? widget.appBarComplex(ctx, _scrollController)
                 : EmptyAppBar(),
         body: Builder(
           builder: (context) {
@@ -72,11 +82,13 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
                             },
                             header: MaterialClassicHeader(),
                             child: ListView(
+                              controller: _scrollController,
                               padding: widget.padding,
                               children: res,
                             ),
                           )
                         : ListView(
+                            controller: _scrollController,
                             padding: widget.padding,
                             children: res,
                           ));

@@ -39,7 +39,6 @@ class PlaylistScreen extends StatelessWidget {
               padding:
                   EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
               appBar: AppBar(
-                title: Text(model?.content?.name ?? 'Название плейлиста'),
                 actions: <Widget>[
                   FavoriteToggler(
                     id: model?.id,

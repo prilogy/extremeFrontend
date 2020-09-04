@@ -103,7 +103,7 @@
       "playlists": "ПЛЕЙЛИСТЫ",
       "movies": "ФИЛЬМЫ"
     },
-    "recommended": "Рекомендуем",
+    "recommended": "Рекомендуем {0}",
     "no_data": {
       "sport_name": "Неназванный вид спорта"
     }

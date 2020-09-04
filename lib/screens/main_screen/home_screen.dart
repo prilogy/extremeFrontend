@@ -17,6 +17,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 // Домашняя страница пользователя - Главная
 
@@ -32,7 +33,8 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
 
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-      appBar: AppBar(
+      appBarComplex: (ctx, c) => ScrollAppBar(
+        controller: c,
         title: Text('Extreme Insiders'),
         actions: <Widget>[
           IconButton(

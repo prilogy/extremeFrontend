@@ -12,25 +12,22 @@ import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/models/main.dart' as Models;
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 /// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
-class BrowseScreen extends StatefulWidget {
+class BrowseScreen extends StatelessWidget{
   final Key navigatorKey;
 
   BrowseScreen({this.navigatorKey});
 
   @override
-  _BrowseScreenState createState() => _BrowseScreenState();
-}
-
-class _BrowseScreenState extends State<BrowseScreen> {
-  @override
   Widget build(BuildContext context) {
     var loc = AppLocalizations.of(context).withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
-        appBar: AppBar(
+        appBarComplex: (ctx, c) => ScrollAppBar(
+          controller: c,
           title: Text(loc.translate("browse")),
           actions: <Widget>[
             IconButton(
@@ -41,7 +38,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
             ),
           ],
         ),
-        navigatorKey: widget.navigatorKey,
+        navigatorKey: navigatorKey,
         builder: (context) => [
               Container(
                 margin: EdgeInsets.only(bottom: Indents.lg),

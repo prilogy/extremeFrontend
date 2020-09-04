@@ -99,7 +99,7 @@
       "playlists": "PLAYLISTS",
       "movies": "MOVIES"
     },
-    "recommended": "Recommended for You",
+    "recommended": "Recommended {0}",
     "no_data": {
       "sport_name": "Unnamed sport"
     }
