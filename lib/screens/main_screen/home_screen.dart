@@ -53,7 +53,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
             return Container(
               margin: EdgeInsets.only(bottom: Indents.md),
               child: HeadBanner(
-                contents: data,
+                banners: data,
               ),
             );
           },
@@ -105,9 +105,9 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
 
 class BannerInformation extends StatelessWidget {
   final int id;
-  final Models.Content content;
+  final Models.Banner banner;
 
-  const BannerInformation({Key key, this.id, this.content}) : super(key: key);
+  const BannerInformation({Key key, this.id, this.banner}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +116,7 @@ class BannerInformation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(content?.name ?? 'No name. id: ' + id.toString(),
+          Text(banner?.content?.name ?? 'No name',
               style: Theme.of(context).textTheme.headline6),
           // Text(content?.description ?? 'No description provided',
           //     style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(
@@ -134,9 +134,9 @@ class BannerInformation extends StatelessWidget {
 }
 
 class HeadBanner extends StatefulWidget {
-  final List<Content> contents;
+  final List<Models.Banner> banners;
 
-  HeadBanner({this.contents});
+  HeadBanner({this.banners});
 
   @override
   _HeadBannerState createState() => _HeadBannerState();
@@ -144,18 +144,18 @@ class HeadBanner extends StatefulWidget {
 
 class _HeadBannerState extends State<HeadBanner> {
   int index = 0;
-  List<Content> contents;
+  List<Models.Banner> banners;
 
   @override
   Widget build(BuildContext context) {
-    contents = widget.contents;
+    banners = widget.banners;
     return SizedBox(
       height: 250.0,
       child: Stack(
         children: [
           Carousel(
-            images: contents
-                .map((e) => NetworkImage(e?.image?.path ??
+            images: banners
+                .map((e) => NetworkImage(e?.entityContent?.image?.path ??
                     'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'))
                 .toList(),
             dotSize: Indents.md / 2,
@@ -176,7 +176,7 @@ class _HeadBannerState extends State<HeadBanner> {
           ),
           BannerInformation(
             id: index,
-            content: contents[index],
+            banner: banners[index],
           ),
         ],
       ),

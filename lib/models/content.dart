@@ -10,7 +10,7 @@ class Content {
   Content({this.image, this.culture, this.name, this.description, this.url});
 
   Content.fromJson(Map<String, dynamic> json) {
-    image = json['image'] != null ? new Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? new Image.fromJson(json['image']) : Image(path: 'nourl');
     culture =
     json['culture'] != null ? new Culture.fromJson(json['culture']) : null;
     name = json['name'];
