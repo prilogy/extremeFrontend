@@ -106,7 +106,8 @@
     "recommended": "Рекомендуем {0}",
     "no_data": {
       "sport_name": "Неназванный вид спорта"
-    }
+    },
+    "best_playlist": "Выбор пользователей"
   },
   "favorite_screen": {
     "app_bar": "Избранное"

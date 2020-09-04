@@ -146,7 +146,8 @@ class VideoViewScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           ActionIcon(
-                            signText: loc.translate('like'),//model?.likesAmount.toString() ?? '224''',
+                            signText: loc.translate('like'),
+                            //model?.likesAmount.toString() ?? '224''',
                             icon: Icons.thumb_up,
                             iconColor: model.isLiked
                                 ? Theme.of(context).colorScheme.secondary
@@ -160,22 +161,37 @@ class VideoViewScreen extends StatelessWidget {
                               }
                             },
                           ),
-                          ActionIcon(
-                            icon: model.isFavorite ? Icons.favorite : Icons.favorite_border,
-                            iconColor: model.isFavorite ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.onPrimary,
-                            signText: loc.translate('favorite'),
-                            onPressed: () async {
-                              var userAction =
-                                  await Api.User.toggleFavorite(model.id);
-                              if (userAction == null) return;
-
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(ToggleFavorite(userAction));
-                              SnackBarExtension.show(SnackBarExtension.info(
-                                  loc.translate(userAction.status
-                                      ? 'added'
-                                      : 'removed')));
-                            },
+                          Container(
+                            // Like
+                            margin: EdgeInsets.only(right: Indents.lg),
+                            // like container margin
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                FavoriteToggler(
+                                  id: model.id,
+                                  status: model.isFavorite,
+                                  size: 45,
+                                  noAlign: true,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: Indents.sm),
+                                  // Sign below like icon margin
+                                  child: Text(
+                                    loc.translate('favorite'), //signText,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        .merge(TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           ActionIcon(
                               signText: loc.translate("share"),
