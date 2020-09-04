@@ -69,16 +69,17 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                               ],
                             ),
                           ),
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            alignment: Alignment.topRight,
-                            icon: Icon(
-                              Icons.more_vert,
-                              color: Theme.of(context).colorScheme.onPrimary,
-                            ),
-                            tooltip: 'Placeholder',
-                            onPressed: () {},
-                          ),
+                          // Removed as of current state
+//                          IconButton(
+//                            padding: EdgeInsets.zero,
+//                            alignment: Alignment.topRight,
+//                            icon: Icon(
+//                              Icons.more_vert,
+//                              color: Theme.of(context).colorScheme.onPrimary,
+//                            ),
+//                            tooltip: 'Placeholder',
+//                            onPressed: () {},
+//                          ),
                         ],
                       ),
                     )
@@ -91,7 +92,9 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
 
 class VideoCardWithoutCaption extends StatelessWidget {
   final Models.Video model;
+
   VideoCardWithoutCaption({@required this.model});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -152,12 +155,13 @@ class VideoCardWithoutCaption extends StatelessWidget {
                             id: model?.id,
                           ),
                         ]),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        VideoDuration(minutes: 7, seconds: 34),
-                      ],
-                    ),
+//Removed as of current state
+//                    Row(
+//                      mainAxisAlignment: MainAxisAlignment.end,
+//                      children: <Widget>[
+//                        VideoDuration(minutes: 7, seconds: 34),
+//                      ],
+//                    ),
                   ],
                 ),
               ),
@@ -175,6 +179,7 @@ class VideoDuration extends StatelessWidget {
   final int seconds;
 
   VideoDuration({this.hours = 0, this.minutes, this.seconds});
+
   String _time(int hours, int minutes, int seconds) {
     if (hours == 0) {
       return minutes.toString() + ':' + seconds.toString();
