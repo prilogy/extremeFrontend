@@ -100,6 +100,16 @@ class PlaylistScreen extends StatelessWidget {
                       )
                     : Container(),
                 BlockBaseWidget(
+                    header: AppLocalizations.of(context)
+                        .translate('helper.users_choice'),
+                    child: CustomFutureBuilder<Models.Video>(
+                        future: Api.Entities.getById<Models.Video>(
+                            model.bestVideoId),
+                        builder: (data) => VideoCard(
+                          model: data,
+                          aspectRatio: 16 / 9,
+                        ))),
+                BlockBaseWidget(
                   header: loc.translate("videos"),
                   child: CustomFutureBuilder<List<Models.Video>>(
                       future:
@@ -113,7 +123,7 @@ class PlaylistScreen extends StatelessWidget {
                   header: loc.translate("see_also"),
                   child: CustomFutureBuilder<List<Models.Playlist>>(
                       future:
-                          Api.Entities.getAll<Models.Playlist>(1, 5, 'desc'),
+                          Api.Entities.recommended<Models.Playlist>(1, 6),
                       builder: (data) => CustomListBuilder(
                           type: CustomListBuilderTypes.horizontalList,
                           height: 100,
@@ -180,7 +190,7 @@ class HeaderPlaylist extends StatelessWidget {
                     margin: EdgeInsets.only(bottom: Indents.sm),
                     child: Text(
                         model?.content?.name ??
-                            "Название плейлиста лалал лалала лала алала лалал ал аа лал ",
+                            "Название плейлиста",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.headline5.merge(
                             TextStyle(
@@ -189,10 +199,11 @@ class HeaderPlaylist extends StatelessWidget {
                   ),
                   Container(
                     margin: EdgeInsets.only(bottom: Indents.sm),
+                    padding: EdgeInsets.symmetric(horizontal: Indents.lg),
                     child: Text(
                         model?.content?.description ??
                             "Описание данного плейлиста",
-                        style: Theme.of(context).textTheme.bodyText2),
+                        style: Theme.of(context).textTheme.bodyText2, textAlign: TextAlign.center,),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,

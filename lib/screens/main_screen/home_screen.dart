@@ -61,16 +61,16 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         BlockBaseWidget.forScrollingViews(
           header: loc.translate('interesting_sports'),
           child: CustomFutureBuilder<List<Models.Sport>>(
-              future: Api.Entities.getAll<Models.Sport>(1, 8),
+              future: Api.Entities.recommended<Models.Sport>(1, 6),
               builder: (List<Models.Sport> data) => CustomListBuilder(
                   type: CustomListBuilderTypes.horizontalList,
-                  height: 50,
+                  height: 60,
                   items: data,
                   itemBuilder: (item) =>
-                      SportCard(model: item, aspectRatio: 3 / 1, small: true))),
+                      SportCard(model: item, aspectRatio: 2.5 / 1, small: true))),
         ),
         BlockBaseWidget(
-          header: loc.translate('recommended_videos'),
+          header: AppLocalizations.of(context).translate('helper.users_choice'),
           child: CustomFutureBuilder<List<Models.Video>>(
             future: Api.Entities.recommended<Models.Video>(1, 2),
             builder: (data) {
@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
           margin: EdgeInsets.zero,
           header: loc.translate('last_updates'),
           child: CustomFutureBuilder(
-            future: Api.Entities.getAll<Models.Playlist>(1, 10),
+            future: Api.Entities.getAll<Models.Playlist>(1, 6, 'desc'),
             builder: (data) {
               return CustomListBuilder<Models.Playlist>(
                   type: CustomListBuilderTypes.horizontalList,

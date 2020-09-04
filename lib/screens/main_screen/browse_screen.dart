@@ -73,7 +73,7 @@ class BrowseScreen extends StatelessWidget {
                 header: loc.translate('popular_playlists'),
                 margin: EdgeInsets.zero,
                 child: CustomFutureBuilder<List<Models.Playlist>>(
-                  future: Api.Entities.getAll<Models.Playlist>(1, 2),
+                  future: Api.Entities.popular<Models.Playlist>(1, 4),
                   builder: (data) => CustomListBuilder<Models.Playlist>(
                     connectToStore: true,
                     type: CustomListBuilderTypes.verticalList,

@@ -127,15 +127,16 @@ class SportScreen extends StatelessWidget {
                               aspectRatio: 9 / 16,
                             )),
                   )),
-          BlockBaseWidget(
-              header:AppLocalizations.of(context).translate('helper.users_choice'),
-              child: CustomFutureBuilder<Models.Playlist>(
-                future: Api.Entities.getById<Models.Playlist>(model.bestPlaylistId),
-                builder: (data) => PlayListCard(
-                  model: data,
-                  aspectRatio: 16/9,
-                )
-              )),
+              BlockBaseWidget(
+                  header: AppLocalizations.of(context)
+                      .translate('helper.users_choice'),
+                  child: CustomFutureBuilder<Models.Playlist>(
+                      future: Api.Entities.getById<Models.Playlist>(
+                          model.bestPlaylistId),
+                      builder: (data) => PlayListCard(
+                            model: data,
+                            aspectRatio: 16 / 9,
+                          ))),
               BlockBaseWidget(
                   header: loc.translate('recommended',
                       [AppLocalizations.of(context).translate('base.video')]),

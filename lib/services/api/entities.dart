@@ -75,6 +75,27 @@ class Entities {
     }
   }
 
+  ///Список популярных(по лайкам)
+  ///Только для playlist
+  static Future<List<T>> popular<T>([int page, int pageSize]) async {
+    var entityName = _entityNameFromType(T);
+    if (entityName == null) return null;
+
+    try {
+      var params = _generateParams(page, pageSize, null);
+      var response =
+      await dio.get('/$entityName/popular', queryParameters: params);
+      var entities = List<T>();
+      response.data.forEach((v) {
+        entities.add(_entityFromJson<T>(v));
+      });
+
+      return entities;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
   static String _entityNameFromType(Type t) {
     switch (t) {
       case Models.Video:
@@ -96,7 +117,7 @@ class Entities {
     if (page != null) map.addAll({'page': page});
     if (pageSize != null) map.addAll({'pageSize': pageSize});
     if (sortByDate != null && sortByDate == 'desc' || sortByDate == 'asc')
-      map.addAll({'sortByDate': sortByDate});
+      map.addAll({'orderByDate': sortByDate});
     return map;
   }
 
