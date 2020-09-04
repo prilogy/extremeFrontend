@@ -208,9 +208,7 @@ class VideoViewScreen extends StatelessWidget {
                             },
                           ),
                           Container(
-                            // Like
                             margin: EdgeInsets.only(right: Indents.lg),
-                            // like container margin
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
