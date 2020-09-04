@@ -80,8 +80,9 @@ class PlaylistScreen extends StatelessWidget {
                                                 'payment.app_bar_content', [HelperMethods.capitalizeString(AppLocalizations.of(context).translate('base.playlist'))]),
                                             url: url,
                                             onPaymentDone: () async {
-                                              await Api.User.refresh(
-                                                  true, true);
+                                              await Api.User.refresh(true, true);
+                                              var playlist = await Api.Entities.getById<Models.Playlist>(model.id);
+                                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => PlaylistScreen(model: playlist)));
                                               SnackBarExtension.show(
                                                   SnackBarExtension.success(
                                                       AppLocalizations.of(context)

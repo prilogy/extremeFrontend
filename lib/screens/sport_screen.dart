@@ -43,7 +43,7 @@ class SportScreen extends StatelessWidget {
             decoration: BoxDecoration(
                 image: DecorationImage(
               fit: BoxFit.cover,
-              image: ExactAssetImage("assets/images/extreme2.jpg"),
+              image: NetworkImage(model.content.image.path),
             )),
             child: Container(
               padding: EdgeInsets.all(Indents.md),
@@ -70,7 +70,7 @@ class SportScreen extends StatelessWidget {
                         fontWeight: FontWeight.bold, letterSpacing: 0.25)),
                   ),
                   Text(model?.content?.description ?? '',
-                      style: Theme.of(context).textTheme.bodyText2),
+                      style: Theme.of(context).textTheme.bodyText2, textAlign: TextAlign.center,),
                   Padding(
                     padding: EdgeInsets.symmetric(vertical: Indents.sm),
                     child: Row(
