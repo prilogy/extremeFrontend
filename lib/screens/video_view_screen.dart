@@ -2,6 +2,8 @@ import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/payment_screen.dart';
+import 'package:extreme/screens/playlist_screen.dart';
+import 'package:extreme/screens/sport_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -138,12 +140,46 @@ class VideoViewScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BlockBaseWidget(
-                      padding: EdgeInsets.only(
-                          top: Indents.md, left: Indents.md, right: Indents.md),
-                      header: model?.content?.name ?? 'Название видео',
-                      child: Text('Название спорта - Плейлист',
-                          style: Theme.of(context).textTheme.caption),
-                    ),
+                        padding: EdgeInsets.only(
+                            top: Indents.md,
+                            left: Indents.md,
+                            right: Indents.md),
+                        header: model?.content?.name ?? 'Название видео',
+                        child: CustomFutureBuilder(
+                            future: Api.Entities.getById<Models.Playlist>(
+                                model.playlistId),
+                            builder: (data) {
+                              return CustomFutureBuilder(
+                                  future: Api.Entities.getById<Models.Sport>(
+                                      data.sportId),
+                                  builder: (sportData) {
+                                    return Row(
+                                      children: <Widget>[
+                                        InkWell(
+                                          child: Text(sportData.content.name),
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SportScreen(model: sportData),
+                                            ));
+                                          },
+                                        ),
+                                        Text(' - '),
+                                        InkWell(
+                                          child: Text(data.content.name),
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PlaylistScreen(model: data),
+                                            ));
+                                          },
+                                        )
+                                      ],
+                                    );
+                                  });
+                            })),
                     if (model.isBought && model.isPaid)
                       BlockBaseWidget(
                         child: PayCard(

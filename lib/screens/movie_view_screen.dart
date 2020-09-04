@@ -130,28 +130,28 @@ class MovieViewScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomFutureBuilder<Models.Sport>(
-                      future: Api.Entities.getById<Models.Sport>(model.sportId),
-                      builder: (data) {
-                        return BlockBaseWidget(
-                          padding: EdgeInsets.only(
-                              top: Indents.md,
-                              left: Indents.md,
-                              right: Indents.md),
-                          header: model?.content?.name ?? 'Название видео',
-                          child: InkWell(
-                            child: Text(data.content.name,
-                                style: Theme.of(context).textTheme.caption),
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    SportScreen(model: data),
-                              ));
-                            },
-                          ),
-                        );
-                      },
-                    ),
+                    CustomFutureBuilder(
+                        future:
+                            Api.Entities.getById<Models.Sport>(model.sportId),
+                        builder: (data) {
+                          return BlockBaseWidget(
+                            padding: EdgeInsets.only(
+                                top: Indents.md,
+                                left: Indents.md,
+                                right: Indents.md),
+                            header: model?.content?.name ?? 'Название видео',
+                            child: InkWell(
+                              child: Text(data.content.name,
+                                  style: Theme.of(context).textTheme.caption),
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      SportScreen(model: data),
+                                ));
+                              },
+                            ),
+                          );
+                        }),
                     BlockBaseWidget(
                       child: Row(
                         children: [
