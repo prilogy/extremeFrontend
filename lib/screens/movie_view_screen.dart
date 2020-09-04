@@ -171,26 +171,35 @@ class MovieViewScreen extends StatelessWidget {
                               }
                             },
                           ),
-                          ActionIcon(
-                            icon: model.isFavorite
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            iconColor: model.isFavorite
-                                ? Theme.of(context).colorScheme.error
-                                : Theme.of(context).colorScheme.onPrimary,
-                            signText: loc.translate('favorite'),
-                            onPressed: () async {
-                              var userAction =
-                                  await Api.User.toggleFavorite(model.id);
-                              if (userAction == null) return;
-
-                              StoreProvider.of<AppState>(context)
-                                  .dispatch(ToggleFavorite(userAction));
-                              SnackBarExtension.show(SnackBarExtension.info(
-                                  loc.translate(userAction.status
-                                      ? 'added'
-                                      : 'removed')));
-                            },
+                          Container(
+                            margin: EdgeInsets.only(right: Indents.lg),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                FavoriteToggler(
+                                  id: model.id,
+                                  status: model.isFavorite,
+                                  size: 45,
+                                  noAlign: true,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: Indents.sm),
+                                  // Sign below like icon margin
+                                  child: Text(
+                                    loc.translate('favorite'), //signText,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        .merge(TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           ActionIcon(
                               signText: loc.translate("share"),
@@ -199,6 +208,14 @@ class MovieViewScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    if (model.isBought && model.isPaid)
+                      BlockBaseWidget(
+                        child: PayCard(
+                          isBought: model.isBought,
+                          price: model.price,
+                          alignment: MainAxisAlignment.start,
+                        ),
+                      ),
                     BlockBaseWidget(
                       child: Text(
                           model?.content?.description ??
@@ -207,6 +224,26 @@ class MovieViewScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                BlockBaseWidget(
+                  header: loc.translate('other_movies'),
+                  child: CustomFutureBuilder(
+                      future: Api.Entities.getById<Models.Sport>(model.sportId),
+                      builder: (data) {
+                        List movies = data.moviesIds;
+                        movies.remove(model.id);
+                        return CustomFutureBuilder(
+                            future: Api.Entities.getByIds<Models.Movie>(
+                                movies),
+                            builder: (moviesData) => CustomListBuilder(
+                                type: CustomListBuilderTypes.horizontalList,
+                                items: moviesData,
+                                height: 200,
+                                itemBuilder: (item) => MovieCard(
+                                      model: item,
+                                      aspectRatio: 9 / 16,
+                                    )));
+                      }),
+                )
               ],
             ));
   }

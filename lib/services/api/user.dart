@@ -71,7 +71,6 @@ class User {
   static Future<Models.UserAction> toggleLike(int id) async {
     try {
       var response = await dio.get('/user/like/$id');
-      print('response data:' + response.data.toString());
       return Models.UserAction.fromJson(response.data);
     } on DioError catch (e) {
       return null;
@@ -107,7 +106,6 @@ class User {
     try {
       var data = {'code': code, 'password': newPass};
       var response = await dio.patch('/user/resetPassword', data: data);
-      print(response.statusCode);
       return true;
     } on DioError catch (e) {
       return false;

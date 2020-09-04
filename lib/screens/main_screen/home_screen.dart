@@ -2,6 +2,10 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
+import 'package:extreme/screens/movie_view_screen.dart';
+import 'package:extreme/screens/playlist_screen.dart';
+import 'package:extreme/screens/sport_screen.dart';
+import 'package:extreme/screens/video_view_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
@@ -116,7 +120,8 @@ class BannerInformation extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(banner?.content?.name ?? 'No name',
+          Text(
+              banner?.content?.name ?? banner?.entityContent?.name ?? 'No name',
               style: Theme.of(context).textTheme.headline6),
           // Text(content?.description ?? 'No description provided',
           //     style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(
@@ -161,13 +166,64 @@ class _HeadBannerState extends State<HeadBanner> {
             dotSize: Indents.md / 2,
             dotSpacing: Indents.lg,
             dotColor: Theme.of(context).backgroundColor,
+            dotBgColor: Colors.white.withOpacity(0),
             indicatorBgPadding: 10.0,
             borderRadius: false,
             moveIndicatorFromBottom: 180.0,
             noRadiusForIndicator: true,
             overlayShadow: true,
-            overlayShadowColors: Theme.of(context).colorScheme.background,
+            overlayShadowColors: Theme.of(context).scaffoldBackgroundColor,
             overlayShadowSize: 1,
+            onImageTap: (index) async {
+              switch (banners[index].entityType) {
+                case 'video':
+                  var model = await Api.Entities.getById<Models.Video>(
+                      banners[index].entityId);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VideoViewScreen(
+                          model: model,
+                        ),
+                      ));
+                  break;
+                case 'playlist':
+                  var model = await Api.Entities.getById<Models.Playlist>(
+                      banners[index].entityId);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PlaylistScreen(
+                          model: model,
+                        ),
+                      ));
+                  break;
+                case 'movie':
+                  var model = await Api.Entities.getById<Models.Movie>(
+                      banners[index].entityId);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MovieViewScreen(
+                          model: model,
+                        ),
+                      ));
+                  break;
+                case 'sport':
+                  var model = await Api.Entities.getById<Models.Sport>(
+                      banners[index].entityId);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SportScreen(
+                          model: model,
+                        ),
+                      ));
+                  break;
+                default:
+                  null;
+              }
+            },
             onImageChange: (previous, current) {
               setState(() {
                 index = current;
