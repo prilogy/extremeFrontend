@@ -14,8 +14,9 @@ class FavoriteToggler extends StatelessWidget {
   final int id;
   final String toolTip;
   final double size;
+  final noAlign;
 
-  FavoriteToggler({this.status, this.id, this.toolTip, this.size = 30});
+  FavoriteToggler({this.status, this.id, this.toolTip, this.size = 30, this.noAlign = false});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class FavoriteToggler extends StatelessWidget {
         toolTip ?? AppLocalizations.of(context).translate('tooltips.favorite');
 
     return IconButton(
-      alignment: Alignment.topRight,
+      alignment: noAlign ? Alignment.center : Alignment.topRight,
       padding: EdgeInsets.zero,
       icon: Icon(
         icon,

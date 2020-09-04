@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -27,26 +28,27 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   bool progressIsActive;
   final browser = MyInAppBrowser();
+  bool paymentSuccess = false;
 
   @override
   void didChangeDependencies() {
     browser.onUrlLoadStart = (ctx, url) async {
       if (url.contains('localhost')) {
+        setState(() {
+          paymentSuccess = true;
+        });
         ctx.close();
-        setState(() {
-          progressIsActive = true;
-        });
-        await widget.onPaymentDone?.call();
-        setState(() {
-          progressIsActive = false;
-        });
       }
     };
     browser.onBrowserClose = () async {
       setState(() {
         progressIsActive = true;
       });
-      await widget.onBrowserClose?.call();
+      await Future.delayed(Duration(seconds: 5));
+      if (paymentSuccess) {
+        await widget.onPaymentDone?.call();
+      } else
+        await widget.onBrowserClose?.call();
       setState(() {
         progressIsActive = false;
       });
@@ -64,8 +66,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ),
       builderChild: (context) => BlockBaseWidget(
         padding: EdgeInsets.symmetric(vertical: Indents.xl),
-        child: Center(
-          child: CircularProgressIndicator(),
+        child: Column(
+          children: <Widget>[
+            Center(
+              child: CircularProgressIndicator(),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: Indents.xl),
+              child: Text(
+                  AppLocalizations.of(context).translate('payment.processing')),
+              alignment: Alignment.center,
+            ),
+          ],
         ),
       ),
     );

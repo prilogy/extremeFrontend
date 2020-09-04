@@ -1,4 +1,7 @@
+import 'package:extreme/helpers/helper_methods.dart';
+import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -23,11 +26,18 @@ import 'package:extreme/services/api/main.dart' as Api;
 
 class VideoViewScreen extends StatelessWidget {
   final Models.Video model;
+
   VideoViewScreen({Key key, @required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('video_view_screen');
+    final isInOwnedPlaylist = model.isInPaidPlaylist
+        ? store.state.user.saleIds.playlists
+            .any((x) => x.entityId == model.playlistId)
+        : false;
+    var splits = model.content?.url?.split('/') ?? null;
+    final id = splits != null ? splits[splits.length - 1] : null;
 
     return StoreConnector<AppState, Models.User>(
         converter: (store) => store.state.user,
@@ -36,18 +46,86 @@ class VideoViewScreen extends StatelessWidget {
                   EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
               appBar: AppBar(
                 title: Text(model?.content?.name ?? 'Название видео'),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      Navigator.of(context, rootNavigator: true)
-                          .pushNamed('/search');
-                    },
-                  ),
-                ],
+                actions: <Widget>[],
               ),
               builder: (context) => <Widget>[
-                (state.saleIds.videos.contains(model.id) || !model.isInPaidPlaylist) ? VimeoPlayer(id: '395212534') : PayCard(name: model.content.name, description: model.content.description, price: model.price,),
+                if (!model.isPaid && !model.isInPaidPlaylist ||
+                    isInOwnedPlaylist || model.isBought)
+                  VimeoPlayer(id: id ?? '395212534')
+                else if (model.isPaid && !model.isBought)
+                  BlockBaseWidget(
+                    margin: EdgeInsets.only(top: Indents.md),
+                    child: PayCard(
+                      price: model.price,
+                      isBought: model.isBought,
+                      onBuy: () async {
+                        var url = await Api.Sale.getPaymentUrl(model.id);
+
+                        if (url == null) {
+                          SnackBarExtension.show(SnackBarExtension.error(
+                              AppLocalizations.of(context)
+                                  .translate('payment.error')));
+                        } else {
+                          Navigator.of(context, rootNavigator: true)
+                              .push(MaterialPageRoute(
+                                  builder: (ctx) => PaymentScreen(
+                                        title: AppLocalizations.of(context)
+                                            .translate('payment.app_bar_content', [
+                                          HelperMethods.capitalizeString(
+                                              AppLocalizations.of(context)
+                                                  .translate('base.video'))
+                                        ]),
+                                        url: url,
+                                        onPaymentDone: () async {
+                                          await Api.User.refresh(true, true);
+                                          var video = await Api.Entities.getById<Models.Video>(model.id);
+                                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => VideoViewScreen(model: video)));
+                                          SnackBarExtension.show(
+                                              SnackBarExtension.success(
+                                                  AppLocalizations.of(context)
+                                                      .translate(
+                                                          'payment.success_for',
+                                                          [
+                                                        AppLocalizations.of(
+                                                                context)
+                                                            .translate(
+                                                                'base.video')
+                                                      ]),
+                                                  Duration(seconds: 7)));
+                                        },
+                                        onBrowserClose: () async {
+                                          await Api.User.refresh(true, true);
+                                        },
+                                      )));
+                        }
+                      },
+                    ),
+                  )
+                else if (model.isInPaidPlaylist)
+                  Flexible(
+                    child: Container(
+                        padding: EdgeInsets.only(
+                            top: Indents.md,
+                            left: Indents.md,
+                            right: Indents.md),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                                margin: EdgeInsets.only(right: Indents.md),
+                                child: Icon(
+                                  Icons.info,
+                                  color: ExtremeColors.primary,
+                                )),
+                            Flexible(
+                              child: Text(
+                                loc.translate('is_in_paid_playlist'),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -74,19 +152,6 @@ class VideoViewScreen extends StatelessWidget {
                               }
                             },
                           ),
-                          // ActionIcon(
-                          //   signText: 'В избранное',
-                          //   icon: Icons.favorite,
-                          //   iconColor: ExtremeColors.error,
-                          //   onPressed: () async {
-                          //     var userAction =
-                          //         await Api.User.toggleFavorite(model?.id ?? null);
-                          //     if (userAction != null) {
-                          //       StoreProvider.of<AppState>(context)
-                          //           .dispatch(ToggleLike(userAction));
-                          //     }
-                          //   },
-                          // ),
                           Column(
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -150,7 +215,9 @@ class ActionIcon extends StatelessWidget {
   final Color iconColor; // цвет icon
   final Function onPressed; // функция-обработчик нажатия на icon
   final String signText;
+
   ActionIcon({this.icon, this.iconColor, this.onPressed, this.signText});
+
   @override
   Widget build(BuildContext context) {
     return Container(

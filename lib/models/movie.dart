@@ -10,6 +10,10 @@ class Movie {
   int id;
   DateTime dateCreated;
 
+  bool get isBought {
+    return isPaid && store.state.user.saleIds.movies.any((x) => x.entityId == id);
+  }
+
   bool get isLiked {
     return store.state.user?.likeIds?.movies?.any((x) => x.entityId == id) ?? false;
   }

@@ -90,7 +90,8 @@
     "favorite": "Favorite",
     "like": "Like",
     "share": "Share",
-    "other_videos": "Other playlist videos"
+    "other_videos": "Other playlist videos",
+    "is_in_paid_playlist": "This video is from playlist that requires additional payment"
   },
   "sport_screen": {
     "button": {
@@ -177,7 +178,10 @@
     "empty_list": "The list is empty"
   },
   "payment": {
-    "error": "Payment service error... Try again later"
+    "error": "Payment service error... Try again later",
+    "success_for": "Payment for {0} was successful. If purchased content isn't available - wait a few of minutes and update account screen by pulling it up.",
+    "app_bar_content": "Content payment",
+    "processing": "Processing payment"
   },
   "subscription": {
     "discount": "Saving {0}",
@@ -216,5 +220,10 @@
       "more": "{0} minutes ago",
       "less_than_one": "Less than a minute ago"
     }
+  },
+  "pay_card": {
+    "buy": "Purchase",
+    "owned": "Already purchased",
+    "info": "This content requires addition payment"
   }
 }
