@@ -16,7 +16,7 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 /// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
-class BrowseScreen extends StatelessWidget{
+class BrowseScreen extends StatelessWidget {
   final Key navigatorKey;
 
   BrowseScreen({this.navigatorKey});
@@ -27,17 +27,18 @@ class BrowseScreen extends StatelessWidget{
 
     return ScreenBaseWidget(
         appBarComplex: (ctx, c) => ScrollAppBar(
-          controller: c,
-          title: Text(loc.translate("browse")),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                Navigator.of(context, rootNavigator: true).pushNamed('/search');
-              },
+              controller: c,
+              title: Text(loc.translate("browse")),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true)
+                        .pushNamed('/search');
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
         navigatorKey: navigatorKey,
         builder: (context) => [
               Container(
@@ -58,16 +59,16 @@ class BrowseScreen extends StatelessWidget{
               ),
               BlockBaseWidget(
                   child: CustomFutureBuilder<List<Models.Sport>>(
-                future: Api.Entities.getAll<Models.Sport>(),
-                builder: (data) => CustomListBuilder<Models.Sport>(
-                    type: CustomListBuilderTypes.grid,
-                    connectToStore: true,
-                    items: data,
-                    itemBuilder: (item) => SportCard(
-                          model: item,
-                          aspectRatio: 16 / 9,
-                        )),
-              )),
+                      future: Api.Entities.getAll<Models.Sport>(),
+                      builder: (data) {
+                        data.sort((a,b) => a.content.name.compareTo(b.content.name));
+                        return CustomListBuilder(
+                            childAspectRatio: 16/9,
+                            type: CustomListBuilderTypes.grid,
+                            crossAxisCount: 2,
+                            items: data,
+                            itemBuilder: (item) => SportCard(model: item, margin: EdgeInsets.only(bottom: Indents.sm),));
+                      })),
               BlockBaseWidget(
                 header: loc.translate('popular_playlists'),
                 margin: EdgeInsets.zero,
