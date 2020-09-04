@@ -1,5 +1,6 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
+import 'package:extreme/screens/movie_view_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,15 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                             color: Colors.transparent,
                             child: InkWell(
                               // TODO: implement movie view open
-                              onTap: () {},
+                              onTap: () async {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MovieViewScreen(
+                                        model: model,
+                                      ),
+                                    ));
+                              },
                             ),
                           )),
                           Padding(
