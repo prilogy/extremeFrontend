@@ -21,6 +21,7 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     this.margin,
     this.model,
   });
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Models.User>(
@@ -67,15 +68,13 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                               child: Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              // TODO: implement movie view open
                               onTap: () async {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MovieViewScreen(
-                                        model: model,
-                                      ),
-                                    ));
+                                Navigator.of(context, rootNavigator: true)
+                                    .push(MaterialPageRoute(
+                                  builder: (context) => MovieViewScreen(
+                                    model: model,
+                                  ),
+                                ));
                               },
                             ),
                           )),

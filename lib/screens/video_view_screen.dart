@@ -1,5 +1,6 @@
 import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
+import 'package:extreme/helpers/vimeo_helper.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/screens/playlist_screen.dart';
@@ -19,50 +20,92 @@ import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'package:vimeoplayer/vimeoplayer.dart';
+import 'package:neeko/neeko.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 
 /// Создаёт экран просмотра видео
 
-class VideoViewScreen extends StatelessWidget {
+class VideoViewScreen extends StatefulWidget {
   final Models.Video model;
 
   VideoViewScreen({Key key, @required this.model}) : super(key: key);
 
   @override
+  _VideoViewScreenState createState() => _VideoViewScreenState();
+}
+
+class _VideoViewScreenState extends State<VideoViewScreen> {
+  Map _qualityValues;
+
+  VideoControllerWrapper _videoController;
+
+  @override
+  void initState() {
+    var splits = widget.model.content?.url?.split('/') ?? null;
+    final id = splits != null ? splits[splits.length - 1] : "242373845";
+    var quality = QualityLinks(id);
+
+    quality.getQualitiesSync().then((value) {
+      _videoController =
+          VideoControllerWrapper(DataSource.network(value[value.lastKey()]));
+      _qualityValues = value;
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.restoreSystemUIOverlays();
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('video_view_screen');
-    final isInOwnedPlaylist = model.isInPaidPlaylist
+    final isInOwnedPlaylist = widget.model.isInPaidPlaylist
         ? store.state.user.saleIds.playlists
-            .any((x) => x.entityId == model.playlistId)
+            .any((x) => x.entityId == widget.model.playlistId)
         : false;
-    var splits = model.content?.url?.split('/') ?? null;
-    final id = splits != null ? splits[splits.length - 1] : null;
 
     return StoreConnector<AppState, Models.User>(
         converter: (store) => store.state.user,
-        builder: (context, state) => ScreenBaseWidget(
-              padding:
-                  EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-              appBarComplex: (ctx, c) => ScrollAppBar(
-                controller: c,
-              ),
-              builder: (context) => <Widget>[
-                if (!model.isPaid && !model.isInPaidPlaylist ||
+        builder: (context, state) => Scaffold(
+            appBar: AppBar(),
+            body: ListView(
+              children: <Widget>[
+                if (!widget.model.isPaid && !widget.model.isInPaidPlaylist ||
                     isInOwnedPlaylist ||
-                    model.isBought)
-                  VimeoPlayer(id: id ?? '395212534')
-                else if (model.isPaid && !model.isBought)
+                    widget.model.isBought)
+                  _videoController != null
+                      ? NeekoPlayerWidget(
+                          videoControllerWrapper: _videoController,
+                          liveUIColor: Theme.of(context).primaryColor,
+                          actions: <Widget>[
+                            IconButton(
+                                icon: Icon(
+                                  Icons.settings,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () {
+                                  _settingModalBottomSheet(context);
+                                })
+                          ],
+                        )
+                      : Container()
+                else if (widget.model.isPaid && !widget.model.isBought)
                   BlockBaseWidget(
                     margin: EdgeInsets.only(top: Indents.md),
                     child: PayCard(
-                      price: model.price,
-                      isBought: model.isBought,
+                      price: widget.model.price,
+                      isBought: widget.model.isBought,
                       onBuy: () async {
-                        var url = await Api.Sale.getPaymentUrl(model.id);
+                        var url = await Api.Sale.getPaymentUrl(widget.model.id);
 
                         if (url == null) {
                           SnackBarExtension.show(SnackBarExtension.error(
@@ -83,7 +126,8 @@ class VideoViewScreen extends StatelessWidget {
                                         onPaymentDone: () async {
                                           await Api.User.refresh(true, true);
                                           var video = await Api.Entities
-                                              .getById<Models.Video>(model.id);
+                                              .getById<Models.Video>(
+                                                  widget.model.id);
                                           Navigator.of(context).pushReplacement(
                                               MaterialPageRoute(
                                                   builder: (ctx) =>
@@ -110,7 +154,7 @@ class VideoViewScreen extends StatelessWidget {
                       },
                     ),
                   )
-                else if (model.isInPaidPlaylist)
+                else if (widget.model.isInPaidPlaylist)
                   Flexible(
                     child: Container(
                         padding: EdgeInsets.only(
@@ -143,10 +187,10 @@ class VideoViewScreen extends StatelessWidget {
                             top: Indents.md,
                             left: Indents.md,
                             right: Indents.md),
-                        header: model?.content?.name ?? 'Название видео',
+                        header: widget.model?.content?.name ?? 'Название видео',
                         child: CustomFutureBuilder(
                             future: Api.Entities.getById<Models.Playlist>(
-                                model.playlistId),
+                                widget.model.playlistId),
                             builder: (data) {
                               return CustomFutureBuilder(
                                   future: Api.Entities.getById<Models.Sport>(
@@ -179,11 +223,11 @@ class VideoViewScreen extends StatelessWidget {
                                     );
                                   });
                             })),
-                    if (model.isBought && model.isPaid)
+                    if (widget.model.isBought && widget.model.isPaid)
                       BlockBaseWidget(
                         child: PayCard(
-                          isBought: model.isBought,
-                          price: model.price,
+                          isBought: widget.model.isBought,
+                          price: widget.model.price,
                           alignment: MainAxisAlignment.start,
                         ),
                       ),
@@ -194,12 +238,12 @@ class VideoViewScreen extends StatelessWidget {
                             signText: loc.translate('like'),
                             //model?.likesAmount.toString() ?? '224''',
                             icon: Icons.thumb_up,
-                            iconColor: model.isLiked
+                            iconColor: widget.model.isLiked
                                 ? Theme.of(context).colorScheme.secondary
                                 : ExtremeColors.base[200],
                             onPressed: () async {
-                              var userAction =
-                                  await Api.User.toggleLike(model?.id ?? null);
+                              var userAction = await Api.User.toggleLike(
+                                  widget.model?.id ?? null);
                               if (userAction != null) {
                                 StoreProvider.of<AppState>(context)
                                     .dispatch(ToggleLike(userAction));
@@ -213,8 +257,8 @@ class VideoViewScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 FavoriteToggler(
-                                  id: model.id,
-                                  status: model.isFavorite,
+                                  id: widget.model.id,
+                                  status: widget.model.isFavorite,
                                   size: 45,
                                   noAlign: true,
                                 ),
@@ -245,7 +289,7 @@ class VideoViewScreen extends StatelessWidget {
                     ),
                     BlockBaseWidget(
                       child: Text(
-                          model?.content?.description ??
+                          widget.model?.content?.description ??
                               'No description provided',
                           style: Theme.of(context).textTheme.bodyText2),
                     ),
@@ -253,11 +297,11 @@ class VideoViewScreen extends StatelessWidget {
                         header: loc.translate("other_videos"),
                         child: CustomFutureBuilder(
                             future: Api.Entities.getById<Models.Playlist>(
-                                model.playlistId),
+                                widget.model.playlistId),
                             builder: (Models.Playlist data) {
                               List videosIds = data.videosIds;
                               // Исключение этого же видео из выдачи
-                              videosIds.remove(model.id);
+                              videosIds.remove(widget.model.id);
                               // Случайная перемешка видео для исключения выдачи одних и тех же видео
                               if (videosIds.length >= 3) {
                                 videosIds.shuffle();
@@ -277,7 +321,34 @@ class VideoViewScreen extends StatelessWidget {
                   ],
                 ),
               ],
-            ));
+            )));
+  }
+
+  void _settingModalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          final children = <Widget>[];
+          _qualityValues.forEach((elem, value) => (children.add(new ListTile(
+              title: new Text(" ${elem.toString()} fps"),
+              onTap: () => {
+                    setState(() {
+                      var pos = _videoController.controller.value.position;
+                      _videoController
+                          .prepareDataSource(DataSource.network(value))
+                          .then((value) {
+                        _videoController.controller.seekTo(pos);
+                        Navigator.pop(context);
+                      });
+                    }),
+                  }))));
+
+          return Container(
+            child: Wrap(
+              children: children,
+            ),
+          );
+        });
   }
 }
 

@@ -12,6 +12,8 @@ import 'package:extreme/widgets/subsciption_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:flutter_svg/svg.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 
 class PromoScreen extends StatefulWidget {
   @override
@@ -97,14 +99,19 @@ class _PromoScreenState extends State<PromoScreen> {
                       child: Column(
                         children: <Widget>[
                           _promoCode.subscriptionPlan != null
-                              ? SubscriptionCard(
-                                  model: _promoCode.subscriptionPlan,
-                                  isForFree: true,
+                              ? Container(
+                                  margin: EdgeInsets.only(bottom: Indents.md),
+                                  child: SubscriptionCard(
+                                    model: _promoCode.subscriptionPlan,
+                                    isForFree: true,
+                                  ),
                                 )
                               : Container(),
                           () {
-                            var type = _promoCode?.entitySaleable != null ? _promoCode.entitySaleable['entityType'] : null;
-                            if(type == null) return Container();
+                            var type = _promoCode?.entitySaleable != null
+                                ? _promoCode.entitySaleable['entityType']
+                                : null;
+                            if (type == null) return Container();
                             var typeName = HelperMethods.capitalizeString(
                                 AppLocalizations.of(context)
                                     .translate('base.$type'));
@@ -137,8 +144,6 @@ class _PromoScreenState extends State<PromoScreen> {
                                 return Container();
                             }
                             return SampleCard(
-                              margin:
-                                  EdgeInsets.only(bottom: Indents.md),
                               title: title,
                               body: typeName,
                               image: image,

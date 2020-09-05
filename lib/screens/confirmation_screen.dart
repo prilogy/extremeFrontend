@@ -14,6 +14,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class Confirmation extends StatelessWidget {
   Confirmation({Key key}) : super(key: key);
   bool pending = true;
+
   @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
