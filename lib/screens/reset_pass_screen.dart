@@ -1,9 +1,9 @@
-
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/store/main.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -38,33 +38,38 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
       return ScreenBaseWidget(
           appBar: AppBar(title: Text(loc.translate('title'))),
           builder: (context) => [
-                Form(
-                  key: _formKey,
-                  child: Column(children: <Widget>[
-                    Text(loc.translate('instruction.email')),
-                    TextFormField(
-                      controller: _controller,
-                      decoration:
-                          InputDecoration(hintText: 'example@gmail.com'),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return loc.translate('error.empty');
-                        } else if (!RegExp(
-                                r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                            .hasMatch(value))
-                          return loc.translate('error.invalid');
-                        return null;
-                      },
-                    ),
-                    RaisedButton(
-                      child: Text(loc.translate('next')),
-                      onPressed: () => setState(() {
-                        if (_formKey.currentState.validate()) {
-                          email = _controller.text;
-                        }
-                      }),
-                    )
-                  ]),
+                BlockBaseWidget(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(children: <Widget>[
+                      Text(loc.translate('instruction.email')),
+                      Padding(
+                        padding: EdgeInsets.symmetric(vertical: Indents.md),
+                        child: TextFormField(
+                          controller: _controller,
+                          decoration:
+                              InputDecoration(hintText: 'example@gmail.com'),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return loc.translate('error.empty');
+                            } else if (!RegExp(
+                                    r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
+                                .hasMatch(value))
+                              return loc.translate('error.invalid');
+                            return null;
+                          },
+                        ),
+                      ),
+                      RaisedButton(
+                        child: Text(loc.translate('next')),
+                        onPressed: () => setState(() {
+                          if (_formKey.currentState.validate()) {
+                            email = _controller.text;
+                          }
+                        }),
+                      )
+                    ]),
+                  ),
                 )
               ]);
     } else if (!isVerified) {
@@ -78,12 +83,15 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SvgPicture.asset('assets/svg/email.svg'),
-                Center(
-                    child: Text(
-                  loc.translate('instruction.reset', [email]),
-                  style: Theme.of(context).textTheme.bodyText2,
-                  textAlign: TextAlign.center,
-                )),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: Indents.md),
+                  child: Center(
+                      child: Text(
+                    loc.translate('instruction.reset', [email]),
+                    style: Theme.of(context).textTheme.bodyText2,
+                    textAlign: TextAlign.center,
+                  )),
+                ),
                 Container(
                   width: 285,
                   child: PinCodeTextField(
@@ -145,7 +153,7 @@ class SetNewPassword extends StatelessWidget {
       key: _formKey,
       child: ScreenBaseWidget(
         appBar: AppBar(
-          title: Text(loc.translate('title')), 
+          title: Text(loc.translate('title')),
         ),
         builder: (context) => [
           BlockBaseWidget(

@@ -70,8 +70,8 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                   type: CustomListBuilderTypes.horizontalList,
                   height: 60,
                   items: data,
-                  itemBuilder: (item) =>
-                      SportCard(model: item, aspectRatio: 2.5 / 1, small: true))),
+                  itemBuilder: (item) => SportCard(
+                      model: item, aspectRatio: 2.5 / 1, small: true))),
         ),
         BlockBaseWidget(
           header: AppLocalizations.of(context).translate('helper.users_choice'),
@@ -123,6 +123,16 @@ class BannerInformation extends StatelessWidget {
           Text(
               banner?.content?.name ?? banner?.entityContent?.name ?? 'No name',
               style: Theme.of(context).textTheme.headline6),
+          Padding(
+            padding: const EdgeInsets.all(Indents.sm),
+            child: Text(
+              banner?.content?.description ??
+                  banner?.entityContent?.description ??
+                  'No description',
+              maxLines: 4,
+              textAlign: TextAlign.justify,
+            ),
+          ),
           // Text(content?.description ?? 'No description provided',
           //     style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(
           //         color: Theme.of(context)
