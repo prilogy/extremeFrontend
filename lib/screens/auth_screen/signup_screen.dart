@@ -1,6 +1,7 @@
 import 'dart:io';
-
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -72,14 +73,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('sign_up_screen');
+
     var providerName = widget?.accountProvider?.name ?? null;
     providerName != null
         ? providerName =
             providerName[0].toUpperCase() + providerName.substring(1)
         : providerName = null;
     var title = widget.token == null
-        ? 'Регистрация с Email'
-        : 'Регистрация через $providerName';
+        ? loc.translate('title')
+        : loc.translate('title_with', [providerName]);
     var format = DateFormat('dd.MM.yyyy');
 
     return ScreenBaseWidget(
@@ -97,14 +100,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         controller: _nameController,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Введите текст самфинг';
+                            return loc.translate('error.empty');
                           }
                           return null;
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             icon: Icon(Icons.perm_identity),
                             hintText: 'Walter White',
-                            labelText: 'Имя'),
+                            labelText: loc.translate('name')),
                       ),
                       TextFormField(
                         controller: _emailController,
@@ -118,57 +121,59 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             return 'Неправильный формат email';
                           return null;
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             icon: Icon(Icons.alternate_email),
                             hintText: 'example@gmail.com',
-                            labelText: 'Email'),
+                            labelText: loc.translate('email')),
                       ),
                       TextFormField(
                         controller: _passwordController,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Введите проль самфинг';
+                            return loc.translate('error.empty');
                           }
-                          if (value.length < 6) return 'э длина >= 6';
+                          if (value.length < 6)
+                            return loc.translate('error.few_symbols');
                           return null;
                         },
                         obscureText: true,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.lock_open), labelText: 'Пароль'),
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.lock_open),
+                            labelText: loc.translate('password')),
                       ),
                       TextFormField(
                         controller: _rePasswordController,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Подтвердите проль самфинг';
+                            return loc.translate('error.empty');
                           }
                           if (value != _passwordController.text)
-                            return 'Пароли не совпадают';
+                            return loc.translate('error.dont_match');
                           return null;
                         },
                         obscureText: true,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             icon: Icon(Icons.lock),
-                            labelText: 'Подтвердите пароль'),
+                            labelText: loc.translate('repeat_password')),
                       ),
                       TextFormField(
                         controller: _phoneNumberController,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             icon: Icon(Icons.phone_android),
-                            labelText: 'Телефонный номер'),
+                            labelText: loc.translate('phone_number')),
                       ),
                       DateTimeField(
                           controller: _birthDayController,
                           format: format,
                           validator: (value) {
                             if (value == null) {
-                              return 'Введите дату';
+                              return loc.translate('error.empty_date');
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               icon: Icon(Icons.date_range),
-                              labelText: 'Дата рождения'),
+                              labelText: loc.translate('date_of_birth')),
                           onShowPicker: (context, currentValue) async {
                             return showDatePicker(
                                 context: context,
@@ -179,8 +184,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextFormField(
                         controller: _imageController,
                         focusNode: AlwaysDisabledFocusNode(),
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.photo), labelText: 'Аватар'),
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.photo),
+                            labelText: loc.translate('avatar')),
                         onTap: () {
                           getImage();
                         },
@@ -199,11 +205,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            OutlineButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/auth');
-                              },
-                              child: Text('Вход'),
+                            Container(
+                              padding: EdgeInsets.only(right: Indents.md),
+                              child: OutlineButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/auth');
+                                },
+                                child: Text(loc.translate('sign_in')),
+                              ),
                             ),
                             RaisedButton(
                               color: Theme.of(context).colorScheme.primary,
@@ -222,7 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           widget.accountProvider ?? null);
                                   if (result == true) {
                                     scf.showSnackBar(SnackBar(
-                                      content: Text('Регистрация успешна'),
+                                      content: Text(loc.translate('success')),
                                     ));
                                     Navigator.of(context).pop();
                                   } else {
@@ -230,12 +239,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       backgroundColor:
                                           Theme.of(context).colorScheme.error,
                                       content:
-                                          Text('Email уже зарегистрирован'),
+                                          Text(loc.translate('error.already_exists')),
                                     ));
                                   }
                                 }
                               },
-                              child: Text('Продолжить'),
+                              child: Text(loc.translate('continue'))
                             ),
                           ],
                         ),

@@ -69,10 +69,17 @@ class SearchScreen extends StatelessWidget {
             future: Api.Search.global(query: _query),
             builder: (data) {
               var _movies = data.movies
-                  .map<Widget>((e) => MovieCard(aspectRatio: 16 / 9, model: e))
+                  .map<Widget>((e) => MovieCard(
+                      aspectRatio: 16 / 9,
+                      padding: EdgeInsets.symmetric(vertical: Indents.sm),
+                      model: e))
                   .toList();
               var _videos = data.videos
-                  .map<Widget>((e) => VideoCard(aspectRatio: 16 / 9, model: e))
+                  .map<Widget>((e) => VideoCard(
+                        aspectRatio: 16 / 9,
+                        padding: EdgeInsets.symmetric(vertical: Indents.sm),
+                        model: e,
+                      ))
                   .toList();
               var _playlists = data.playlists
                   .map<Widget>((e) => PlayListCard(

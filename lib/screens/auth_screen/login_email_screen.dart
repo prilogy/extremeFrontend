@@ -96,12 +96,15 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            OutlineButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => SignUpScreen()));
-                              },
-                              child: Text(loc.translate('sign_up')),
+                            Container(
+                              padding: EdgeInsets.only(right: Indents.md),
+                              child: OutlineButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => SignUpScreen()));
+                                },
+                                child: Text(loc.translate('sign_up')),
+                              ),
                             ),
                             RaisedButton(
                               color: Theme.of(context).colorScheme.primary,

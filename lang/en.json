@@ -33,6 +33,28 @@
       "success": "Successful signing in"
     }
   },
+  "sign_up_screen": {
+    "title": "Sign up with Email",
+    "title_with": "Sign up with {0}",
+    "name": "Name",
+    "email":"Email",
+    "password":"Password",
+    "repeat_password": "Repeat password",
+    "phone_number": "Phone number",
+    "date_of_birth": "Date of birth",
+    "avatar": "Avatar",
+    "sign_in":"Sign in",
+    "continue": "Continue",
+    "success":"Successful sign up",
+    "error": {
+      "empty":"Field can't be empty",
+      "invalid":"Invalid email format",
+      "few_symbols":"Password must have at least 6 symbols",
+      "already_exists":"User with this email already exists",
+      "dont_match": "Passwords don't match",
+      "empty_date": "Enter the date"
+    }
+  },
   "home_screen": {
     "interesting_sports": "Interesting sports",
     "recommended_videos": "Recommended videos",
