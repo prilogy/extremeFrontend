@@ -57,7 +57,7 @@ class Confirmation extends StatelessWidget {
                       activeColor: theme.colorScheme.onBackground,
                     ),
                     validator: (value) {
-                      if (int.tryParse(value) == null) {
+                      if (int.tryParse(value) == null && value.length > 0) {
                         return loc.translate('validation.NaN');
                       }
                       return null;
