@@ -107,11 +107,15 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                       fieldHeight: 62,
                       activeColor: theme.colorScheme.onBackground,
                     ),
-                    onChanged: (text) {
-                      print(int.tryParse(text));
+                     validator: (value) {
+                      if (int.tryParse(value) == null && value.length > 0) {
+                        return loc.translate('validation.NaN');
+                      }
+                      return null;
                     },
+                    onChanged: null,
                     onCompleted: (text) async {
-                      if (int.tryParse(text) != null) {
+                       if (_formKey.currentState.validate()) {
                         var response = await Api.User.verify(text);
                         if (response == true) {
                           setState(() {
