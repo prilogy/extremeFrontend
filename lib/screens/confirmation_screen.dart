@@ -37,7 +37,7 @@ class Confirmation extends StatelessWidget {
                   child: Center(
                       child: Text(
                     loc.translate(
-                        'instruction.reset', [store.state.user.email]),
+                        'instruction', [store.state.user.email]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
