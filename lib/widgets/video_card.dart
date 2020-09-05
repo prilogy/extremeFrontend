@@ -132,13 +132,12 @@ class VideoCardWithoutCaption extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VideoViewScreen(
-                            model: model,
-                          ),
-                        ));
+                    Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(
+                      builder: (context) => VideoViewScreen(
+                        model: model,
+                      ),
+                    ));
                   },
                 ),
               )),
