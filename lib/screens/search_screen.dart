@@ -54,7 +54,7 @@ class SearchScreen extends StatelessWidget {
             onSubmitted: (query) {
               if (query.length > 2) {
                 Navigator.of(context, rootNavigator: true)
-                    .pushNamed('/search', arguments: query);
+                    .pushReplacementNamed('/search', arguments: query);
               } else {
                 Fluttertoast.showToast(
                     msg: loc.translate("few_symbols"),
