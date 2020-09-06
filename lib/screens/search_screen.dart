@@ -22,7 +22,7 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('search_screen');
 
-    String _query = query ?? 'Поиск Extreme Insiders';
+    String _query = query ?? loc.translate('hint');
     TextEditingController _searchController = new TextEditingController();
     _searchController.text = query;
     return ScreenBaseWidget(

@@ -78,60 +78,63 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
           title: Text(loc.translate('title')),
         ),
         builder: (context) => [
-          BlockBaseWidget(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SvgPicture.asset('assets/svg/email.svg'),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: Indents.md),
-                  child: Center(
-                      child: Text(
-                    loc.translate('instruction.reset', [email]),
-                    style: Theme.of(context).textTheme.bodyText2,
-                    textAlign: TextAlign.center,
-                  )),
-                ),
-                Container(
-                  width: 285,
-                  child: PinCodeTextField(
-                    length: 5,
-                    autoValidate: true,
-                    textInputType: TextInputType.number,
-                    backgroundColor: theme.colorScheme.background,
-                    textStyle: theme.textTheme.headline3.merge(
-                        TextStyle(color: theme.colorScheme.onBackground)),
-                    controller: _controller,
-                    pinTheme: PinTheme(
-                      fieldWidth: 45,
-                      fieldHeight: 62,
-                      activeColor: theme.colorScheme.onBackground,
-                    ),
-                     validator: (value) {
-                      if (int.tryParse(value) == null && value.length > 0) {
-                        return loc.translate('validation.NaN');
-                      }
-                      return null;
-                    },
-                    onChanged: null,
-                    onCompleted: (text) async {
-                       if (_formKey.currentState.validate()) {
-                        var response = await Api.User.verify(text);
-                        if (response == true) {
-                          setState(() {
-                            isVerified = true;
-                            code = text;
-                          });
-                        } else {
-                          Scaffold.of(context).showSnackBar(
-                              SnackBarExtension.error(
-                                  loc.translate('snackbar.error')));
-                        }
-                      }
-                    },
+          Form(
+            key: _formKey,
+            child: BlockBaseWidget(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SvgPicture.asset('assets/svg/email.svg'),
+                  Padding(
+                    padding: EdgeInsets.symmetric(vertical: Indents.md),
+                    child: Center(
+                        child: Text(
+                      loc.translate('instruction.reset', [email]),
+                      style: Theme.of(context).textTheme.bodyText2,
+                      textAlign: TextAlign.center,
+                    )),
                   ),
-                ),
-              ],
+                  Container(
+                    width: 285,
+                    child: PinCodeTextField(
+                      length: 5,
+                      autoValidate: true,
+                      textInputType: TextInputType.number,
+                      backgroundColor: theme.colorScheme.background,
+                      textStyle: theme.textTheme.headline3.merge(
+                          TextStyle(color: theme.colorScheme.onBackground)),
+                      controller: _controller,
+                      pinTheme: PinTheme(
+                        fieldWidth: 45,
+                        fieldHeight: 62,
+                        activeColor: theme.colorScheme.onBackground,
+                      ),
+                      validator: (value) {
+                        if (int.tryParse(value) == null && value.length > 0) {
+                          return loc.translate('validation.NaN');
+                        }
+                        return null;
+                      },
+                      onChanged: null,
+                      onCompleted: (text) async {
+                        if (_formKey.currentState.validate()) {
+                          var response = await Api.User.verify(text);
+                          if (response == true) {
+                            setState(() {
+                              isVerified = true;
+                              code = text;
+                            });
+                          } else {
+                            Scaffold.of(context).showSnackBar(
+                                SnackBarExtension.error(
+                                    loc.translate('snackbar.error')));
+                          }
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         ],
