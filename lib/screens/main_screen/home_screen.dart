@@ -165,7 +165,7 @@ class _HeadBannerState extends State<HeadBanner> {
   Widget build(BuildContext context) {
     banners = widget.banners;
     return SizedBox(
-      height: 250.0,
+      height: MediaQuery.of(context).size.height/2.5,
       child: Stack(
         children: [
           Carousel(
@@ -182,7 +182,7 @@ class _HeadBannerState extends State<HeadBanner> {
             moveIndicatorFromBottom: 180.0,
             noRadiusForIndicator: true,
             overlayShadow: true,
-            overlayShadowColors: Theme.of(context).scaffoldBackgroundColor,
+            overlayShadowColors: Theme.of(context).colorScheme.background,
             overlayShadowSize: 1,
             onImageTap: (index) async {
               switch (banners[index].entityType) {
