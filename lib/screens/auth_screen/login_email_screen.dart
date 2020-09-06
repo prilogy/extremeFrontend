@@ -125,7 +125,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   if (user == null)
                                     scf.showSnackBar(SnackBar(
                                       content: Text(
-                                        loc.translate("snackbar.fail_sign_in"),
+                                        loc.translate("error.fail_sign_in"),
                                         style: TextStyle(
                                             color: colorScheme.onError),
                                       ),

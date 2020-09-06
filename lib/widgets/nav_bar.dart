@@ -37,6 +37,7 @@ class NavBar extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text("Home"),
+
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.video_library),

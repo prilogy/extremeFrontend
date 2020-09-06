@@ -21,7 +21,7 @@
     "password": "Password",
     "sign_in": "Sign in",
     "sign_up": "Sign up",
-    "forget": "Forget your password?",
+    "forget": "Forgot your password?",
     "error": {
       "empty": "Field can't be empty",
       "invalid": "Invalid email format",

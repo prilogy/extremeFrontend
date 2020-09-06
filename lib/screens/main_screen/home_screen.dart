@@ -124,13 +124,13 @@ class BannerInformation extends StatelessWidget {
               banner?.content?.name ?? banner?.entityContent?.name ?? 'No name',
               style: Theme.of(context).textTheme.headline6),
           Padding(
-            padding: const EdgeInsets.all(Indents.sm),
+            padding: const EdgeInsets.symmetric(vertical: Indents.sm, horizontal: Indents.xl),
             child: Text(
               banner?.content?.description ??
                   banner?.entityContent?.description ??
                   'No description',
               maxLines: 4,
-              textAlign: TextAlign.justify,
+              textAlign: TextAlign.center,
             ),
           ),
           // Text(content?.description ?? 'No description provided',
