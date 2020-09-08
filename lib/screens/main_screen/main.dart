@@ -35,7 +35,7 @@ class _MainScreenState extends State<MainScreen>
   int _selectedIndex = 0;
   DateTime _currentBackPressTime;
   List<GlobalKey<NavigatorState>> _navigatorKeys;
-  final double _navBarOffset = Indents.sm;
+  final double _navBarOffset = Indents.md;
 
   List<Widget> _screens;
 

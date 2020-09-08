@@ -18,7 +18,7 @@ class NavBar extends StatelessWidget {
     return Container(
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
       ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

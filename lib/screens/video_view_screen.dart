@@ -78,6 +78,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
         builder: (context, state) => Scaffold(
             appBar: AppBar(),
             body: ListView(
+              padding: EdgeInsets.all(0),
               children: <Widget>[
                 if (!widget.model.isPaid && !widget.model.isInPaidPlaylist ||
                     isInOwnedPlaylist ||
