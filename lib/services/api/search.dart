@@ -12,5 +12,15 @@ class Search {
       return null;
     }
   }
+  /// Подсказка к поиску 
+  static Future<List<dynamic>> predict({String query}) async {
+    try {
+      var response = await dio.post('/search/predict', data: json.encode(query));
+      List<dynamic> result = response?.data ?? [''];
+      return result;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
   
 }

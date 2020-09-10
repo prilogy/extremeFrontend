@@ -3,6 +3,7 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/movie_card.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -11,123 +12,172 @@ import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/models/main.dart' as Models;
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 /// Создаёт окно поиска контента
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   final String query;
   const SearchScreen({Key key, this.query}) : super(key: key);
 
   @override
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  List<Widget> mass;
+  bool isSearch = false;
+  String hintText;
+  String _query;
+  TextEditingController _searchController = TextEditingController();
+  @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('search_screen');
-
-    String _query = query ?? loc.translate('hint');
-    TextEditingController _searchController = new TextEditingController();
-    _searchController.text = query;
+    // _searchController.text = widget.query;
+    print(isSearch.toString());
+    print(_query);
     return ScreenBaseWidget(
-      appBar: AppBar(
-        // titleSpacing: 10,
+        appBar: AppBar(
+          // titleSpacing: 10,
 
-        title: Container(
-          height: 40,
-          child: TextField(
-            decoration: InputDecoration(
-                filled: true,
-                fillColor:
-                    Theme.of(context).colorScheme.background.withOpacity(0.5),
-                focusColor:
-                    Theme.of(context).colorScheme.background.withOpacity(0.5),
-                hoverColor:
-                    Theme.of(context).colorScheme.background.withOpacity(0.5),
-                border: InputBorder.none,
-                focusedBorder: InputBorder.none,
-                enabledBorder: InputBorder.none,
-                errorBorder: InputBorder.none,
-                disabledBorder: InputBorder.none,
-                hintText: _query,
-                suffixIcon: IconButton(
-                  onPressed: () => _searchController.clear(),
-                  icon: Icon(Icons.clear),
-                )),
-            controller: _searchController,
-            onSubmitted: (query) {
-              if (query.length > 2) {
-                Navigator.of(context, rootNavigator: true)
-                    .pushReplacementNamed('/search', arguments: query);
-              } else {
-                Fluttertoast.showToast(
-                    msg: loc.translate("few_symbols"),
-                    backgroundColor: Colors.grey);
-              }
-            },
+          title: Container(
+            height: 40,
+            child: TextField(
+              decoration: InputDecoration(
+                  filled: true,
+                  fillColor:
+                      Theme.of(context).colorScheme.background.withOpacity(0.5),
+                  focusColor:
+                      Theme.of(context).colorScheme.background.withOpacity(0.5),
+                  hoverColor:
+                      Theme.of(context).colorScheme.background.withOpacity(0.5),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  hintText: _query,
+                  suffixIcon: IconButton(
+                    onPressed: () => _searchController.clear(),
+                    icon: Icon(Icons.clear),
+                  )),
+              controller: _searchController,
+              onChanged: (query) {
+                if (query != _query) {
+                  setState(() {
+                    isSearch = false;
+                    _query = query;
+                  });
+                }
+              },
+              onSubmitted: (query) {
+                if (query.length > 2) {
+                  // Navigator.of(context, rootNavigator: true)
+                  //     .pushReplacementNamed('/search', arguments: query);
+                  setState(() {
+                    isSearch = true;
+                    _query = _searchController.text;
+                    hintText = _query;
+                    _searchController.clear();
+                  });
+                } else {
+                  Fluttertoast.showToast(
+                      msg: loc.translate("few_symbols"),
+                      backgroundColor: Colors.grey);
+                }
+              },
+            ),
           ),
         ),
-      ),
-      builder: (context) => [
-        CustomFutureBuilder<Models.SearchResult>(
-            future: Api.Search.global(query: _query),
-            builder: (data) {
-              var _movies = data.movies
-                  .map<Widget>((e) => MovieCard(
-                      aspectRatio: 16 / 9,
-                      padding: EdgeInsets.symmetric(vertical: Indents.sm),
-                      model: e))
-                  .toList();
-              var _videos = data.videos
-                  .map<Widget>((e) => VideoCard(
-                        aspectRatio: 16 / 9,
-                        padding: EdgeInsets.symmetric(vertical: Indents.sm),
-                        model: e,
-                      ))
-                  .toList();
-              var _playlists = data.playlists
-                  .map<Widget>((e) => PlayListCard(
-                      aspectRatio: 16 / 9,
-                      padding: EdgeInsets.symmetric(vertical: Indents.sm),
-                      model: e))
-                  .toList();
-              var _sports = data.sports
-                  .map<Widget>((e) => SportCard(
-                        aspectRatio: 16 / 9,
-                        model: e,
-                        padding: EdgeInsets.symmetric(vertical: Indents.sm),
-                      ))
-                  .toList();
-              List<Widget> mass;
-              mass = [
-                _videos.isNotEmpty
-                    ? CategoryBlock(
-                        header: loc.translate("videos"),
-                        cards: [..._videos],
-                      )
-                    : Container(),
-                _playlists.isNotEmpty
-                    ? CategoryBlock(
-                        header: loc.translate("playlists"),
-                        cards: [..._playlists],
-                      )
-                    : Container(),
-                _movies.isNotEmpty
-                    ? CategoryBlock(
-                        header: loc.translate("movies"),
-                        cards: [..._movies],
-                      )
-                    : Container(),
-                _sports.isNotEmpty
-                    ? CategoryBlock(
-                        header: loc.translate("sports"),
-                        cards: [..._sports],
-                        grid: true,
-                      )
-                    : Container(),
-              ];
-              return Column(
-                children: mass,
-              );
-            })
-      ],
-    );
+        builder: (context) => [
+              isSearch
+                  ? CustomFutureBuilder<Models.SearchResult>(
+                      future: Api.Search.global(query: _query),
+                      builder: (data) {
+                        var _movies = data.movies
+                            .map<Widget>((e) => MovieCard(
+                                aspectRatio: 16 / 9,
+                                padding:
+                                    EdgeInsets.symmetric(vertical: Indents.sm),
+                                model: e))
+                            .toList();
+                        var _videos = data.videos
+                            .map<Widget>((e) => VideoCard(
+                                  aspectRatio: 16 / 9,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: Indents.sm),
+                                  model: e,
+                                ))
+                            .toList();
+                        var _playlists = data.playlists
+                            .map<Widget>((e) => PlayListCard(
+                                aspectRatio: 16 / 9,
+                                padding:
+                                    EdgeInsets.symmetric(vertical: Indents.sm),
+                                model: e))
+                            .toList();
+                        var _sports = data.sports
+                            .map<Widget>((e) => SportCard(
+                                  aspectRatio: 16 / 9,
+                                  model: e,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: Indents.sm),
+                                ))
+                            .toList();
+                        mass = [
+                          _videos.isNotEmpty
+                              ? CategoryBlock(
+                                  header: loc.translate("videos"),
+                                  cards: [..._videos],
+                                )
+                              : Container(),
+                          _playlists.isNotEmpty
+                              ? CategoryBlock(
+                                  header: loc.translate("playlists"),
+                                  cards: [..._playlists],
+                                )
+                              : Container(),
+                          _movies.isNotEmpty
+                              ? CategoryBlock(
+                                  header: loc.translate("movies"),
+                                  cards: [..._movies],
+                                )
+                              : Container(),
+                          _sports.isNotEmpty
+                              ? CategoryBlock(
+                                  header: loc.translate("sports"),
+                                  cards: [..._sports],
+                                  grid: true,
+                                )
+                              : Container(),
+                        ];
+                        return Column(
+                          children: mass,
+                        );
+                      })
+                  : (_query?.length ?? 0) > 1
+                      ? CustomFutureBuilder(
+                          future: Api.Search.predict(query: _query),
+                          builder: (data) => CustomListBuilder(
+                              items: data,
+                              itemBuilder: (item) => SearchHint(
+                                    text: item,
+                                    onPressed: () {
+                                      setState(() {
+                                        _searchController.text = item;
+                                      });
+                                    },
+                                    onIconTap: () {
+                                      setState(() {
+                                        isSearch = true;
+                                        _query = item;
+                                        hintText = _query;
+                                      });
+                                    },
+                                  )),
+                        )
+                      : Container()
+            ]);
   }
 }
 
@@ -159,5 +209,47 @@ class CategoryBlock extends StatelessWidget {
         ),
       );
     }
+  }
+}
+
+class SearchHint extends StatelessWidget {
+  final String text;
+  final Function onPressed;
+  final Function onIconTap;
+  const SearchHint(
+      {Key key,
+      @required this.text,
+      @required this.onPressed,
+      @required this.onIconTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          InkWell(
+              child: Row(
+                children: <Widget>[
+                  Icon(Icons.search),
+                  Flexible(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: Indents.sm),
+                      child: Text(
+                        text,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        softWrap: false,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              onTap: onIconTap),
+          IconButton(icon: Icon(Icons.arrow_upward), onPressed: onPressed)
+        ],
+      ),
+    );
   }
 }
