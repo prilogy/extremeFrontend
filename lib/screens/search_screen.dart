@@ -18,6 +18,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 /// Создаёт окно поиска контента
 class SearchScreen extends StatefulWidget {
   final String query;
+
   const SearchScreen({Key key, this.query}) : super(key: key);
 
   @override
@@ -30,6 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
   String hintText;
   String _query;
   TextEditingController _searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('search_screen');
@@ -158,24 +160,44 @@ class _SearchScreenState extends State<SearchScreen> {
                   : (_query?.length ?? 0) > 1
                       ? CustomFutureBuilder(
                           future: Api.Search.predict(query: _query),
-                          builder: (data) => CustomListBuilder(
-                              items: data,
-                              itemBuilder: (item) => SearchHint(
-                                    text: item,
-                                    onPressed: () {
-                                      setState(() {
-                                        _searchController.text = item;
-                                      });
-                                    },
-                                    onIconTap: () {
-                                      setState(() {
-                                        isSearch = true;
-                                        _query = item;
-                                        hintText = _query;
-                                      });
-                                    },
-                                  )),
-                        )
+                          builder: (data) => Row(children: [
+                                  Flexible(
+                                    child: Column(
+                                      children: <Widget>[
+                                        for (var item in data)
+                                          Row(children: <Widget>[
+                                            Flexible(
+                                              child: Text(item,
+                                                softWrap: false,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context).textTheme.headline4,
+                                              ),
+                                            )
+                                          ],)
+                                      ],
+                                    ),
+                                  ),
+                                ]),
+                          )
+//                          builder: (data) => CustomListBuilder(
+//                              items: data,
+//                              itemBuilder: (item) => SearchHint(
+//                                    text: item,
+//                                    onPressed: () {
+//                                      setState(() {
+//                                        _searchController.text = item;
+//                                      });
+//                                    },
+//                                    onIconTap: () {
+//                                      setState(() {
+//                                        isSearch = true;
+//                                        _query = item;
+//                                        hintText = _query;
+//                                      });
+//                                    },
+//                                  )),
+//                        )
                       : Container()
             ]);
   }
@@ -185,6 +207,7 @@ class CategoryBlock extends StatelessWidget {
   final List<Widget> cards;
   final String header;
   final bool grid;
+
   const CategoryBlock({Key key, this.cards, this.header, this.grid = false})
       : super(key: key);
 
@@ -216,6 +239,7 @@ class SearchHint extends StatelessWidget {
   final String text;
   final Function onPressed;
   final Function onIconTap;
+
   const SearchHint(
       {Key key,
       @required this.text,
@@ -225,12 +249,10 @@ class SearchHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Row(
+    return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          InkWell(
-              child: Row(
+           Row(
                 children: <Widget>[
                   Icon(Icons.search),
                   Flexible(
@@ -246,10 +268,8 @@ class SearchHint extends StatelessWidget {
                   ),
                 ],
               ),
-              onTap: onIconTap),
-          IconButton(icon: Icon(Icons.arrow_upward), onPressed: onPressed)
         ],
-      ),
+
     );
   }
 }

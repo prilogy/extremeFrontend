@@ -34,6 +34,7 @@ class App extends StatelessWidget {
     return StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'ExtremeInsiders',
         supportedLocales: [
           Locale(Culture.en.key, ''),
