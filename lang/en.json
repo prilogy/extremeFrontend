@@ -86,7 +86,8 @@
     "account_connect_success": "{0} account successfully connected",
     "account_disconnect_success": "{0} account successfully disconnected",
     "subscription_payment_app_bar": "Subscription payment",
-    "subscription_payment_success": "Payment for subscription was successful. Subscription status update might take a few of minutes. You can always refresh status on account screen by pulling it up"
+    "subscription_payment_success": "Payment for subscription was successful. Subscription status update might take a few of minutes. You can always refresh status on account screen by pulling it up",
+    "edit_email_error": "Этот email уже используется"
   },
   "settings_screen": {
     "app_bar": "Options",

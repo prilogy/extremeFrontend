@@ -1,4 +1,5 @@
 import 'package:extreme/helpers/helper_methods.dart';
+import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -139,13 +140,20 @@ class _AccountInfoState extends State<AccountInfo> {
                   ),
                   onPressed: () async {
                     if (!_formKey.currentState.validate()) return null;
-                    await Api.User.edit(
+                    var res = await Api.User.edit(
                         name: _nameController.text != user.name
                             ? _nameController.text
                             : null,
                         email: _emailController.text != user.email
                             ? _emailController.text
                             : null);
+
+                    if (res == null) {
+                      _emailController.clear();
+                      SnackBarExtension.show(SnackBarExtension.error(
+                          loc.translate('edit_email_error')));
+                      return;
+                    }
 
                     await Api.User.refresh(true, true);
                     setState(() {

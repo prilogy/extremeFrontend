@@ -26,8 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
+    var vid = Models.Image(path: '/static/videos/bg.mp4');
+    print(vid.path);
     super.initState();
-    _controller = VideoPlayerController.asset("assets/videos/bg.mp4")
+    _controller = VideoPlayerController.network(vid.path)
       ..initialize().then((_) {
         _controller.play();
         _controller.setLooping(true);

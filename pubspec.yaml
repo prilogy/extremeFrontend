@@ -50,7 +50,6 @@ flutter:
     - assets/images/extreme1.jpg
     - assets/images/extreme2.jpg
     - assets/images/logo_big.png
-    - assets/videos/bg.mp4
     - .env
 
 module:

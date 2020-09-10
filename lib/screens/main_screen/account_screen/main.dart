@@ -83,10 +83,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                   builder: (ctx, state) => Container(
                       margin: EdgeInsets.only(bottom: Indents.smd),
                       child: () {
-                        var isSubscribed = user.subscription?.dateEnd != null &&
-                                user?.subscription?.dateEnd
-                                    ?.isAfter(DateTime.now()) ??
-                            false;
+                        var isSubscribed = user.isSubscribed;
                         var text = isSubscribed
                             ? loc.translate("expiration", [
                                 state?.subscription?.dateEnd
