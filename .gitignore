@@ -12,6 +12,9 @@
 *.jks
 *.mp4
 
+store.keystore
+key.properties
+
 android/app/src/main/res/values/strings.xml
 
 # IntelliJ related
