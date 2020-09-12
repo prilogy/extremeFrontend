@@ -73,6 +73,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                 )
               ]);
     } else if (!isVerified) {
+      Api.User.resetPasswordRequest(email);
       return ScreenBaseWidget(
         appBar: AppBar(
           title: Text(loc.translate('title')),
