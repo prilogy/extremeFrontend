@@ -71,7 +71,6 @@ class _SearchInEntityScreen extends State<SearchInEntityScreen> {
                     hintText = _query;
                     isSearch = true;
                     _searchController.clear();
-                    print('update with $_query');
                   });
                 } else {
                   Fluttertoast.showToast(

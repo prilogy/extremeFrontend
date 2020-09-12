@@ -31,7 +31,7 @@ final routes = [
   authRoute,
   RouteBuilder('/main', (args) => MainScreen()),
   RouteBuilder('/settings', (args) => SettingsScreen()),
-  RouteBuilder('/search', (args) => SearchScreen(query: args is String ? args as String : null,)),
+  RouteBuilder('/search', (args) => SearchScreen()),
   RouteBuilder('/search_in_entity', (args) => SearchInEntityScreen(id: args[0], isSport: args[1],)),
   RouteBuilder('/confirmation', (args) => Confirmation()),
   RouteBuilder('/reset_pass', (args) => ResetPassScreen()),

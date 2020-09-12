@@ -29,9 +29,7 @@ class Search {
     try {
       var response =
           await dio.post('/playlist/$id/search', data: json.encode(query));
-     print("resp" + response.data.toString());
       var result = Models.SearchResult.fromJson(response.data);
-      print("res " + result.toString());
       return result;
     } on DioError catch (e) {
       return null;
@@ -42,9 +40,7 @@ class Search {
     try {
       var response =
           await dio.post('/sport/$id/search', data: json.encode(query));
-          print("resp" + response.data.toString());
       var result = Models.SearchResult.fromJson(response.data);
-      print("res " + result.toString());
       return result;
     } on DioError catch (e) {
       return null;
