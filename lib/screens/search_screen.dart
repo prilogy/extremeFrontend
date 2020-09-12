@@ -3,7 +3,6 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
-import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/movie_card.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -12,14 +11,12 @@ import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/models/main.dart' as Models;
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 /// Создаёт окно поиска контента
 class SearchScreen extends StatefulWidget {
-  final String query;
 
-  const SearchScreen({Key key, this.query}) : super(key: key);
+  const SearchScreen({Key key}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -31,20 +28,17 @@ class _SearchScreenState extends State<SearchScreen> {
   String hintText;
   String _query;
   TextEditingController _searchController = TextEditingController();
-
+  FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('search_screen');
     hintText = loc.translate('hint');
-    print(isSearch.toString());
-    print(_query);
     return ScreenBaseWidget(
         appBar: AppBar(
-          // titleSpacing: 10,
-
           title: Container(
             height: 40,
             child: TextField(
+              focusNode: focusNode,
               decoration: InputDecoration(
                   filled: true,
                   fillColor:
@@ -58,7 +52,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   enabledBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
-                  hintText: _query,
+                  hintText: hintText,
                   suffixIcon: IconButton(
                     onPressed: () => _searchController.clear(),
                     icon: Icon(Icons.clear),
@@ -162,26 +156,16 @@ class _SearchScreenState extends State<SearchScreen> {
                               child: Column(
                                 children: <Widget>[
                                   for (var item in data)
-                                    // Row(
-                                    //   children: <Widget>[
-                                    //     Flexible(
-                                    //       child: Text(
-                                    //         item,
-                                    //         softWrap: false,
-                                    //         maxLines: 1,
-                                    //         overflow: TextOverflow.ellipsis,
-                                    //         style: Theme.of(context)
-                                    //             .textTheme
-                                    //             .headline4,
-                                    //       ),
-                                    //     )
-                                    //   ],
-                                    // )
                                     SearchHint(
                                       text: item,
                                       onPressed: () {
                                         setState(() {
                                           _searchController.text = item;
+                                          _searchController.selection =
+                                              TextSelection.fromPosition(
+                                                  TextPosition(
+                                                      offset: _searchController
+                                                          .text.length));
                                         });
                                       },
                                       onIconTap: () {
@@ -189,6 +173,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                           _searchController.text = item;
                                           isSearch = true;
                                           _query = item;
+                                          focusNode.unfocus();
                                         });
                                       },
                                     )
@@ -197,24 +182,6 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           ]),
                         )
-//                          builder: (data) => CustomListBuilder(
-//                              items: data,
-//                              itemBuilder: (item) => SearchHint(
-//                                    text: item,
-//                                    onPressed: () {
-//                                      setState(() {
-//                                        _searchController.text = item;
-//                                      });
-//                                    },
-//                                    onIconTap: () {
-//                                      setState(() {
-//                                        isSearch = true;
-//                                        _query = item;
-//                                        hintText = _query;
-//                                      });
-//                                    },
-//                                  )),
-//                        )
                       : Container()
             ]);
   }
@@ -252,9 +219,15 @@ class CategoryBlock extends StatelessWidget {
   }
 }
 
+/// Создаёт строку с поисковой подсказкой
 class SearchHint extends StatelessWidget {
+  /// Текст подсказки
   final String text;
+
+  /// Функция, которая должна выполняться по нажатию на строку
   final Function onPressed;
+
+  /// Функция, которая должна выполняться по нажатию на стрелку (иконка справа)
   final Function onIconTap;
 
   const SearchHint(
