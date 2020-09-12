@@ -162,21 +162,6 @@ class _SearchScreenState extends State<SearchScreen> {
                               child: Column(
                                 children: <Widget>[
                                   for (var item in data)
-                                    // Row(
-                                    //   children: <Widget>[
-                                    //     Flexible(
-                                    //       child: Text(
-                                    //         item,
-                                    //         softWrap: false,
-                                    //         maxLines: 1,
-                                    //         overflow: TextOverflow.ellipsis,
-                                    //         style: Theme.of(context)
-                                    //             .textTheme
-                                    //             .headline4,
-                                    //       ),
-                                    //     )
-                                    //   ],
-                                    // )
                                     SearchHint(
                                       text: item,
                                       onPressed: () {
@@ -197,24 +182,6 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                           ]),
                         )
-//                          builder: (data) => CustomListBuilder(
-//                              items: data,
-//                              itemBuilder: (item) => SearchHint(
-//                                    text: item,
-//                                    onPressed: () {
-//                                      setState(() {
-//                                        _searchController.text = item;
-//                                      });
-//                                    },
-//                                    onIconTap: () {
-//                                      setState(() {
-//                                        isSearch = true;
-//                                        _query = item;
-//                                        hintText = _query;
-//                                      });
-//                                    },
-//                                  )),
-//                        )
                       : Container()
             ]);
   }

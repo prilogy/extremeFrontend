@@ -142,12 +142,12 @@
   "reset_pass_screen": {
     "title": "Password reset",
     "new_pass": "New password",
-    "conf_new_pass": "Confirmation",
+    "conf_new_pass": "Repeat password",
     "change_pass": "Change password",
     "next": "Next",
     "instruction": {
       "reset": "Security code has been sent to {0}. Enter that code in the field below to change the password",
-      "email": "Type email linked to your account in the field below to reset the password"
+      "email": "Enter email linked to your account in the field below to reset the password"
     },
     "error": {
       "few_symbols": "Password must have at least 6 symbols",
