@@ -58,7 +58,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                               .hasMatch(value))
                             return loc.translate(
-                                'error.invalid'); // TODO: add lozaliztion
+                                'error.invalid'); 
                           return null;
                         },
                         decoration: InputDecoration(
