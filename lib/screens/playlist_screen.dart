@@ -53,7 +53,7 @@ class PlaylistScreen extends StatelessWidget {
                 icon: Icon(Icons.search),
                 onPressed: () {
                   Navigator.of(context, rootNavigator: true)
-                      .pushNamed('/search');
+                      .pushNamed('/search_in_entity', arguments: [model.id, false]);
                 },
               ),
             ],

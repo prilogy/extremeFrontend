@@ -35,7 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('search_screen');
-    // _searchController.text = widget.query;
+    hintText = loc.translate('hint');
     print(isSearch.toString());
     print(_query);
     return ScreenBaseWidget(
@@ -62,6 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   suffixIcon: IconButton(
                     onPressed: () => _searchController.clear(),
                     icon: Icon(Icons.clear),
+                    color: Theme.of(context).colorScheme.primary,
                   )),
               controller: _searchController,
               onChanged: (query) {
@@ -74,13 +75,9 @@ class _SearchScreenState extends State<SearchScreen> {
               },
               onSubmitted: (query) {
                 if (query.length > 2) {
-                  // Navigator.of(context, rootNavigator: true)
-                  //     .pushReplacementNamed('/search', arguments: query);
                   setState(() {
                     isSearch = true;
                     _query = _searchController.text;
-                    hintText = _query;
-                    _searchController.clear();
                   });
                 } else {
                   Fluttertoast.showToast(
@@ -161,25 +158,45 @@ class _SearchScreenState extends State<SearchScreen> {
                       ? CustomFutureBuilder(
                           future: Api.Search.predict(query: _query),
                           builder: (data) => Row(children: [
-                                  Flexible(
-                                    child: Column(
-                                      children: <Widget>[
-                                        for (var item in data)
-                                          Row(children: <Widget>[
-                                            Flexible(
-                                              child: Text(item,
-                                                softWrap: false,
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: Theme.of(context).textTheme.headline4,
-                                              ),
-                                            )
-                                          ],)
-                                      ],
-                                    ),
-                                  ),
-                                ]),
-                          )
+                            Flexible(
+                              child: Column(
+                                children: <Widget>[
+                                  for (var item in data)
+                                    // Row(
+                                    //   children: <Widget>[
+                                    //     Flexible(
+                                    //       child: Text(
+                                    //         item,
+                                    //         softWrap: false,
+                                    //         maxLines: 1,
+                                    //         overflow: TextOverflow.ellipsis,
+                                    //         style: Theme.of(context)
+                                    //             .textTheme
+                                    //             .headline4,
+                                    //       ),
+                                    //     )
+                                    //   ],
+                                    // )
+                                    SearchHint(
+                                      text: item,
+                                      onPressed: () {
+                                        setState(() {
+                                          _searchController.text = item;
+                                        });
+                                      },
+                                      onIconTap: () {
+                                        setState(() {
+                                          _searchController.text = item;
+                                          isSearch = true;
+                                          _query = item;
+                                        });
+                                      },
+                                    )
+                                ],
+                              ),
+                            ),
+                          ]),
+                        )
 //                          builder: (data) => CustomListBuilder(
 //                              items: data,
 //                              itemBuilder: (item) => SearchHint(
@@ -249,27 +266,25 @@ class SearchHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-           Row(
-                children: <Widget>[
-                  Icon(Icons.search),
-                  Flexible(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: Indents.sm),
-                      child: Text(
-                        text,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        softWrap: false,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-        ],
-
+    return ListTile(
+      leading: InkWell(
+        child: Icon(Icons.search),
+        onTap: onIconTap,
+      ),
+      title: InkWell(
+        child: Text(
+          text,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+          softWrap: false,
+        ),
+        onTap: onIconTap,
+      ),
+      trailing: IconButton(
+        icon: Icon(Icons.arrow_upward),
+        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+        onPressed: onPressed,
+      ),
     );
   }
 }
