@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
+import 'package:extreme/screens/payment_screen.dart';
+import 'package:extreme/screens/settings_screen/about_screen.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/settings/actions.dart';
@@ -17,6 +19,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SettingsScreen extends StatelessWidget {
+  final browser = MyInAppBrowser();
+
   @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
@@ -88,8 +92,20 @@ class SettingsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SettingsWidget(title: loc.translate('policy')),
-                    SettingsWidget(title: loc.translate('about')),
+                    SettingsWidget(
+                      title: loc.translate('policy'),
+                      onPressed: () {
+                        browser.openUrl(
+                            url: 'https://extreme.prilogy.ru/policy.html');
+                      },
+                    ),
+                    SettingsWidget(
+                      title: loc.translate('about'),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(builder: (ctx) => AboutScreen()));
+                      },
+                    ),
                     SettingsWidget(
                       title: loc.translate('reset_pass'),
                       onPressed: () {
