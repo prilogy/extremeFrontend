@@ -35,6 +35,7 @@
   },
   "sign_up_screen": {
     "title": "Регистрация с Email",
+    "title_with": "Регистрация с {0}",
     "name": "Имя",
     "email": "Email",
     "password": "Пароль",

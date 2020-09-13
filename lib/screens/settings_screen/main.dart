@@ -123,7 +123,7 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      loc.translate('version', ["0.6"]),
+                      loc.translate('version', ["1.0"]),
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
