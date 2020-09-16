@@ -37,20 +37,20 @@
     "title": "Sign up with Email",
     "title_with": "Sign up with {0}",
     "name": "Name",
-    "email":"Email",
-    "password":"Password",
+    "email": "Email",
+    "password": "Password",
     "repeat_password": "Repeat password",
     "phone_number": "Phone number",
     "date_of_birth": "Date of birth",
     "avatar": "Avatar",
-    "sign_in":"Sign in",
+    "sign_in": "Sign in",
     "continue": "Continue",
-    "success":"Successful sign up",
+    "success": "Successful sign up",
     "error": {
-      "empty":"Field can't be empty",
-      "invalid":"Invalid email format",
-      "few_symbols":"Password must have at least 6 symbols",
-      "already_exists":"User with this email already exists",
+      "empty": "Field can't be empty",
+      "invalid": "Invalid email format",
+      "few_symbols": "Password must have at least 6 symbols",
+      "already_exists": "User with this email already exists",
       "dont_match": "Passwords don't match",
       "empty_date": "Enter the date"
     }
@@ -207,7 +207,8 @@
     "error": "Payment service error... Try again later",
     "success_for": "Payment for {0} was successful. If purchased content isn't available - wait a few of minutes and update account screen by pulling it up.",
     "app_bar_content": "Content payment",
-    "processing": "Processing payment"
+    "processing": "Processing payment",
+    "warning": "оплата производится в рублях, но не беспокойтесь, цена конвертирована по текущему курсу, с вас будет списано правильное количество денег даже если у вас нет рублевого кошелька"
   },
   "subscription": {
     "discount": "Saving {0}",

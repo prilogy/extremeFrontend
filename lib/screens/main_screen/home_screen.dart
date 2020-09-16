@@ -1,12 +1,10 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
-import 'package:extreme/models/main.dart';
 import 'package:extreme/screens/movie_view_screen.dart';
 import 'package:extreme/screens/playlist_screen.dart';
 import 'package:extreme/screens/sport_screen.dart';
 import 'package:extreme/screens/video_view_screen.dart';
-import 'package:extreme/store/main.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -18,12 +16,11 @@ import 'package:extreme/widgets/sport_card.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:scroll_app_bar/scroll_app_bar.dart';
 
-// Домашняя страница пользователя - Главная
+/// Домашняя страница пользователя - Главная
 
 class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
@@ -33,7 +30,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('home_screen');
-    var store = StoreProvider.of<AppState>(context);
+    // var store = StoreProvider.of<AppState>(context);
 
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),

@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';

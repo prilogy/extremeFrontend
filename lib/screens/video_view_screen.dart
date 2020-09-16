@@ -15,7 +15,6 @@ import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/favorite_toggler.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/pay_card.dart';
-import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

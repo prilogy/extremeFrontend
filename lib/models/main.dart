@@ -1,11 +1,9 @@
 library models;
 
-import 'dart:convert';
 
 import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/main.dart';
-import 'package:flutter/cupertino.dart';
 
 part 'banner.dart';
 part 'subscription_plan.dart';

@@ -6,7 +6,6 @@ class ListGenerator<T> extends StatelessWidget {
   ListGenerator({this.models});
   @override
   List<Widget> _cards;
-  final _biggerFont = const TextStyle(fontSize: 18.0);
   @override
   Widget build(BuildContext context) {
     return ListView.builder(

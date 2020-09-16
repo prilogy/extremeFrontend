@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -60,6 +61,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final loc = AppLocalizations.of(context).withBaseKey('payment');
+   
+
     return ScreenBaseWidget(
       appBar: AppBar(
         title: Text(widget.title),
@@ -73,8 +77,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
             Container(
               margin: EdgeInsets.only(top: Indents.xl),
-              child: Text(
-                  AppLocalizations.of(context).translate('payment.processing')),
+              child: Text(loc.translate('processing')),
               alignment: Alignment.center,
             ),
           ],

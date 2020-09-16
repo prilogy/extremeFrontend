@@ -1,6 +1,5 @@
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
-import 'package:extreme/main.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';

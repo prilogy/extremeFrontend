@@ -47,7 +47,7 @@ class SportScreen extends StatelessWidget {
                   icon: Icon(Icons.search),
                   onPressed: () {
                     Navigator.of(context, rootNavigator: true)
-                        .pushNamed('/search_in_entity', arguments: [model.id, true]); // TODO: sport search ?
+                        .pushNamed('/search_in_entity', arguments: [model.id, true]);
                   },
                 ),
               ],

@@ -12,9 +12,6 @@ import 'package:extreme/widgets/subsciption_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/services/api/main.dart' as Api;
-import 'package:flutter_svg/svg.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
-
 class PromoScreen extends StatefulWidget {
   @override
   _PromoScreenState createState() => _PromoScreenState();
