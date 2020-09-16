@@ -19,6 +19,7 @@ import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key navigatorKey;
@@ -115,6 +116,9 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                           AppLocalizations.of(context)
                                               .translate('payment.error')));
                                 } else {
+                                  Fluttertoast.showToast(
+                                      msg: AppLocalizations.of(context).translate("payment.warning"),
+                                      backgroundColor: Colors.grey);
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
                                           builder: (ctx) => PaymentScreen(
