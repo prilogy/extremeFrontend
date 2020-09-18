@@ -1,3 +1,4 @@
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/auth_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +27,7 @@ class _AuthScreenState extends State<AuthScreen> {
               _currentBackPressTime = now;
             });
             Fluttertoast.showToast(
-                msg: "Для выхода из ExtremeInsiders повторите действие.",
+                msg: AppLocalizations.of(context).translate('helper.exit_hint'),
                 backgroundColor: Colors.black.withOpacity(0.5));
             return null;
           }

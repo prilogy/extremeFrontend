@@ -95,7 +95,6 @@ class User {
       await dio.post('/user/resetPassword/verify', data: data);
       return true;
     } on DioError catch (e) {
-      print('Error occured while verification: ' + e.message);
       return false;
     }
   }

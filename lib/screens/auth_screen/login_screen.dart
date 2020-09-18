@@ -27,7 +27,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     var vid = Models.Image(path: '/static/videos/bg.mp4');
-    print(vid.path);
     super.initState();
     _controller = VideoPlayerController.network(vid.path)
       ..initialize().then((_) {
@@ -107,7 +106,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 onPressed: () async {
                                   var vkAuth = VkAuthService();
                                   var token = await vkAuth.getToken();
-                                  print(token);
                                   await _authWithSocial(context,
                                       Models.SocialAccountProvider.vk, token);
                                 },

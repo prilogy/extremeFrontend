@@ -201,14 +201,15 @@
   },
   "helper": {
     "empty_list": "The list is empty",
-    "users_choice": "Users' choice"
+    "users_choice": "Users' choice",
+    "exit_hint": "Repeat the action to exit Extreme Insiders"
   },
   "payment": {
     "error": "Payment service error... Try again later",
     "success_for": "Payment for {0} was successful. If purchased content isn't available - wait a few of minutes and update account screen by pulling it up.",
     "app_bar_content": "Content payment",
     "processing": "Processing payment",
-    "warning": "оплата производится в рублях, но не беспокойтесь, цена конвертирована по текущему курсу, с вас будет списано правильное количество денег даже если у вас нет рублевого кошелька"
+    "warning": "Payment processes in RUB currency at the current exchange rate"
   },
   "subscription": {
     "discount": "Saving {0}",

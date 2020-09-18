@@ -76,7 +76,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 } else {
                   Fluttertoast.showToast(
                       msg: loc.translate("few_symbols"),
-                      backgroundColor: Colors.grey);
+                      backgroundColor: Colors.black.withOpacity(0.5));
                 }
               },
             ),

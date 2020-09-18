@@ -7,7 +7,7 @@ class NavBar extends StatelessWidget {
   final Function(int) setIndex;
   final Function(int) toRootScreenOfRoute;
 
-  static const double height = 54.0;
+  static const double height = 57.0;
 
   NavBar(this.selectedIndex, this.setIndex, this.toRootScreenOfRoute);
 

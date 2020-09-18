@@ -20,7 +20,7 @@ class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
   final Future Function() onRefresh;
 
   static const double screenBottomIndent =
-      NavBar.height + Indents.md + Indents.sm;
+      NavBar.height + 2*Indents.md;
 
   static const EdgeInsetsGeometry defaultPadding =
       EdgeInsets.only(top: Indents.md, bottom: screenBottomIndent);

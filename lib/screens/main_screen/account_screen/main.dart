@@ -116,9 +116,6 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                           AppLocalizations.of(context)
                                               .translate('payment.error')));
                                 } else {
-                                  Fluttertoast.showToast(
-                                      msg: AppLocalizations.of(context).translate("payment.warning"),
-                                      backgroundColor: Colors.grey);
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
                                           builder: (ctx) => PaymentScreen(

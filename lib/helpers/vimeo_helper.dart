@@ -16,13 +16,11 @@ class QualityLinks {
       var response = await http.get('https://player.vimeo.com/video/' + videoId + '/config');
       var jsonData =
       jsonDecode(response.body)['request']['files']['progressive'];
-      print(response.body.toString());
       SplayTreeMap videoList = SplayTreeMap.fromIterable(jsonData,
           key: (item) => "${item['quality']} ${item['fps']}",
           value: (item) => item['url']);
       return videoList;
     } catch (error) {
-      print('=====> REQUEST ERROR: $error');
       return null;
     }
   }

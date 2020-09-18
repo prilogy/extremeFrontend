@@ -1,3 +1,4 @@
+import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
@@ -69,7 +70,7 @@ class _MainScreenState extends State<MainScreen>
               _currentBackPressTime = now;
             });
             Fluttertoast.showToast(
-                msg: "Для выхода из ExtremeInsiders повторите действие.",
+                msg: AppLocalizations.of(context).translate('helper.exit_hint'),
                 backgroundColor: Colors.black.withOpacity(0.5));
             return null;
           }
