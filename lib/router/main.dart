@@ -1,6 +1,6 @@
 import 'package:extreme/screens/auth_screen/main.dart';
 import 'package:extreme/screens/reset_pass_screen.dart';
-import 'package:extreme/screens/confirmation_screen.dart';
+import 'package:extreme/screens/email_confirmation_screen.dart';
 import 'package:extreme/screens/main_screen/main.dart';
 import 'package:extreme/screens/search_in_entity_screen.dart';
 import 'package:extreme/screens/search_screen.dart';
@@ -33,7 +33,7 @@ final routes = [
   RouteBuilder('/settings', (args) => SettingsScreen()),
   RouteBuilder('/search', (args) => SearchScreen()),
   RouteBuilder('/search_in_entity', (args) => SearchInEntityScreen(id: args[0], isSport: args[1],)),
-  RouteBuilder('/confirmation', (args) => Confirmation()),
+  RouteBuilder('/confirmation', (args) => EmailConfirmationScreen()),
   RouteBuilder('/reset_pass', (args) => ResetPassScreen()),
 ];
 

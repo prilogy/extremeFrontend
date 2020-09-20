@@ -99,6 +99,7 @@
     "reset_pass": "Reset password",
     "exit": "Exit",
     "version": "Version: {0}",
+    "by": "Developed by Prilogy",
     "restart_hint": "Restart application to apply changes"
   },
   "search_screen": {

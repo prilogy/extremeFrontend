@@ -2,6 +2,7 @@ import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,6 @@ class _AccountInfoState extends State<AccountInfo> {
     final loc = AppLocalizations.of(context).withBaseKey('account_screen');
 
     var user = StoreProvider.of<AppState>(context).state.user;
-    var confirmation = !user.emailVerified ? ConfirmationSign() : Container();
     _nameController.text = user.name;
     _emailController.text = user.email;
 
@@ -61,7 +61,10 @@ class _AccountInfoState extends State<AccountInfo> {
                         'Email: ' + user.email,
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
-                      confirmation,
+                      StoreConnector<AppState, User>(
+                        converter: (store) => store.state.user,
+                        builder: (context, state) => !state.emailVerified ? ConfirmationSign() : Container(),
+                      ),
                     ],
                   )
                 ]),
@@ -175,34 +178,34 @@ class ConfirmationSign extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('account_screen');
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Indents.md),
-      child: InkWell(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(right: Indents.sm),
-              child: Icon(
-                Icons.error,
-                color: Theme.of(context).colorScheme.error,
+        padding: EdgeInsets.symmetric(horizontal: Indents.md),
+        child: InkWell(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(right: Indents.sm),
+                child: Icon(
+                  Icons.error,
+                  color: Theme.of(context).colorScheme.error,
+                ),
               ),
-            ),
-            Text(
-              loc.translate("email_confirm"),
-              overflow: TextOverflow.fade,
-              maxLines: 1,
-              softWrap: false,
-              style: Theme.of(context).textTheme.caption.merge(TextStyle(
-                    color: Theme.of(context).colorScheme.error,
-                  )),
-            ),
-          ],
+              Text(
+                loc.translate("email_confirm"),
+                overflow: TextOverflow.fade,
+                maxLines: 1,
+                softWrap: false,
+                style: Theme.of(context).textTheme.caption.merge(TextStyle(
+                      color: Theme.of(context).colorScheme.error,
+                    )),
+              ),
+            ],
+          ),
+          onTap: () {
+            Api.User.confirmEmailRequest();
+            Navigator.of(context, rootNavigator: true).pushNamed('/confirmation');
+          },
         ),
-        onTap: () {
-          Api.User.confirmEmailRequest();
-          Navigator.of(context, rootNavigator: true).pushNamed('/confirmation');
-        },
-      ),
     );
   }
 }

@@ -12,9 +12,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-class Confirmation extends StatelessWidget {
-  Confirmation({Key key}) : super(key: key);
-  bool pending = true;
+class EmailConfirmationScreen extends StatelessWidget {
+  EmailConfirmationScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +35,7 @@ class Confirmation extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: Indents.md),
                   child: Center(
                       child: Text(
-                    loc.translate(
-                        'instruction', [store.state.user.email]),
+                    loc.translate('instruction', [store.state.user.email]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
@@ -66,15 +64,15 @@ class Confirmation extends StatelessWidget {
                     onChanged: (text) {},
                     onCompleted: (text) async {
                       if (_formKey.currentState.validate()) {
-                        var response = await Api.User.confirmEmailAttempt(
+                        var res = await Api.User.confirmEmailAttempt(
                             _controller.text);
-                        if (response == true) {
-                          Navigator.popUntil(
-                              context, ((route) => !route.navigator.canPop()));
+                        if (res == true) {
+                          await Api.User.refresh(true, true);
+                          Navigator.of(context, rootNavigator: true).pop();
                         } else {
                           Scaffold.of(context).showSnackBar(
                               SnackBarExtension.error(
-                                  loc.translate('snackbaar.wrong_code')));
+                                  loc.translate('snackbar.wrong_code')));
                         }
                       }
                     },
