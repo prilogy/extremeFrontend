@@ -1,5 +1,8 @@
+import 'package:extreme/helpers/custom_paginated_list_callback.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/models/main.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
@@ -8,6 +11,9 @@ import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:flutter_pagination_helper/pagination_helper/list_helper.dart';
+
+import 'main_screen/account_screen/helper.dart';
 
 class Playlists extends StatelessWidget {
   @override
@@ -15,18 +21,18 @@ class Playlists extends StatelessWidget {
     final loc = AppLocalizations.of(context).withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
+      padding: EdgeInsets.all(0),
       appBar: AppBar(title: Text(loc.translate("playlists"))),
-      builder: (context) => [
-        CustomFutureBuilder<List<Models.Playlist>>(
-            future: Api.Entities.getAll<Models.Playlist>(1, 10),
-            builder: (List<Models.Playlist> data) => BlockBaseWidget(
-                margin: EdgeInsets.only(bottom: 0),
-                child: CustomListBuilder<Models.Playlist>(
-                    type: CustomListBuilderTypes.verticalList,
-                    items: data,
-                    itemBuilder: (item) =>
-                        PlayListCard(model: item, aspectRatio: 16 / 9)))),
-      ],
+      builderChild: (context) => PaginatedScreenTabView(
+        itemListCallback: CustomPaginatedListCallback<Playlist>(
+            itemsGetter: (page, pageSize) async {
+              return await Api.Entities.getAll<Playlist>(page, pageSize, "desc");
+            },
+            itemBuilder: (model) => PlayListCard(
+                  aspectRatio: 16 / 9,
+                  model: model[0],
+                )),
+      ),
     );
   }
 }
