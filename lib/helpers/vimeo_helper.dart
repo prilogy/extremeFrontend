@@ -11,15 +11,23 @@ class QualityLinks {
     return getQualitiesAsync();
   }
 
-  Future<SplayTreeMap> getQualitiesAsync() async {
+  Future<Map<String, String>> getQualitiesAsync() async {
     try {
       var response = await http.get('https://player.vimeo.com/video/' + videoId + '/config');
       var jsonData =
       jsonDecode(response.body)['request']['files']['progressive'];
-      SplayTreeMap videoList = SplayTreeMap.fromIterable(jsonData,
+      Map<String, String> videoList = Map.fromIterable(jsonData,
           key: (item) => "${item['quality']} ${item['fps']}",
           value: (item) => item['url']);
-      return videoList;
+      var keys = videoList.keys.toList()..sort();
+      keys = keys.reversed.toList();
+      if(keys.last.contains("1080"))
+        keys.insert(0, keys.removeLast());
+      var newMap = Map<String, String> ();
+      for(var key in keys) {
+        newMap[key] = videoList[key];
+      }
+      return newMap;
     } catch (error) {
       return null;
     }

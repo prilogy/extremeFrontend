@@ -1,4 +1,3 @@
-
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/screens/payment_screen.dart';
@@ -10,6 +9,7 @@ import 'package:extreme/store/settings/model.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/settings_widget.dart';
@@ -127,6 +127,16 @@ class SettingsScreen extends StatelessWidget {
                           .textTheme
                           .bodyText1
                           .merge(TextStyle(color: ExtremeColors.base70[200])),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: Indents.sm),
+                      child: Text(
+                        loc.translate('by'),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .merge(TextStyle(color: ExtremeColors.base70[200])),
+                      ),
                     )
                   ],
                 )),

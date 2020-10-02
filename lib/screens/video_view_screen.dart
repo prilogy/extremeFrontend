@@ -47,9 +47,9 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
     final id = splits != null ? splits[splits.length - 1] : "242373845";
     var quality = QualityLinks(id);
 
-    quality.getQualitiesSync().then((value) {
+    quality.getQualitiesSync().then((Map<String, String> value) {
       _videoController =
-          VideoControllerWrapper(DataSource.network(value[value.lastKey()]));
+          VideoControllerWrapper(DataSource.network(value[value.keys.last]));
       _qualityValues = value;
       setState(() {});
     });
@@ -280,11 +280,11 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                               ],
                             ),
                           ),
-                          ActionIcon(
+                          /*ActionIcon(
                               signText: loc.translate("share"),
                               icon: Icons.share,
                               iconColor: ExtremeColors.base[200]),
-                        ],
+                        */],
                       ),
                     ),
                     BlockBaseWidget(
