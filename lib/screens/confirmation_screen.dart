@@ -36,8 +36,7 @@ class Confirmation extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: Indents.md),
                   child: Center(
                       child: Text(
-                    loc.translate(
-                        'instruction', [store.state.user.email]),
+                    loc.translate('instruction', [store.state.user.email]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
@@ -75,6 +74,8 @@ class Confirmation extends StatelessWidget {
                           Scaffold.of(context).showSnackBar(
                               SnackBarExtension.error(
                                   loc.translate('snackbaar.wrong_code')));
+                          Navigator.of(context, rootNavigator: true)
+                              .pushNamed('/main');
                         }
                       }
                     },
