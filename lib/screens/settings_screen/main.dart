@@ -95,7 +95,7 @@ class SettingsScreen extends StatelessWidget {
                       title: loc.translate('policy'),
                       onPressed: () {
                         browser.openUrl(
-                            url: 'https://extreme.prilogy.ru/policy.html');
+                            url: 'https://extremeprilogy.ru/policy.html');
                       },
                     ),
                     SettingsWidget(

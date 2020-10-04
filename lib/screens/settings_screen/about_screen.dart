@@ -30,6 +30,9 @@ class AboutScreen extends StatelessWidget {
               )
             ],
           ),
+        ),
+        BlockBaseWidget(
+          child: Text(AppLocalizations.of(context).translate("about_screen.details"))
         )
       ],
     );

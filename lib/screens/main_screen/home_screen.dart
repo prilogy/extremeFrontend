@@ -51,12 +51,16 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         CustomFutureBuilder(
           future: Api.Helper.getBanner(),
           builder: (data) {
-            return Container(
-              margin: EdgeInsets.only(bottom: Indents.md),
-              child: HeadBanner(
-                banners: data,
-              ),
-            );
+            if (data.length > 0)
+              return Container(
+                margin: EdgeInsets.only(bottom: Indents.md),
+                child: HeadBanner(
+                  banners: data,
+                ),
+              );
+            else {
+              return Container();
+            }
           },
         ),
         BlockBaseWidget.forScrollingViews(
@@ -121,7 +125,8 @@ class BannerInformation extends StatelessWidget {
               banner?.content?.name ?? banner?.entityContent?.name ?? 'No name',
               style: Theme.of(context).textTheme.headline6),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: Indents.sm, horizontal: Indents.xl),
+            padding: const EdgeInsets.symmetric(
+                vertical: Indents.sm, horizontal: Indents.xl),
             child: Text(
               banner?.content?.description ??
                   banner?.entityContent?.description ??
@@ -162,7 +167,7 @@ class _HeadBannerState extends State<HeadBanner> {
   Widget build(BuildContext context) {
     banners = widget.banners;
     return SizedBox(
-      height: MediaQuery.of(context).size.height/2.5,
+      height: MediaQuery.of(context).size.height / 2.5,
       child: Stack(
         children: [
           Carousel(

@@ -82,6 +82,7 @@ class User {
     try {
       var data = json.encode(email);
       await dio.post('/user/resetPassword', data: data);
+      print("Ver code snt");
       return null;
     } on DioError catch (e) {
       return null;

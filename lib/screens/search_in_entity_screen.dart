@@ -16,7 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class SearchInEntityScreen extends StatefulWidget {
   final String query;
   final int id;
-  // если не спорт, то плейлист
+  /// если не спорт, то плейлист
   final bool isSport; 
   const SearchInEntityScreen(
       {Key key, this.query, @required this.isSport, @required this.id})
