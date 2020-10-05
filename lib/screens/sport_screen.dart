@@ -111,13 +111,13 @@ class SportScreen extends StatelessWidget {
                       ],
                     ),
                   )),
-              BlockBaseWidget.forScrollingViews(
-                  header: HelperMethods.capitalizeString(
-                      AppLocalizations.of(context).translate('base.movies')),
-                  child: CustomFutureBuilder<List<Models.Movie>>(
+              CustomFutureBuilder<List<Models.Movie>>(
                     future:
                         Api.Entities.getByIds<Models.Movie>(model.moviesIds),
-                    builder: (data) => CustomListBuilder(
+                    builder: (data) => data.length > 0 ? BlockBaseWidget.forScrollingViews(
+                        header: HelperMethods.capitalizeString(
+                            AppLocalizations.of(context).translate('base.movies')),
+                        child: CustomListBuilder(
                         type: CustomListBuilderTypes.horizontalList,
                         connectToStore: true,
                         items: data,
@@ -125,8 +125,8 @@ class SportScreen extends StatelessWidget {
                         itemBuilder: (item) => MovieCard(
                               model: item,
                               aspectRatio: 9 / 16,
-                            )),
-                  )),
+                            ))) : Container(),
+                  ),
               BlockBaseWidget(
                   header: AppLocalizations.of(context)
                       .translate('helper.users_choice'),
