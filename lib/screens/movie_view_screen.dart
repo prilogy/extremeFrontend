@@ -1,6 +1,5 @@
 import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
-import 'package:extreme/helpers/vimeo_helper.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/screens/sport_screen.dart';
@@ -20,9 +19,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:neeko/neeko.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:vimeoplayer/vimeoplayer.dart';
 
 /// Создаёт экран просмотра видео
 
@@ -36,22 +35,10 @@ class MovieViewScreen extends StatefulWidget {
 }
 
 class _MovieViewScreenState extends State<MovieViewScreen> {
-  Map _qualityValues;
 
-  VideoControllerWrapper _videoController;
 
   @override
   void initState() {
-    var splits = widget.model.content?.url?.split('/') ?? null;
-    final id = splits != null ? splits[splits.length - 1] : "242373845";
-    var quality = QualityLinks(id);
-
-    quality.getQualitiesSync().then((Map<String, String> value) {
-      _videoController =
-          VideoControllerWrapper(DataSource.network(value[value.keys.last]));
-      _qualityValues = value;
-      setState(() {});
-    });
     super.initState();
   }
 
@@ -66,6 +53,8 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('video_view_screen');
+    var splits = widget.model.content?.url?.split('/') ?? null;
+    final id = splits != null ? splits[splits.length - 1] : "242373845";
 
     return StoreConnector<AppState, Models.User>(
         converter: (store) => store.state.user,
@@ -74,22 +63,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
             body: ListView(
               children: <Widget>[
                 if (!widget.model.isPaid || widget.model.isBought)
-                  _videoController != null
-                      ? NeekoPlayerWidget(
-                          videoControllerWrapper: _videoController,
-                          liveUIColor: Theme.of(context).primaryColor,
-                          actions: <Widget>[
-                            IconButton(
-                                icon: Icon(
-                                  Icons.settings,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () {
-                                  _settingModalBottomSheet(context);
-                                })
-                          ],
-                        )
-                      : Container()
+                    VimeoPlayer(autoPlay: true, id: id)
                 else if (widget.model.isPaid && !widget.model.isBought)
                   BlockBaseWidget(
                     margin: EdgeInsets.only(top: Indents.md),
@@ -267,33 +241,6 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                 )
               ],
             )));
-  }
-
-  void _settingModalBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext bc) {
-          final children = <Widget>[];
-          _qualityValues.forEach((elem, value) => (children.add(new ListTile(
-              title: new Text(" ${elem.toString()} fps"),
-              onTap: () => {
-                    setState(() {
-                      var pos = _videoController.controller.value.position;
-                      _videoController
-                          .prepareDataSource(DataSource.network(value))
-                          .then((value) {
-                        _videoController.controller.seekTo(pos);
-                        Navigator.pop(context);
-                      });
-                    }),
-                  }))));
-
-          return Container(
-            child: Wrap(
-              children: children,
-            ),
-          );
-        });
   }
 }
 
