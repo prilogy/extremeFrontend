@@ -1,7 +1,7 @@
 import 'package:extreme/lang/app_localizations.dart';
-import 'package:extreme/main.dart';
 import 'package:extreme/models/main.dart';
-import 'package:extreme/models/main.dart' as Models;
+import 'package:extreme/screens/payment_screen.dart';
+import 'package:extreme/screens/settings_screen/about_screen.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/settings/actions.dart';
@@ -9,6 +9,7 @@ import 'package:extreme/store/settings/model.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/settings_widget.dart';
@@ -17,6 +18,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class SettingsScreen extends StatelessWidget {
+  final browser = MyInAppBrowser();
+
   @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
@@ -88,8 +91,28 @@ class SettingsScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SettingsWidget(title: loc.translate('policy')),
-                    SettingsWidget(title: loc.translate('about')),
+                    SettingsWidget(
+                      title: loc.translate('policy'),
+                      onPressed: () {
+                        browser.openUrl(
+                            url: 'https://extremeprilogy.ru/policy.html');
+                      },
+                    ),
+                    SettingsWidget(
+                      title: loc.translate('about'),
+                      onPressed: () {
+                        Navigator.of(context, rootNavigator: true).push(
+                            MaterialPageRoute(builder: (ctx) => AboutScreen()));
+                      },
+                    ),
+                    SettingsWidget(
+                      title: loc.translate('reset_pass'),
+                      onPressed: () {
+                        Api.User.resetPasswordRequest(store.state.user.email);
+                        Navigator.of(context, rootNavigator: true)
+                            .pushNamed('/reset_pass');
+                      },
+                    ),
                     SettingsWidget(
                       title: loc.translate('exit'),
                       onPressed: () {
@@ -99,11 +122,21 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      loc.translate('version', ["0.6"]),
+                      loc.translate('version', ["1.0"]),
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
                           .merge(TextStyle(color: ExtremeColors.base70[200])),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: Indents.sm),
+                      child: Text(
+                        loc.translate('by'),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            .merge(TextStyle(color: ExtremeColors.base70[200])),
+                      ),
                     )
                   ],
                 )),

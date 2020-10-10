@@ -1,4 +1,3 @@
-import 'package:extreme/main.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/store/settings/model.dart';
 import 'package:extreme/store/settings/reducers.dart';

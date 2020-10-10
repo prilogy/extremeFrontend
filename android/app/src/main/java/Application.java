@@ -1,4 +1,4 @@
-package com.example.extreme;
+package com.extremeinsiders;
 
 import io.flutter.app.FlutterApplication;
 import com.vk.sdk.VKSdk;

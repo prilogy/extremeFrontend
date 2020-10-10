@@ -12,22 +12,26 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   redux: ^4.0.0+3
+  flutter_pagination_helper: ^1.0.1+2
   flutter_redux: ^0.6.0
+  scroll_app_bar: ^1.0.2
   localstorage: ^3.0.0
   datetime_picker_formfield: ^1.0.0
   carousel_pro: ^1.0.0
-  vimeoplayer: ^0.1.2
   flutter_dotenv : ^2.1.0
   dio: ^3.0.9
   cupertino_icons: ^0.1.3
   fluttertoast: ^7.0.1
-  image_picker: ^0.6.7+4
-  webview_flutter: ^0.3.22+1
-  flutter_svg: ^0.17.4
+  image_picker: ^0.6.7+7
+  pull_to_refresh: ^1.6.1
+  flutter_inappwebview: ^4.0.0+4
+  flutter_svg: ^0.18.0
   video_player: ^0.10.5+2
   google_sign_in: ^4.5.1
   flutter_facebook_login: ^3.0.0
   flutter_vk_login: ^0.0.2
+  pin_code_fields: ^4.0.0
+  vimeoplayer: ^0.1.3
 
 dev_dependencies:
   flutter_test:
@@ -42,8 +46,11 @@ flutter:
     - assets/svg/fb_logo.svg
     - assets/svg/vk_logo.svg
     - assets/svg/google_logo.svg
+    - assets/svg/email.svg
     - assets/images/extreme1.jpg
     - assets/images/extreme2.jpg
     - assets/images/logo_big.png
-    - assets/videos/bg.mp4
     - .env
+
+module:
+  androidX: true

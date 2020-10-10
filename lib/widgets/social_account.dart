@@ -52,26 +52,36 @@ class SocialAccount extends StatelessWidget {
                 ? ExtremeColors.error
                 : ExtremeColors.success,
             onPressed: () async {
-              var isConnected =
-                  state.socialAccounts.any((x) => x.provider.name == model.name);
+              var isConnected = state.socialAccounts
+                  .any((x) => x.provider.name == model.name);
               if (!isConnected) {
                 String token;
-                if (model.name == SocialAccountProvider.vk.name){
+                if (model.name == SocialAccountProvider.vk.name) {
                   var vkAuth = VkAuthService();
                   token = await vkAuth.getToken();
-                }
-                else if (model.name == SocialAccountProvider.facebook.name)
+                } else if (model.name == SocialAccountProvider.facebook.name)
                   token = await FacebookAuthService().getToken();
                 else if (model.name == SocialAccountProvider.google.name)
                   token = await GoogleAuthService().getToken();
 
                 var result = await Api.User.addSocialAccount(model, token);
-                if (result == true) await Api.User.refresh(true, true);
-                else rootScaffold.currentState.showSnackBar(SnackBarExtension.error(loc.translate('account_connect_error')));
-              }
-              else {
+                if (result == true) {
+                  await Api.User.refresh(true, true);
+                  rootScaffold.currentState.showSnackBar(
+                      SnackBarExtension.success(loc.translate(
+                          'account_connect_success', [model.displayName])));
+                } else
+                  rootScaffold.currentState.showSnackBar(
+                      SnackBarExtension.error(
+                          loc.translate('account_connect_error')));
+              } else {
                 var result = await Api.User.removeSocialAccount(model);
-                if (result == true) await Api.User.refresh(true, true);
+                if (result == true) {
+                  await Api.User.refresh(true, true);
+                  rootScaffold.currentState.showSnackBar(
+                      SnackBarExtension.success(loc.translate(
+                          'account_disconnect_success', [model.displayName])));
+                }
               }
             },
             child: Text(loc

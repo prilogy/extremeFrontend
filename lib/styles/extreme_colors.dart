@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-// TODO: add colors for film card linear gradeint
-// TODO: add colors for Kind_of_sport screen RadialGradient
 /// Библиотека цветов Extreme
 class ExtremeColors {
   static const MaterialColor base = MaterialColor(0xFF15162B, {

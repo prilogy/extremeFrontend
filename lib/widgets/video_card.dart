@@ -1,9 +1,12 @@
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
+import 'package:flutter_redux/flutter_redux.dart';
 
 import '../screens/video_view_screen.dart';
 import 'favorite_toggler.dart';
@@ -15,73 +18,82 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final double aspectRatio;
 
   VideoCard({
-    this.model,
+    @required this.model,
     this.margin,
     this.padding,
-    this.aspectRatio,
+    this.aspectRatio = 16 / 9,
   });
 
   @override
   Widget build(BuildContext context) {
-    String testText =
+    var title =
         model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
-    return withIndents(
-      child: Container(
-        // padding: EdgeInsets.all(Indents.md),
-        child: Column(
-          children: <Widget>[
-            withAspectRatio(
-                child: VideoCardWithoutCaption(
-              model: model,
-            )),
-            Container(
-              margin: EdgeInsets.only(top: Indents.md),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        //Text('Blancpain GT3 - 3 hours Monza Race / Replay',
-                        // TODO: добавить перенос строки
-                        Text(testText,
-                            style: Theme.of(context).textTheme.subtitle1),
-                        Text('5 дней назад',
-                            style: Theme.of(context).textTheme.subtitle2.merge(
-                                TextStyle(
-                                    height: 1.4,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground
-                                        .withOpacity(0.6)))),
-                      ],
-                    ),
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.topRight,
-                    icon: Icon(
-                      Icons.more_vert,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                    tooltip: 'Placeholder',
-                    onPressed: () {},
-                  ),
-                ],
+
+    return StoreConnector<AppState, Models.User>(
+        converter: (store) => store.state.user,
+        builder: (context, state) => withIndents(
+              child: Container(
+                // padding: EdgeInsets.all(Indents.md),
+                child: Column(
+                  children: <Widget>[
+                    withAspectRatio(
+                        child: VideoCardWithoutCaption(
+                      model: model,
+                    )),
+                    Container(
+                      margin: EdgeInsets.only(top: Indents.md),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(title,
+                                    style:
+                                        Theme.of(context).textTheme.subtitle1),
+                                Text(
+                                    dateTimeToStringInAgoFormat(
+                                        model.dateCreated, context),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        .merge(TextStyle(
+                                            height: 1.4,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onBackground
+                                                .withOpacity(0.6))))
+                              ],
+                            ),
+                          ),
+                          // Removed as of current state
+//                          IconButton(
+//                            padding: EdgeInsets.zero,
+//                            alignment: Alignment.topRight,
+//                            icon: Icon(
+//                              Icons.more_vert,
+//                              color: Theme.of(context).colorScheme.onPrimary,
+//                            ),
+//                            tooltip: 'Placeholder',
+//                            onPressed: () {},
+//                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
-      ),
-    );
+            ));
   }
 }
 
 class VideoCardWithoutCaption extends StatelessWidget {
   final Models.Video model;
+
   VideoCardWithoutCaption({@required this.model});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -92,8 +104,8 @@ class VideoCardWithoutCaption extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(5)),
           image: DecorationImage(
             fit: BoxFit.cover,
-            // TODO: change to api image
-            image: ExactAssetImage("assets/images/extreme2.jpg"),
+            image: NetworkImage(model?.content?.image?.path ??
+                'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'),
           ),
         ),
         child: Container(
@@ -119,13 +131,12 @@ class VideoCardWithoutCaption extends StatelessWidget {
                 color: Colors.transparent,
                 child: InkWell(
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VideoViewScreen(
-                            model: model,
-                          ),
-                        ));
+                    Navigator.of(context, rootNavigator: true)
+                        .push(MaterialPageRoute(
+                      builder: (context) => VideoViewScreen(
+                        model: model,
+                      ),
+                    ));
                   },
                 ),
               )),
@@ -138,15 +149,17 @@ class VideoCardWithoutCaption extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           FavoriteToggler(
-                            status: true,
+                            status: model?.isFavorite,
+                            id: model?.id,
                           ),
                         ]),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        VideoDuration(minutes: 7, seconds: 34),
-                      ],
-                    ),
+//Removed as of current state
+//                    Row(
+//                      mainAxisAlignment: MainAxisAlignment.end,
+//                      children: <Widget>[
+//                        VideoDuration(minutes: 7, seconds: 34),
+//                      ],
+//                    ),
                   ],
                 ),
               ),
@@ -164,6 +177,7 @@ class VideoDuration extends StatelessWidget {
   final int seconds;
 
   VideoDuration({this.hours = 0, this.minutes, this.seconds});
+
   String _time(int hours, int minutes, int seconds) {
     if (hours == 0) {
       return minutes.toString() + ':' + seconds.toString();

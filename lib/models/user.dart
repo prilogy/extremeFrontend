@@ -11,6 +11,13 @@ class User {
   DateTime dateSignUp;
   String phoneNumber;
   _Subscription subscription;
+
+  bool get isSubscribed {
+    return this.subscription != null &&
+            this.subscription.dateEnd != null &&
+            this.subscription.dateEnd.isAfter(DateTime.now());
+  }
+
   bool emailVerified;
   String token;
 
@@ -19,29 +26,29 @@ class User {
   _SaleIds saleIds;
 
   static const String localStorageKey = 'user';
-  
+
   User(
       {this.socialAccounts,
-        this.culture,
-        this.currency,
-        this.id,
-        this.email,
-        this.name,
-        this.dateBirthday,
-        this.dateSignUp,
-        this.phoneNumber,
-        this.subscription,
-        this.emailVerified,
-        this.likeIds,
-        this.favoriteIds,
-        this.saleIds,
-        this.token});
-  
+      this.culture,
+      this.currency,
+      this.id,
+      this.email,
+      this.name,
+      this.dateBirthday,
+      this.dateSignUp,
+      this.phoneNumber,
+      this.subscription,
+      this.emailVerified,
+      this.likeIds,
+      this.favoriteIds,
+      this.saleIds,
+      this.token});
+
   static User fromLocalStorage() {
     try {
       var json = localStorage.getItem(localStorageKey);
       return json == null ? null : User.fromJson(json);
-    } catch(ex) {
+    } catch (ex) {
       return null;
     }
   }
@@ -58,7 +65,7 @@ class User {
       });
     }
     culture =
-    json['culture'] != null ? new Culture.fromJson(json['culture']) : null;
+        json['culture'] != null ? new Culture.fromJson(json['culture']) : null;
     currency = json['currency'] != null
         ? new Currency.fromJson(json['currency'])
         : null;
@@ -73,12 +80,12 @@ class User {
         : null;
     emailVerified = json['emailVerified'];
     likeIds =
-    json['likeIds'] != null ? new _LikeIds.fromJson(json['likeIds']) : null;
+        json['likeIds'] != null ? new _LikeIds.fromJson(json['likeIds']) : null;
     favoriteIds = json['favoriteIds'] != null
         ? new _FavoriteIds.fromJson(json['favoriteIds'])
         : null;
     saleIds =
-    json['saleIds'] != null ? new _SaleIds.fromJson(json['saleIds']) : null;
+        json['saleIds'] != null ? new _SaleIds.fromJson(json['saleIds']) : null;
     token = json['token'];
   }
 
@@ -118,67 +125,6 @@ class User {
   }
 }
 
-class SocialAccount {
-  int id;
-  String key;
-  SocialAccountProvider provider;
-
-  SocialAccount({this.id, this.key, this.provider});
-
-  SocialAccount.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    key = json['key'];
-    provider = json['provider'] != null
-        ? new SocialAccountProvider.fromJson(json['provider'])
-        : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['key'] = this.key;
-    if (this.provider != null) {
-      data['provider'] = this.provider.toJson();
-    }
-    return data;
-  }
-}
-
-class SocialAccountProvider {
-  int id;
-  String name;
-  String displayName;
-  String iconPath;
-
-
-  SocialAccountProvider({this.id, this.name, this.displayName, this.iconPath});
-
-  SocialAccountProvider.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    return data;
-  }
-
-  static final vk = SocialAccountProvider(name: 'vk', displayName: 'VK', iconPath: 'assets/svg/vk_logo.svg');
-  static final facebook = SocialAccountProvider(name: 'facebook', displayName: 'Facebook', iconPath: 'assets/svg/fb_logo.svg');
-  static final google = SocialAccountProvider(name: 'google', displayName: 'Google', iconPath: 'assets/svg/google_logo.svg');
-
-  static final List<SocialAccountProvider> all = [vk, facebook, google];
-
-  bool operator ==(dynamic other) =>
-      other != null && other is SocialAccountProvider && this.name == other.name;
-
-  @override
-  int get hashCode => super.hashCode;
-}
-
-
 class _Subscription {
   DateTime dateEnd;
 
@@ -196,67 +142,83 @@ class _Subscription {
 }
 
 class _LikeIds {
-  List<int> videos;
-  List<int> movies;
+  List<EntityIdItem> videos;
+  List<EntityIdItem> movies;
 
   _LikeIds({this.videos, this.movies});
 
   _LikeIds.fromJson(Map<String, dynamic> json) {
-    videos = json['videos'].cast<int>();
-    movies = json['movies'].cast<int>();
+    videos = processIdsListFromJson('videos', json);
+    movies = processIdsListFromJson('movies', json);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['videos'] = this.videos;
-    data['movies'] = this.movies;
+    data['videos'] = processIdsListToJson(this.videos, data);
+    data['movies'] = processIdsListToJson(this.movies, data);
     return data;
   }
 }
 
 class _FavoriteIds {
-  List<int> videos;
-  List<int> movies;
-  List<int> sports;
-  List<int> playlists;
+  List<EntityIdItem> videos;
+  List<EntityIdItem> movies;
+  List<EntityIdItem> sports;
+  List<EntityIdItem> playlists;
 
   _FavoriteIds({this.videos, this.movies, this.sports, this.playlists});
 
   _FavoriteIds.fromJson(Map<String, dynamic> json) {
-    videos = json['videos'].cast<int>();
-    movies = json['movies'].cast<int>();
-    sports = json['sports'].cast<int>();
-    playlists = json['playlists'].cast<int>();
+    videos = processIdsListFromJson('videos', json);
+    movies = processIdsListFromJson('movies', json);
+    sports = processIdsListFromJson('sports', json);
+    playlists = processIdsListFromJson('playlists', json);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['videos'] = this.videos;
-    data['movies'] = this.movies;
-    data['sports'] = this.sports;
-    data['playlists'] = this.playlists;
+    data['videos'] = processIdsListToJson(this.videos, data);
+    data['movies'] = processIdsListToJson(this.movies, data);
+    data['sports'] = processIdsListToJson(this.sports, data);
+    data['playlists'] = processIdsListToJson(this.playlists, data);
     return data;
   }
 }
 
 class _SaleIds {
-  List<int> videos;
-  List<int> movies;
-  List<int> playlists;
+  List<EntityIdItem> videos;
+  List<EntityIdItem> movies;
+  List<EntityIdItem> playlists;
 
   _SaleIds({this.videos, this.movies, this.playlists});
 
   _SaleIds.fromJson(Map<String, dynamic> json) {
-    videos = json['videos'].cast<int>();
-    movies = json['movies'].cast<int>();
-    playlists = json['playlists'].cast<int>();
+    videos = processIdsListFromJson('videos', json);
+    movies = processIdsListFromJson('movies', json);
+    playlists = processIdsListFromJson('playlists', json);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['videos'] = this.videos;
-    data['movies'] = this.movies;
-    data['playlists'] = this.playlists;
+    data['videos'] = processIdsListToJson(this.videos, data);
+    data['movies'] = processIdsListToJson(this.movies, data);
+    data['playlists'] = processIdsListToJson(this.playlists, data);
     return data;
   }
+}
+
+
+List<EntityIdItem> processIdsListFromJson(String key, Map<String, dynamic> json) {
+  if (json[key] != null) {
+    var list = new List<EntityIdItem>();
+    json[key].forEach((v) {
+      list.add(new EntityIdItem.fromJson(v));
+    });
+    return list;
+  }
+  return null;
+}
+
+List<Map<String, dynamic>> processIdsListToJson(List<EntityIdItem> list, Map<String, dynamic> json) {
+  return list != null ? list.map((v) => v.toJson()).toList() : null;
 }

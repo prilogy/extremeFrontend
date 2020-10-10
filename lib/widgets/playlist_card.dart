@@ -1,11 +1,8 @@
-import 'dart:math';
-
 import 'package:extreme/helpers/aspect_ratio_mixin.dart';
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/screens/playlist_screen.dart';
 import 'package:extreme/store/main.dart';
-import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -36,7 +33,6 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
         'https://img2.akspic.ru/image/1601-nebo-priklyucheniya-skachok-bejsdzhamping-kaskader-1920x1080.jpg';
     var videosAmount = (model?.videosIds?.length ?? 0).toString();
     var likesAmount = (model?.likesAmount ?? 0).toString();
-
 
     return StoreConnector<AppState, User>(
       converter: (store) => store.state.user,
@@ -92,7 +88,8 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              Text(title,
+                              Text(
+                                title,
                                 style: Theme.of(context).textTheme.subtitle1,
                               ),
                             ],
@@ -176,7 +173,8 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .onPrimary))),
-                                    Text(description,
+                                    Text(
+                                      description,
                                       style: Theme.of(context)
                                           .textTheme
                                           .caption

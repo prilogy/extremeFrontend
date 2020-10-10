@@ -1,128 +1,306 @@
+import 'package:extreme/helpers/helper_methods.dart';
+import 'package:extreme/helpers/snack_bar_extension.dart';
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/screens/payment_screen.dart';
+import 'package:extreme/screens/playlist_screen.dart';
+import 'package:extreme/screens/sport_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
-import 'package:extreme/widgets/screen_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
+import 'package:extreme/widgets/custom_list_builder.dart';
+import 'package:extreme/widgets/favorite_toggler.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/widgets/pay_card.dart';
+import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:vimeoplayer/vimeoplayer.dart';
-import '../widgets/video_card.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:vimeoplayer/vimeoplayer.dart';
 
 /// Создаёт экран просмотра видео
 
-class VideoViewScreen extends StatelessWidget {
+class VideoViewScreen extends StatefulWidget {
   final Models.Video model;
+
   VideoViewScreen({Key key, @required this.model}) : super(key: key);
 
-  void _searchIconAction() {
-    //TODO: Search some video function
+  @override
+  _VideoViewScreenState createState() => _VideoViewScreenState();
+}
+
+class _VideoViewScreenState extends State<VideoViewScreen> {
+  @override
+  void dispose() {
+    SystemChrome.restoreSystemUIOverlays();
+    SystemChrome.setEnabledSystemUIOverlays(
+        [SystemUiOverlay.bottom, SystemUiOverlay.top]);
+    super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    return ScreenBaseWidget(
-      padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-      appBar: AppBar(
-        title: Text(model?.content?.name ?? 'Название видео'), // TODO: Title
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.search),
-            onPressed: _searchIconAction,
-          ),
-        ],
-      ),
-      builder: (context) => <Widget>[
-        VimeoPlayer(id: '395212534'),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlockBaseWidget(
-              padding: EdgeInsets.only(
-                  top: Indents.md, left: Indents.md, right: Indents.md),
-              header: model?.content?.name ?? 'Название видео',
-              child: Text('Название спорта - Плейлист',
-                  style: Theme.of(context).textTheme.caption),
-            ),
-            BlockBaseWidget(
-              child: Row(
-                children: [
-                  ActionIcon(
-                    signText: model?.likesAmount.toString() ?? '224' ,
-                    icon: Icons.thumb_up,
-                    iconColor: ExtremeColors.primary,
-                    onPressed: () async {
-                      var userAction =
-                          await Api.User.toggleLike(model?.id ?? null);
-                      if (userAction != null) {
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(ToggleLike(userAction));
-                      }
-                    },
+    final loc = AppLocalizations.of(context).withBaseKey('video_view_screen');
+    var splits = widget.model.content?.url?.split('/') ?? null;
+    final id = splits != null ? splits[splits.length - 1] : "242373845";
+    final isInOwnedPlaylist = widget.model.isInPaidPlaylist
+        ? store.state.user.saleIds.playlists
+            .any((x) => x.entityId == widget.model.playlistId)
+        : false;
+
+    return StoreConnector<AppState, Models.User>(
+        converter: (store) => store.state.user,
+        builder: (context, state) => Scaffold(
+            appBar: AppBar(),
+            body: ListView(
+              padding: EdgeInsets.all(0),
+              children: <Widget>[
+                if (!widget.model.isPaid && !widget.model.isInPaidPlaylist ||
+                    isInOwnedPlaylist ||
+                    widget.model.isBought)
+                   VimeoPlayer(autoPlay: true, id: id)
+                else if (widget.model.isPaid && !widget.model.isBought)
+                  BlockBaseWidget(
+                    margin: EdgeInsets.only(top: Indents.md),
+                    child: PayCard(
+                      price: widget.model.price,
+                      isBought: widget.model.isBought,
+                      onBuy: () async {
+                        var url = await Api.Sale.getPaymentUrl(widget.model.id);
+
+                        if (url == null) {
+                          SnackBarExtension.show(SnackBarExtension.error(
+                              AppLocalizations.of(context)
+                                  .translate('payment.error')));
+                        } else {
+                          Navigator.of(context, rootNavigator: true)
+                              .push(MaterialPageRoute(
+                                  builder: (ctx) => PaymentScreen(
+                                        title: AppLocalizations.of(context)
+                                            .translate(
+                                                'payment.app_bar_content', [
+                                          HelperMethods.capitalizeString(
+                                              AppLocalizations.of(context)
+                                                  .translate('base.video'))
+                                        ]),
+                                        url: url,
+                                        onPaymentDone: () async {
+                                          await Api.User.refresh(true, true);
+                                          var video = await Api.Entities
+                                              .getById<Models.Video>(
+                                                  widget.model.id);
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: (ctx) =>
+                                                      VideoViewScreen(
+                                                          model: video)));
+                                          SnackBarExtension.show(
+                                              SnackBarExtension.success(
+                                                  AppLocalizations.of(context)
+                                                      .translate(
+                                                          'payment.success_for',
+                                                          [
+                                                        AppLocalizations.of(
+                                                                context)
+                                                            .translate(
+                                                                'base.video')
+                                                      ]),
+                                                  Duration(seconds: 7)));
+                                        },
+                                        onBrowserClose: () async {
+                                          await Api.User.refresh(true, true);
+                                        },
+                                      )));
+                        }
+                      },
+                    ),
+                  )
+                else if (widget.model.isInPaidPlaylist)
+                  Flexible(
+                    child: Container(
+                        padding: EdgeInsets.only(
+                            top: Indents.md,
+                            left: Indents.md,
+                            right: Indents.md),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                                margin: EdgeInsets.only(right: Indents.md),
+                                child: Icon(
+                                  Icons.info,
+                                  color: ExtremeColors.primary,
+                                )),
+                            Flexible(
+                              child: Text(
+                                loc.translate('is_in_paid_playlist'),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 3,
+                              ),
+                            ),
+                          ],
+                        )),
                   ),
-                  ActionIcon(
-                    signText: 'В избранное',
-                    icon: Icons.favorite,
-                    iconColor: ExtremeColors.error,
-                    onPressed: () async {
-                      var userAction =
-                          await Api.User.toggleFavorite(model?.id ?? null);
-                      if (userAction != null) {
-                        StoreProvider.of<AppState>(context)
-                            .dispatch(ToggleLike(userAction));
-                      }
-                    },
-                  ),
-                  ActionIcon(
-                      signText: 'Поделиться',
-                      icon: Icons.share,
-                      iconColor: ExtremeColors.base[200]),
-                ],
-              ),
-            ),
-            BlockBaseWidget(
-              child: Text(
-                  model?.content?.description ??
-                      'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...',
-                  style: Theme.of(context).textTheme.bodyText2),
-            ),
-            BlockBaseWidget(
-                // TODO: omplement api request
-                header: 'Другие видео из плейлиста',
-                child: Column(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    VideoCard(
-                      aspectRatio: 16 / 9,
+                    BlockBaseWidget(
+                        padding: EdgeInsets.only(
+                            top: Indents.md,
+                            left: Indents.md,
+                            right: Indents.md),
+                        header: widget.model?.content?.name ?? 'Название видео',
+                        child: CustomFutureBuilder(
+                            future: Api.Entities.getById<Models.Playlist>(
+                                widget.model.playlistId),
+                            builder: (data) {
+                              return CustomFutureBuilder(
+                                  future: Api.Entities.getById<Models.Sport>(
+                                      data.sportId),
+                                  builder: (sportData) {
+                                    return Row(
+                                      children: <Widget>[
+                                        InkWell(
+                                          child: Text(sportData.content.name),
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  SportScreen(model: sportData),
+                                            ));
+                                          },
+                                        ),
+                                        Text(' - '),
+                                        InkWell(
+                                          child: Text(data.content.name),
+                                          onTap: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PlaylistScreen(model: data),
+                                            ));
+                                          },
+                                        )
+                                      ],
+                                    );
+                                  });
+                            })),
+                    if (widget.model.isBought && widget.model.isPaid)
+                      BlockBaseWidget(
+                        child: PayCard(
+                          isBought: widget.model.isBought,
+                          price: widget.model.price,
+                          alignment: MainAxisAlignment.start,
+                        ),
+                      ),
+                    BlockBaseWidget(
+                      child: Row(
+                        children: [
+                          ActionIcon(
+                            signText: loc.translate('like'),
+                            //model?.likesAmount.toString() ?? '224''',
+                            icon: Icons.thumb_up,
+                            iconColor: widget.model.isLiked
+                                ? Theme.of(context).colorScheme.secondary
+                                : ExtremeColors.base[200],
+                            onPressed: () async {
+                              var userAction = await Api.User.toggleLike(
+                                  widget.model?.id ?? null);
+                              if (userAction != null) {
+                                StoreProvider.of<AppState>(context)
+                                    .dispatch(ToggleLike(userAction));
+                              }
+                            },
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(right: Indents.lg),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                FavoriteToggler(
+                                  id: widget.model.id,
+                                  status: widget.model.isFavorite,
+                                  size: 45,
+                                  noAlign: true,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: Indents.sm),
+                                  // Sign below like icon margin
+                                  child: Text(
+                                    loc.translate('favorite'), //signText,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        .merge(TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          /*ActionIcon(
+                              signText: loc.translate("share"),
+                              icon: Icons.share,
+                              iconColor: ExtremeColors.base[200]),
+                        */],
+                      ),
                     ),
-                    VideoCard(
-                      aspectRatio: 16 / 9,
+                    BlockBaseWidget(
+                      child: Text(
+                          widget.model?.content?.description ??
+                              'No description provided',
+                          style: Theme.of(context).textTheme.bodyText2),
                     ),
-                    VideoCard(
-                      aspectRatio: 16 / 9,
-                    ),
+                    BlockBaseWidget(
+                        header: loc.translate("other_videos"),
+                        child: CustomFutureBuilder(
+                            future: Api.Entities.getById<Models.Playlist>(
+                                widget.model.playlistId),
+                            builder: (Models.Playlist data) {
+                              List videosIds = data.videosIds;
+                              // Исключение этого же видео из выдачи
+                              videosIds.remove(widget.model.id);
+                              // Случайная перемешка видео для исключения выдачи одних и тех же видео
+                              if (videosIds.length >= 3) {
+                                videosIds.shuffle();
+                                videosIds = videosIds.sublist(0, 3);
+                              }
+
+                              return CustomFutureBuilder(
+                                  future: Api.Entities.getByIds<Models.Video>(
+                                      videosIds),
+                                  builder: (data) => CustomListBuilder(
+                                      items: data,
+                                      itemBuilder: (item) => VideoCard(
+                                            model: item,
+                                            aspectRatio: 16 / 9,
+                                          )));
+                            }))
                   ],
-                ))
-          ],
-        ),
-      ],
-    );
+                ),
+              ],
+            )));
   }
 }
 
 /// Создаёт иконку с действием
 class ActionIcon extends StatelessWidget {
-  // TODO: convert to stateful Widget
-
   final IconData icon;
-//EdgeInsets margin; // margin container
   final Color iconColor; // цвет icon
   final Function onPressed; // функция-обработчик нажатия на icon
   final String signText;
 
   ActionIcon({this.icon, this.iconColor, this.onPressed, this.signText});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -139,25 +317,23 @@ class ActionIcon extends StatelessWidget {
             tooltip: 'Placeholder',
             onPressed: onPressed,
           ),
-
           Container(
             margin:
                 EdgeInsets.only(top: Indents.sm), // Sign below like icon margin
             child: Text(
-              signText, //'244',
+              signText, //signText,
               style: Theme.of(context).textTheme.caption.merge(TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
                   )),
             ),
           ),
-
-//                      Icons.favorite_border,
         ],
       ),
     );
   }
 }
 
+/// Создаёт виджет описания видео
 class VideoDescription extends StatelessWidget {
   final String text; // текст описания
   const VideoDescription({Key key, this.text}) : super(key: key);
@@ -173,7 +349,7 @@ class VideoDescription extends StatelessWidget {
           Container(
             margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
             child: Text(
-              text, //'Начиная с версии 2.0 в ASP.NET Core была добавлена такая функциональность, как Razor Pages. Razor Pages предоставляют технологию, альтернативную системе Model-View-Controller. Razor Pages позволяют создавать страницы с кодом Razor, которые могут обрабатывать запросы...',
+              text,
               style: TextStyle(
                 fontFamily: 'RobotoMono',
                 fontSize: 16.0,

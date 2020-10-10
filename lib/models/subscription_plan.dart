@@ -5,11 +5,13 @@ class SubscriptionPlan {
   int duration;
   Content content;
   Price price;
+  String color;
 
-    SubscriptionPlan.fromJson(Map<String, dynamic> json) {
-    price =  json['price'] != null ? new Price.fromJson(json['price']) : null;
+  SubscriptionPlan.fromJson(Map<String, dynamic> json) {
+    price = json['price'] != null ? new Price.fromJson(json['price']) : null;
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+        json['content'] != null ? new Content.fromJson(json['content']) : null;
+    color = json['color'];
     id = json['id'];
   }
 
@@ -21,6 +23,7 @@ class SubscriptionPlan {
     }
     data['id'] = this.id;
     data['price'] = this.price.toString();
+    data['color'] = this.color;
     return data;
   }
 }

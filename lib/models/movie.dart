@@ -10,20 +10,36 @@ class Movie {
   int id;
   DateTime dateCreated;
 
+  bool get isBought {
+    return isPaid && store.state.user.saleIds.movies.any((x) => x.entityId == id);
+  }
+
+  bool get isLiked {
+    return store.state.user?.likeIds?.movies?.any((x) => x.entityId == id) ?? false;
+  }
+
+  bool get isFavorite {
+    return store.state.user?.favoriteIds?.movies?.any((x) => x.entityId == id) ?? false;
+  }
+
+  bool get isInPreferredLanguage {
+    return store.state?.settings?.culture == content.culture ?? false;
+  }
+
   Movie(
       {this.sportId,
-        this.content,
-        this.likesAmount,
-        this.price,
-        this.isPaid,
-        this.salesAmount,
-        this.id,
-        this.dateCreated});
+      this.content,
+      this.likesAmount,
+      this.price,
+      this.isPaid,
+      this.salesAmount,
+      this.id,
+      this.dateCreated});
 
   Movie.fromJson(Map<String, dynamic> json) {
     sportId = json['sportId'];
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+        json['content'] != null ? new Content.fromJson(json['content']) : null;
     likesAmount = json['likesAmount'];
     price = json['price'] != null ? new Price.fromJson(json['price']) : null;
     isPaid = json['isPaid'];

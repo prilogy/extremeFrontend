@@ -1,7 +1,7 @@
-import 'package:extreme/helpers/interfaces.dart';
-import 'package:extreme/router/main.dart';
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
-import 'package:extreme/services/localstorage.dart';
+import 'package:extreme/screens/reset_pass_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -9,9 +9,7 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
-import 'package:flutter_redux/flutter_redux.dart';
 
 class LoginEmailScreen extends StatefulWidget {
   @override
@@ -36,16 +34,15 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-
+    final loc = AppLocalizations.of(context).withBaseKey('login_email_screen');
     return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text('Вход с Email'),
+          title: Text(loc.translate('email_sign_in')),
         ),
-        builderChild: (context) =>
-            Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                Widget>[
+        builder: (context) => [
               BlockBaseWidget(
-                header: 'Вход',
+                margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
+                header: loc.translate('header'),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -55,43 +52,59 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                         controller: _emailController,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Введите текст самфинг';
+                            return loc.translate('error.empty');
                           }
                           if (!RegExp(
                                   r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                               .hasMatch(value))
-                            return 'Неправильный формат email';
+                            return loc.translate(
+                                'error.invalid'); 
                           return null;
                         },
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                             icon: Icon(Icons.alternate_email),
                             hintText: 'example@gmail.com',
-                            labelText: 'Email'),
+                            labelText: loc.translate('email')),
                       ),
                       TextFormField(
                         controller: _passwordController,
                         validator: (value) {
                           if (value.isEmpty) {
-                            return 'Введите проль самфинг';
+                            return loc.translate('error.empty');
                           }
-                          if (value.length < 6) return 'э длина >= 6';
+                          if (value.length < 6)
+                            return loc.translate('error.few_symbols');
                           return null;
                         },
                         obscureText: true,
-                        decoration: const InputDecoration(
-                            icon: Icon(Icons.lock), labelText: 'Пароль'),
+                        decoration: InputDecoration(
+                            icon: Icon(Icons.lock),
+                            labelText: loc.translate('password')),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: Indents.md),
+                        child: InkWell(
+                          child: Text(loc.translate('forget')),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ResetPassScreen()));
+                          },
+                        ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            OutlineButton(
-                              onPressed: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => SignUpScreen()));
-                              },
-                              child: Text('Зарегистрироваться'),
+                            Container(
+                              padding: EdgeInsets.only(right: Indents.md),
+                              child: OutlineButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => SignUpScreen()));
+                                },
+                                child: Text(loc.translate('sign_up')),
+                              ),
                             ),
                             RaisedButton(
                               color: Theme.of(context).colorScheme.primary,
@@ -101,9 +114,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   scf.showSnackBar(SnackBar(
                                       backgroundColor: colorScheme.primary,
                                       content: Text(
-                                        'Logging in...' +
-                                            _emailController.text +
-                                            _passwordController.text,
+                                        loc.translate('snackbar.logging_in'),
                                         style: TextStyle(
                                             color: colorScheme.onPrimary),
                                       )));
@@ -114,7 +125,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   if (user == null)
                                     scf.showSnackBar(SnackBar(
                                       content: Text(
-                                        'Wrong password or else',
+                                        loc.translate("error.fail_sign_in"),
                                         style: TextStyle(
                                             color: colorScheme.onError),
                                       ),
@@ -123,7 +134,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   else {
                                     scf.showSnackBar(SnackBar(
                                       content: Text(
-                                        'Logged in successfully',
+                                        loc.translate('shackbar.success'),
                                         style: TextStyle(
                                             color: colorScheme.onError),
                                       ),
@@ -135,8 +146,10 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   }
                                 }
                               },
-                              child: Text('Войти'),
-                            ),
+                              child: Text(
+                                loc.translate('sign_in'),
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -144,6 +157,6 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                   ),
                 ),
               )
-            ]));
+            ]);
   }
 }

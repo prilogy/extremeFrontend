@@ -1,12 +1,12 @@
-import 'package:extreme/helpers/interfaces.dart';
+import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:redux/redux.dart';
 
-import 'account_screen.dart';
+import 'account_screen/main.dart';
 import 'browse_screen.dart';
 import 'home_screen.dart';
 
@@ -36,7 +36,7 @@ class _MainScreenState extends State<MainScreen>
   int _selectedIndex = 0;
   DateTime _currentBackPressTime;
   List<GlobalKey<NavigatorState>> _navigatorKeys;
-  final double _navBarOffset = Indents.sm;
+  final double _navBarOffset = Indents.md;
 
   List<Widget> _screens;
 
@@ -48,9 +48,12 @@ class _MainScreenState extends State<MainScreen>
         screens.length, (int index) => GlobalKey()).toList();
     _screens = screens.map<Widget>((e) {
       var idx = screens.indexOf(e);
-
       return e(_navigatorKeys[idx]);
     }).toList();
+    if(!store.state.user.isSubscribed)
+      setState(() {
+        _selectedIndex = 2;
+      });
   }
 
   @override
@@ -67,7 +70,7 @@ class _MainScreenState extends State<MainScreen>
               _currentBackPressTime = now;
             });
             Fluttertoast.showToast(
-                msg: "Для выхода из ExtremeInsiders повторите действие.",
+                msg: AppLocalizations.of(context).translate('helper.exit_hint'),
                 backgroundColor: Colors.black.withOpacity(0.5));
             return null;
           }

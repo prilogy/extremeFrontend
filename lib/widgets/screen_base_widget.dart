@@ -1,22 +1,26 @@
 import 'package:extreme/helpers/indents_mixin.dart';
-import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 typedef WidgetBuilderChildren = List<Widget> Function(BuildContext context);
+typedef AppBarBuilderComplex = Widget Function(
+    BuildContext context, ScrollController controller);
 
-class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
+class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
 
   final Widget appBar;
+  final AppBarBuilderComplex appBarComplex;
   final WidgetBuilderChildren builder;
   final WidgetBuilder builderChild;
   final Key navigatorKey;
+  final Future Function() onRefresh;
 
   static const double screenBottomIndent =
-      NavBar.height + Indents.md + Indents.sm;
+      NavBar.height + 2*Indents.md;
 
   static const EdgeInsetsGeometry defaultPadding =
       EdgeInsets.only(top: Indents.md, bottom: screenBottomIndent);
@@ -27,36 +31,75 @@ class ScreenBaseWidget extends StatelessWidget with IndentsMixin {
       this.appBar,
       this.builder,
       this.builderChild,
-      this.navigatorKey});
+      this.navigatorKey,
+      this.appBarComplex,
+      this.onRefresh});
+
+  @override
+  _ScreenBaseWidgetState createState() => _ScreenBaseWidgetState();
+}
+
+class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
+  var _refreshController = RefreshController(initialRefresh: false);
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     Widget content(BuildContext ctx) {
       return Scaffold(
-          appBar: appBar ?? EmptyAppBar(),
-          body: Builder(
-            builder: (context) {
-              var res =
-                  builder == null ? builderChild(context) : builder(context);
+        appBar: widget.appBar != null
+            ? widget.appBar
+            : widget.appBarComplex != null
+                ? widget.appBarComplex(ctx, _scrollController)
+                : EmptyAppBar(),
+        body: Builder(
+          builder: (context) {
+            var res = widget.builder == null
+                ? widget.builderChild(context)
+                : widget.builder(context);
 
-              return SafeArea(
-                  top: true,
-                  left: true,
-                  right: true,
-                  bottom: true,
-                  child: builder == null
-                      ? Container(padding: padding, child: res)
-                      : ListView(
-                          padding: padding,
-                          children: res,
-                        ));
-            },
-          ));
+            return SafeArea(
+                top: true,
+                left: true,
+                right: true,
+                bottom: true,
+                child: widget.builder == null
+                    ? Container(padding: widget.padding, child: res)
+                    : widget.onRefresh != null
+                        ? SmartRefresher(
+                            controller: _refreshController,
+                            enablePullUp: false,
+                            onRefresh: () async {
+                              await widget.onRefresh?.call();
+                              _refreshController.refreshCompleted();
+                            },
+                            header: MaterialClassicHeader(),
+                            child: ListView(
+                              controller: _scrollController,
+                              padding: widget.padding,
+                              children: res,
+                            ),
+                          )
+                        : ListView(
+                            controller: _scrollController,
+                            padding: widget.padding,
+                            children: res,
+                          ));
+          },
+        ),
+      );
     }
 
-    if (navigatorKey != null)
+    if (widget.navigatorKey != null)
       return Navigator(
-        key: navigatorKey,
+        key: widget.navigatorKey,
         onGenerateRoute: (context) => MaterialPageRoute(
           builder: (context) => content(context),
         ),

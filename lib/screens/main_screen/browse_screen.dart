@@ -1,11 +1,10 @@
 import 'package:extreme/helpers/app_localizations_helper.dart';
-import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/movies_screen.dart';
 import 'package:extreme/screens/playlists_screen.dart';
-import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
+import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
@@ -13,39 +12,34 @@ import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/models/main.dart' as Models;
-import 'package:flutter_redux/flutter_redux.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 /// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
-class BrowseScreen extends StatefulWidget {
+class BrowseScreen extends StatelessWidget {
   final Key navigatorKey;
 
   BrowseScreen({this.navigatorKey});
-
-  @override
-  _BrowseScreenState createState() => _BrowseScreenState();
-}
-
-class _BrowseScreenState extends State<BrowseScreen> {
-  final Widget appBar = AppBar(
-    title: Text("Просмотр"),
-    actions: <Widget>[
-      new IconButton(
-        icon: new Icon(Icons.search),
-        onPressed: () {
-          print("smth");
-        },
-      ),
-    ],
-  );
 
   @override
   Widget build(BuildContext context) {
     var loc = AppLocalizations.of(context).withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
-        appBar: appBar,
-        navigatorKey: widget.navigatorKey,
+        appBarComplex: (ctx, c) => ScrollAppBar(
+              controller: c,
+              title: Text(loc.translate("browse")),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    Navigator.of(context, rootNavigator: true)
+                        .pushNamed('/search');
+                  },
+                ),
+              ],
+            ),
+        navigatorKey: navigatorKey,
         builder: (context) => [
               Container(
                 margin: EdgeInsets.only(bottom: Indents.lg),
@@ -64,45 +58,32 @@ class _BrowseScreenState extends State<BrowseScreen> {
                 ),
               ),
               BlockBaseWidget(
-                child: FutureBuilder(
-                    future: Api.Entities.getAll<Models.Sport>(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CustomListBuilder<Models.Sport>(
+                  child: CustomFutureBuilder<List<Models.Sport>>(
+                      future: Api.Entities.getAll<Models.Sport>(),
+                      builder: (data) {
+                        data.sort((a,b) => a.content.name.compareTo(b.content.name));
+                        return CustomListBuilder(
+                            childAspectRatio: 16/9,
                             type: CustomListBuilderTypes.grid,
-                            items: snapshot.data,
-                            itemBuilder: (item) => SportCard(
-                                  model: item,
-                                  aspectRatio: 16 / 9,
-                                ));
-                      } else if (snapshot.hasError)
-                        return Text(snapshot.error.toString());
-                      else
-                        return Center(child: CircularProgressIndicator());
-                    }),
-              ),
+                            crossAxisCount: 2,
+                            items: data,
+                            itemBuilder: (item) => SportCard(model: item, margin: EdgeInsets.only(bottom: Indents.sm),));
+                      })),
               BlockBaseWidget(
                 header: loc.translate('popular_playlists'),
                 margin: EdgeInsets.zero,
-                child: FutureBuilder(
-                    future: Api.Entities.getAll<Models.Playlist>(1, 2),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CustomListBuilder<Models.Playlist>(
-                            connectToStore: true,
-                            type: CustomListBuilderTypes.verticalList,
-                            items: snapshot.data,
-                            itemBuilder: (item) => PlayListCard(
-                                  model: item,
-                                  aspectRatio: 16 / 9,
-                                ));
-                      } else if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      } else
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                    }),
+                child: CustomFutureBuilder<List<Models.Playlist>>(
+                  future: Api.Entities.popular<Models.Playlist>(1, 4),
+                  builder: (data) => CustomListBuilder<Models.Playlist>(
+                    connectToStore: true,
+                    type: CustomListBuilderTypes.verticalList,
+                    items: data,
+                    itemBuilder: (item) => PlayListCard(
+                      model: item,
+                      aspectRatio: 16 / 9,
+                    ),
+                  ),
+                ),
               ),
             ]);
   }

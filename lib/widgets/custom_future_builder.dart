@@ -7,7 +7,7 @@ class CustomFutureBuilder<T> extends StatelessWidget {
   final Future<T> future;
   final WidgetBuilderGeneric<T> builder;
 
-  CustomFutureBuilder({this.future, this.builder});
+  CustomFutureBuilder({@required this.future,@required this.builder});
 
   @override
   Widget build(BuildContext context) {

@@ -25,7 +25,7 @@ class User {
     }
   }
 
-  static Future<dynamic> confirmEmailRequset() async {
+  static Future<dynamic> confirmEmailRequest() async {
     try {
       var response = await dio.get('/user/verifyEmail');
       return response;
@@ -34,13 +34,13 @@ class User {
     }
   }
 
-  static Future confirmEmailAttempt(int code) async {
+  static Future<bool> confirmEmailAttempt(String code) async {
     try {
       var body = json.encode(code);
       var response = await dio.post('/user/verifyEmail', data: body);
-      return response;
+      return true;
     } on DioError catch (e) {
-      return null;
+      return false;
     }
   }
 
@@ -57,9 +57,7 @@ class User {
     }
   }
 
-  // #favorite
-  // колл к апи тоже прост как вода
-  // возвращаем модель UserAction
+  /// Переключатель favorite
   static Future<Models.UserAction> toggleFavorite(int id) async {
     try {
       var response = await dio.get('/user/favorite/$id');
@@ -69,12 +67,48 @@ class User {
     }
   }
 
+  /// Переключатель like
   static Future<Models.UserAction> toggleLike(int id) async {
     try {
       var response = await dio.get('/user/like/$id');
       return Models.UserAction.fromJson(response.data);
     } on DioError catch (e) {
       return null;
+    }
+  }
+
+  /// Запрос на смену пароля
+  static Future<dynamic> resetPasswordRequest(String email) async {
+    try {
+      var data = json.encode(email);
+      await dio.post('/user/resetPassword', data: data);
+      print("Ver code snt");
+      return null;
+    } on DioError catch (e) {
+      return null;
+    }
+  }
+
+  /// Верификация кода, полученного с email
+  static Future<bool> verify(String code) async {
+    try {
+      var data = json.encode(code);
+      await dio.post('/user/resetPassword/verify', data: data);
+      return true;
+    } on DioError catch (e) {
+      return false;
+    }
+  }
+
+  /// Попытка смены пароля, после верификации
+  static Future<bool> resetPasswordAttempt(
+      String code, String newPass) async {
+    try {
+      var data = {'code': code, 'password': newPass};
+      var response = await dio.patch('/user/resetPassword', data: data);
+      return true;
+    } on DioError catch (e) {
+      return false;
     }
   }
 
@@ -93,8 +127,7 @@ class User {
   static Future<bool> removeSocialAccount(
       Models.SocialAccountProvider provider) async {
     try {
-      await dio
-          .delete('/user/socialAccount/${provider.name}');
+      await dio.delete('/user/socialAccount/${provider.name}');
 
       return true;
     } on DioError catch (e) {

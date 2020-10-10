@@ -1,8 +1,59 @@
 {
+  "base": {
+    "playlist": "playlist",
+    "video": "video",
+    "sport": "sport",
+    "movie": "movie",
+    "playlists": "playlists",
+    "videos": "videos",
+    "sports": "sports",
+    "movies": "movies"
+  },
   "login_screen": {
     "header": "Subscribe to always be in Extreme",
     "description": "Create personal account to get full functionality of ExtemeInsiders application.",
     "sign_in": "Sign in with {0}"
+  },
+  "login_email_screen": {
+    "header": "Sign in",
+    "email": "Email",
+    "email_sign_in": "Email sign in",
+    "password": "Password",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "forget": "Forgot your password?",
+    "error": {
+      "empty": "Field can't be empty",
+      "invalid": "Invalid email format",
+      "few_symbols": "Password must have at least 6 symbols",
+      "fail_sign_in": "Wrong username or password"
+    },
+    "snackbar": {
+      "logging_in": "Signing in...",
+      "success": "Successful signing in"
+    }
+  },
+  "sign_up_screen": {
+    "title": "Sign up with Email",
+    "title_with": "Sign up with {0}",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "repeat_password": "Repeat password",
+    "phone_number": "Phone number",
+    "date_of_birth": "Date of birth",
+    "avatar": "Avatar",
+    "sign_in": "Sign in",
+    "continue": "Continue",
+    "success": "Successful sign up",
+    "error": {
+      "empty": "Field can't be empty",
+      "invalid": "Invalid email format",
+      "few_symbols": "Password must have at least 6 symbols",
+      "already_exists": "User with this email already exists",
+      "dont_match": "Passwords don't match",
+      "empty_date": "Enter the date"
+    }
   },
   "home_screen": {
     "interesting_sports": "Interesting sports",
@@ -12,7 +63,8 @@
   "browse_screen": {
     "playlists": "Playlists",
     "movies": "Movies",
-    "popular_playlists": "Popular playlists"
+    "popular_playlists": "Popular playlists",
+    "browse": "Browse"
   },
   "account_screen": {
     "app_bar": "Account",
@@ -26,11 +78,16 @@
     "disconnect": "Disconnect",
     "name": "Name",
     "field_is_empty": "The field must be filled",
-    "invalid_email": "Incorrect email format",
+    "incorrect_email": "Incorrect email format",
     "cancel": "Cancel",
     "save": "Save",
     "email_confirm": "Confirm",
-    "account_connect_error": "This account is already being used by one of ExtremeInsiders users"
+    "account_connect_error": "This account is already being used by one of ExtremeInsiders users",
+    "account_connect_success": "{0} account successfully connected",
+    "account_disconnect_success": "{0} account successfully disconnected",
+    "subscription_payment_app_bar": "Subscription payment",
+    "subscription_payment_success": "Payment for subscription was successful. Subscription status update might take a few of minutes. You can always refresh status on account screen by pulling it up",
+    "edit_email_error": "Этот email уже используется"
   },
   "settings_screen": {
     "app_bar": "Options",
@@ -39,9 +96,92 @@
     "other": "Other",
     "policy": "Privacy  policy",
     "about": "About application",
+    "reset_pass": "Reset password",
     "exit": "Exit",
     "version": "Version: {0}",
+    "by": "Developed by Prilogy",
     "restart_hint": "Restart application to apply changes"
+  },
+  "search_screen": {
+    "videos": "Videos",
+    "playlists": "Playlists",
+    "movies": "Movies",
+    "sports": "Sports",
+    "few_symbols": "Request must have at least 3 letters",
+    "hint": "Search on Extreme Insiders"
+  },
+  "video_view_screen": {
+    "favorite": "Favorite",
+    "like": "Like",
+    "share": "Share",
+    "other_videos": "Other playlist videos",
+    "other_movies": "Other sport movies",
+    "is_in_paid_playlist": "This video is from playlist that requires additional payment"
+  },
+  "sport_screen": {
+    "button": {
+      "videos": "VIDEOS",
+      "playlists": "PLAYLISTS",
+      "movies": "MOVIES"
+    },
+    "recommended": "Recommended {0}",
+    "no_data": {
+      "sport_name": "Unnamed sport"
+    },
+    "best_playlist": "Users' choice"
+  },
+  "playlist_screen": {
+    "videos": "Videos",
+    "see_also": "See also"
+  },
+  "favorite_screen": {
+    "app_bar": "Favorites"
+  },
+  "sale_screen": {
+    "app_bar": "Owned paid content"
+  },
+  "reset_pass_screen": {
+    "title": "Password reset",
+    "new_pass": "New password",
+    "conf_new_pass": "Repeat password",
+    "change_pass": "Change password",
+    "next": "Next",
+    "instruction": {
+      "reset": "Security code has been sent to {0}. Enter that code in the field below to change the password",
+      "email": "Enter email linked to your account in the field below to reset the password"
+    },
+    "error": {
+      "few_symbols": "Password must have at least 6 symbols",
+      "dont_match": "Passwords don't match",
+      "empty": "Field can't be empty",
+      "invalid": "Invalid email format"
+    },
+    "snackbar": {
+      "success": "Password was succesfully reset",
+      "error": "Unknown error occurred"
+    }
+  },
+  "promo_screen": {
+    "app_bar": "Activate promo code",
+    "you_get": "You get",
+    "enter_code": "Enter promo code",
+    "code_success": "Promo code entered",
+    "code_error": "Promo code is invalid",
+    "redeem": "Redeem",
+    "redeem_success": "Redeem succeeded!",
+    "redeem_error": "Unexpected error happened, please try again later..."
+  },
+  "confirmation_screen": {
+    "title": "Email confirmation",
+    "instruction": "Security code has been sent to {0}. Enter that code in the field below to confirm the email",
+    "snackbar": {
+      "success": "Email successfully confirmed",
+      "error": "Unknown error occurred",
+      "wrong_code": "The code is wrong"
+    },
+    "validation": {
+      "NaN": "The field can be filled only with numbers"
+    }
   },
   "tooltips": {
     "favorite": "Add to favorites",
@@ -53,7 +193,71 @@
       "removed": "Removed from favorites"
     }
   },
+  "like": {
+    "liked": "Added to Liked videos",
+    "unliked": "Removed from Liked videos"
+  },
   "chips": {
     "no_localization": "No localization"
+  },
+  "helper": {
+    "empty_list": "The list is empty",
+    "users_choice": "Users' choice",
+    "exit_hint": "Repeat the action to exit Extreme Insiders"
+  },
+  "payment": {
+    "error": "Payment service error... Try again later",
+    "success_for": "Payment for {0} was successful. If purchased content isn't available - wait a few of minutes and update account screen by pulling it up.",
+    "app_bar_content": "Content payment",
+    "processing": "Processing payment",
+    "warning": "Payment processes in RUB currency at the current exchange rate"
+  },
+  "subscription": {
+    "discount": "Saving {0}",
+    "extend": "Extend",
+    "subscribe": "Subscribe",
+    "is_free": "For free"
+  },
+  "date_ago": {
+    "year": {
+      "one": "1 year ago",
+      "two_four": "{0} years ago",
+      "more": "{0} years ago"
+    },
+    "month": {
+      "one": "1 month ago",
+      "two_four": "{0} months ago",
+      "more": "{0} months ago"
+    },
+    "week": {
+      "one": "1 week ago",
+      "two_four": "{0} weeks ago"
+    },
+    "day": {
+      "one": "1 day ago",
+      "two_four": "{0} days ago",
+      "more": "{0} days ago"
+    },
+    "hour": {
+      "one": "1 hour ago",
+      "two_four": "{0} hours ago",
+      "more": "{0} hours ago"
+    },
+    "minute": {
+      "one": "1 minute ago",
+      "two_four": "{0} minutes ago",
+      "more": "{0} minutes ago",
+      "less_than_one": "Less than a minute ago"
+    }
+  },
+  "pay_card": {
+    "buy": "Purchase",
+    "owned": "Already purchased",
+    "info": "This content requires addition payment"
+  },
+  "about_screen": {
+    "description": "The whole world of extreme sports in one app in from riders to riders style.\n\nSnowboarding, FreeSki, Mountain Bike, Motocross, FMX, Skateboarding, in-line skates, BMX and many other extreme sports through the eyes of Extreme insiders are exclusive for you.\n\nAnnouncements, news and reports from the best extreme sports events from all over the world. News and stories about activities, training and performances from the best riders. \n\nExtreme movies, short videos, live broadcasts, edits from riders, interviews, and more. You could find all of this in the Extreme insiders app. \n\nWelcome to the world of extreme sports with Extreme insiders. \n\nNo one rides better than you.",
+    "email": "Support email: ",
+    "details": "LTD 'EXTREME INSIDERS MOBILE APP' \nPSRN: 1205800007050 \nTIN/IEC: 5836694110 / 583601001 \nPhone: +7 (909) 318-28-28"
   }
 }

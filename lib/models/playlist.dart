@@ -11,13 +11,18 @@ class Playlist {
   int likesAmount;
   String entityType;
   DateTime dateCreated;
+  int bestVideoId;
+
+  bool get isBought {
+    return isPaid && store.state.user.saleIds.playlists.any((x) => x.entityId == id);
+  }
 
   bool get isFavorite {
-    return store.state.user?.favoriteIds?.playlists?.contains(id) ?? false;
+    return store.state.user?.favoriteIds?.playlists?.any((x) => x.entityId == id) ?? false;
   }
 
   bool get isInPreferredLanguage {
-    return store.state?.settings?.culture == content.culture ?? false;
+    return store.state?.settings?.culture == content?.culture ?? false;
   }
 
   Playlist(
@@ -44,6 +49,7 @@ class Playlist {
     dateCreated = DateTime.parse(json['dateCreated']).toLocal();
     likesAmount = json['likesAmount'] ?? 0;
     entityType = json['entityType']?.toString()?.toLowerCase() ?? '';
+    bestVideoId = json['bestVideoId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +68,7 @@ class Playlist {
     data['dateCreated'] = this.dateCreated.toString();
     data['likesAmount'] = this.likesAmount.toString();
     data['entityType'] = this.entityType.toString();
+    data['bestVideoId'] = this.bestVideoId;
     return data;
   }
 }

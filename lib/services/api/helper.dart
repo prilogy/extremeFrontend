@@ -1,15 +1,14 @@
 part of api;
 
 class Helper {
-  static Future<List<Models.Content>> getBanner() async {
+  static Future<List<Models.Banner>> getBanner() async {
     try {
       var response = await dio.get('/helper/banner');
-      var entity = response.data[0]['entity'];
-      var entities = List<Models.Content>();
+      List<Models.Banner> banners = List<Models.Banner>();
       response.data.forEach((v) {
-        entities.add(Models.Content.fromJson(v['entity']['content']));
+        banners.add(Models.Banner.fromJson(v));
       });
-      return entities;
+      return banners;
     } on DioError catch (e) {
       return null;
     }

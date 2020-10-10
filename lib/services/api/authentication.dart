@@ -2,9 +2,16 @@ part of api;
 
 class Authentication {
   static Future<Models.User> login({String email, String password}) async {
+    var headers = {
+      'Culture': store.state.settings?.culture?.key,
+      'Currency': store.state.settings?.currency?.key
+    };
+
     try {
-      var response = await dio
-          .post('/auth/login', data: {"email": email, "password": password});
+      var response = await dio.post('/auth/login',
+          data: {"email": email, "password": password},
+          options: Options(headers: headers));
+
       var user = Models.User.fromJson(response.data);
       return user;
     } on DioError catch (e) {
@@ -46,7 +53,7 @@ class Authentication {
       });
 
     try {
-      var response = await dio.put(
+      await dio.put(
           isSocial ? '/auth/signup/${socialProvider.name}' : '/auth/signup',
           data: FormData.fromMap(map));
       return true;
