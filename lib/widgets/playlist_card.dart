@@ -28,7 +28,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   @override
   Widget build(BuildContext context) {
     var title = model?.content?.name ?? 'Название плейлиста';
-    var description = model?.content?.description ?? 'Какое то описание';
+    var description = model?.content?.description ?? '';
     var imageUrl = model?.content?.image?.path ??
         'https://img2.akspic.ru/image/1601-nebo-priklyucheniya-skachok-bejsdzhamping-kaskader-1920x1080.jpg';
     var videosAmount = (model?.videosIds?.length ?? 0).toString();
@@ -70,6 +70,18 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                             ),
                           ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.all(Indents.sm),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              Text(
+                                title,
+                                style: Theme.of(context).textTheme.subtitle1,
+                              ),
+                            ],
+                          ),
+                        ),
                         Positioned.fill(
                             child: Material(
                           color: Colors.transparent,
@@ -83,18 +95,6 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                             },
                           ),
                         )),
-                        Padding(
-                          padding: const EdgeInsets.all(Indents.sm),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                title,
-                                style: Theme.of(context).textTheme.subtitle1,
-                              ),
-                            ],
-                          ),
-                        ),
                       ],
                     )
                   : Stack(
@@ -120,19 +120,6 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                             ),
                           ),
                         ),
-                        Positioned.fill(
-                            child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => PlaylistScreen(
-                                  model: model,
-                                ),
-                              ));
-                            },
-                          ),
-                        )),
                         Padding(
                           padding: const EdgeInsets.all(Indents.md),
                           child: Column(
@@ -173,7 +160,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .onPrimary))),
-                                    Text(
+                                    description != '' ? Text(
                                       description,
                                       style: Theme.of(context)
                                           .textTheme
@@ -182,11 +169,39 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .onPrimary)),
-                                    ),
+                                    ) : Container(),
                                   ]),
                             ],
                           ),
                         ),
+                        Positioned.fill(
+                            child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => PlaylistScreen(
+                                  model: model,
+                                ),
+                              ));
+                            },
+                          ),
+                        )),
+                        Padding(
+                            padding: const EdgeInsets.all(Indents.md),
+                            child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        FavoriteToggler(
+                                          id: model?.id,
+                                          status: model?.isFavorite,
+                                        ),
+                                      ])
+                                ]))
                       ],
                     ),
             ),
