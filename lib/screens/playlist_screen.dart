@@ -35,126 +35,129 @@ class PlaylistScreen extends StatelessWidget {
     final loc = AppLocalizations.of(context).withBaseKey('playlist_screen');
 
     return StoreConnector<AppState, Models.User>(
-      converter: (store) => store.state.user,
-      builder: (context, state) =>
-          ScreenBaseWidget(
-            padding:
-            EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-            appBarComplex: (ctx, c) => ScrollAppBar(
-            controller: c,
-            actions: <Widget>[
-              FavoriteToggler(
-                id: model?.id,
-                status: model?.isFavorite,
-                noAlign: true,
-                size: 24,
+        converter: (store) => store.state.user,
+        builder: (context, state) => ScreenBaseWidget(
+              padding:
+                  EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
+              appBarComplex: (ctx, c) => ScrollAppBar(
+                controller: c,
+                actions: <Widget>[
+                  FavoriteToggler(
+                    id: model?.id,
+                    status: model?.isFavorite,
+                    noAlign: true,
+                    size: 24,
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: () {
+                      Navigator.of(context, rootNavigator: true).pushNamed(
+                          '/search_in_entity',
+                          arguments: [model.id, false]);
+                    },
+                  ),
+                ],
               ),
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  Navigator.of(context, rootNavigator: true)
-                      .pushNamed('/search_in_entity', arguments: [model.id, false]);
-                },
-              ),
-            ],
-          ),
-      builder: (context) =>
-      <Widget>[
-        HeaderPlaylist(model: model),
-        model.isPaid
-            ? BlockBaseWidget(
-          child: PayCard(
-            price: model.price,
-            isBought: model.isBought,
-            onBuy: () async {
-              var url =
-              await Api.Sale.getPaymentUrl(model.id);
+              builder: (context) => <Widget>[
+                HeaderPlaylist(model: model),
+                model.isPaid
+                    ? BlockBaseWidget(
+                        child: PayCard(
+                          price: model.price,
+                          isBought: model.isBought,
+                          onBuy: () async {
+                            var url = await Api.Sale.getPaymentUrl(model.id);
 
-              if (url == null) {
-                SnackBarExtension.show(SnackBarExtension.error(
-                    AppLocalizations.of(context)
-                        .translate('payment.error')));
-              } else {
-                Navigator.of(context, rootNavigator: true)
-                    .push(MaterialPageRoute(
-                    builder: (ctx) =>
-                        PaymentScreen(
-                          title: AppLocalizations.of(context)
-                              .translate(
-                              'payment.app_bar_content', [HelperMethods
-                              .capitalizeString(
-                              AppLocalizations.of(context).translate(
-                                  'base.playlist'))
-                          ]),
-                          url: url,
-                          onPaymentDone: () async {
-                            await Api.User.refresh(true, true);
-                            var playlist = await Api.Entities.getById<
-                                Models.Playlist>(model.id);
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(builder: (ctx) =>
-                                    PlaylistScreen(model: playlist)));
-                            SnackBarExtension.show(
-                                SnackBarExtension.success(
-                                    AppLocalizations.of(context)
-                                        .translate(
-                                        'payment.success_for', [
-                                      AppLocalizations.of(context).translate(
-                                          'base.playlist')
-                                    ]),
-                                    Duration(seconds: 7)));
+                            if (url == null) {
+                              SnackBarExtension.show(SnackBarExtension.error(
+                                  AppLocalizations.of(context)
+                                      .translate('payment.error')));
+                            } else {
+                              Navigator.of(context, rootNavigator: true)
+                                  .push(MaterialPageRoute(
+                                      builder: (ctx) => PaymentScreen(
+                                            title: AppLocalizations.of(context)
+                                                .translate(
+                                                    'payment.app_bar_content', [
+                                              HelperMethods.capitalizeString(
+                                                  AppLocalizations.of(context)
+                                                      .translate(
+                                                          'base.playlist'))
+                                            ]),
+                                            url: url,
+                                            onPaymentDone: () async {
+                                              await Api.User.refresh(
+                                                  true, true);
+                                              var playlist = await Api.Entities
+                                                  .getById<Models.Playlist>(
+                                                      model.id);
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                      MaterialPageRoute(
+                                                          builder: (ctx) =>
+                                                              PlaylistScreen(
+                                                                  model:
+                                                                      playlist)));
+                                              SnackBarExtension.show(
+                                                  SnackBarExtension.success(
+                                                      AppLocalizations.of(
+                                                              context)
+                                                          .translate(
+                                                              'payment.success_for',
+                                                              [
+                                                            AppLocalizations.of(
+                                                                    context)
+                                                                .translate(
+                                                                    'base.playlist')
+                                                          ]),
+                                                      Duration(seconds: 7)));
+                                            },
+                                            onBrowserClose: () async {
+                                              await Api.User.refresh(
+                                                  true, true);
+                                            },
+                                          )));
+                            }
                           },
-                          onBrowserClose: () async {
-                            await Api.User.refresh(
-                                true, true);
-                          },
-                        )));
-              }
-            },
-          ),
-        )
-            : Container(),
-        BlockBaseWidget(
-            header: AppLocalizations.of(context)
-                .translate('helper.users_choice'),
-            child: CustomFutureBuilder<Models.Video>(
-                future: Api.Entities.getById<Models.Video>(
-                    model.bestVideoId),
-                builder: (data) =>
-                    VideoCard(
-                      model: data,
-                      aspectRatio: 16 / 9,
-                    ))),
-        BlockBaseWidget(
-          header: loc.translate("videos"),
-          child: CustomFutureBuilder<List<Models.Video>>(
-              future:
-              Api.Entities.getByIds<Models.Video>(model.videosIds),
-              builder: (data) =>
-                  CustomListBuilder(
-                      items: data,
-                      itemBuilder: (item) =>
-                          VideoCard(aspectRatio: 16 / 9, model: item))),
-        ),
-        BlockBaseWidget.forScrollingViews(
-          header: loc.translate("see_also"),
-          child: CustomFutureBuilder<List<Models.Playlist>>(
-              future:
-              Api.Entities.recommended<Models.Playlist>(1, 6),
-              builder: (data) =>
-                  CustomListBuilder(
-                      type: CustomListBuilderTypes.horizontalList,
-                      height: 100,
-                      items: data,
-                      itemBuilder: (item) =>
-                          PlayListCard(
-                            model: item,
-                            aspectRatio: 16 / 9,
-                            small: true,
-                          ))),
-        )
-      ],
-    ));
+                        ),
+                      )
+                    : Container(),
+                BlockBaseWidget(
+                    header: AppLocalizations.of(context)
+                        .translate('helper.users_choice'),
+                    child: CustomFutureBuilder<Models.Video>(
+                        future: Api.Entities.getById<Models.Video>(
+                            model.bestVideoId),
+                        builder: (data) => VideoCard(
+                              model: data,
+                              aspectRatio: 16 / 9,
+                            ))),
+                BlockBaseWidget(
+                  header: loc.translate("videos"),
+                  child: CustomFutureBuilder<List<Models.Video>>(
+                      future:
+                          Api.Entities.getByIds<Models.Video>(model.videosIds),
+                      builder: (data) => CustomListBuilder(
+                          items: data,
+                          itemBuilder: (item) =>
+                              VideoCard(aspectRatio: 16 / 9, model: item))),
+                ),
+                BlockBaseWidget.forScrollingViews(
+                  header: loc.translate("see_also"),
+                  child: CustomFutureBuilder<List<Models.Playlist>>(
+                      future: Api.Entities.recommended<Models.Playlist>(1, 6),
+                      builder: (data) => CustomListBuilder(
+                          type: CustomListBuilderTypes.horizontalList,
+                          height: 100,
+                          items: data,
+                          itemBuilder: (item) => PlayListCard(
+                                model: item,
+                                aspectRatio: 16 / 9,
+                                small: true,
+                              ))),
+                )
+              ],
+            ));
   }
 }
 
@@ -167,14 +170,12 @@ class HeaderPlaylist extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
+    final description = model?.content?.description ?? '';
 
     return Stack(
       children: <Widget>[
         Container(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height / 3,
+            height: MediaQuery.of(context).size.height / 3,
             decoration: BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.cover,
@@ -187,15 +188,15 @@ class HeaderPlaylist extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       stops: [
-                        0,
-                        0.8,
-                        1
-                      ],
+                    0,
+                    0.8,
+                    1
+                  ],
                       colors: [
-                        theme.colorScheme.background.withOpacity(0),
-                        theme.colorScheme.background.withOpacity(1),
-                        theme.colorScheme.background.withOpacity(1),
-                      ])),
+                    theme.colorScheme.background.withOpacity(0),
+                    theme.colorScheme.background.withOpacity(1),
+                    theme.colorScheme.background.withOpacity(1),
+                  ])),
             )),
         Positioned.fill(
           bottom: Indents.md,
@@ -210,15 +211,9 @@ class HeaderPlaylist extends StatelessWidget {
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(bottom: Indents.sm),
-                    child: Text(
-                        model?.content?.name ??
-                            "Название плейлиста",
+                    child: Text(model?.content?.name ?? "Название плейлиста",
                         textAlign: TextAlign.center,
-                        style: Theme
-                            .of(context)
-                            .textTheme
-                            .headline5
-                            .merge(
+                        style: Theme.of(context).textTheme.headline5.merge(
                             TextStyle(
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 0.25))),
@@ -226,13 +221,12 @@ class HeaderPlaylist extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.only(bottom: Indents.sm),
                     padding: EdgeInsets.symmetric(horizontal: Indents.lg),
-                    child: Text(
-                      model?.content?.description ??
+                    child: description != '' ? Text(
+                      description ??
                           "Описание данного плейлиста",
-                      style: Theme
-                          .of(context)
-                          .textTheme
-                          .bodyText2, textAlign: TextAlign.center,),
+                      style: Theme.of(context).textTheme.bodyText2,
+                      textAlign: TextAlign.center,
+                    ): Container(),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
