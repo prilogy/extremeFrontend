@@ -30,44 +30,107 @@ class _AccountInfoState extends State<AccountInfo> {
     final loc = AppLocalizations.of(context).withBaseKey('account_screen');
 
     var user = StoreProvider.of<AppState>(context).state.user;
-    _nameController.text = user.name;
-    _emailController.text = user.email;
+
+    _nameController.text = user.name ?? '';
+    _emailController.text = user.email ?? '';
 
     if (!edit)
       return Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    user.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .merge(TextStyle(height: 1.6)),
-                  ),
-                  Text(
-                      loc.translate("duration") +
-                          HelperMethods.dateToString(user.dateSignUp),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
+                Widget>[
+              user.name != null
+                  ? Text(
+                      user.name,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2
-                          .merge(TextStyle(color: ExtremeColors.base70[200]))),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Email: ' + user.email,
-                        style: Theme.of(context).textTheme.bodyText2,
+                          .headline6
+                          .merge(TextStyle(height: 1.6)),
+                    )
+                  : Container(),
+              Text(
+                  loc.translate("duration") +
+                      HelperMethods.dateToString(user.dateSignUp),
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .merge(TextStyle(color: ExtremeColors.base70[200]))),
+              user.email != null
+                  ? Row(
+                      children: <Widget>[
+                        Text(
+                          'Email: ' + (user.email ?? ''),
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                        !user.emailVerified ? ConfirmationSign() : Container(),
+                      ],
+                    )
+                  : InkWell(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(right: Indents.sm),
+                            child: Icon(
+                              Icons.error,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                          Text(
+                            loc.translate("no_email_hint"),
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            softWrap: false,
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .merge(TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                )),
+                          ),
+                        ],
                       ),
-                      StoreConnector<AppState, User>(
-                        converter: (store) => store.state.user,
-                        builder: (context, state) => !state.emailVerified ? ConfirmationSign() : Container(),
+                      onTap: () {
+                        setState(() {
+                          edit = !edit;
+                        });
+                      },
+                    ),
+              user.hasPassword == false && user.email != null
+                  ? InkWell(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(right: Indents.sm),
+                            child: Icon(
+                              Icons.error,
+                              color: Theme.of(context).colorScheme.error,
+                            ),
+                          ),
+                          Text(
+                            loc.translate("no_password_hint"),
+                            overflow: TextOverflow.fade,
+                            maxLines: 1,
+                            softWrap: false,
+                            style: Theme.of(context)
+                                .textTheme
+                                .caption
+                                .merge(TextStyle(
+                                  color: Theme.of(context).colorScheme.error,
+                                )),
+                          ),
+                        ],
                       ),
-                    ],
-                  )
-                ]),
+                      onTap: () {
+                        Navigator.of(context, rootNavigator: true)
+                            .pushNamed('/reset_pass');
+                      },
+                    )
+                  : Container(),
+            ]),
             Column(children: <Widget>[
               IconButton(
                   onPressed: () {
@@ -96,13 +159,6 @@ class _AccountInfoState extends State<AccountInfo> {
               controller: _nameController,
               decoration: InputDecoration(
                   labelText: loc.translate("name"), icon: Icon(Icons.person)),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return loc.translate("field_is_empty");
-                }
-
-                return null;
-              },
             ),
             TextFormField(
               controller: _emailController,
@@ -178,34 +234,34 @@ class ConfirmationSign extends StatelessWidget {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context).withBaseKey('account_screen');
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: Indents.md),
-        child: InkWell(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(right: Indents.sm),
-                child: Icon(
-                  Icons.error,
-                  color: Theme.of(context).colorScheme.error,
-                ),
+      padding: EdgeInsets.symmetric(horizontal: Indents.md),
+      child: InkWell(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(right: Indents.sm),
+              child: Icon(
+                Icons.error,
+                color: Theme.of(context).colorScheme.error,
               ),
-              Text(
-                loc.translate("email_confirm"),
-                overflow: TextOverflow.fade,
-                maxLines: 1,
-                softWrap: false,
-                style: Theme.of(context).textTheme.caption.merge(TextStyle(
-                      color: Theme.of(context).colorScheme.error,
-                    )),
-              ),
-            ],
-          ),
-          onTap: () {
-            Api.User.confirmEmailRequest();
-            Navigator.of(context, rootNavigator: true).pushNamed('/confirmation');
-          },
+            ),
+            Text(
+              loc.translate("email_confirm"),
+              overflow: TextOverflow.fade,
+              maxLines: 1,
+              softWrap: false,
+              style: Theme.of(context).textTheme.caption.merge(TextStyle(
+                    color: Theme.of(context).colorScheme.error,
+                  )),
+            ),
+          ],
         ),
+        onTap: () {
+          Api.User.confirmEmailRequest();
+          Navigator.of(context, rootNavigator: true).pushNamed('/confirmation');
+        },
+      ),
     );
   }
 }

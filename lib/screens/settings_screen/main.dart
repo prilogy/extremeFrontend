@@ -1,3 +1,4 @@
+import 'package:extreme/config/env.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/screens/payment_screen.dart';
@@ -95,7 +96,7 @@ class SettingsScreen extends StatelessWidget {
                       title: loc.translate('policy'),
                       onPressed: () {
                         browser.openUrl(
-                            url: 'https://extremeprilogy.ru/policy.html');
+                            url: config.API_BASE_URL + '/policy.html');
                       },
                     ),
                     SettingsWidget(
@@ -122,7 +123,7 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      loc.translate('version', ["1.0"]),
+                      loc.translate('version', ["1.1"]),
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1

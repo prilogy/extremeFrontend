@@ -87,7 +87,9 @@
     "account_disconnect_success": "Аккаунт {0} успешно отвязан",
     "subscription_payment_app_bar": "Оплата подписки",
     "subscription_payment_success": "Оплата подписки успешна. Обновление статуса подписки может занять несколько минут. Вы всегда можете обновить данные потянув вниз на экране профиля",
-    "edit_email_error": "Этот email уже используется"
+    "edit_email_error": "Этот email уже используется",
+    "no_email_hint": "Добавьте email чтобы не потерять аккаунт",
+    "no_password_hint": "Введите пароль чтобы всегда иметь доступ к аккаунту"
   },
   "settings_screen": {
     "app_bar": "Настройки",

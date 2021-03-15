@@ -53,6 +53,7 @@ class User {
       var response = await dio.patch('/user/edit', data: FormData.fromMap(map));
       return Models.User.fromJson(response.data);
     } on DioError catch (e) {
+      print(e);
       return null;
     }
   }

@@ -96,19 +96,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      TextFormField(
-                        controller: _nameController,
-                        validator: (value) {
-                          if (value.isEmpty) {
-                            return loc.translate('error.empty');
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                            icon: Icon(Icons.perm_identity),
-                            hintText: 'Walter White',
-                            labelText: loc.translate('name')),
-                      ),
+                      // TextFormField(
+                      //   controller: _nameController,
+                      //   validator: (value) {
+                      //     if (value.isEmpty) {
+                      //       return loc.translate('error.empty');
+                      //     }
+                      //     return null;
+                      //   },
+                      //   decoration: InputDecoration(
+                      //       icon: Icon(Icons.perm_identity),
+                      //       hintText: 'Walter White',
+                      //       labelText: loc.translate('name')),
+                      // ),
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
@@ -156,41 +156,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             icon: Icon(Icons.lock),
                             labelText: loc.translate('repeat_password')),
                       ),
-                      TextFormField(
-                        controller: _phoneNumberController,
-                        decoration: InputDecoration(
-                            icon: Icon(Icons.phone_android),
-                            labelText: loc.translate('phone_number')),
-                      ),
-                      DateTimeField(
-                          controller: _birthDayController,
-                          format: format,
-                          validator: (value) {
-                            if (value == null) {
-                              return loc.translate('error.empty_date');
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                              icon: Icon(Icons.date_range),
-                              labelText: loc.translate('date_of_birth')),
-                          onShowPicker: (context, currentValue) async {
-                            return showDatePicker(
-                                context: context,
-                                firstDate: DateTime(1900),
-                                initialDate: currentValue ?? DateTime.now(),
-                                lastDate: DateTime(2100));
-                          }),
-                      TextFormField(
-                        controller: _imageController,
-                        focusNode: AlwaysDisabledFocusNode(),
-                        decoration: InputDecoration(
-                            icon: Icon(Icons.photo),
-                            labelText: loc.translate('avatar')),
-                        onTap: () {
-                          getImage();
-                        },
-                      ),
+                      // TextFormField(
+                      //   controller: _phoneNumberController,
+                      //   decoration: InputDecoration(
+                      //       icon: Icon(Icons.phone_android),
+                      //       labelText: loc.translate('phone_number')),
+                      // ),
+                      // DateTimeField(
+                      //     controller: _birthDayController,
+                      //     format: format,
+                      //     validator: (value) {
+                      //       if (value == null) {
+                      //         return loc.translate('error.empty_date');
+                      //       }
+                      //       return null;
+                      //     },
+                      //     decoration: InputDecoration(
+                      //         icon: Icon(Icons.date_range),
+                      //         labelText: loc.translate('date_of_birth')),
+                      //     onShowPicker: (context, currentValue) async {
+                      //       return showDatePicker(
+                      //           context: context,
+                      //           firstDate: DateTime(1900),
+                      //           initialDate: currentValue ?? DateTime.now(),
+                      //           lastDate: DateTime(2100));
+                      //     }),
+                      // TextFormField(
+                      //   controller: _imageController,
+                      //   focusNode: AlwaysDisabledFocusNode(),
+                      //   decoration: InputDecoration(
+                      //       icon: Icon(Icons.photo),
+                      //       labelText: loc.translate('avatar')),
+                      //   onTap: () {
+                      //     getImage();
+                      //   },
+                      // ),
                       if (_image != null)
                         Container(
                             margin: EdgeInsets.only(top: Indents.sm),
@@ -222,13 +222,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   var result = await Api.Authentication.signUp(
                                       email: _emailController.text,
                                       password: _passwordController.text,
-                                      avatar: _image,
-                                      dateBirthday: _birthDayController.text,
-                                      name: _nameController.text,
-                                      phoneNumber: _phoneNumberController.text,
-                                      socialIdentity: socialIdentity ?? null,
-                                      socialProvider:
-                                          widget.accountProvider ?? null);
+                                      name: null,
+                                      dateBirthday: null,
+                                      // avatar: _image,
+                                      // dateBirthday: _birthDayController.text,
+                                      // name: _nameController.text,
+                                      // phoneNumber: _phoneNumberController.text,
+                                      // socialIdentity: socialIdentity ?? null,
+                                      // socialProvider:
+                                      //     widget.accountProvider ?? null
+                                  );
                                   if (result == true) {
                                     scf.showSnackBar(SnackBar(
                                       content: Text(loc.translate('success')),

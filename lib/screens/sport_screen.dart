@@ -46,8 +46,9 @@ class SportScreen extends StatelessWidget {
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed('/search_in_entity', arguments: [model.id, true]);
+                    Navigator.of(context, rootNavigator: true).pushNamed(
+                        '/search_in_entity',
+                        arguments: [model.id, true]);
                   },
                 ),
               ],
@@ -112,21 +113,23 @@ class SportScreen extends StatelessWidget {
                     ),
                   )),
               CustomFutureBuilder<List<Models.Movie>>(
-                    future:
-                        Api.Entities.getByIds<Models.Movie>(model.moviesIds),
-                    builder: (data) => data.length > 0 ? BlockBaseWidget.forScrollingViews(
+                future: Api.Entities.getByIds<Models.Movie>(model.moviesIds),
+                builder: (data) => data.length > 0
+                    ? BlockBaseWidget.forScrollingViews(
                         header: HelperMethods.capitalizeString(
-                            AppLocalizations.of(context).translate('base.movies')),
+                            AppLocalizations.of(context)
+                                .translate('base.movies')),
                         child: CustomListBuilder(
-                        type: CustomListBuilderTypes.horizontalList,
-                        connectToStore: true,
-                        items: data,
-                        height: 200,
-                        itemBuilder: (item) => MovieCard(
-                              model: item,
-                              aspectRatio: 9 / 16,
-                            ))) : Container(),
-                  ),
+                            type: CustomListBuilderTypes.horizontalList,
+                            connectToStore: true,
+                            items: data,
+                            height: 200,
+                            itemBuilder: (item) => MovieCard(
+                                  model: item,
+                                  aspectRatio: 9 / 16,
+                                )))
+                    : Container(),
+              ),
               BlockBaseWidget(
                   header: AppLocalizations.of(context)
                       .translate('helper.users_choice'),
@@ -141,12 +144,13 @@ class SportScreen extends StatelessWidget {
                   header: loc.translate('recommended',
                       [AppLocalizations.of(context).translate('base.video')]),
                   child: CustomFutureBuilder<Models.Video>(
-                    future:
-                        Api.Entities.getById<Models.Video>(model.bestVideoId),
-                    builder: (data) => VideoCard(
-                      model: data,
-                    ),
-                  )),
+                      future:
+                          Api.Entities.getById<Models.Video>(model.bestVideoId),
+                      builder: (data) {
+                        return data != null ? VideoCard(
+                          model: data,
+                        ) : Container();
+                      })),
               BlockBaseWidget(
                   margin: EdgeInsets.all(0),
                   header: HelperMethods.capitalizeString(

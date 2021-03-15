@@ -27,7 +27,8 @@ class Entities {
     if (entityName == null) return null;
 
     try {
-      var response = await dio.get('/$entityName/$id');
+      var url = '/$entityName/$id';
+      var response = await dio.get(url);
       var entity = _entityFromJson<T>(response.data);
       return entity;
     } on DioError catch (e) {

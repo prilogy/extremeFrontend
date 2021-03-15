@@ -7,6 +7,7 @@ class User {
   int id;
   String email;
   String name;
+  bool hasPassword;
   DateTime dateBirthday;
   DateTime dateSignUp;
   String phoneNumber;
@@ -14,8 +15,8 @@ class User {
 
   bool get isSubscribed {
     return this.subscription != null &&
-            this.subscription.dateEnd != null &&
-            this.subscription.dateEnd.isAfter(DateTime.now());
+        this.subscription.dateEnd != null &&
+        this.subscription.dateEnd.isAfter(DateTime.now());
   }
 
   bool emailVerified;
@@ -35,6 +36,7 @@ class User {
       this.email,
       this.name,
       this.dateBirthday,
+      this.hasPassword,
       this.dateSignUp,
       this.phoneNumber,
       this.subscription,
@@ -47,6 +49,7 @@ class User {
   static User fromLocalStorage() {
     try {
       var json = localStorage.getItem(localStorageKey);
+      print(json);
       return json == null ? null : User.fromJson(json);
     } catch (ex) {
       return null;
@@ -72,6 +75,7 @@ class User {
     id = json['id'];
     email = json['email'];
     name = json['name'];
+    hasPassword = json['hasPassword'];
     dateBirthday = DateTime.parse(json['dateBirthday']).toLocal();
     dateSignUp = DateTime.parse(json['dateSignUp']).toLocal();
     phoneNumber = json['phoneNumber'];
@@ -104,6 +108,7 @@ class User {
     data['id'] = this.id;
     data['email'] = this.email;
     data['name'] = this.name;
+    data['hasPassword'] = this.hasPassword;
     data['dateBirthday'] = this.dateBirthday.toString();
     data['dateSignUp'] = this.dateSignUp.toString();
     data['phoneNumber'] = this.phoneNumber;
@@ -207,8 +212,8 @@ class _SaleIds {
   }
 }
 
-
-List<EntityIdItem> processIdsListFromJson(String key, Map<String, dynamic> json) {
+List<EntityIdItem> processIdsListFromJson(
+    String key, Map<String, dynamic> json) {
   if (json[key] != null) {
     var list = new List<EntityIdItem>();
     json[key].forEach((v) {
@@ -219,6 +224,7 @@ List<EntityIdItem> processIdsListFromJson(String key, Map<String, dynamic> json)
   return null;
 }
 
-List<Map<String, dynamic>> processIdsListToJson(List<EntityIdItem> list, Map<String, dynamic> json) {
+List<Map<String, dynamic>> processIdsListToJson(
+    List<EntityIdItem> list, Map<String, dynamic> json) {
   return list != null ? list.map((v) => v.toJson()).toList() : null;
 }

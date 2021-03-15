@@ -212,6 +212,10 @@ class SetNewPassword extends StatelessWidget {
                       if (_formKey.currentState.validate()) {
                         var response = await Api.User.resetPasswordAttempt(
                             code, _passController.text);
+
+                        if(store.state.user != null)
+                          await Api.User.refresh(true, true);
+
                         Scaffold.of(context).showSnackBar(response
                             ? SnackBarExtension.success(
                                 loc.translate('snackbar.success'))
