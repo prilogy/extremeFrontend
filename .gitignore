@@ -12,7 +12,7 @@
 *.jks
 *.mp4
 
-store.keystore
+android/app/store.keystore
 key.properties
 
 android/app/src/main/res/values/strings.xml
