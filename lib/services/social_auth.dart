@@ -1,5 +1,6 @@
+import 'package:extreme/config/env.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
-import 'package:flutter_vk_login/flutter_vk_login.dart';
+import 'package:flutter_login_vk/flutter_login_vk.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class SocialAuthService {
@@ -32,13 +33,21 @@ class FacebookAuthService implements SocialAuthService {
 }
 
 class VkAuthService implements SocialAuthService {
-  final FlutterVkLogin vkLogin;
+  final VKLogin vkLogin;
+  static final String svgPath = "assets/svg/vk_logo.svg";
+  static final double size = 17;
 
-  VkAuthService(): vkLogin = FlutterVkLogin();
+  VkAuthService() : vkLogin = VKLogin();
 
   @override
   Future<String> getToken() async {
-    var result = await vkLogin.logIn(['email']);
-    return result?.token?.token ?? null;
+    await vkLogin.initSdk(config.VK_APP_ID);
+    var result = await vkLogin.logIn(scope: [VKScope.email]);
+    if (result.isValue) {} else
+      print(result.asError);
+
+    var token = result.asValue?.value?.accessToken ?? null;
+
+    return token?.token ?? null;
   }
 }
