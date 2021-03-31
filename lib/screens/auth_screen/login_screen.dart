@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart' as Models;
@@ -99,17 +101,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           behavior: MyBehavior(),
                           child: ListView(
                             children: <Widget>[
-                              AuthMethodTypeButton(
-                                color: Color(0xff4A76A8),
-                                name: 'VK',
-                                svgPath: 'vk',
-                                onPressed: () async {
-                                  var vkAuth = VkAuthService();
-                                  var token = await vkAuth.getToken();
-                                  await _authWithSocial(context,
-                                      Models.SocialAccountProvider.vk, token);
-                                },
-                              ),
+                              if (!Platform.isIOS)
+                                AuthMethodTypeButton(
+                                  color: Color(0xff4A76A8),
+                                  name: 'VK',
+                                  svgPath: 'vk',
+                                  onPressed: () async {
+                                    var vkAuth = VkAuthService();
+                                    var token = await vkAuth.getToken();
+                                    await _authWithSocial(context,
+                                        Models.SocialAccountProvider.vk, token);
+                                  },
+                                ),
                               AuthMethodTypeButton(
                                 color: Color(0xff4267B2),
                                 name: 'Facebook',
@@ -124,20 +127,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                       token);
                                 },
                               ),
-                              AuthMethodTypeButton(
-                                color: Color(0xffffffff),
-                                name: 'Google',
-                                svgPath: 'google',
-                                iconSize: 20,
-                                onPressed: () async {
-                                  var googleAuth = GoogleAuthService();
-                                  var token = await googleAuth.getToken();
-                                  await _authWithSocial(
-                                      context,
-                                      Models.SocialAccountProvider.google,
-                                      token);
-                                },
-                              ),
+                              if (!Platform.isIOS)
+                                AuthMethodTypeButton(
+                                  color: Color(0xffffffff),
+                                  name: 'Google',
+                                  svgPath: 'google',
+                                  iconSize: 20,
+                                  onPressed: () async {
+                                    var googleAuth = GoogleAuthService();
+                                    var token = await googleAuth.getToken();
+                                    await _authWithSocial(
+                                        context,
+                                        Models.SocialAccountProvider.google,
+                                        token);
+                                  },
+                                ),
                               AuthMethodTypeButton(
                                 color: Color(0xffffffff).withOpacity(0.5),
                                 name: 'Email',
