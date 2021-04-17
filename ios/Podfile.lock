@@ -21,8 +21,9 @@ PODS:
     - Flutter
   - flutter_inappwebview (0.0.1):
     - Flutter
-  - flutter_vk_login (0.0.1):
+  - flutter_login_vk (0.1.0):
     - Flutter
+    - VK-ios-sdk (~> 1.6.1)
   - fluttertoast (0.0.2):
     - Flutter
     - Toast
@@ -33,14 +34,10 @@ PODS:
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GTMAppAuth (1.1.0):
+  - GTMAppAuth (1.2.1):
     - AppAuth/Core (~> 1.4)
-    - GTMSessionFetcher (~> 1.4)
-  - GTMSessionFetcher (1.5.0):
-    - GTMSessionFetcher/Full (= 1.5.0)
+    - GTMSessionFetcher/Core (~> 1.5)
   - GTMSessionFetcher/Core (1.5.0)
-  - GTMSessionFetcher/Full (1.5.0):
-    - GTMSessionFetcher/Core (= 1.5.0)
   - image_picker (0.0.1):
     - Flutter
   - path_provider (0.0.1):
@@ -48,12 +45,13 @@ PODS:
   - Toast (4.0.0)
   - video_player (0.0.1):
     - Flutter
+  - VK-ios-sdk (1.6.2)
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
-  - flutter_vk_login (from `.symlinks/plugins/flutter_vk_login/ios`)
+  - flutter_login_vk (from `.symlinks/plugins/flutter_login_vk/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
@@ -69,6 +67,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - Toast
+    - VK-ios-sdk
 
 EXTERNAL SOURCES:
   Flutter:
@@ -77,8 +76,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
   flutter_inappwebview:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
-  flutter_vk_login:
-    :path: ".symlinks/plugins/flutter_vk_login/ios"
+  flutter_login_vk:
+    :path: ".symlinks/plugins/flutter_login_vk/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
   google_sign_in:
@@ -97,17 +96,18 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
   flutter_inappwebview: 69dfbac46157b336ffbec19ca6dfd4638c7bf189
-  flutter_vk_login: 004bf52719d196d5be9562372a9732d9a2249245
+  flutter_login_vk: 9dad26a328a4f2e3fa28347d10ab13afe26f0999
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
+  GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
+  VK-ios-sdk: 5bcf00a2014a7323f98db9328b603d4f96635caa
 
-PODFILE CHECKSUM: b36d5cd3a0ae0bba246516659a1bdc57e4a510df
+PODFILE CHECKSUM: 1d749050e6cbb730e4d238a3bf10672790e398af
 
 COCOAPODS: 1.10.1

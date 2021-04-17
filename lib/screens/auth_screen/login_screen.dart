@@ -49,6 +49,11 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     var loc = AppLocalizations.of(context).withBaseKey('login_screen');
     var theme = Theme.of(context);
+    var os = Platform.isAndroid
+        ? SocialAuthOS.Android
+        : Platform.isIOS
+            ? SocialAuthOS.IOS
+            : null;
 
     return ScreenBaseWidget(
         padding: EdgeInsets.all(0),
@@ -101,47 +106,56 @@ class _LoginScreenState extends State<LoginScreen> {
                           behavior: MyBehavior(),
                           child: ListView(
                             children: <Widget>[
-                              if (!Platform.isIOS)
+                              for (var item in SocialAuthService.all)
                                 AuthMethodTypeButton(
-                                  color: Color(0xff4A76A8),
-                                  name: 'VK',
-                                  svgPath: 'vk',
+                                  service: item,
                                   onPressed: () async {
-                                    var vkAuth = VkAuthService();
-                                    var token = await vkAuth.getToken();
-                                    await _authWithSocial(context,
-                                        Models.SocialAccountProvider.vk, token);
-                                  },
-                                ),
-                              AuthMethodTypeButton(
-                                color: Color(0xff4267B2),
-                                name: 'Facebook',
-                                svgPath: 'fb',
-                                iconSize: 18,
-                                onPressed: () async {
-                                  var fbAuth = FacebookAuthService();
-                                  var token = await fbAuth.getToken();
-                                  await _authWithSocial(
-                                      context,
-                                      Models.SocialAccountProvider.facebook,
-                                      token);
-                                },
-                              ),
-                              if (!Platform.isIOS)
-                                AuthMethodTypeButton(
-                                  color: Color(0xffffffff),
-                                  name: 'Google',
-                                  svgPath: 'google',
-                                  iconSize: 20,
-                                  onPressed: () async {
-                                    var googleAuth = GoogleAuthService();
-                                    var token = await googleAuth.getToken();
+                                    var token = await item.getToken();
                                     await _authWithSocial(
-                                        context,
-                                        Models.SocialAccountProvider.google,
-                                        token);
+                                        context, item.socialAccount, token);
                                   },
                                 ),
+                              // if (!Platform.isIOS)
+                              //   AuthMethodTypeButton(
+                              //     color: Color(0xff4A76A8),
+                              //     name: 'VK',
+                              //     svgPath: 'vk',
+                              //     onPressed: () async {
+                              //       var vkAuth = VkAuthService();
+                              //       var token = await vkAuth.getToken();
+                              //       await _authWithSocial(context,
+                              //           Models.SocialAccountProvider.vk, token);
+                              //     },
+                              //   ),
+                              // AuthMethodTypeButton(
+                              //   color: Color(0xff4267B2),
+                              //   name: 'Facebook',
+                              //   svgPath: 'fb',
+                              //   iconSize: 18,
+                              //   onPressed: () async {
+                              //     var fbAuth = FacebookAuthService();
+                              //     var token = await fbAuth.getToken();
+                              //     await _authWithSocial(
+                              //         context,
+                              //         Models.SocialAccountProvider.facebook,
+                              //         token);
+                              //   },
+                              // ),
+                              // if (!Platform.isIOS)
+                              //   AuthMethodTypeButton(
+                              //     color: Color(0xffffffff),
+                              //     name: 'Google',
+                              //     svgPath: 'google',
+                              //     iconSize: 20,
+                              //     onPressed: () async {
+                              //       var googleAuth = GoogleAuthService();
+                              //       var token = await googleAuth.getToken();
+                              //       await _authWithSocial(
+                              //           context,
+                              //           Models.SocialAccountProvider.google,
+                              //           token);
+                              //     },
+                              //   ),
                               AuthMethodTypeButton(
                                 color: Color(0xffffffff).withOpacity(0.5),
                                 name: 'Email',
@@ -191,36 +205,45 @@ class _LoginScreenState extends State<LoginScreen> {
 class AuthMethodTypeButton extends StatelessWidget {
   const AuthMethodTypeButton(
       {Key key,
-      this.color,
-      this.name,
-      this.svgPath,
-      this.iconSize = 16,
-      this.typeText,
+      this.iconSize,
       this.icon,
       this.onPressed,
+      this.service,
+      this.name,
+      this.color,
       this.bottomIndent = true})
       : super(key: key);
 
   final bool bottomIndent;
-  final Color color;
-  final String name;
-  final String svgPath;
   final double iconSize;
-  final String typeText;
   final IconData icon;
   final VoidCallback onPressed;
+  final SocialAuthService service;
+  final Color color;
+  final String name;
 
   @override
   Widget build(BuildContext context) {
+    var os = Platform.isAndroid
+        ? SocialAuthOS.Android
+        : Platform.isIOS
+            ? SocialAuthOS.IOS
+            : null;
+    if (service?.hideFor?.contains(os) ?? false) return Container();
+
     var loc = AppLocalizations.of(context).withBaseKey('login_screen');
-    var prependText = loc.translate('sign_in', [name]);
+    var _name = service?.socialAccount?.displayName ?? name;
+    var _color = service?.color ?? color;
+    var svgPath = service?.socialAccount?.iconPath;
+    var prependText = loc.translate('sign_in', [_name]);
+    var _iconSize = service?.socialAccount?.iconSize ?? iconSize;
 
     var theme = Theme.of(context);
 
     return Container(
       margin: EdgeInsets.only(bottom: !bottomIndent ? 0 : Indents.sm),
       child: FlatButton(
-        splashColor: (color == Color(0xffffffff) ? Colors.grey : Colors.white)
+        splashColor: (_color == Color(0xffffffff) ? Colors.grey : Colors.white)
             .withOpacity(0.2),
         padding:
             EdgeInsets.symmetric(horizontal: Indents.xl, vertical: Indents.md),
@@ -233,13 +256,13 @@ class AuthMethodTypeButton extends StatelessWidget {
               margin: EdgeInsets.only(right: Indents.md),
               child: icon == null
                   ? SvgPicture.asset(
-                      'assets/svg/${svgPath}_logo.svg',
-                      height: iconSize,
+                      svgPath,
+                      height: _iconSize,
                     )
                   : Icon(
                       icon,
-                      size: iconSize,
-                      color: color == Color(0xffffffff)
+                      size: _iconSize,
+                      color: _color == Color(0xffffffff)
                           ? Colors.grey
                           : Colors.white,
                     ),
@@ -250,7 +273,7 @@ class AuthMethodTypeButton extends StatelessWidget {
                   maxLines: 1,
                   softWrap: false,
                   style: theme.textTheme.subtitle1.merge(TextStyle(
-                      color: color == Color(0xffffffff)
+                      color: _color == Color(0xffffffff)
                           ? Colors.grey[600]
                           : Colors.white))),
             ),
@@ -259,7 +282,7 @@ class AuthMethodTypeButton extends StatelessWidget {
         onPressed: () {
           onPressed();
         },
-        color: color,
+        color: _color,
       ),
     );
   }

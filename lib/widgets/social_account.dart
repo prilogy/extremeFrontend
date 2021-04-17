@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/main.dart';
@@ -13,13 +15,20 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SocialAccount extends StatelessWidget {
-  final SocialAccountProvider model;
+  final SocialAuthService service;
 
-  SocialAccount({this.model});
+  SocialAccount({this.service});
 
   @override
   Widget build(BuildContext context) {
+    var os = Platform.isAndroid
+        ? SocialAuthOS.Android
+        : Platform.isIOS
+            ? SocialAuthOS.IOS
+            : null;
+    var model = service.socialAccount;
     var loc = AppLocalizations.of(context).withBaseKey('account_screen');
+    if (service.hideFor.contains(os)) return Container();
 
     return StoreConnector<AppState, User>(
       converter: (store) => store.state.user,
@@ -55,14 +64,7 @@ class SocialAccount extends StatelessWidget {
               var isConnected = state.socialAccounts
                   .any((x) => x.provider.name == model.name);
               if (!isConnected) {
-                String token;
-                if (model.name == SocialAccountProvider.vk.name) {
-                  var vkAuth = VkAuthService();
-                  token = await vkAuth.getToken();
-                } else if (model.name == SocialAccountProvider.facebook.name)
-                  token = await FacebookAuthService().getToken();
-                else if (model.name == SocialAccountProvider.google.name)
-                  token = await GoogleAuthService().getToken();
+                var token = await service.getToken();
 
                 var result = await Api.User.addSocialAccount(model, token);
                 if (result == true) {

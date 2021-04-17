@@ -31,8 +31,10 @@ class SocialAccountProvider {
   String name;
   String displayName;
   String iconPath;
+  double iconSize = 16.0;
 
-  SocialAccountProvider({this.id, this.name, this.displayName, this.iconPath});
+  SocialAccountProvider(
+      {this.id, this.name, this.displayName, this.iconPath, this.iconSize});
 
   SocialAccountProvider.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -43,6 +45,8 @@ class SocialAccountProvider {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
+    data['iconSize'] = this.iconSize;
+    data['iconPath'] = this.iconPath;
     return data;
   }
 
@@ -51,9 +55,11 @@ class SocialAccountProvider {
   static final facebook = SocialAccountProvider(
       name: 'facebook',
       displayName: 'Facebook',
+      iconSize: 19.0,
       iconPath: 'assets/svg/fb_logo.svg');
   static final google = SocialAccountProvider(
       name: 'google',
+      iconSize: 20.0,
       displayName: 'Google',
       iconPath: 'assets/svg/google_logo.svg');
 
@@ -61,8 +67,8 @@ class SocialAccountProvider {
 
   bool operator ==(dynamic other) =>
       other != null &&
-          other is SocialAccountProvider &&
-          this.name == other.name;
+      other is SocialAccountProvider &&
+      this.name == other.name;
 
   @override
   int get hashCode => super.hashCode;

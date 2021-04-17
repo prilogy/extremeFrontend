@@ -5,6 +5,7 @@ import 'package:extreme/screens/main_screen/account_screen/favorite_screen.dart'
 import 'package:extreme/screens/main_screen/account_screen/promo_screen.dart';
 import 'package:extreme/screens/main_screen/account_screen/sale_screen.dart';
 import 'package:extreme/screens/payment_screen.dart';
+import 'package:extreme/services/social_auth.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/styles/intents.dart';
@@ -159,9 +160,9 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                for (var item in Models.SocialAccountProvider.all)
+                for (var item in SocialAuthService.all)
                   SocialAccount(
-                    model: item,
+                    service: item,
                   )
               ],
             ),
