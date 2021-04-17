@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 typedef WidgetBuilderChildren = List<Widget> Function(BuildContext context);
 typedef AppBarBuilderComplex = Widget Function(
@@ -18,9 +21,9 @@ class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
   final WidgetBuilder builderChild;
   final Key navigatorKey;
   final Future Function() onRefresh;
+  final bool forceDefaultAppBar;
 
-  static const double screenBottomIndent =
-      NavBar.height + 2*Indents.md;
+  static const double screenBottomIndent = NavBar.height + 2 * Indents.md;
 
   static const EdgeInsetsGeometry defaultPadding =
       EdgeInsets.only(top: Indents.md, bottom: screenBottomIndent);
@@ -29,6 +32,7 @@ class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
       {this.padding = defaultPadding,
       this.margin,
       this.appBar,
+      this.forceDefaultAppBar,
       this.builder,
       this.builderChild,
       this.navigatorKey,
@@ -52,12 +56,19 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
 
   @override
   Widget build(BuildContext context) {
+    var forceDefaultAppBar = widget.forceDefaultAppBar ?? Platform.isIOS;
     Widget content(BuildContext ctx) {
       return Scaffold(
         appBar: widget.appBar != null
             ? widget.appBar
             : widget.appBarComplex != null
-                ? widget.appBarComplex(ctx, _scrollController)
+                ? () {
+                    var ab = widget?.appBarComplex(ctx, _scrollController)
+                        as dynamic;
+                    return forceDefaultAppBar
+                        ? AppBar(title: ab.title, actions: ab.actions)
+                        : ab;
+                  }()
                 : EmptyAppBar(),
         body: Builder(
           builder: (context) {

@@ -19,6 +19,7 @@ import 'package:flutter/painting.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:scroll_app_bar/scroll_app_bar.dart';
+import 'dart:io';
 
 /// Домашняя страница пользователя - Главная
 
