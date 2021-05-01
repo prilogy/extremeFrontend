@@ -56,7 +56,7 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var forceDefaultAppBar = widget.forceDefaultAppBar ?? Platform.isIOS;
+    var forceDefaultAppBar = true;
     Widget content(BuildContext ctx) {
       return Scaffold(
         appBar: widget.appBar != null
