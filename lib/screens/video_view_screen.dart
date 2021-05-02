@@ -36,6 +36,7 @@ class VideoViewScreen extends StatefulWidget {
 }
 
 class _VideoViewScreenState extends State<VideoViewScreen> {
+
   @override
   void dispose() {
     SystemChrome.restoreSystemUIOverlays();

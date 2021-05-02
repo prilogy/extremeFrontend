@@ -12,7 +12,6 @@ class Authentication {
           data: {"email": email, "password": password},
           options: Options(headers: headers));
 
-      print(response.data);
       var user = Models.User.fromJson(response.data);
 
       return user;

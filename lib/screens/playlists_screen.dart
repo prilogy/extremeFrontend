@@ -11,7 +11,6 @@ import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
-import 'package:flutter_pagination_helper/pagination_helper/list_helper.dart';
 
 import 'main_screen/account_screen/helper.dart';
 

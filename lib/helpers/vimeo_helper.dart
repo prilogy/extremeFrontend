@@ -13,7 +13,7 @@ class QualityLinks {
 
   Future<Map<String, String>> getQualitiesAsync() async {
     try {
-      var response = await http.get('https://player.vimeo.com/video/' + videoId + '/config');
+      var response = await http.get(Uri.parse('https://player.vimeo.com/video/' + videoId + '/config'));
       var jsonData =
       jsonDecode(response.body)['request']['files']['progressive'];
       Map<String, String> videoList = Map.fromIterable(jsonData,

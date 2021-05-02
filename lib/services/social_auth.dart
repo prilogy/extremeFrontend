@@ -69,10 +69,7 @@ class VkAuthService implements SocialAuthService {
     var result = await vkLogin.logIn(scope: [VKScope.email]);
     if (result.isValue) {
     } else
-      print(result.asError);
 
-    var token = result.asValue?.value?.accessToken ?? null;
-
-    return token?.token ?? null;
+    return result.asValue?.value?.accessToken?.token ?? null;
   }
 }

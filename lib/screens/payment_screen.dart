@@ -40,7 +40,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void didChangeDependencies() {
     browser.onUrlLoadStart = (ctx, url) async {
       browserOpened = true;
-      if (url.contains('localhost')) {
+      if (url.path.contains('localhost')) {
         setState(() {
           paymentSuccess = true;
         });
@@ -61,7 +61,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       });
       if (widget.closeOnDone) Navigator.of(context).pop();
     };
-    browser.openUrl(url: widget.url);
+    browser.openUrlRequest(urlRequest: URLRequest(url: Uri.parse(widget.url)));
     super.didChangeDependencies();
   }
 
@@ -100,13 +100,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
 }
 
 class MyInAppBrowser extends InAppBrowser {
-  void Function(MyInAppBrowser ctx, String url) onUrlLoadStart;
+  void Function(MyInAppBrowser ctx, Uri url) onUrlLoadStart;
   VoidCallback onBrowserClose;
 
   MyInAppBrowser({this.onUrlLoadStart, this.onBrowserClose});
 
   @override
-  Future onLoadStart(String url) async {
+  Future onLoadStart(Uri url) async {
     onUrlLoadStart?.call(this, url);
   }
 

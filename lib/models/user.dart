@@ -49,7 +49,6 @@ class User {
   static User fromLocalStorage() {
     try {
       var json = localStorage.getItem(localStorageKey);
-      print(json);
       return json == null ? null : User.fromJson(json);
     } catch (ex) {
       return null;

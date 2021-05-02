@@ -17,6 +17,7 @@ import 'package:extreme/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class SettingsScreen extends StatelessWidget {
   final browser = MyInAppBrowser();
@@ -95,8 +96,8 @@ class SettingsScreen extends StatelessWidget {
                     SettingsWidget(
                       title: loc.translate('policy'),
                       onPressed: () {
-                        browser.openUrl(
-                            url: config.API_BASE_URL + '/policy.html');
+                        browser.openUrlRequest(
+                            urlRequest: URLRequest(url: Uri.parse(config.API_BASE_URL + '/policy.html')) );
                       },
                     ),
                     SettingsWidget(

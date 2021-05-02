@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 typedef WidgetBuilderChildren = List<Widget> Function(BuildContext context);
 typedef AppBarBuilderComplex = Widget Function(

@@ -3,14 +3,14 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pagination_helper/pagination_helper/event_model.dart';
-import 'package:flutter_pagination_helper/pagination_helper/item_list_callback.dart';
 
 typedef ItemBuilder<T> = Widget Function(List<T> model);
 typedef PagingItemsGetter<T> = Future<List<T>> Function(int page, int pageSize);
 
-class CustomPaginatedListCallback<T> extends ItemListCallback {
+class CustomPaginatedListCallback<T> {
+  List<T> items = [];
   int page = 1;
+  bool isFinished = false;
 
   final int modelListSize;
   final PagingItemsGetter<T> itemsGetter;
@@ -32,8 +32,26 @@ class CustomPaginatedListCallback<T> extends ItemListCallback {
 
   final ItemBuilder<T> itemBuilder;
 
-  @override
-  Future<EventModel> getItemList() async {
+  Future<bool> load() async {
+    try {
+      var data = await itemsGetter(page, pageSize);
+      items.addAll(data);
+      isFinished = items.length < pageSize;
+      page++;
+      return true;
+    }
+    catch(e) {
+      return false;
+    }
+  }
+
+  Future<bool> refresh() async {
+    page = 1;
+    items = [];
+    await load();
+  }
+
+  Future<List<Widget>> getItemList() async {
     var items = await itemsGetter(page, pageSize);
 
     var widgets = <Widget>[];
@@ -42,7 +60,7 @@ class CustomPaginatedListCallback<T> extends ItemListCallback {
       if (page == 1)
         widgets.add(Builder(
           builder: (context) {
-            if(noItemsWidgetBuilder != null)
+            if (noItemsWidgetBuilder != null)
               return noItemsWidgetBuilder(context);
 
             var loc = AppLocalizations.of(context);
@@ -56,8 +74,7 @@ class CustomPaginatedListCallback<T> extends ItemListCallback {
       widgets.add(Container(height: bottomIndent));
       onStopLoading?.call();
       page = 1;
-      return EventModel(
-          data: widgets, error: null, progress: false, stopLoading: true);
+      return widgets;
     }
 
     page++;
@@ -72,9 +89,9 @@ class CustomPaginatedListCallback<T> extends ItemListCallback {
     }
 
     var noMoreItems = items.length < pageSize;
+    isFinished = noMoreItems;
     if (noMoreItems) widgets.add(Container(height: bottomIndent));
 
-    return EventModel(
-        data: widgets, error: null, progress: false, stopLoading: noMoreItems);
+    return widgets;
   }
 }

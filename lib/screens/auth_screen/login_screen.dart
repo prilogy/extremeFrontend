@@ -187,7 +187,6 @@ class _LoginScreenState extends State<LoginScreen> {
           'Ошибка при получении данных от $socialName'));
       return;
     }
-
     var user = await Api.Authentication.loginSocial(provider, token);
     if (user == null) {
       Navigator.of(context).push(MaterialPageRoute(
