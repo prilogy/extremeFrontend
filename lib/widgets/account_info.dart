@@ -27,12 +27,12 @@ class _AccountInfoState extends State<AccountInfo> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('account_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('account_screen');
 
     var user = StoreProvider.of<AppState>(context).state.user;
 
-    _nameController.text = user.name ?? '';
-    _emailController.text = user.email ?? '';
+    _nameController.text = user?.name ?? '';
+    _emailController.text = user?.email ?? '';
 
     if (!edit)
       return Container(
@@ -41,22 +41,22 @@ class _AccountInfoState extends State<AccountInfo> {
           children: <Widget>[
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: <
                 Widget>[
-              user.name != null
+              user?.name != null
                   ? Text(
-                      user.name,
+                      user?.name ?? '',
                       style: Theme.of(context)
                           .textTheme
                           .headline6
-                          .merge(TextStyle(height: 1.6)),
+                          ?.merge(TextStyle(height: 1.6)),
                     )
                   : Container(),
               Text(
-                  loc.translate("duration") +
-                      HelperMethods.dateToString(user.dateSignUp),
+                  loc!.translate("duration") +
+                      HelperMethods.dateToString(user!.dateSignUp!),
                   style: Theme.of(context)
                       .textTheme
                       .bodyText2
-                      .merge(TextStyle(color: ExtremeColors.base70[200]))),
+                      ?.merge(TextStyle(color: ExtremeColors.base70[200]))),
               user.email != null
                   ? Row(
                       children: <Widget>[
@@ -64,7 +64,7 @@ class _AccountInfoState extends State<AccountInfo> {
                           'Email: ' + (user.email ?? ''),
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
-                        !user.emailVerified ? ConfirmationSign() : Container(),
+                        !user.emailVerified! ? ConfirmationSign() : Container(),
                       ],
                     )
                   : InkWell(
@@ -79,14 +79,14 @@ class _AccountInfoState extends State<AccountInfo> {
                             ),
                           ),
                           Text(
-                            loc.translate("no_email_hint"),
+                            loc!.translate("no_email_hint"),
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             softWrap: false,
                             style: Theme.of(context)
                                 .textTheme
                                 .caption
-                                .merge(TextStyle(
+                                ?.merge(TextStyle(
                                   color: Theme.of(context).colorScheme.error,
                                 )),
                           ),
@@ -111,14 +111,14 @@ class _AccountInfoState extends State<AccountInfo> {
                             ),
                           ),
                           Text(
-                            loc.translate("no_password_hint"),
+                            loc!.translate("no_password_hint"),
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             softWrap: false,
                             style: Theme.of(context)
                                 .textTheme
                                 .caption
-                                .merge(TextStyle(
+                                ?.merge(TextStyle(
                                   color: Theme.of(context).colorScheme.error,
                                 )),
                           ),
@@ -158,16 +158,16 @@ class _AccountInfoState extends State<AccountInfo> {
             TextFormField(
               controller: _nameController,
               decoration: InputDecoration(
-                  labelText: loc.translate("name"), icon: Icon(Icons.person)),
+                  labelText: loc!.translate("name"), icon: Icon(Icons.person)),
             ),
             TextFormField(
               controller: _emailController,
               validator: (value) {
-                if (value.isEmpty) {
-                  return loc.translate("field_is_empty");
+                if (value!.isEmpty) {
+                  return loc!.translate("field_is_empty");
                 }
                 if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                    .hasMatch(value)) return loc.translate("incorrect_email");
+                    .hasMatch(value)) return loc!.translate("incorrect_email");
                 return null;
               },
               decoration: const InputDecoration(
@@ -183,7 +183,7 @@ class _AccountInfoState extends State<AccountInfo> {
                   child: FlatButton(
                     color: Colors.transparent,
                     child: Text(
-                      loc.translate("cancel"),
+                      loc!.translate("cancel"),
                     ),
                     onPressed: () {
                       setState(() {
@@ -198,19 +198,19 @@ class _AccountInfoState extends State<AccountInfo> {
                     loc.translate("save"),
                   ),
                   onPressed: () async {
-                    if (!_formKey.currentState.validate()) return null;
+                    if (!_formKey.currentState!.validate()) return null;
                     var res = await Api.User.edit(
-                        name: _nameController.text != user.name
+                        name: _nameController.text != user?.name
                             ? _nameController.text
-                            : null,
-                        email: _emailController.text != user.email
+                            : '',
+                        email: _emailController.text != user?.email
                             ? _emailController.text
-                            : null);
+                            : '');
 
                     if (res == null) {
                       _emailController.clear();
                       SnackBarExtension.show(SnackBarExtension.error(
-                          loc.translate('edit_email_error')));
+                          loc!.translate('edit_email_error')));
                       return;
                     }
 
@@ -228,11 +228,11 @@ class _AccountInfoState extends State<AccountInfo> {
 }
 
 class ConfirmationSign extends StatelessWidget {
-  const ConfirmationSign({Key key}) : super(key: key);
+  const ConfirmationSign({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('account_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('account_screen');
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Indents.md),
       child: InkWell(
@@ -247,11 +247,11 @@ class ConfirmationSign extends StatelessWidget {
               ),
             ),
             Text(
-              loc.translate("email_confirm"),
+              loc!.translate("email_confirm"),
               overflow: TextOverflow.fade,
               maxLines: 1,
               softWrap: false,
-              style: Theme.of(context).textTheme.caption.merge(TextStyle(
+              style: Theme.of(context).textTheme.caption?.merge(TextStyle(
                     color: Theme.of(context).colorScheme.error,
                   )),
             ),

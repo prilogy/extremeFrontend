@@ -28,11 +28,11 @@ import 'package:extreme/models/main.dart' as Models;
 class PlaylistScreen extends StatelessWidget {
   final Models.Playlist model;
 
-  PlaylistScreen({Key key, @required this.model}) : super(key: key);
+  PlaylistScreen({Key? key, @required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('playlist_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('playlist_screen');
 
     return StoreConnector<AppState, Models.User>(
         converter: (store) => store.state.user,
@@ -133,7 +133,7 @@ class PlaylistScreen extends StatelessWidget {
                               aspectRatio: 16 / 9,
                             ))),
                 BlockBaseWidget(
-                  header: loc.translate("videos"),
+                  header: loc!.translate("videos"),
                   child: CustomFutureBuilder<List<Models.Video>>(
                       future:
                           Api.Entities.getByIds<Models.Video>(model.videosIds),
@@ -143,7 +143,7 @@ class PlaylistScreen extends StatelessWidget {
                               VideoCard(aspectRatio: 16 / 9, model: item))),
                 ),
                 BlockBaseWidget.forScrollingViews(
-                  header: loc.translate("see_also"),
+                  header: loc!.translate("see_also"),
                   child: CustomFutureBuilder<List<Models.Playlist>>(
                       future: Api.Entities.recommended<Models.Playlist>(1, 6),
                       builder: (data) => CustomListBuilder(
@@ -213,7 +213,7 @@ class HeaderPlaylist extends StatelessWidget {
                     margin: EdgeInsets.only(bottom: Indents.sm),
                     child: Text(model?.content?.name ?? "Название плейлиста",
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline5.merge(
+                        style: Theme.of(context).textTheme.headline5?.merge(
                             TextStyle(
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 0.25))),

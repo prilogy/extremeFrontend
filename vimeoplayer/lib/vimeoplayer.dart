@@ -17,16 +17,16 @@ part 'src/fullscreen_player.dart';
 
 //Класс видео плеера
 class VimeoPlayer extends StatefulWidget {
-  final String id;
   final bool? autoPlay;
   final bool? looping;
   final int? position;
   final VimeoPlayerController? controller;
+  final WidgetBuilder? loaderBuilder;
 
   VimeoPlayer({
     this.controller,
-    required this.id,
     this.autoPlay,
+    this.loaderBuilder,
     this.looping,
     this.position,
     Key? key,
@@ -34,18 +34,17 @@ class VimeoPlayer extends StatefulWidget {
 
   @override
   _VimeoPlayerState createState() =>
-      _VimeoPlayerState(id, autoPlay, looping, position);
+      _VimeoPlayerState(autoPlay, looping, position);
 }
 
 class _VimeoPlayerState extends State<VimeoPlayer> {
-  String _id;
   bool? autoPlay = false;
   bool? looping = false;
   bool _overlay = true;
   bool fullScreen = false;
   int? position;
 
-  _VimeoPlayerState(this._id, this.autoPlay, this.looping, this.position);
+  _VimeoPlayerState(this.autoPlay, this.looping, this.position);
 
   //Custom controller
   VimeoPlayerController? _controller;
@@ -67,42 +66,47 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
   double doubleTapLWidth = 400;
   double doubleTapLHeight = 160;
 
+  Future<void> _changeQuality(String v) async {
+    if (_controller == null) return;
+    var position = await _controller!.position;
+
+    setState(() {
+      _controller = VimeoPlayerController.fromVimeo(_controller!, v);
+      _controller?.setLooping(looping ?? false);
+      _controller!.seekTo(position!);
+      _seek = true;
+    });
+
+    await _controller?.initialize();
+    _controller?.play();
+  }
+
+  Future<void> _initController() async {
+    _controller = widget.controller;
+    _controller?.setLooping(looping == null ? false : true);
+    if (autoPlay == true) _controller?.play();
+  }
+
   @override
   void initState() {
     //Инициализация контроллеров видео при получении данных из Vimeo
-    if (widget.controller != null)
-      _controller = widget.controller;
-    else
-      VimeoPlayerController.vimeo(_id).then((value) {
-        _controller = value;
-        print(_controller.toString());
-        _controller?.setLooping(looping == null ? false : true);
-        if (autoPlay!) _controller?.play();
-        initFuture = _controller?.initialize();
+    _initController().then((_) async {
+      await _controller?.initialize();
 
-        setState(() {
-          SystemChrome.setPreferredOrientations(
-              [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-        });
+      setState(() {});
+      //На странице видео преимущество за портретной ориентацией
+      SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
+      SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    });
 
-        //На странице видео преимущество за портретной ориентацией
-        SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);
-        SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-
-        super.initState();
-      });
-
-    // _controller?.setLooping(looping == null ? false : true);
-    // if (autoPlay!) _controller!.play();
-    // initFuture = _controller!.initialize();
-
-    //Обновление состояние приложения и перерисовка
+    super.initState();
   }
 
   //Отрисовываем элементы плеера
   @override
   Widget build(BuildContext context) {
+    print(_controller);
     return _controller == null
         ? Container(
             height: 200,
@@ -118,66 +122,61 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
             alignment: AlignmentDirectional.center,
             children: <Widget>[
               GestureDetector(
-                child: FutureBuilder(
-                    future: initFuture,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        //Управление шириной и высотой видео
-                        double delta = MediaQuery.of(context).size.width -
-                            MediaQuery.of(context).size.height *
-                                (_controller?.value.aspectRatio ?? 5);
+                child: Builder(builder: (context) {
+                  //Управление шириной и высотой видео
+                  double delta = MediaQuery.of(context).size.width -
+                      MediaQuery.of(context).size.height *
+                          (_controller?.value.aspectRatio ?? 16/9);
 
-                        //Рассчет ширины и высоты видео плеера относительно сторон
-                        // и ориентации устройства
-                        if (MediaQuery.of(context).orientation ==
-                                Orientation.portrait ||
-                            delta < 0) {
-                          videoHeight = MediaQuery.of(context).size.width /
-                              (_controller?.value.aspectRatio ?? 5);
-                          videoWidth = MediaQuery.of(context).size.width;
-                          videoMargin = 0;
-                        } else {
-                          videoHeight = MediaQuery.of(context).size.height;
-                          videoWidth =
-                              videoHeight! * _controller!.value.aspectRatio;
-                          videoMargin = (MediaQuery.of(context).size.width -
-                                  videoWidth!) /
-                              2;
-                        }
+                  //Рассчет ширины и высоты видео плеера относительно сторон
+                  // и ориентации устройства
+                  if (MediaQuery.of(context).orientation ==
+                          Orientation.portrait ||
+                      delta < 0) {
+                    videoHeight = MediaQuery.of(context).size.width /
+                        (_controller?.value.aspectRatio ?? 16/9);
+                    videoWidth = MediaQuery.of(context).size.width;
+                    videoMargin = 0;
+                  } else {
+                    videoHeight = MediaQuery.of(context).size.height;
+                    videoWidth = videoHeight! * _controller!.value.aspectRatio;
+                    videoMargin =
+                        (MediaQuery.of(context).size.width - videoWidth!) / 2;
+                  }
 
-                        //Начинаем с того же места, где и остановились при смене качества
-                        if (_seek &&
-                            _controller!.value.duration.inSeconds > 2) {
-                          _controller!.seekTo(Duration(seconds: position!));
-                          _seek = false;
-                        }
+                  //Начинаем с того же места, где и остановились при смене качества
+                  if (_seek && _controller!.value.duration.inSeconds > 2) {
+                    _controller!.seekTo(Duration(seconds: position!));
+                    _seek = false;
+                  }
 
-                        //Отрисовка элементов плеера
-                        return Stack(
-                          children: <Widget>[
-                            Container(
-                              height: videoHeight,
-                              width: videoWidth,
-                              margin: EdgeInsets.only(left: videoMargin),
-                              child: _controller != null
-                                  ? VideoPlayer(_controller!)
-                                  : Container(
-                                      child: Text('error'),
-                                    ),
-                            ),
-                            _videoOverlay(),
-                          ],
-                        );
-                      } else {
-                        return Center(
-                            heightFactor: 6,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 4,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                  Color(0xFF22A3D2)),
-                            ));
-                      }
-                    }),
+                  //Отрисовка элементов плеера
+                  return Stack(
+                    children: <Widget>[
+                      Container(
+                        height: videoHeight,
+                        width: videoWidth,
+                        margin: EdgeInsets.only(left: videoMargin),
+                        child: _controller != null
+                            ? VideoPlayer(_controller!)
+                            : Container(
+                                child: Text('error'),
+                              ),
+                      ),
+                      _videoOverlay(),
+                    ],
+                  );
+                }
+                    // else {
+                    //   return Center(
+                    //       heightFactor: 6,
+                    //       child: CircularProgressIndicator(
+                    //         strokeWidth: 4,
+                    //         valueColor: AlwaysStoppedAnimation<Color>(
+                    //             Color(0xFF22A3D2)),
+                    //       ));
+                    // }
+                    ),
                 onTap: () {
                   //Редактируем размер области дабл тапа при показе оверлея.
                   // Сделано для открытия кнопок "Во весь экран" и "Качество"
@@ -279,23 +278,12 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
         builder: (BuildContext bc) {
           //Формирования списка качества
           final children = <Widget>[];
-          _controller?.qualityValues?.forEach((elem, value) => (children.add(new ListTile(
-              title: new Text(" ${elem.toString()} fps"),
-              onTap: () => {
+          _controller?.qualityValues
+              ?.forEach((elem, value) => (children.add(new ListTile(
+                  title: new Text(" ${elem.toString()} fps"),
+                  onTap: () async {
                     //Обновление состояние приложения и перерисовка
-                    setState(() {
-                      _controller!.pause();
-                      var qvs = _controller?.qualityValues;
-                      _controller =
-                          VimeoPlayerController.network(value);
-                      _controller?.qualityValue = value;
-                      _controller?.qualityValues = qvs;
-
-                      _controller?.setLooping(true);
-                      _seek = true;
-                      initFuture = _controller?.initialize();
-                      _controller?.play();
-                    }),
+                    await _changeQuality(value);
                   }))));
           //Вывод элементов качество списком
           return Container(
@@ -368,13 +356,12 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
                                   opaque: false,
                                   pageBuilder: (BuildContext context, _, __) =>
                                       FullScreenPlayer(
-                                          id: _id,
-                                          autoPlay: true,
-                                          controller: _controller,
-                                          position: _controller!
-                                              .value.position.inSeconds,
-                                          initFuture: initFuture,
-                                          qualityValue: _controller?.qualityValue),
+                                        autoPlay: true,
+                                        controller: _controller,
+                                        position: _controller!
+                                            .value.position.inSeconds,
+                                        initFuture: initFuture,
+                                      ),
                                   transitionsBuilder: (___,
                                       Animation<double> animation,
                                       ____,

@@ -17,11 +17,11 @@ import 'main_screen/account_screen/helper.dart';
 class Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('browse_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
       padding: EdgeInsets.all(0),
-      appBar: AppBar(title: Text(loc.translate("playlists"))),
+      appBar: AppBar(title: Text(loc!.translate("playlists"))),
       builderChild: (context) => PaginatedScreenTabView(
         itemListCallback: CustomPaginatedListCallback<Playlist>(
             itemsGetter: (page, pageSize) async {

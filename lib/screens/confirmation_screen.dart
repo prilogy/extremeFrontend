@@ -13,20 +13,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class Confirmation extends StatelessWidget {
-  Confirmation({Key key}) : super(key: key);
+  Confirmation({Key? key}) : super(key: key);
   bool pending = true;
 
   @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
-    final loc = AppLocalizations.of(context).withBaseKey('confirmation_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('confirmation_screen');
     var theme = Theme.of(context);
     final _formKey = GlobalKey<FormState>();
     TextEditingController _controller = TextEditingController();
     return Form(
       key: _formKey,
       child: ScreenBaseWidget(
-        appBar: AppBar(title: Text(loc.translate('title'))),
+        appBar: AppBar(title: Text(loc!.translate('title'))),
         builder: (context) => [
           BlockBaseWidget(
             child: Column(
@@ -36,7 +36,7 @@ class Confirmation extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: Indents.md),
                   child: Center(
                       child: Text(
-                    loc.translate('instruction', [store.state.user.email]),
+                    loc!.translate('instruction', [store.state.user.email]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
@@ -48,7 +48,7 @@ class Confirmation extends StatelessWidget {
                     autoValidate: true,
                     textInputType: TextInputType.number,
                     backgroundColor: theme.colorScheme.background,
-                    textStyle: theme.textTheme.headline3.merge(
+                    textStyle: theme.textTheme.headline3?.merge(
                         TextStyle(color: theme.colorScheme.onBackground)),
                     controller: _controller,
                     pinTheme: PinTheme(
@@ -58,7 +58,7 @@ class Confirmation extends StatelessWidget {
                     ),
                     validator: (value) {
                       if (int.tryParse(value) == null && value.length > 0) {
-                        return loc.translate('validation.NaN');
+                        return loc!.translate('validation.NaN');
                       }
                       return null;
                     },
@@ -73,7 +73,7 @@ class Confirmation extends StatelessWidget {
                         } else {
                           Scaffold.of(context).showSnackBar(
                               SnackBarExtension.error(
-                                  loc.translate('snackbaar.wrong_code')));
+                                  loc!.translate('snackbaar.wrong_code')));
                           Navigator.of(context, rootNavigator: true)
                               .pushNamed('/main');
                         }

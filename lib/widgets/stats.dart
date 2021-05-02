@@ -10,7 +10,7 @@ class Stats extends StatelessWidget {
   final bool reversed;
 
   const Stats(
-      {Key key,
+      {Key? key,
       this.icon = Icons.error,
       this.text = "",
       this.marginBetween = Indents.sm,
@@ -31,7 +31,7 @@ class Stats extends StatelessWidget {
         style: Theme.of(context)
             .textTheme
             .bodyText2
-            .merge(TextStyle(fontWeight: FontWeight.w500)),
+            ?.merge(TextStyle(fontWeight: FontWeight.w500)),
       )
     ];
 

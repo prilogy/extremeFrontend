@@ -13,19 +13,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class EmailConfirmationScreen extends StatelessWidget {
-  EmailConfirmationScreen({Key key}) : super(key: key);
+  EmailConfirmationScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
-    final loc = AppLocalizations.of(context).withBaseKey('confirmation_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('confirmation_screen');
     var theme = Theme.of(context);
     final _formKey = GlobalKey<FormState>();
     TextEditingController _controller = TextEditingController();
     return Form(
       key: _formKey,
       child: ScreenBaseWidget(
-        appBar: AppBar(title: Text(loc.translate('title'))),
+        appBar: AppBar(title: Text(loc!.translate('title'))),
         builder: (context) => [
           BlockBaseWidget(
             child: Column(
@@ -35,7 +35,7 @@ class EmailConfirmationScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: Indents.md),
                   child: Center(
                       child: Text(
-                    loc.translate('instruction', [store.state.user.email]),
+                    loc!.translate('instruction', [store.state.user.email]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
@@ -47,7 +47,7 @@ class EmailConfirmationScreen extends StatelessWidget {
                     autoValidate: true,
                     textInputType: TextInputType.number,
                     backgroundColor: theme.colorScheme.background,
-                    textStyle: theme.textTheme.headline3.merge(
+                    textStyle: theme.textTheme.headline3?.merge(
                         TextStyle(color: theme.colorScheme.onBackground)),
                     controller: _controller,
                     pinTheme: PinTheme(
@@ -57,7 +57,7 @@ class EmailConfirmationScreen extends StatelessWidget {
                     ),
                     validator: (value) {
                       if (int.tryParse(value) == null && value.length > 0) {
-                        return loc.translate('validation.NaN');
+                        return loc!.translate('validation.NaN');
                       }
                       return null;
                     },
@@ -72,7 +72,7 @@ class EmailConfirmationScreen extends StatelessWidget {
                         } else {
                           Scaffold.of(context).showSnackBar(
                               SnackBarExtension.error(
-                                  loc.translate('snackbar.wrong_code')));
+                                  loc!.translate('snackbar.wrong_code')));
                         }
                       }
                     },

@@ -1,10 +1,10 @@
 part of models;
 
 class SocialIdentity {
-  String email;
-  String name;
-  int socialAccountId;
-  String socialAccountKey;
+  String? email;
+  String? name;
+  int? socialAccountId;
+  String? socialAccountKey;
 
   SocialIdentity(
       {this.email, this.name, this.socialAccountId, this.socialAccountKey});

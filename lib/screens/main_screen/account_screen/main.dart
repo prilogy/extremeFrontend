@@ -20,16 +20,15 @@ import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/services/api/main.dart' as Api;
-import 'package:fluttertoast/fluttertoast.dart';
 
 class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
-  final Key navigatorKey;
+  final Key? navigatorKey;
 
-  AccountScreen({Key key, this.navigatorKey}) : super(key: key);
+  AccountScreen({Key? key, this.navigatorKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('account_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('account_screen');
     var store = StoreProvider.of<AppState>(context);
     var user = store.state.user;
 
@@ -39,7 +38,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
       },
       navigatorKey: navigatorKey,
       appBarComplex: (context, c) => AppBar(
-        title: Text(loc.translate("app_bar")),
+        title: Text(loc!.translate("app_bar")),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.local_activity),
@@ -48,7 +47,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                   .push(MaterialPageRoute(builder: (context) => PromoScreen()));
             },
           ),
-          if (user.isSubscribed)
+          if (user!.isSubscribed)
             IconButton(
               icon: Icon(Icons.attach_money),
               onPressed: () {
@@ -56,7 +55,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                     MaterialPageRoute(builder: (context) => SaleScreen()));
               },
             ),
-          if (user.isSubscribed)
+          if (user!.isSubscribed)
             IconButton(
               icon: Icon(Icons.favorite),
               onPressed: () {
@@ -76,51 +75,48 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
         Column(children: <Widget>[
           BlockBaseWidget(child: AccountInfo()),
           BlockBaseWidget(
-            header: loc.translate("subscription"),
+            header: loc!.translate("subscription"),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 StoreConnector<AppState, Models.User>(
-                  converter: (store) => store.state.user,
+                  converter: (store) => store.state.user!,
                   builder: (ctx, state) => Container(
                       margin: EdgeInsets.only(bottom: Indents.smd),
                       child: () {
-                        var isSubscribed = user.isSubscribed;
+                        var isSubscribed = user!.isSubscribed;
                         var text = isSubscribed
                             ? loc.translate("expiration", [
-                                state?.subscription?.dateEnd
-                                        ?.difference(DateTime.now())
-                                        ?.inDays
-                                        ?.toString() ??
-                                    null
+                                state.subscription!.dateEnd?.difference(DateTime.now())
+                                        .inDays
+                                        .toString() ?? ''
                               ])
                             : loc.translate("no_sub");
                         return Text(text);
                       }()),
                 ),
-                CustomFutureBuilder<List<Models.SubscriptionPlan>>(
+                CustomFutureBuilder<List<Models.SubscriptionPlan>?>(
                   future: Api.Subscription.getPlans(),
                   builder: (data) {
-                    data.sort((a, b) => a.price.value.compareTo(b.price.value));
+                    data?.sort((a, b) => a.price!.value!.compareTo(b.price!.value!));
                     return CustomListBuilder(
                         lastItemHasGap: true,
                         items: data,
                         itemBuilder: (item) => SubscriptionCard(
-                              model: item,
+                              model: item as Models.SubscriptionPlan,
                               onPressed: () async {
                                 var url = await Api.Subscription.getPaymentUrl(
-                                    item.id);
+                                    item.id!);
 
                                 if (url == null) {
                                   SnackBarExtension.show(
                                       SnackBarExtension.error(
-                                          AppLocalizations.of(context)
-                                              .translate('payment.error')));
+                                          AppLocalizations.of(context)!.translate('payment.error')));
                                 } else {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
                                           builder: (ctx) => PaymentScreen(
-                                                title: loc.translate(
+                                                title: loc!.translate(
                                                     'subscription_payment_app_bar'),
                                                 url: url,
                                                 onPaymentDone: () async {
@@ -128,7 +124,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                                       true, true);
                                                   SnackBarExtension.show(
                                                       SnackBarExtension.success(
-                                                          loc.translate(
+                                                          loc!.translate(
                                                               'subscription_payment_success'),
                                                           Duration(
                                                               seconds: 7)));
@@ -146,7 +142,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                 Container(
                   width: double.infinity,
                   child: Text(
-                    loc.translate("hint"),
+                    loc!.translate("hint"),
                     style: Theme.of(context).textTheme.caption,
                     textAlign: TextAlign.center,
                   ),
@@ -156,7 +152,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
           ),
           BlockBaseWidget(
             margin: EdgeInsets.all(0),
-            header: loc.translate("connected_accounts"),
+            header: loc!.translate("connected_accounts"),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

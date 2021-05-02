@@ -1,8 +1,8 @@
 part of models;
 
 class Culture {
-  String key;
-  String name;
+  String? key;
+  String? name;
 
   Culture({this.key, this.name});
 

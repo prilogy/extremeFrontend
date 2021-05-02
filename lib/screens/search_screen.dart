@@ -16,7 +16,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 /// Создаёт окно поиска контента
 class SearchScreen extends StatefulWidget {
 
-  const SearchScreen({Key key}) : super(key: key);
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -31,8 +31,8 @@ class _SearchScreenState extends State<SearchScreen> {
   FocusNode focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('search_screen');
-    hintText = loc.translate('hint');
+    final loc = AppLocalizations.of(context)?.withBaseKey('search_screen');
+    hintText = loc!.translate('hint');
     return ScreenBaseWidget(
         appBar: AppBar(
           title: Container(
@@ -75,7 +75,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   });
                 } else {
                   Fluttertoast.showToast(
-                      msg: loc.translate("few_symbols"),
+                      msg: loc!.translate("few_symbols"),
                       backgroundColor: Colors.black.withOpacity(0.5));
                 }
               },
@@ -120,25 +120,25 @@ class _SearchScreenState extends State<SearchScreen> {
                         mass = [
                           _videos.isNotEmpty
                               ? CategoryBlock(
-                                  header: loc.translate("videos"),
+                                  header: loc!.translate("videos"),
                                   cards: [..._videos],
                                 )
                               : Container(),
                           _playlists.isNotEmpty
                               ? CategoryBlock(
-                                  header: loc.translate("playlists"),
+                                  header: loc!.translate("playlists"),
                                   cards: [..._playlists],
                                 )
                               : Container(),
                           _movies.isNotEmpty
                               ? CategoryBlock(
-                                  header: loc.translate("movies"),
+                                  header: loc!.translate("movies"),
                                   cards: [..._movies],
                                 )
                               : Container(),
                           _sports.isNotEmpty
                               ? CategoryBlock(
-                                  header: loc.translate("sports"),
+                                  header: loc!.translate("sports"),
                                   cards: [..._sports],
                                   grid: true,
                                 )
@@ -192,7 +192,7 @@ class CategoryBlock extends StatelessWidget {
   final String header;
   final bool grid;
 
-  const CategoryBlock({Key key, this.cards, this.header, this.grid = false})
+  const CategoryBlock({Key? key, this.cards, this.header, this.grid = false})
       : super(key: key);
 
   @override
@@ -231,7 +231,7 @@ class SearchHint extends StatelessWidget {
   final Function onIconTap;
 
   const SearchHint(
-      {Key key,
+      {Key? key,
       @required this.text,
       @required this.onPressed,
       @required this.onIconTap})

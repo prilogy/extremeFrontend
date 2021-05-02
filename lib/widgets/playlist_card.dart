@@ -12,11 +12,11 @@ import 'stats.dart';
 import 'package:extreme/models/main.dart' as Models;
 
 class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  final Models.Playlist model;
-  final bool small;
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
-  final double aspectRatio;
+  final Models.Playlist? model;
+  final bool? small;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+  final double? aspectRatio;
 
   PlayListCard(
       {this.margin,
@@ -35,7 +35,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     var likesAmount = (model?.likesAmount ?? 0).toString();
 
     return StoreConnector<AppState, User>(
-      converter: (store) => store.state.user,
+      converter: (store) => store.state.user!,
       builder: (context, state) => withIndents(
         child: withAspectRatio(
           child: Card(
@@ -47,7 +47,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                     image: NetworkImage(imageUrl), fit: BoxFit.cover),
                 borderRadius: BorderRadius.all(Radius.circular(5)),
               ),
-              child: small
+              child: small == true
                   ? Stack(
                       children: [
                         Container(
@@ -89,7 +89,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PlaylistScreen(
-                                  model: model,
+                                  model: model!,
                                 ),
                               ));
                             },
@@ -156,7 +156,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                         style: Theme.of(context)
                                             .textTheme
                                             .headline6
-                                            .merge(TextStyle(
+                                            ?.merge(TextStyle(
                                                 color: Theme.of(context)
                                                     .colorScheme
                                                     .onPrimary))),
@@ -165,7 +165,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                       style: Theme.of(context)
                                           .textTheme
                                           .caption
-                                          .merge(new TextStyle(
+                                          ?.merge(new TextStyle(
                                               color: Theme.of(context)
                                                   .colorScheme
                                                   .onPrimary)),
@@ -181,7 +181,7 @@ class PlayListCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => PlaylistScreen(
-                                  model: model,
+                                  model: model!,
                                 ),
                               ));
                             },

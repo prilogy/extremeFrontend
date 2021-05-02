@@ -19,7 +19,7 @@ final _config = <PaginatedScreenTab>[
     localizationKey: 'videos',
     itemListCallback: CustomPaginatedListCallback<Video>(
         itemsGetter: (page, pageSize) async {
-          return await processIds<Video>(store.state.user.favoriteIds.videos, page, pageSize, (id, e) => id == e.id);
+          return await processIds<Video>(store.state.user?.favoriteIds?.videos, page, pageSize, (id, e) => id == e.id);
         },
         itemBuilder: (model) => VideoCard(
               model: model[0],
@@ -30,7 +30,7 @@ final _config = <PaginatedScreenTab>[
       itemListCallback: CustomPaginatedListCallback<Movie>(
         pageSize: 6,
         itemsGetter: (page, pageSize) async {
-          return await processIds<Movie>(store.state.user.favoriteIds.movies, page, pageSize, (id, e) => id == e.id);
+          return await processIds<Movie>(store.state.user?.favoriteIds?.movies, page, pageSize, (id, e) => id == e.id);
         },
         modelListSize: 3,
         itemBuilder: (data) => CustomListBuilder(
@@ -38,13 +38,13 @@ final _config = <PaginatedScreenTab>[
             type: CustomListBuilderTypes.grid,
             crossAxisCount: 3,
             items: data,
-            itemBuilder: (item) => MovieCard(model: item)),
+            itemBuilder: (item) => MovieCard(model: item as Movie)),
       )),
   PaginatedScreenTab(
       localizationKey: 'playlists',
       itemListCallback: CustomPaginatedListCallback<Playlist>(
           itemsGetter: (page, pageSize) async {
-            return await processIds<Playlist>(store.state.user.favoriteIds.playlists, page, pageSize, (id, e) => id == e.id);
+            return await processIds<Playlist>(store.state.user?.favoriteIds?.playlists, page, pageSize, (id, e) => id == e.id);
           },
           itemBuilder: (model) => PlayListCard(
                 aspectRatio: 16 / 9,
@@ -55,42 +55,41 @@ final _config = <PaginatedScreenTab>[
       itemListCallback: CustomPaginatedListCallback<Sport>(
         modelListSize: 2,
         itemsGetter: (page, pageSize) async {
-          return await processIds<Sport>(store.state.user.favoriteIds.sports, page, pageSize, (id, e) => id == e.id);
+          return await processIds<Sport>(store.state.user?.favoriteIds!.sports, page, pageSize, (id, e) => id == e.id);
         },
         itemBuilder: (data) => CustomListBuilder(
             childAspectRatio: 16 / 9,
             type: CustomListBuilderTypes.grid,
             crossAxisCount: 2,
             items: data,
-            itemBuilder: (item) => SportCard(model: item)),
+            itemBuilder: (item) => SportCard(model: item as Sport)),
       ))
 ];
 
 class FavoriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context).withBaseKey('favorite_screen');
+    var loc = AppLocalizations.of(context)?.withBaseKey('favorite_screen');
 
     return DefaultTabController(
       length: _config.length,
       child: ScreenBaseWidget(
         padding: EdgeInsets.all(0),
         appBar: AppBar(
-          title: Text(loc.translate('app_bar')),
+          title: Text(loc!.translate('app_bar')),
           bottom: TabBar(
             isScrollable: true,
             tabs: <Widget>[
               for (var item in _config)
                 Tab(
                   text: HelperMethods.capitalizeString(
-                      AppLocalizations.of(context)
-                          .translate('base.' + item.localizationKey)),
+                      AppLocalizations.of(context)!.translate('base.' + (item.localizationKey ?? ''))),
                 )
             ],
           ),
         ),
         builderChild: (context) => TabBarView(
-          children: <Widget>[for (var item in _config) item.view],
+          children: <Widget>[for (var item in _config) item.view as Widget],
         ),
       ),
     );

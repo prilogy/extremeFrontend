@@ -1,10 +1,10 @@
 part of models;
 
 class Currency {
-  String key;
-  String name;
-  String symbol;
-  String pattern;
+  String? key;
+  String? name;
+  String? symbol;
+  String? pattern;
 
   Currency({this.key, this.name, this.symbol, this.pattern});
 

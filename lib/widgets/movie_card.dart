@@ -10,10 +10,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'favorite_toggler.dart';
 
 class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
-  final double aspectRatio;
-  final Models.Movie model;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+  final double? aspectRatio;
+  final Models.Movie? model;
 
   MovieCard({
     this.padding,
@@ -25,7 +25,7 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, Models.User>(
-        converter: (store) => store.state.user,
+        converter: (store) => store.state.user!,
         builder: (context, state) => withIndents(
               child: withAspectRatio(
                 child: Card(
@@ -72,7 +72,7 @@ class MovieCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                 Navigator.of(context, rootNavigator: true)
                                     .push(MaterialPageRoute(
                                   builder: (context) => MovieViewScreen(
-                                    model: model,
+                                    model: model!,
                                   ),
                                 ));
                               },

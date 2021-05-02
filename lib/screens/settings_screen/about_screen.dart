@@ -10,11 +10,11 @@ class AboutScreen extends StatelessWidget {
     return ScreenBaseWidget(
       appBar: AppBar(
         title: Text(
-            AppLocalizations.of(context).translate('settings_screen.about')),
+            AppLocalizations.of(context)!.translate('settings_screen.about')),
       ),
       builder: (ctx) => [
         BlockBaseWidget(
-            child: Text(AppLocalizations.of(context)
+            child: Text(AppLocalizations.of(context)!
                 .translate('about_screen.description'))),
         BlockBaseWidget(
           child: Row(
@@ -22,7 +22,7 @@ class AboutScreen extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(right: Indents.sm),
                 child: Text(
-                    AppLocalizations.of(context).translate('about_screen.email')),
+                    AppLocalizations.of(context)!.translate('about_screen.email')),
               ),
               SelectableText(
                 'support@extremeinsiders.com',
@@ -32,7 +32,7 @@ class AboutScreen extends StatelessWidget {
           ),
         ),
         BlockBaseWidget(
-          child: Text(AppLocalizations.of(context).translate("about_screen.details"))
+          child: Text(AppLocalizations.of(context)!.translate("about_screen.details"))
         )
       ],
     );

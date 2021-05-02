@@ -28,7 +28,7 @@ import 'package:vimeoplayer/vimeoplayer.dart';
 class MovieViewScreen extends StatefulWidget {
   final Models.Movie model;
 
-  MovieViewScreen({Key key, @required this.model}) : super(key: key);
+  MovieViewScreen({Key? key, @required this.model}) : super(key: key);
 
   @override
   _MovieViewScreenState createState() => _MovieViewScreenState();
@@ -52,7 +52,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('video_view_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('video_view_screen');
     var splits = widget.model.content?.url?.split('/') ?? null;
     final id = splits != null ? splits[splits.length - 1] : "242373845";
 
@@ -150,7 +150,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                       child: Row(
                         children: [
                           ActionIcon(
-                            signText: loc.translate('like'),
+                            signText: loc!.translate('like'),
                             //widget.model?.likesAmount.toString() ?? '224''',
                             icon: Icons.thumb_up,
                             iconColor: widget.model.isLiked
@@ -181,11 +181,11 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                                   margin: EdgeInsets.only(top: Indents.sm),
                                   // Sign below like icon margin
                                   child: Text(
-                                    loc.translate('favorite'), //signText,
+                                    loc!.translate('favorite'), //signText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .caption
-                                        .merge(TextStyle(
+                                        ?.merge(TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
                                               .onPrimary,
@@ -196,7 +196,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                             ),
                           ),
                           /*ActionIcon(
-                              signText: loc.translate("share"),
+                              signText: loc!.translate("share"),
                               icon: Icons.share,
                               iconColor: ExtremeColors.base[200]),
                         */],
@@ -219,7 +219,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                   ],
                 ),
                 BlockBaseWidget.forScrollingViews(
-                  header: loc.translate('other_movies'),
+                  header: loc!.translate('other_movies'),
                   margin: EdgeInsets.all(0),
                   child: CustomFutureBuilder(
                       future: Api.Entities.getById<Models.Sport>(
@@ -274,7 +274,7 @@ class ActionIcon extends StatelessWidget {
                 EdgeInsets.only(top: Indents.sm), // Sign below like icon margin
             child: Text(
               signText, //signText,
-              style: Theme.of(context).textTheme.caption.merge(TextStyle(
+              style: Theme.of(context).textTheme.caption?.merge(TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
                   )),
             ),
@@ -288,7 +288,7 @@ class ActionIcon extends StatelessWidget {
 /// Создаёт виджет описания видео
 class VideoDescription extends StatelessWidget {
   final String text; // текст описания
-  const VideoDescription({Key key, this.text}) : super(key: key);
+  const VideoDescription({Key? key, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

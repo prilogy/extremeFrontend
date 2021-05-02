@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class FavoriteToggler extends StatelessWidget {
-  final bool status;
-  final int id;
-  final String toolTip;
+  final bool? status;
+  final int? id;
+  final String? toolTip;
   final double size;
   final noAlign;
 
@@ -19,11 +19,11 @@ class FavoriteToggler extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context).withBaseKey('snack_bars.favorite');
-    var icon = status ? Icons.favorite : Icons.favorite_border;
-    var color = status ? ExtremeColors.error : Colors.white;
+    var loc = AppLocalizations.of(context)?.withBaseKey('snack_bars.favorite');
+    var icon = status == true? Icons.favorite : Icons.favorite_border;
+    var color = status == true ? ExtremeColors.error : Colors.white;
     var toolTipText =
-        toolTip ?? AppLocalizations.of(context).translate('tooltips.favorite');
+        toolTip ?? AppLocalizations.of(context)?.translate('tooltips.favorite');
 
     return IconButton(
       alignment: noAlign ? Alignment.center : Alignment.topRight,
@@ -36,13 +36,13 @@ class FavoriteToggler extends StatelessWidget {
       tooltip: toolTipText,
       onPressed: () async {
         // TODO: можно отрефакторить в Redux Thunk
-        var userAction = await Api.User.toggleFavorite(id);
+        var userAction = await Api.User.toggleFavorite(id!);
         if (userAction == null) return;
 
         StoreProvider.of<AppState>(context)
             .dispatch(ToggleFavorite(userAction));
         SnackBarExtension.show(SnackBarExtension.info(
-            loc.translate(userAction.status ? 'added' : 'removed')));
+            loc!.translate(userAction.status == true ? 'added' : 'removed')));
       },
     );
   }

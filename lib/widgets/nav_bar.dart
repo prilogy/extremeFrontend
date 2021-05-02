@@ -13,7 +13,7 @@ class NavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var isSubscribed = StoreProvider.of<AppState>(context).state.user.isSubscribed;
+    var isSubscribed = StoreProvider.of<AppState>(context).state.user!.isSubscribed;
     
     return Container(
       clipBehavior: Clip.antiAlias,

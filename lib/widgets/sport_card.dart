@@ -13,12 +13,12 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 /// Создаёт карточку спорта.
 class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  final bool small;
-  final Models.Sport model;
+  final bool? small;
+  final Models.Sport? model;
 
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
-  final double aspectRatio;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+  final double? aspectRatio;
 
   SportCard(
       {this.margin,
@@ -32,12 +32,12 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
     String _title = model?.content?.name ?? 'Вид спорта';
     void onTap() {
       Navigator.of(context).push(MaterialPageRoute(
-        builder: (context) => SportScreen(model: model,),
+        builder: (context) => SportScreen(model: model!,),
       ));
     }
 
     return StoreConnector<AppState, User>(
-      converter: (store) => store.state.user,
+      converter: (store) => store.state.user!,
       builder: (context, state) => withIndents(
         child: withAspectRatio(
           child: Card(
@@ -80,7 +80,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                           .subtitle1),
                                 ),
                               ),
-                              if (!small)
+                              if (small != true)
                                 Container(
                                   child: Row(
                                     mainAxisAlignment:
@@ -91,7 +91,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                         marginBetween: 0,
                                         icon: Icons.playlist_play,
                                         text: model?.playlistsIds?.length
-                                                ?.toString() ??
+                                                .toString() ??
                                             Random().nextInt(100).toString(),
                                       ),
                                       Stats(
@@ -99,8 +99,7 @@ class SportCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                         widgetMarginRight: 0,
                                         marginBetween: 0,
                                         icon: Icons.local_movies,
-                                        text: model?.moviesIds?.length
-                                                ?.toString() ??
+                                        text: model?.moviesIds?.length.toString() ??
                                             Random().nextInt(100).toString(),
                                       )
                                     ],

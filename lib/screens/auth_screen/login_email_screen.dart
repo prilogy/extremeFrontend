@@ -34,15 +34,15 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-    final loc = AppLocalizations.of(context).withBaseKey('login_email_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('login_email_screen');
     return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text(loc.translate('email_sign_in')),
+          title: Text(loc!.translate('email_sign_in') ?? ''),
         ),
         builder: (context) => [
               BlockBaseWidget(
                 margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/4),
-                header: loc.translate('header'),
+                header: loc!.translate('header'),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -51,40 +51,40 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
-                          if (value.isEmpty) {
-                            return loc.translate('error.empty');
+                          if (value?.isEmpty ?? true) {
+                            return loc!.translate('error.empty');
                           }
                           if (!RegExp(
                                   r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                              .hasMatch(value))
-                            return loc.translate(
+                              .hasMatch(value!))
+                            return loc!.translate(
                                 'error.invalid'); 
                           return null;
                         },
                         decoration: InputDecoration(
                             icon: Icon(Icons.alternate_email),
                             hintText: 'example@gmail.com',
-                            labelText: loc.translate('email')),
+                            labelText: loc!.translate('email')),
                       ),
                       TextFormField(
                         controller: _passwordController,
                         validator: (value) {
-                          if (value.isEmpty) {
-                            return loc.translate('error.empty');
+                          if (value?.isEmpty ?? true) {
+                            return loc!.translate('error.empty');
                           }
-                          if (value.length < 6)
-                            return loc.translate('error.few_symbols');
+                          if ((value?.length ?? 0) < 6)
+                            return loc!.translate('error.few_symbols');
                           return null;
                         },
                         obscureText: true,
                         decoration: InputDecoration(
                             icon: Icon(Icons.lock),
-                            labelText: loc.translate('password')),
+                            labelText: loc!.translate('password')),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: Indents.md),
                         child: InkWell(
-                          child: Text(loc.translate('forget')),
+                          child: Text(loc!.translate('forget') ?? ''),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => ResetPassScreen()));
@@ -103,18 +103,18 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   Navigator.of(context).push(MaterialPageRoute(
                                       builder: (context) => SignUpScreen()));
                                 },
-                                child: Text(loc.translate('sign_up')),
+                                child: Text(loc!.translate('sign_up') ?? ''),
                               ),
                             ),
                             RaisedButton(
                               color: Theme.of(context).colorScheme.primary,
                               onPressed: () async {
                                 var scf = Scaffold.of(context);
-                                if (_formKey.currentState.validate()) {
+                                if (_formKey.currentState?.validate() ?? false) {
                                   scf.showSnackBar(SnackBar(
                                       backgroundColor: colorScheme.primary,
                                       content: Text(
-                                        loc.translate('snackbar.logging_in'),
+                                        loc!.translate('snackbar.logging_in') ?? '',
                                         style: TextStyle(
                                             color: colorScheme.onPrimary),
                                       )));
@@ -125,7 +125,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   if (user == null)
                                     scf.showSnackBar(SnackBar(
                                       content: Text(
-                                        loc.translate("error.fail_sign_in"),
+                                        loc!.translate("error.fail_sign_in") ?? '',
                                         style: TextStyle(
                                             color: colorScheme.onError),
                                       ),
@@ -134,7 +134,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                   else {
                                     scf.showSnackBar(SnackBar(
                                       content: Text(
-                                        loc.translate('shackbar.success'),
+                                        loc!.translate('shackbar.success') ?? '',
                                         style: TextStyle(
                                             color: colorScheme.onError),
                                       ),
@@ -147,7 +147,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                 }
                               },
                               child: Text(
-                                loc.translate('sign_in'),
+                                loc!.translate('sign_in') ?? '',
                               ),
                             )
                           ],

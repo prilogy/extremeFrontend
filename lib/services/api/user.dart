@@ -3,7 +3,7 @@ part of api;
 // Класс только для эндпоинтов User из постман
 class User {
   // так же другие методы
-  static Future<Models.User> refresh(
+  static Future<Models.User?> refresh(
       [bool token = false, bool updateStore = false]) async {
     try {
       var headers = {
@@ -44,7 +44,7 @@ class User {
     }
   }
 
-  static Future<Models.User> edit({String name, String email}) async {
+  static Future<Models.User?> edit({String? name, String? email}) async {
     var map = Map<String, dynamic>();
     if (name != null) map.addAll({'name': name});
     if (email != null) map.addAll({'email': email});
@@ -59,7 +59,7 @@ class User {
   }
 
   /// Переключатель favorite
-  static Future<Models.UserAction> toggleFavorite(int id) async {
+  static Future<Models.UserAction?> toggleFavorite(int id) async {
     try {
       var response = await dio.get('/user/favorite/$id');
       return Models.UserAction.fromJson(response.data);
@@ -69,7 +69,7 @@ class User {
   }
 
   /// Переключатель like
-  static Future<Models.UserAction> toggleLike(int id) async {
+  static Future<Models.UserAction?> toggleLike(int id) async {
     try {
       var response = await dio.get('/user/like/$id');
       return Models.UserAction.fromJson(response.data);
@@ -113,7 +113,7 @@ class User {
     }
   }
 
-  static Future<bool> addSocialAccount(
+  static Future<bool?> addSocialAccount(
       Models.SocialAccountProvider provider, String token) async {
     try {
       await dio
@@ -125,7 +125,7 @@ class User {
     }
   }
 
-  static Future<bool> removeSocialAccount(
+  static Future<bool?> removeSocialAccount(
       Models.SocialAccountProvider provider) async {
     try {
       await dio.delete('/user/socialAccount/${provider.name}');

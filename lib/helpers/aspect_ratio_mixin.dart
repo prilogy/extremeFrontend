@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 mixin AspectRatioMixin {
-  double get aspectRatio;
+  double? get aspectRatio;
 
-  Widget withAspectRatio({Widget child}) {
+  Widget withAspectRatio({Widget? child}) {
     if(aspectRatio == null)
-      return child;
+      return child!;
 
     return AspectRatio(
-      aspectRatio: aspectRatio,
+      aspectRatio: aspectRatio ?? 16/9,
       child: child,
     );
   }

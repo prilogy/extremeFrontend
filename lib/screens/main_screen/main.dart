@@ -11,9 +11,9 @@ import 'browse_screen.dart';
 import 'home_screen.dart';
 
 class MainScreen extends StatefulWidget {
-  final String title;
+  final String? title;
 
-  MainScreen({Key key, this.title}) : super(key: key);
+  MainScreen({Key? key, this.title}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -34,11 +34,11 @@ final screens = [
 class _MainScreenState extends State<MainScreen>
     with TickerProviderStateMixin<MainScreen> {
   int _selectedIndex = 0;
-  DateTime _currentBackPressTime;
-  List<GlobalKey<NavigatorState>> _navigatorKeys;
+  DateTime? _currentBackPressTime;
+  List<GlobalKey<NavigatorState>>? _navigatorKeys;
   final double _navBarOffset = Indents.md;
 
-  List<Widget> _screens;
+  List<Widget>? _screens;
 
   @override
   void initState() {
@@ -48,9 +48,9 @@ class _MainScreenState extends State<MainScreen>
         screens.length, (int index) => GlobalKey()).toList();
     _screens = screens.map<Widget>((e) {
       var idx = screens.indexOf(e);
-      return e(_navigatorKeys[idx]);
+      return e(_navigatorKeys![idx]);
     }).toList();
-    if(!store.state.user.isSubscribed)
+    if(!store.state.user!.isSubscribed)
       setState(() {
         _selectedIndex = 2;
       });
@@ -60,19 +60,19 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final NavigatorState navigator =
-            _navigatorKeys[_selectedIndex].currentState;
-        if (!navigator.canPop()) {
+        final NavigatorState? navigator =
+            _navigatorKeys?[_selectedIndex].currentState;
+        if (!navigator!.canPop()) {
           DateTime now = DateTime.now();
           if (_currentBackPressTime == null ||
-              now.difference(_currentBackPressTime) > Duration(seconds: 2)) {
+              now.difference(_currentBackPressTime!) > Duration(seconds: 2)) {
             setState(() {
               _currentBackPressTime = now;
             });
             Fluttertoast.showToast(
-                msg: AppLocalizations.of(context).translate('helper.exit_hint'),
+                msg: AppLocalizations.of(context)?.translate('helper.exit_hint'),
                 backgroundColor: Colors.black.withOpacity(0.5));
-            return null;
+            return false;
           }
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         }
@@ -88,7 +88,7 @@ class _MainScreenState extends State<MainScreen>
             child: Stack(children: <Widget>[
           IndexedStack(
             index: _selectedIndex,
-            children: _screens,
+            children: _screens!,
           ),
           Positioned(
               bottom: _navBarOffset,
@@ -101,11 +101,9 @@ class _MainScreenState extends State<MainScreen>
                     _selectedIndex = idx;
                   });
                 }, (int idx) {
-                  var navigator = _navigatorKeys[idx].currentState;
-                  if (navigator.canPop())
-                    _navigatorKeys[idx]
-                        .currentState
-                        .popUntil((route) => !route.navigator.canPop());
+                  var navigator = _navigatorKeys![idx].currentState;
+                  if (navigator!.canPop())
+                    _navigatorKeys![idx].currentState?.popUntil((route) => !route.navigator!.canPop());
                 }),
               ))
         ])),

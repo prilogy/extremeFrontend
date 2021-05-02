@@ -15,7 +15,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SocialAccount extends StatelessWidget {
-  final SocialAuthService service;
+  final SocialAuthService? service;
 
   SocialAccount({this.service});
 
@@ -26,12 +26,12 @@ class SocialAccount extends StatelessWidget {
         : Platform.isIOS
             ? SocialAuthOS.IOS
             : null;
-    var model = service.socialAccount;
-    var loc = AppLocalizations.of(context).withBaseKey('account_screen');
-    if (service.hideFor.contains(os)) return Container();
+    var model = service?.socialAccount;
+    var loc = AppLocalizations.of(context)?.withBaseKey('account_screen');
+    if (service!.hideFor.contains(os)) return Container();
 
     return StoreConnector<AppState, User>(
-      converter: (store) => store.state.user,
+      converter: (store) => store.state.user!,
       builder: (context, state) => Container(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -42,12 +42,12 @@ class SocialAccount extends StatelessWidget {
                 width: 30,
                 margin: EdgeInsets.only(right: Indents.smd),
                 child: SvgPicture.asset(
-                  model.iconPath,
+                  model?.iconPath ?? '',
                   height: 25,
                 ),
               ),
               Text(
-                model.displayName,
+                model?.displayName ?? '',
                 style: Theme.of(context).textTheme.bodyText1,
               ),
             ],
@@ -57,37 +57,37 @@ class SocialAccount extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             ),
-            textColor: state.socialAccounts.any((x) => x.provider == model)
+            textColor: state.socialAccounts!.any((x) => x.provider == model)
                 ? ExtremeColors.error
                 : ExtremeColors.success,
             onPressed: () async {
-              var isConnected = state.socialAccounts
-                  .any((x) => x.provider.name == model.name);
+              var isConnected = state.socialAccounts!
+                  .any((x) => x.provider?.name == model?.name);
               if (!isConnected) {
-                var token = await service.getToken();
+                var token = await service!.getToken();
 
-                var result = await Api.User.addSocialAccount(model, token);
+                var result = await Api.User.addSocialAccount(model!, token!);
                 if (result == true) {
                   await Api.User.refresh(true, true);
-                  rootScaffold.currentState.showSnackBar(
-                      SnackBarExtension.success(loc.translate(
-                          'account_connect_success', [model.displayName])));
+                  rootScaffold.currentState!.showSnackBar(
+                      SnackBarExtension.success(loc!.translate(
+                          'account_connect_success', [model.displayName!])));
                 } else
-                  rootScaffold.currentState.showSnackBar(
+                  rootScaffold.currentState!.showSnackBar(
                       SnackBarExtension.error(
-                          loc.translate('account_connect_error')));
+                          loc!.translate('account_connect_error')));
               } else {
-                var result = await Api.User.removeSocialAccount(model);
+                var result = await Api.User.removeSocialAccount(model!);
                 if (result == true) {
                   await Api.User.refresh(true, true);
-                  rootScaffold.currentState.showSnackBar(
-                      SnackBarExtension.success(loc.translate(
-                          'account_disconnect_success', [model.displayName])));
+                  rootScaffold.currentState!.showSnackBar(
+                      SnackBarExtension.success(loc!.translate(
+                          'account_disconnect_success', [model.displayName!])));
                 }
               }
             },
-            child: Text(loc
-                .translate(state.socialAccounts.any((x) => x.provider == model)
+            child: Text(loc!
+                .translate(state.socialAccounts!.any((x) => x.provider == model)
                     ? 'disconnect'
                     : 'connect')
                 .toUpperCase()),

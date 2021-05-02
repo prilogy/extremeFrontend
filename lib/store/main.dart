@@ -6,8 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 
 class AppState {
-  final Models.User user;
-  final Settings settings;
+  final Models.User? user;
+  final Settings? settings;
 
   AppState({@required this.user, @required this.settings});
 
@@ -19,8 +19,8 @@ class AppState {
 
 AppState appStateReducer(AppState state, action) {
   return AppState(
-    user: userReducer(state.user, action),
-    settings: settingsReducer(state.settings, action)
+    user: userReducer(state.user!, action),
+    settings: settingsReducer(state.settings!, action)
   );
 }
 

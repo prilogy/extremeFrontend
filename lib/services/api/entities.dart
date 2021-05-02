@@ -2,17 +2,18 @@ part of api;
 
 class Entities {
   /// Возвращает все доступные объекты выбранной модели
-  static Future<List<T>> getAll<T>(
-      [int page, int pageSize, String sortByDate]) async {
+  static Future<List<T>?> getAll<T>(
+      [int? page, int? pageSize, String? sortByDate]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
 
     try {
       var params = _generateParams(page, pageSize, sortByDate);
       var response = await dio.get('/$entityName', queryParameters: params);
-      var entities = List<T>();
+      List<T> entities = [];
       response.data.forEach((v) {
-        entities.add(_entityFromJson<T>(v));
+        var toAdd = _entityFromJson<T>(v);
+        if(toAdd != null) entities.add(toAdd);
       });
 
       return entities;
@@ -22,7 +23,7 @@ class Entities {
   }
 
   /// Возвращает объект выбранной модели с указанным id
-  static Future<T> getById<T>([int id]) async {
+  static Future<T?> getById<T>([int? id]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
 
@@ -36,8 +37,8 @@ class Entities {
     }
   }
 
-  static Future<List<T>> getByIds<T>(List<int> ids,
-      [int page, int pageSize, String sortByDate]) async {
+  static Future<List<T>?> getByIds<T>(List<int> ids,
+      [int? page, int? pageSize, String? sortByDate]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
 
@@ -46,9 +47,10 @@ class Entities {
       var params = _generateParams(page, pageSize, sortByDate);
       var response =
           await dio.post('/$entityName', queryParameters: params, data: body);
-      var entities = List<T>();
+      List<T> entities = [];
       response.data.forEach((v) {
-        entities.add(_entityFromJson<T>(v));
+        var toAdd = _entityFromJson<T>(v);
+        if(toAdd != null) entities.add(toAdd);
       });
       return entities;
     } on DioError catch (e) {
@@ -57,7 +59,7 @@ class Entities {
   }
 
   /// Возвращает рекомендованный контент
-  static Future<List<T>> recommended<T>([int page, int pageSize]) async {
+  static Future<List<T>?> recommended<T>([int? page, int? pageSize]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
 
@@ -65,9 +67,10 @@ class Entities {
       var params = _generateParams(page, pageSize, null);
       var response =
           await dio.get('/$entityName/recommended', queryParameters: params);
-      var entities = List<T>();
+      List<T> entities = [];
       response.data.forEach((v) {
-        entities.add(_entityFromJson<T>(v));
+        var toAdd = _entityFromJson<T>(v);
+        if(toAdd != null) entities.add(toAdd);
       });
 
       return entities;
@@ -78,7 +81,7 @@ class Entities {
 
   ///Список популярных(по лайкам)
   ///Только для playlist
-  static Future<List<T>> popular<T>([int page, int pageSize]) async {
+  static Future<List<T>?> popular<T>([int? page, int? pageSize]) async {
     var entityName = _entityNameFromType(T);
     if (entityName == null) return null;
 
@@ -86,9 +89,10 @@ class Entities {
       var params = _generateParams(page, pageSize, null);
       var response =
       await dio.get('/$entityName/popular', queryParameters: params);
-      var entities = List<T>();
+      List<T> entities = [];
       response.data.forEach((v) {
-        entities.add(_entityFromJson<T>(v));
+        var toAdd = _entityFromJson<T>(v);
+        if(toAdd != null) entities.add(toAdd);
       });
 
       return entities;
@@ -97,7 +101,7 @@ class Entities {
     }
   }
 
-  static String _entityNameFromType(Type t) {
+  static String? _entityNameFromType(Type t) {
     switch (t) {
       case Models.Video:
         return 'video';
@@ -113,7 +117,7 @@ class Entities {
   }
 
   static Map<String, dynamic> _generateParams(
-      int page, int pageSize, String sortByDate) {
+      int? page, int? pageSize, String? sortByDate) {
     var map = Map<String, dynamic>();
     if (page != null) map.addAll({'page': page});
     if (pageSize != null) map.addAll({'pageSize': pageSize});
@@ -122,7 +126,7 @@ class Entities {
     return map;
   }
 
-  static T _entityFromJson<T>(dynamic v) {
+  static T? _entityFromJson<T>(dynamic v) {
     switch (T) {
       case Models.Video:
         return Models.Video.fromJson(v) as T;

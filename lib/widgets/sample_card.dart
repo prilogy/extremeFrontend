@@ -6,13 +6,13 @@ import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 class SampleCard extends StatelessWidget with IndentsMixin {
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
-  final Models.Image image;
-  final String title;
-  final String body;
-  final Models.Price price;
-  final bool isForFree;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+  final Models.Image? image;
+  final String? title;
+  final String? body;
+  final Models.Price? price;
+  final bool? isForFree;
 
   final double height;
 
@@ -63,13 +63,13 @@ class SampleCard extends StatelessWidget with IndentsMixin {
                     children: <Widget>[
                       Flexible(
                         child: Text(
-                          title,
+                          title ?? '',
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: Theme.of(context).textTheme.headline6,
                         ),
                       ),
-                      Text(body)
+                      Text(body!)
                     ],
                   ),
                 ),
@@ -79,15 +79,14 @@ class SampleCard extends StatelessWidget with IndentsMixin {
                   children: <Widget>[
                     Text(
                       price.toString(),
-                      style: Theme.of(context).textTheme.headline6.merge(
+                      style: Theme.of(context).textTheme.headline6?.merge(
                           TextStyle(
-                              decoration: isForFree
+                              decoration: isForFree == true
                                   ? TextDecoration.lineThrough
                                   : null)),
                     ),
-                    isForFree
-                        ? Text(AppLocalizations.of(context)
-                            .translate('subscription.is_free'))
+                    isForFree == true
+                        ? Text(AppLocalizations.of(context)?.translate('subscription.is_free') ?? '')
                         : Container()
                   ],
                 )

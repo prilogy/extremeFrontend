@@ -1,9 +1,9 @@
 part of models;
 
 class SocialAccount {
-  int id;
-  String key;
-  SocialAccountProvider provider;
+  int? id;
+  String? key;
+  SocialAccountProvider? provider;
 
   SocialAccount({this.id, this.key, this.provider});
 
@@ -20,21 +20,21 @@ class SocialAccount {
     data['id'] = this.id;
     data['key'] = this.key;
     if (this.provider != null) {
-      data['provider'] = this.provider.toJson();
+      data['provider'] = this.provider?.toJson();
     }
     return data;
   }
 }
 
 class SocialAccountProvider {
-  int id;
-  String name;
-  String displayName;
-  String iconPath;
-  double iconSize = 16.0;
+  int? id;
+  String? name;
+  String? displayName;
+  String? iconPath;
+  double? iconSize ;
 
   SocialAccountProvider(
-      {this.id, this.name, this.displayName, this.iconPath, this.iconSize});
+      {this.id, this.name, this.displayName, this.iconPath, this.iconSize = 16.0});
 
   SocialAccountProvider.fromJson(Map<String, dynamic> json) {
     id = json['id'];

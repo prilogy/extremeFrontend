@@ -8,17 +8,17 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 
 class LikeToggler extends StatelessWidget {
-  final bool status;
-  final int id;
-  final String toolTip;
+  final bool? status;
+  final int? id;
+  final String? toolTip;
 
   LikeToggler({this.status, this.id, this.toolTip});
 
   @override
   Widget build(BuildContext context) {
-    var color = status ? ExtremeColors.error : Colors.white;
+    var color = status == true ? ExtremeColors.error : Colors.white;
     var toolTipText =
-        toolTip ?? AppLocalizations.of(context).translate('tooltips.favorite');
+        toolTip ?? AppLocalizations.of(context)?.translate('tooltips.favorite');
 
     return IconButton(
       alignment: Alignment.topRight,
@@ -30,7 +30,7 @@ class LikeToggler extends StatelessWidget {
       ),
       tooltip: toolTipText,
       onPressed: () async {
-        var userAction = await Api.User.toggleLike(id);
+        var userAction = await Api.User.toggleLike(id!);
         if (userAction != null) {
           StoreProvider.of<AppState>(context)
               .dispatch(ToggleLike(userAction));

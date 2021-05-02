@@ -24,13 +24,13 @@ import 'dart:io';
 /// Домашняя страница пользователя - Главная
 
 class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
-  final Key navigatorKey;
+  final Key? navigatorKey;
 
-  HomeScreen({Key key, this.navigatorKey}) : super(key: key);
+  HomeScreen({Key? key, this.navigatorKey}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('home_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('home_screen');
     // var store = StoreProvider.of<AppState>(context);
 
     return ScreenBaseWidget(
@@ -49,14 +49,14 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
       ),
       navigatorKey: navigatorKey,
       builder: (context) => <Widget>[
-        CustomFutureBuilder(
+        CustomFutureBuilder<List<Models.Banner>?>(
           future: Api.Helper.getBanner(),
           builder: (data) {
-            if (data.length > 0)
+            if ((data?.length ?? 0) > 0)
               return Container(
                 margin: EdgeInsets.only(bottom: Indents.md),
                 child: HeadBanner(
-                  banners: data,
+                  banners: data!,
                 ),
               );
             else {
@@ -65,25 +65,25 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
           },
         ),
         BlockBaseWidget.forScrollingViews(
-          header: loc.translate('interesting_sports'),
-          child: CustomFutureBuilder<List<Models.Sport>>(
+          header: loc!.translate('interesting_sports'),
+          child: CustomFutureBuilder<List<Models.Sport>?>(
               future: Api.Entities.recommended<Models.Sport>(1, 6),
-              builder: (List<Models.Sport> data) => CustomListBuilder(
+              builder: (data) => CustomListBuilder(
                   type: CustomListBuilderTypes.horizontalList,
                   height: 60,
                   items: data,
                   itemBuilder: (item) => SportCard(
-                      model: item, aspectRatio: 2.5 / 1, small: true))),
+                      model: item as Models.Sport, aspectRatio: 2.5 / 1, small: true))),
         ),
         BlockBaseWidget(
-          header: AppLocalizations.of(context).translate('helper.users_choice'),
-          child: CustomFutureBuilder<List<Models.Video>>(
+          header: AppLocalizations.of(context)?.translate('helper.users_choice'),
+          child: CustomFutureBuilder<List<Models.Video>?>(
             future: Api.Entities.recommended<Models.Video>(1, 2),
             builder: (data) {
               return CustomListBuilder(
                   items: data,
                   itemBuilder: (item) => VideoCard(
-                        model: item,
+                        model: item as Models.Video,
                         aspectRatio: 16 / 9,
                       ));
             },
@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         BlockBaseWidget.forScrollingViews(
           margin: EdgeInsets.zero,
           header: loc.translate('last_updates'),
-          child: CustomFutureBuilder(
+          child: CustomFutureBuilder<List<Models.Playlist>?>(
             future: Api.Entities.getAll<Models.Playlist>(1, 6, 'desc'),
             builder: (data) {
               return CustomListBuilder<Models.Playlist>(
@@ -110,10 +110,10 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
 }
 
 class BannerInformation extends StatelessWidget {
-  final int id;
-  final Models.Banner banner;
+  final int? id;
+  final Models.Banner? banner;
 
-  const BannerInformation({Key key, this.id, this.banner}) : super(key: key);
+  const BannerInformation({Key? key, this.id, this.banner}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +137,7 @@ class BannerInformation extends StatelessWidget {
             ),
           ),
           // Text(content?.description ?? 'No description provided',
-          //     style: Theme.of(context).textTheme.bodyText2.merge(TextStyle(
+          //     style: Theme.of(context).textTheme.bodyText2?.merge(TextStyle(
           //         color: Theme.of(context)
           //             .colorScheme
           //             .onPrimary
@@ -152,7 +152,7 @@ class BannerInformation extends StatelessWidget {
 }
 
 class HeadBanner extends StatefulWidget {
-  final List<Models.Banner> banners;
+  final List<Models.Banner>? banners;
 
   HeadBanner({this.banners});
 
@@ -162,7 +162,7 @@ class HeadBanner extends StatefulWidget {
 
 class _HeadBannerState extends State<HeadBanner> {
   int index = 0;
-  List<Models.Banner> banners;
+  List<Models.Banner>? banners;
 
   @override
   Widget build(BuildContext context) {
@@ -172,8 +172,8 @@ class _HeadBannerState extends State<HeadBanner> {
       child: Stack(
         children: [
           Carousel(
-            images: banners
-                .map((e) => NetworkImage(e?.entityContent?.image?.path ??
+            images: banners!
+                .map((e) => NetworkImage(e.entityContent?.image?.path ??
                     'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'))
                 .toList(),
             dotSize: Indents.md / 2,
@@ -188,53 +188,51 @@ class _HeadBannerState extends State<HeadBanner> {
             overlayShadowColors: Theme.of(context).colorScheme.background,
             overlayShadowSize: 1,
             onImageTap: (index) async {
-              switch (banners[index].entityType) {
+              switch (banners![index].entityType) {
                 case 'video':
                   var model = await Api.Entities.getById<Models.Video>(
-                      banners[index].entityId);
+                      banners![index].entityId);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => VideoViewScreen(
-                          model: model,
+                          model: model as Models.Video,
                         ),
                       ));
                   break;
                 case 'playlist':
                   var model = await Api.Entities.getById<Models.Playlist>(
-                      banners[index].entityId);
+                      banners![index].entityId);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => PlaylistScreen(
-                          model: model,
+                          model: model as Models.Playlist,
                         ),
                       ));
                   break;
                 case 'movie':
                   var model = await Api.Entities.getById<Models.Movie>(
-                      banners[index].entityId);
+                      banners![index].entityId);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => MovieViewScreen(
-                          model: model,
+                          model: model as Models.Movie,
                         ),
                       ));
                   break;
                 case 'sport':
                   var model = await Api.Entities.getById<Models.Sport>(
-                      banners[index].entityId);
+                      banners![index].entityId);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => SportScreen(
-                          model: model,
+                          model: model as Models.Sport,
                         ),
                       ));
                   break;
-                default:
-                  null;
               }
             },
             onImageChange: (previous, current) {
@@ -245,7 +243,7 @@ class _HeadBannerState extends State<HeadBanner> {
           ),
           BannerInformation(
             id: index,
-            banner: banners[index],
+            banner: banners![index],
           ),
         ],
       ),

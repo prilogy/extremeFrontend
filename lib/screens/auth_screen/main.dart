@@ -10,26 +10,26 @@ class AuthScreen extends StatefulWidget{
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  Key navigatorKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  DateTime _currentBackPressTime;
+  DateTime? _currentBackPressTime;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        final NavigatorState navigator = (navigatorKey as GlobalKey<NavigatorState>).currentState;
-        if (!navigator.canPop()) {
+        final NavigatorState? navigator = navigatorKey.currentState;
+        if (!navigator!.canPop()) {
           DateTime now = DateTime.now();
           if (_currentBackPressTime == null ||
-              now.difference(_currentBackPressTime) > Duration(seconds: 2)) {
+              now.difference(_currentBackPressTime!) > Duration(seconds: 2)) {
             setState(() {
               _currentBackPressTime = now;
             });
             Fluttertoast.showToast(
-                msg: AppLocalizations.of(context).translate('helper.exit_hint'),
+                msg: AppLocalizations.of(context)?.translate('helper.exit_hint'),
                 backgroundColor: Colors.black.withOpacity(0.5));
-            return null;
+            return false;
           }
           SystemChannels.platform.invokeMethod('SystemNavigator.pop');
         }

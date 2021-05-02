@@ -1,9 +1,9 @@
 part of models;
 
 class UserAction {
-  EntityIdItem entityIdItem;
-  bool status;
-  String entityType;
+  EntityIdItem? entityIdItem;
+  bool? status;
+  String? entityType;
 
   UserAction({this.entityIdItem, this.status, this.entityType});
 
@@ -18,7 +18,7 @@ class UserAction {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.entityIdItem != null) {
-      data['entityIdItem'] = this.entityIdItem.toJson();
+      data['entityIdItem'] = this.entityIdItem?.toJson();
     }
     data['status'] = this.status;
     data['entityType'] = this.entityType;
@@ -28,8 +28,8 @@ class UserAction {
 
 
 class EntityIdItem {
-  int id;
-  int entityId;
+  int? id;
+  int? entityId;
 
   EntityIdItem({this.id, this.entityId});
 

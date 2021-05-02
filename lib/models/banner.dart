@@ -1,11 +1,11 @@
 part of models;
 
 class Banner {
-  int id;
-  int entityId;
-  Content content;
-  Content entityContent;
-  String entityType;
+  int? id;
+  int? entityId;
+  Content? content;
+  Content? entityContent;
+  String? entityType;
 
   Banner({this.id, this.content, this.entityId, this.entityContent});
 

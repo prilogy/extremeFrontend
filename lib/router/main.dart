@@ -7,13 +7,13 @@ import 'package:extreme/screens/search_screen.dart';
 import 'package:extreme/screens/settings_screen/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  static Route<dynamic>? generateRoute(RouteSettings settings) {
     final args = settings.arguments;
 
-    var route = routes.firstWhere((x) => x.routeName == settings.name,
-        orElse: () => null);
+    var route = routes.firstWhereOrNull((x) => x.routeName == settings.name);
 
     if (route != null) {
       var pass = !route.requireAuthorization ||

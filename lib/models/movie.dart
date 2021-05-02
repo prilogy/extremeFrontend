@@ -1,29 +1,29 @@
 part of models;
 
 class Movie {
-  int sportId;
-  Content content;
-  int likesAmount;
-  Price price;
-  bool isPaid;
-  int salesAmount;
-  int id;
-  DateTime dateCreated;
+  int? sportId;
+  Content? content;
+  int? likesAmount;
+  Price? price;
+  bool? isPaid;
+  int? salesAmount;
+  int? id;
+  DateTime? dateCreated;
 
   bool get isBought {
-    return isPaid && store.state.user.saleIds.movies.any((x) => x.entityId == id);
+    return isPaid == true && (store.state.user?.saleIds?.movies?.any((x) => x.entityId == id) ?? false);
   }
 
   bool get isLiked {
-    return store.state.user?.likeIds?.movies?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.likeIds?.movies?.any((x) => x.entityId == id) ?? false;
   }
 
   bool get isFavorite {
-    return store.state.user?.favoriteIds?.movies?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.favoriteIds?.movies?.any((x) => x.entityId == id) ?? false;
   }
 
   bool get isInPreferredLanguage {
-    return store.state?.settings?.culture == content.culture ?? false;
+    return store.state.settings!.culture == content?.culture;
   }
 
   Movie(
@@ -52,11 +52,11 @@ class Movie {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['sportId'] = this.sportId;
     if (this.content != null) {
-      data['content'] = this.content.toJson();
+      data['content'] = this.content?.toJson();
     }
     data['likesAmount'] = this.likesAmount;
     if (this.price != null) {
-      data['price'] = this.price.toJson();
+      data['price'] = this.price?.toJson();
     }
     data['isPaid'] = this.isPaid;
     data['salesAmount'] = this.salesAmount;

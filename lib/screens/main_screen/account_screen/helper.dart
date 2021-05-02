@@ -8,27 +8,28 @@ import 'package:loadmore/loadmore.dart';
 typedef LinqForT<T> = bool Function(int, T);
 
 Future<List<T>> processIds<T>(
-    List<EntityIdItem> ids, int page, int pageSize, LinqForT<T> linq) async {
-  ids.sort((a, b) => a.id.compareTo(b.id));
+    List<EntityIdItem>? ids, int page, int pageSize, LinqForT<T> linq) async {
+  if(ids == null) return [];
+  ids.sort((a, b) => a.id!.compareTo(b.id!));
   ids = ids.reversed.toList();
-  var idsInt = ids.map<int>((e) => e.entityId).toList();
+  var idsInt = ids.map<int>((e) => e.entityId!).toList();
   var data = await Api.Entities.getByIds<T>(idsInt, page, pageSize);
-  return idsInt.map<T>((e) => data.firstWhere((y) => linq(e, y))).toList();
+  return idsInt.map<T>((e) => data!.firstWhere((y) => linq(e, y))).toList();
 }
 
 class PaginatedScreenTab {
-  final String localizationKey;
-  final PaginatedScreenTabView view;
-  final CustomPaginatedListCallback itemListCallback;
+  final String? localizationKey;
+  final PaginatedScreenTabView? view;
+  final CustomPaginatedListCallback? itemListCallback;
 
   PaginatedScreenTab({this.localizationKey, this.itemListCallback})
       : view = PaginatedScreenTabView(
-          itemListCallback: itemListCallback,
+          itemListCallback: itemListCallback!,
         );
 }
 
 class PaginatedScreenTabView extends StatefulWidget {
-  final CustomPaginatedListCallback itemListCallback;
+  final CustomPaginatedListCallback? itemListCallback;
 
   PaginatedScreenTabView({this.itemListCallback});
 
@@ -41,7 +42,7 @@ class _PaginatedScreenTabViewState extends State<PaginatedScreenTabView>
   @override
   bool get wantKeepAlive => true;
 
-  CustomPaginatedListCallback itemListCallback;
+  CustomPaginatedListCallback? itemListCallback;
 
   @override
   void initState() {
@@ -51,7 +52,7 @@ class _PaginatedScreenTabViewState extends State<PaginatedScreenTabView>
 
   @override
   void dispose() {
-    itemListCallback.page = 1;
+    itemListCallback?.page = 1;
     super.dispose();
   }
 
@@ -61,19 +62,19 @@ class _PaginatedScreenTabViewState extends State<PaginatedScreenTabView>
 
     return RefreshIndicator(
       child: LoadMore(
-        isFinish: itemListCallback.isFinished,
-        onLoadMore: itemListCallback.load,
+        isFinish: itemListCallback?.isFinished ?? true,
+        onLoadMore: itemListCallback!.load,
         child: ListView.builder(
           itemBuilder: (BuildContext context, int index) => Container(
               child:
-                  itemListCallback.itemBuilder(itemListCallback.items[index])),
-          itemCount: itemListCallback.items.length,
+                  itemListCallback!.itemBuilder?.call(itemListCallback!.items[index])),
+          itemCount: itemListCallback!.items.length,
         ),
         whenEmptyLoad: false,
         delegate: DefaultLoadMoreDelegate(),
         textBuilder: DefaultLoadMoreTextBuilder.chinese,
       ),
-      onRefresh: itemListCallback.refresh,
+      onRefresh: itemListCallback!.refresh,
     );
 
     // return PaginatedListWidget(

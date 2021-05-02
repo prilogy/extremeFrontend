@@ -4,6 +4,7 @@ library models;
 import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/services/localstorage.dart';
 import 'package:extreme/store/main.dart';
+import 'package:collection/collection.dart';
 
 part 'banner.dart';
 part 'subscription_plan.dart';

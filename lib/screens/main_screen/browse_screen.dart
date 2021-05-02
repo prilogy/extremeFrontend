@@ -17,18 +17,18 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 /// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
 class BrowseScreen extends StatelessWidget {
-  final Key navigatorKey;
+  final Key? navigatorKey;
 
   BrowseScreen({this.navigatorKey});
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context).withBaseKey('browse_screen');
+    var loc = AppLocalizations.of(context)?.withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
         appBarComplex: (ctx, c) => ScrollAppBar(
               controller: c,
-              title: Text(loc.translate("browse")),
+              title: Text(loc!.translate("browse")),
               actions: <Widget>[
                 IconButton(
                   icon: Icon(Icons.search),
@@ -47,32 +47,32 @@ class BrowseScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CategoryButton(
-                        text: loc.translate('playlists'),
+                        text: loc!.translate('playlists'),
                         icon: Icons.playlist_play,
                         pushTo: Playlists()),
                     CategoryButton(
-                        text: loc.translate('movies'),
+                        text: loc!.translate('movies'),
                         icon: Icons.movie,
                         pushTo: MoviesList())
                   ],
                 ),
               ),
               BlockBaseWidget(
-                  child: CustomFutureBuilder<List<Models.Sport>>(
+                  child: CustomFutureBuilder<List<Models.Sport>?>(
                       future: Api.Entities.getAll<Models.Sport>(),
                       builder: (data) {
-                        data.sort((a,b) => a.content.name.compareTo(b.content.name));
+                        data?.sort((a,b) => a.content!.name!.compareTo(b.content!.name!));
                         return CustomListBuilder(
                             childAspectRatio: 16/9,
                             type: CustomListBuilderTypes.grid,
                             crossAxisCount: 2,
                             items: data,
-                            itemBuilder: (item) => SportCard(model: item, margin: EdgeInsets.only(bottom: Indents.sm),));
+                            itemBuilder: (item) => SportCard(model: item as Models.Sport, margin: EdgeInsets.only(bottom: Indents.sm),));
                       })),
               BlockBaseWidget(
                 header: loc.translate('popular_playlists'),
                 margin: EdgeInsets.zero,
-                child: CustomFutureBuilder<List<Models.Playlist>>(
+                child: CustomFutureBuilder<List<Models.Playlist>?>(
                   future: Api.Entities.popular<Models.Playlist>(1, 4),
                   builder: (data) => CustomListBuilder<Models.Playlist>(
                     connectToStore: true,
@@ -90,9 +90,9 @@ class BrowseScreen extends StatelessWidget {
 }
 
 class CategoryButton extends StatelessWidget {
-  final String text;
-  final IconData icon;
-  final Widget pushTo;
+  final String? text;
+  final IconData? icon;
+  final Widget? pushTo;
 
   CategoryButton({this.text, this.icon, this.pushTo});
 
@@ -109,12 +109,12 @@ class CategoryButton extends StatelessWidget {
             tooltip: text,
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => pushTo,
+                builder: (context) => pushTo!,
               ));
             },
           ),
           Text(
-            text,
+            text ?? '',
             style: Theme.of(context).textTheme.bodyText2,
           ),
         ],

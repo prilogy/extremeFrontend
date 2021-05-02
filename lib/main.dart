@@ -25,20 +25,20 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  final Store<AppState> store;
+  final Store<AppState>? store;
 
-  App({Key key, this.store});
+  App({Key? key, this.store});
 
   @override
   Widget build(BuildContext context) {
     return StoreProvider<AppState>(
-      store: store,
+      store: store!,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'ExtremeInsiders',
         supportedLocales: [
-          Locale(Culture.en.key, ''),
-          Locale(Culture.ru.key, '')
+          Locale(Culture.en.key!, ''),
+          Locale(Culture.ru.key!, '')
         ],
         localizationsDelegates: [
           AppLocalizations.delegate,
@@ -46,14 +46,14 @@ class App extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate
         ],
         localeListResolutionCallback: (locales, supportedLocales) {
-          if (store.state.settings?.culture != null)
-            return Locale(store.state.settings.culture.key, '');
-          for (var loc in locales) {
+          if (store?.state.settings?.culture != null)
+            return Locale(store?.state.settings?.culture?.key ?? 'en', '');
+          for (var loc in locales!) {
             for (var supp in supportedLocales) {
               if (supp.languageCode == loc.languageCode) {
                 var culture =
                     Culture.all.firstWhere((x) => x.key == supp.languageCode);
-                store.dispatch(SetSettings(
+                store?.dispatch(SetSettings(
                     culture: culture,
                     currency: culture.key == 'en'
                         ? Currency.USD
@@ -66,7 +66,7 @@ class App extends StatelessWidget {
         },
         theme: AppTheme.dark,
         onGenerateRoute: RouteGenerator.generateRoute,
-        initialRoute: store.state.user == null ? '/auth' : '/main',
+        initialRoute: store?.state.user == null ? '/auth' : '/main',
         builder: (context, child) => Scaffold(
           key: rootScaffold,
           body: child,

@@ -1,8 +1,8 @@
 import 'package:extreme/models/main.dart';
 
 class SetSettings {
-  final Culture culture;
-  final Currency currency;
+  final Culture? culture;
+  final Currency? currency;
 
   SetSettings({this.culture, this.currency});
 

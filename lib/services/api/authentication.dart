@@ -1,7 +1,7 @@
 part of api;
 
 class Authentication {
-  static Future<Models.User> login({String email, String password}) async {
+  static Future<Models.User?> login({String? email, String? password}) async {
     var headers = {
       'Culture': store.state.settings?.culture?.key,
       'Currency': store.state.settings?.currency?.key
@@ -22,14 +22,14 @@ class Authentication {
 
   /// dateBirthday в виде ДД.ММ.ГГГГ
   static Future<bool> signUp(
-      {@required String name,
-      @required String email,
-      @required String password,
-      @required String dateBirthday,
-      String phoneNumber,
-      File avatar,
-      Models.SocialIdentity socialIdentity,
-      Models.SocialAccountProvider socialProvider}) async {
+      {@required String? name,
+      @required String? email,
+      @required String? password,
+      @required String? dateBirthday,
+      String? phoneNumber,
+      File? avatar,
+      Models.SocialIdentity? socialIdentity,
+      Models.SocialAccountProvider? socialProvider}) async {
     var isSocial = socialIdentity != null && socialProvider != null;
     var map = <String, dynamic>{
       "name": name,
@@ -49,13 +49,13 @@ class Authentication {
 
     if (isSocial)
       map.addAll({
-        "socialAccountId": socialIdentity.socialAccountId,
-        "socialAccountKey": socialIdentity.socialAccountKey
+        "socialAccountId": socialIdentity?.socialAccountId,
+        "socialAccountKey": socialIdentity?.socialAccountKey
       });
 
     try {
       await dio.put(
-          isSocial ? '/auth/signup/${socialProvider.name}' : '/auth/signup',
+          isSocial ? '/auth/signup/${socialProvider?.name}' : '/auth/signup',
           data: FormData.fromMap(map));
       return true;
     } on DioError catch (e) {
@@ -63,7 +63,7 @@ class Authentication {
     }
   }
 
-  static Future<Models.SocialIdentity> signUpSocialGetInfo(
+  static Future<Models.SocialIdentity?> signUpSocialGetInfo(
       Models.SocialAccountProvider provider, String token) async {
     try {
       var response = await dio
@@ -75,7 +75,7 @@ class Authentication {
     }
   }
 
-  static Future<Models.User> loginSocial(
+  static Future<Models.User?> loginSocial(
       Models.SocialAccountProvider provider, String token) async {
     try {
       var response = await dio

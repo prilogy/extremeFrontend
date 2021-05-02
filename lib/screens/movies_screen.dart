@@ -17,15 +17,15 @@ import 'main_screen/account_screen/helper.dart';
 
 /// Страница со списком фильмов
 class MoviesList extends StatelessWidget {
-  const MoviesList({Key key}) : super(key: key);
+  const MoviesList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context).withBaseKey('browse_screen');
+    var loc = AppLocalizations.of(context)?.withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
       padding: EdgeInsets.all(0),
-      appBar: AppBar(title: Text(loc.translate("playlists"))),
+      appBar: AppBar(title: Text(loc!.translate("playlists"))),
       builderChild: (context) => PaginatedScreenTabView(
         itemListCallback: CustomPaginatedListCallback<Movie>(
           pageSize: 6,

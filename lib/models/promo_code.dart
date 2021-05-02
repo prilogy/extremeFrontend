@@ -1,8 +1,8 @@
 part of models;
 
 class PromoCode {
-  SubscriptionPlan subscriptionPlan;
-  Map<String, dynamic> entitySaleable;
+  SubscriptionPlan? subscriptionPlan;
+  Map<String, dynamic>? entitySaleable;
 
   PromoCode({this.subscriptionPlan, this.entitySaleable});
 

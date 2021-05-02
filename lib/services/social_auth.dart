@@ -8,7 +8,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class SocialAuthService {
   Color get color;
-  Future<String> getToken() => null;
+  Future<String?> getToken();
+
   List<SocialAuthOS> get hideFor => [];
   SocialAccountProvider get socialAccount;
 
@@ -30,10 +31,10 @@ class GoogleAuthService implements SocialAuthService {
   GoogleAuthService() : googleSignIn = GoogleSignIn();
 
   @override
-  Future<String> getToken() async {
+  Future<String?> getToken() async {
     var result = await googleSignIn.signIn();
     var googleKey = await result.authentication;
-    return googleKey?.idToken ?? null;
+    return googleKey.idToken ?? null;
   }
 }
 
@@ -46,9 +47,9 @@ class FacebookAuthService implements SocialAuthService {
   FacebookAuthService() : facebookLogin = FacebookLogin();
 
   @override
-  Future<String> getToken() async {
+  Future<String?> getToken() async {
     var result = await facebookLogin.logIn(['email']);
-    return result?.accessToken?.token ?? null;
+    return result.accessToken?.token ?? null;
   }
 }
 
@@ -64,12 +65,12 @@ class VkAuthService implements SocialAuthService {
   VkAuthService() : vkLogin = VKLogin();
 
   @override
-  Future<String> getToken() async {
-    await vkLogin.initSdk(config.VK_APP_ID);
+  Future<String?> getToken() async {
+    await vkLogin.initSdk(config?.VK_APP_ID);
     var result = await vkLogin.logIn(scope: [VKScope.email]);
     if (result.isValue) {
     } else
 
-    return result.asValue?.value?.accessToken?.token ?? null;
+    return result.asValue?.value.accessToken?.token ?? null;
   }
 }

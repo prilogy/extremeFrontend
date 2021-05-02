@@ -9,16 +9,16 @@ typedef AppBarBuilderComplex = Widget Function(
     BuildContext context, ScrollController controller);
 
 class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
 
-  final Widget appBar;
-  final AppBarBuilderComplex appBarComplex;
-  final WidgetBuilderChildren builder;
-  final WidgetBuilder builderChild;
-  final Key navigatorKey;
-  final Future Function() onRefresh;
-  final bool forceDefaultAppBar;
+  final Widget? appBar;
+  final AppBarBuilderComplex? appBarComplex;
+  final WidgetBuilderChildren? builder;
+  final WidgetBuilder? builderChild;
+  final Key? navigatorKey;
+  final Future Function()? onRefresh;
+  final bool? forceDefaultAppBar;
 
   static const double screenBottomIndent = NavBar.height + 2 * Indents.md;
 
@@ -60,7 +60,7 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
             ? widget.appBar
             : widget.appBarComplex != null
                 ? () {
-                    var ab = widget?.appBarComplex(ctx, _scrollController)
+                    var ab = widget.appBarComplex?.call(ctx, _scrollController)
                         as dynamic;
                     return forceDefaultAppBar
                         ? AppBar(title: ab.title, actions: ab.actions)
@@ -70,8 +70,8 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
         body: Builder(
           builder: (context) {
             var res = widget.builder == null
-                ? widget.builderChild(context)
-                : widget.builder(context);
+                ? widget.builderChild?.call(context)
+                : widget.builder?.call(context);
 
             return SafeArea(
                 top: true,
@@ -79,7 +79,7 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
                 right: true,
                 bottom: true,
                 child: widget.builder == null
-                    ? Container(padding: widget.padding, child: res)
+                    ? Container(padding: widget.padding, child: res as dynamic)
                     : widget.onRefresh != null
                         ? SmartRefresher(
                             controller: _refreshController,
@@ -92,13 +92,13 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
                             child: ListView(
                               controller: _scrollController,
                               padding: widget.padding,
-                              children: res,
+                              children: res as dynamic,
                             ),
                           )
                         : ListView(
                             controller: _scrollController,
                             padding: widget.padding,
-                            children: res,
+                            children: res as dynamic,
                           ));
           },
         ),

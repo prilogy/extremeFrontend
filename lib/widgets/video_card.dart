@@ -12,10 +12,10 @@ import '../screens/video_view_screen.dart';
 import 'favorite_toggler.dart';
 
 class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
-  final Models.Video model;
-  final EdgeInsetsGeometry padding;
-  final EdgeInsetsGeometry margin;
-  final double aspectRatio;
+  final Models.Video? model;
+  final EdgeInsetsGeometry? padding;
+  final EdgeInsetsGeometry? margin;
+  final double? aspectRatio;
 
   VideoCard({
     @required this.model,
@@ -30,7 +30,7 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
         model?.content?.name ?? 'Blancpain GT3 - 3 hours Monza Race / Replay';
 
     return StoreConnector<AppState, Models.User>(
-        converter: (store) => store.state.user,
+        converter: (store) => store.state.user!,
         builder: (context, state) => withIndents(
               child: Container(
                 // padding: EdgeInsets.all(Indents.md),
@@ -38,7 +38,7 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                   children: <Widget>[
                     withAspectRatio(
                         child: VideoCardWithoutCaption(
-                      model: model,
+                      model: model!,
                     )),
                     Container(
                       margin: EdgeInsets.only(top: Indents.md),
@@ -55,11 +55,11 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                                         Theme.of(context).textTheme.subtitle1),
                                 Text(
                                     dateTimeToStringInAgoFormat(
-                                        model.dateCreated, context),
+                                        model!.dateCreated!, context),
                                     style: Theme.of(context)
                                         .textTheme
                                         .subtitle2
-                                        .merge(TextStyle(
+                                        ?.merge(TextStyle(
                                             height: 1.4,
                                             color: Theme.of(context)
                                                 .colorScheme
@@ -90,7 +90,7 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
 }
 
 class VideoCardWithoutCaption extends StatelessWidget {
-  final Models.Video model;
+  final Models.Video? model;
 
   VideoCardWithoutCaption({@required this.model});
 
@@ -134,7 +134,7 @@ class VideoCardWithoutCaption extends StatelessWidget {
                     Navigator.of(context, rootNavigator: true)
                         .push(MaterialPageRoute(
                       builder: (context) => VideoViewScreen(
-                        model: model,
+                        model: model!,
                       ),
                     ));
                   },
@@ -172,9 +172,9 @@ class VideoCardWithoutCaption extends StatelessWidget {
 }
 
 class VideoDuration extends StatelessWidget {
-  final int hours;
-  final int minutes;
-  final int seconds;
+  final int? hours;
+  final int? minutes;
+  final int? seconds;
 
   VideoDuration({this.hours = 0, this.minutes, this.seconds});
 
@@ -199,7 +199,7 @@ class VideoDuration extends StatelessWidget {
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       child: Text(
-        _time(hours, minutes, seconds),
+        _time(hours!, minutes!, seconds!),
         style: Theme.of(context).textTheme.overline,
       ),
     );

@@ -67,12 +67,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('payment');
+    final loc = AppLocalizations.of(context)?.withBaseKey('payment');
     var store = StoreProvider.of<AppState>(context).state;
     if(!browserOpened && store.settings.currency != Currency.RUB) {
       Fluttertoast.showToast(
           toastLength: Toast.LENGTH_LONG,
-          msg: loc.translate("warning"),
+          msg: loc!.translate("warning"),
           backgroundColor: Colors.black.withOpacity(0.5));
     }
 
@@ -89,7 +89,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
             Container(
               margin: EdgeInsets.only(top: Indents.xl),
-              child: Text(loc.translate('processing')),
+              child: Text(loc!.translate('processing')),
               alignment: Alignment.center,
             ),
           ],

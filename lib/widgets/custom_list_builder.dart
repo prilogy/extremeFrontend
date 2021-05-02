@@ -7,9 +7,9 @@ enum CustomListBuilderTypes { verticalList, grid, horizontalList }
 
 class CustomListBuilder<T> extends StatelessWidget {
   /// Список моделей, которые необходимо преобразовать в виджеты
-  final List<T> items;
+  final List<T>? items;
   /// Функция-преобразователь моделей в виджеты с последующим составлением списка
-  final ItemBuilder<T> itemBuilder;
+  final ItemBuilder<T>? itemBuilder;
   /// Тип отображаемого листа
   final CustomListBuilderTypes type;
   /// Высота карточки в горизонтальном скролле
@@ -39,7 +39,7 @@ class CustomListBuilder<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var widgetItems = items.map<Widget>((e) => itemBuilder(e)).toList();
+    var widgetItems = items?.map<Widget>((e) => itemBuilder!(e)).toList();
 
     switch (type) {
       case CustomListBuilderTypes.verticalList:
@@ -48,7 +48,7 @@ class CustomListBuilder<T> extends StatelessWidget {
             shrinkWrap: true,
             primary: false,
             children: <Widget>[
-              for (var item in widgetItems)
+              for (var item in widgetItems!)
                 Container(
                   margin: EdgeInsets.only(
                       bottom: widgetItems.last == item && !lastItemHasGap ? 0 : gap),
@@ -68,7 +68,7 @@ class CustomListBuilder<T> extends StatelessWidget {
             shrinkWrap: true,
             crossAxisCount: crossAxisCount,
             children: <Widget>[
-              for (var item in widgetItems) item,
+              for (var item in widgetItems!) item,
             ],
           );
         }
@@ -81,7 +81,7 @@ class CustomListBuilder<T> extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: Indents.sm),
               scrollDirection: Axis.horizontal,
               children: <Widget>[
-                for (var item in widgetItems)
+                for (var item in widgetItems!)
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: Indents.sm),
                     child: item,

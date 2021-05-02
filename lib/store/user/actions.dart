@@ -1,7 +1,7 @@
 import 'package:extreme/models/main.dart' as Models;
 
 class SetUser {
-  final Models.User user;
+  final Models.User? user;
 
   SetUser(this.user);
 

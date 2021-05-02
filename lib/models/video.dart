@@ -1,30 +1,30 @@
 part of models;
 
 class Video {
-  int playlistId;
-  bool isInPaidPlaylist;
-  Content content;
-  int likesAmount;
-  Price price;
-  bool isPaid;
-  int salesAmount;
-  int id;
-  DateTime dateCreated;
+  int? playlistId;
+  bool? isInPaidPlaylist;
+  Content? content;
+  int? likesAmount;
+  Price? price;
+  bool? isPaid;
+  int? salesAmount;
+  int? id;
+  DateTime? dateCreated;
 
   bool get isBought {
-    return isPaid && store.state.user.saleIds.videos.any((x) => x.entityId == id);
+    return isPaid == true && (store.state.user!.saleIds?.videos?.any((x) => x.entityId == id) ?? false);
   }
 
   bool get isLiked {
-    return store.state.user?.likeIds?.videos?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.likeIds?.videos?.any((x) => x.entityId == id) ?? false;
   }
 
   bool get isFavorite {
-    return store.state.user?.favoriteIds?.videos?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.favoriteIds?.videos?.any((x) => x.entityId == id) ?? false;
   }
 
   bool get isInPreferredLanguage {
-    return store.state?.settings?.culture == content.culture ?? false;
+    return store.state.settings!.culture == content?.culture;
   }
 
   Video(
@@ -56,11 +56,11 @@ class Video {
     data['playlistId'] = this.playlistId;
     data['isInPaidPlaylist'] = this.isInPaidPlaylist;
     if (this.content != null) {
-      data['content'] = this.content.toJson();
+      data['content'] = this.content?.toJson();
     }
     data['likesAmount'] = this.likesAmount;
     if (this.price != null) {
-      data['price'] = this.price.toJson();
+      data['price'] = this.price?.toJson();
     }
     data['isPaid'] = this.isPaid;
     data['salesAmount'] = this.salesAmount;

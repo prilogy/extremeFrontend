@@ -2,8 +2,8 @@ import 'package:extreme/models/main.dart';
 import 'package:extreme/services/localstorage.dart';
 
 class Settings {
-  Culture culture;
-  Currency currency;
+  Culture? culture;
+  Currency? currency;
 
 
   Settings({this.culture, this.currency});
@@ -22,10 +22,10 @@ class Settings {
     final Map<String, dynamic> data = new Map<String, dynamic>();
 
     if (this.culture != null) {
-      data['culture'] = this.culture.toJson();
+      data['culture'] = this.culture?.toJson();
     }
     if (this.currency != null) {
-      data['currency'] = this.currency.toJson();
+      data['currency'] = this.currency?.toJson();
     }
 
     return data;

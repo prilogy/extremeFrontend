@@ -3,8 +3,8 @@ import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 
 class BlockBaseWidget extends StatelessWidget with IndentsMixin {
-  final Widget child;
-  final String header;
+  final Widget? child;
+  final String? header;
   final CrossAxisAlignment crossAxisAlignment;
 
   final EdgeInsetsGeometry margin;
@@ -37,14 +37,14 @@ class BlockBaseWidget extends StatelessWidget with IndentsMixin {
       child: Column(
         crossAxisAlignment: crossAxisAlignment,
         children: <Widget>[
-          if (header != "")
+          if (header != null)
             Container(
                 alignment: Alignment.topLeft,
                 padding: headerPadding,
                 margin: EdgeInsets.only(bottom: Indents.smd),
                 child:
-                    Text(header, style: Theme.of(context).textTheme.headline6)),
-          child
+                    Text(header!, style: Theme.of(context).textTheme.headline6)),
+          child ?? Container()
         ],
       ),
     );

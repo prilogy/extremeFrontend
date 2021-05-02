@@ -6,22 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 
 class PayCard extends StatelessWidget {
-  final Price price;
-  final bool isBought;
-  final VoidCallback onBuy;
-  final MainAxisAlignment alignment;
+  final Price? price;
+  final bool? isBought;
+  final VoidCallback? onBuy;
+  final MainAxisAlignment? alignment;
 
-  const PayCard({Key key, @required this.price, @required this.isBought, this.onBuy, this.alignment = MainAxisAlignment.spaceAround})
+  const PayCard({Key? key, @required this.price, @required this.isBought, this.onBuy, this.alignment = MainAxisAlignment.spaceAround})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context).withBaseKey("pay_card");
+    var loc = AppLocalizations.of(context)?.withBaseKey("pay_card");
 
     return  Row(
-        mainAxisAlignment: alignment,
+        mainAxisAlignment: alignment!,
         children: <Widget>[
-          if(!isBought)
+          if(!isBought!)
             Flexible(
             child: Container(
                 padding: EdgeInsets.only(right: Indents.md),
@@ -29,7 +29,7 @@ class PayCard extends StatelessWidget {
                   children: <Widget>[
                     Flexible(
                       child: Text(
-                        loc.translate('info'),
+                        loc!.translate('info'),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 3,
                       ),
@@ -39,16 +39,16 @@ class PayCard extends StatelessWidget {
           ),
           Column(
             children: <Widget>[
-              !isBought
+              !isBought!
                   ? Text(
                       price?.toString() ?? 'Error',
                       style:
-                          Theme.of(context).textTheme.subtitle2.merge(TextStyle(
+                          Theme.of(context).textTheme.subtitle2?.merge(TextStyle(
                                 fontSize: 24,
                               )),
                     )
                   : Container(),
-              isBought
+              isBought!
                   ?  Row(
                         children: <Widget>[
                           Icon(
@@ -57,12 +57,12 @@ class PayCard extends StatelessWidget {
                           ),
                           Container(
                               margin: EdgeInsets.only(left: Indents.sm, right: Indents.md),
-                              child: Text(loc.translate('owned'), style: TextStyle(color: ExtremeColors.success),))
+                              child: Text(loc!.translate('owned'), style: TextStyle(color: ExtremeColors.success),))
                         ],
                       )
                   : RaisedButton(
                       color: Theme.of(context).colorScheme.primary,
-                      child: Text(loc.translate('buy')),
+                      child: Text(loc!.translate('buy')),
                       onPressed: () {
                         onBuy?.call();
                       })

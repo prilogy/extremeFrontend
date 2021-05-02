@@ -13,7 +13,7 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 
 class ResetPassScreen extends StatefulWidget {
-  const ResetPassScreen({Key key}) : super(key: key);
+  const ResetPassScreen({Key? key}) : super(key: key);
 
   @override
   _ResetPassScreenState createState() => _ResetPassScreenState();
@@ -29,20 +29,20 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
     if (email == null) {
       email = user?.email ?? null;
     }
-    final loc = AppLocalizations.of(context).withBaseKey('reset_pass_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('reset_pass_screen');
     var theme = Theme.of(context);
     final _formKey = GlobalKey<FormState>();
 
     TextEditingController _controller = TextEditingController();
     if (email == null) {
       return ScreenBaseWidget(
-          appBar: AppBar(title: Text(loc.translate('title'))),
+          appBar: AppBar(title: Text(loc!.translate('title'))),
           builder: (context) => [
                 BlockBaseWidget(
                   child: Form(
                     key: _formKey,
                     child: Column(children: <Widget>[
-                      Text(loc.translate('instruction.email')),
+                      Text(loc!.translate('instruction.email')),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: Indents.md),
                         child: TextFormField(
@@ -51,17 +51,17 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                               InputDecoration(hintText: 'example@gmail.com'),
                           validator: (value) {
                             if (value.isEmpty) {
-                              return loc.translate('error.empty');
+                              return loc!.translate('error.empty');
                             } else if (!RegExp(
                                     r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                                 .hasMatch(value))
-                              return loc.translate('error.invalid');
+                              return loc!.translate('error.invalid');
                             return null;
                           },
                         ),
                       ),
                       RaisedButton(
-                        child: Text(loc.translate('next')),
+                        child: Text(loc!.translate('next')),
                         onPressed: () => setState(() {
                           if (_formKey.currentState.validate()) {
                             email = _controller.text;
@@ -76,7 +76,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
       Api.User.resetPasswordRequest(email);
       return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text(loc.translate('title')),
+          title: Text(loc!.translate('title')),
         ),
         builder: (context) => [
           Form(
@@ -90,7 +90,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                     padding: EdgeInsets.symmetric(vertical: Indents.md),
                     child: Center(
                         child: Text(
-                      loc.translate('instruction.reset', [email]),
+                      loc!.translate('instruction.reset', [email]),
                       style: Theme.of(context).textTheme.bodyText2,
                       textAlign: TextAlign.center,
                     )),
@@ -102,7 +102,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                       autoValidate: true,
                       textInputType: TextInputType.number,
                       backgroundColor: theme.colorScheme.background,
-                      textStyle: theme.textTheme.headline3.merge(
+                      textStyle: theme.textTheme.headline3?.merge(
                           TextStyle(color: theme.colorScheme.onBackground)),
                       controller: _controller,
                       pinTheme: PinTheme(
@@ -112,7 +112,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                       ),
                       validator: (value) {
                         if (int.tryParse(value) == null && value.length > 0) {
-                          return loc.translate('validation.NaN');
+                          return loc!.translate('validation.NaN');
                         }
                         return null;
                       },
@@ -128,7 +128,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                           } else {
                             Scaffold.of(context).showSnackBar(
                                 SnackBarExtension.error(
-                                    loc.translate('snackbar.error')));
+                                    loc!.translate('snackbar.error')));
                           }
                         }
                       },
@@ -149,19 +149,19 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
 class SetNewPassword extends StatelessWidget {
   final User user;
   final String code;
-  const SetNewPassword({Key key, this.user, this.code}) : super(key: key);
+  const SetNewPassword({Key? key, this.user, this.code}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     TextEditingController _passController = TextEditingController();
     TextEditingController _verifyController = TextEditingController();
-    final loc = AppLocalizations.of(context).withBaseKey('reset_pass_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('reset_pass_screen');
     final _formKey = GlobalKey<FormState>();
     return Form(
       key: _formKey,
       child: ScreenBaseWidget(
         appBar: AppBar(
-          title: Text(loc.translate('title')),
+          title: Text(loc!.translate('title')),
         ),
         builder: (context) => [
           BlockBaseWidget(
@@ -172,14 +172,14 @@ class SetNewPassword extends StatelessWidget {
                   controller: _passController,
                   obscureText: true,
                   decoration:
-                      InputDecoration(labelText: loc.translate('new_pass')),
+                      InputDecoration(labelText: loc!.translate('new_pass')),
                   validator: (value) {
                     if (value.isEmpty) {
-                      return loc.translate("error.empty");
+                      return loc!.translate("error.empty");
                     } else if (value != _verifyController.text) {
-                      return loc.translate("error.dont_match");
+                      return loc!.translate("error.dont_match");
                     } else if (value.length < 6) {
-                      return loc.translate("error.few_symbols");
+                      return loc!.translate("error.few_symbols");
                     } else
                       return null;
                   },
@@ -188,15 +188,15 @@ class SetNewPassword extends StatelessWidget {
                   controller: _verifyController,
                   obscureText: true,
                   decoration: InputDecoration(
-                      labelText: loc.translate('conf_new_pass')),
+                      labelText: loc!.translate('conf_new_pass')),
                   validator: (value) {
                     if (_passController.text.length >= 6) {
                       if (value.isEmpty) {
-                        return loc.translate("error.empty");
+                        return loc!.translate("error.empty");
                       } else if (value != _passController.text) {
-                        return loc.translate("error.dont_match");
+                        return loc!.translate("error.dont_match");
                       } else if (value.length < 6) {
-                        return loc.translate("error.few_symbols");
+                        return loc!.translate("error.few_symbols");
                       } else
                         return null;
                     }
@@ -207,7 +207,7 @@ class SetNewPassword extends StatelessWidget {
                   },
                 ),
                 RaisedButton(
-                    child: Text(loc.translate('change_pass')),
+                    child: Text(loc!.translate('change_pass')),
                     onPressed: () async {
                       if (_formKey.currentState.validate()) {
                         var response = await Api.User.resetPasswordAttempt(
@@ -218,9 +218,9 @@ class SetNewPassword extends StatelessWidget {
 
                         Scaffold.of(context).showSnackBar(response
                             ? SnackBarExtension.success(
-                                loc.translate('snackbar.success'))
+                                loc!.translate('snackbar.success'))
                             : SnackBarExtension.error(
-                                loc.translate('snackbar.error')));
+                                loc!.translate('snackbar.error')));
                         Navigator.popUntil(
                             context, ((route) => !route.navigator.canPop()));
                       }

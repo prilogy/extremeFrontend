@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:extreme/helpers/app_localizations_helper.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/intents.dart';
@@ -12,8 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 
 class SignUpScreen extends StatefulWidget {
-  final String token;
-  final SocialAccountProvider accountProvider;
+  final String? token;
+  final SocialAccountProvider? accountProvider;
 
   SignUpScreen({this.token, this.accountProvider});
 
@@ -30,9 +29,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _phoneNumberController = TextEditingController();
   final _birthDayController = TextEditingController();
   final _imageController = TextEditingController();
-  File _image;
+  File? _image;
 
-  SocialIdentity socialIdentity;
+  SocialIdentity? socialIdentity;
 
   final picker = ImagePicker();
 
@@ -40,8 +39,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
-      _image = File(pickedFile.path);
-      _imageController.text = _image.path.split('/').last;
+      _image = File(pickedFile!.path);
+      _imageController.text = _image!.path.split('/').last;
     });
   }
 
@@ -50,7 +49,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     super.initState();
     if (widget.accountProvider != null) {
       Api.Authentication.signUpSocialGetInfo(
-              widget.accountProvider, widget.token)
+              widget.accountProvider!, widget.token!)
           .then((value) {
         socialIdentity = value;
         _nameController.text = socialIdentity?.name ?? '';
@@ -73,16 +72,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('sign_up_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('sign_up_screen');
 
-    var providerName = widget?.accountProvider?.name ?? null;
+    var providerName = widget.accountProvider?.name ?? null;
     providerName != null
         ? providerName =
             providerName[0].toUpperCase() + providerName.substring(1)
         : providerName = null;
     var title = widget.token == null
-        ? loc.translate('title')
-        : loc.translate('title_with', [providerName]);
+        ? loc!.translate('title')
+        : loc!.translate('title_with', [providerName!]);
     var format = DateFormat('dd.MM.yyyy');
 
     return ScreenBaseWidget(
@@ -100,24 +99,24 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //   controller: _nameController,
                       //   validator: (value) {
                       //     if (value.isEmpty) {
-                      //       return loc.translate('error.empty');
+                      //       return loc!.translate('error.empty');
                       //     }
                       //     return null;
                       //   },
                       //   decoration: InputDecoration(
                       //       icon: Icon(Icons.perm_identity),
                       //       hintText: 'Walter White',
-                      //       labelText: loc.translate('name')),
+                      //       labelText: loc!.translate('name')),
                       // ),
                       TextFormField(
                         controller: _emailController,
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value?.isEmpty ?? false) {
                             return 'Введите текст самфинг';
                           }
                           if (!RegExp(
                                   r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                              .hasMatch(value))
+                              .hasMatch(value!))
                             return 'Неправильный формат email';
                           return null;
                         },
@@ -129,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextFormField(
                         controller: _passwordController,
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty ?? false) {
                             return loc.translate('error.empty');
                           }
                           if (value.length < 6)
@@ -139,12 +138,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         decoration: InputDecoration(
                             icon: Icon(Icons.lock_open),
-                            labelText: loc.translate('password')),
+                            labelText: loc!.translate('password')),
                       ),
                       TextFormField(
                         controller: _rePasswordController,
                         validator: (value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return loc.translate('error.empty');
                           }
                           if (value != _passwordController.text)
@@ -154,26 +153,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         decoration: InputDecoration(
                             icon: Icon(Icons.lock),
-                            labelText: loc.translate('repeat_password')),
+                            labelText: loc!.translate('repeat_password')),
                       ),
                       // TextFormField(
                       //   controller: _phoneNumberController,
                       //   decoration: InputDecoration(
                       //       icon: Icon(Icons.phone_android),
-                      //       labelText: loc.translate('phone_number')),
+                      //       labelText: loc!.translate('phone_number')),
                       // ),
                       // DateTimeField(
                       //     controller: _birthDayController,
                       //     format: format,
                       //     validator: (value) {
                       //       if (value == null) {
-                      //         return loc.translate('error.empty_date');
+                      //         return loc!.translate('error.empty_date');
                       //       }
                       //       return null;
                       //     },
                       //     decoration: InputDecoration(
                       //         icon: Icon(Icons.date_range),
-                      //         labelText: loc.translate('date_of_birth')),
+                      //         labelText: loc!.translate('date_of_birth')),
                       //     onShowPicker: (context, currentValue) async {
                       //       return showDatePicker(
                       //           context: context,
@@ -186,7 +185,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //   focusNode: AlwaysDisabledFocusNode(),
                       //   decoration: InputDecoration(
                       //       icon: Icon(Icons.photo),
-                      //       labelText: loc.translate('avatar')),
+                      //       labelText: loc!.translate('avatar')),
                       //   onTap: () {
                       //     getImage();
                       //   },
@@ -197,7 +196,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             height: 100,
                             decoration: new BoxDecoration(
                                 image: new DecorationImage(
-                              image: FileImage(_image),
+                              image: FileImage(_image!),
                               fit: BoxFit.contain,
                             ))),
                       Padding(
@@ -211,14 +210,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/auth');
                                 },
-                                child: Text(loc.translate('sign_in')),
+                                child: Text(loc!.translate('sign_in')),
                               ),
                             ),
                             RaisedButton(
                               color: Theme.of(context).colorScheme.primary,
                               onPressed: () async {
                                 var scf = Scaffold.of(context);
-                                if (_formKey.currentState.validate()) {
+                                if (_formKey.currentState!.validate()) {
                                   var result = await Api.Authentication.signUp(
                                       email: _emailController.text,
                                       password: _passwordController.text,
@@ -234,7 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   );
                                   if (result == true) {
                                     scf.showSnackBar(SnackBar(
-                                      content: Text(loc.translate('success')),
+                                      content: Text(loc!.translate('success')),
                                     ));
                                     Navigator.of(context).pop();
                                   } else {
@@ -242,12 +241,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       backgroundColor:
                                           Theme.of(context).colorScheme.error,
                                       content:
-                                          Text(loc.translate('error.already_exists')),
+                                          Text(loc!.translate('error.already_exists')),
                                     ));
                                   }
                                 }
                               },
-                              child: Text(loc.translate('continue'))
+                              child: Text(loc!.translate('continue'))
                             ),
                           ],
                         ),

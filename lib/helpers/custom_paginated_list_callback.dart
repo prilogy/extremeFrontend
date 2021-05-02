@@ -13,12 +13,12 @@ class CustomPaginatedListCallback<T> {
   bool isFinished = false;
 
   final int modelListSize;
-  final PagingItemsGetter<T> itemsGetter;
+  final PagingItemsGetter<T>? itemsGetter;
   final double bottomIndent;
   final double gap;
-  final VoidCallback onStopLoading;
+  final VoidCallback? onStopLoading;
   final int pageSize;
-  final WidgetBuilder noItemsWidgetBuilder;
+  final WidgetBuilder? noItemsWidgetBuilder;
 
   CustomPaginatedListCallback(
       {@required this.itemBuilder,
@@ -30,11 +30,11 @@ class CustomPaginatedListCallback<T> {
       this.bottomIndent = ScreenBaseWidget.screenBottomIndent,
       this.gap = Indents.md});
 
-  final ItemBuilder<T> itemBuilder;
+  final ItemBuilder<T>? itemBuilder;
 
   Future<bool> load() async {
     try {
-      var data = await itemsGetter(page, pageSize);
+      var data = await itemsGetter!(page, pageSize);
       items.addAll(data);
       isFinished = items.length < pageSize;
       page++;
@@ -45,14 +45,14 @@ class CustomPaginatedListCallback<T> {
     }
   }
 
-  Future<bool> refresh() async {
+  Future<bool?> refresh() async {
     page = 1;
     items = [];
     await load();
   }
 
   Future<List<Widget>> getItemList() async {
-    var items = await itemsGetter(page, pageSize);
+    var items = await itemsGetter!(page, pageSize);
 
     var widgets = <Widget>[];
 
@@ -61,13 +61,13 @@ class CustomPaginatedListCallback<T> {
         widgets.add(Builder(
           builder: (context) {
             if (noItemsWidgetBuilder != null)
-              return noItemsWidgetBuilder(context);
+              return noItemsWidgetBuilder!(context);
 
             var loc = AppLocalizations.of(context);
 
             return Container(
                 padding: EdgeInsets.symmetric(vertical: Indents.lg),
-                child: Center(child: Text(loc.translate('helper.empty_list'))));
+                child: Center(child: Text(loc!.translate('helper.empty_list'))));
           },
         ));
 
@@ -85,7 +85,7 @@ class CustomPaginatedListCallback<T> {
       var end = (i + size < len) ? i + size : len;
       widgets.add(BlockBaseWidget(
           margin: EdgeInsets.only(top: gap),
-          child: itemBuilder(items.sublist(i, end))));
+          child: itemBuilder!(items.sublist(i, end))));
     }
 
     var noMoreItems = items.length < pageSize;

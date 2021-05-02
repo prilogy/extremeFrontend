@@ -24,7 +24,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  VideoPlayerController _controller;
+  VideoPlayerController? _controller;
 
   @override
   void initState() {
@@ -32,8 +32,8 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
     _controller = VideoPlayerController.network(vid.path)
       ..initialize().then((_) {
-        _controller.play();
-        _controller.setLooping(true);
+        _controller?.play();
+        _controller?.setLooping(true);
         setState(() {});
       });
   }
@@ -41,13 +41,13 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     super.dispose();
-    _controller.pause();
-    _controller.dispose();
+    _controller?.pause();
+    _controller?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context).withBaseKey('login_screen');
+    var loc = AppLocalizations.of(context)?.withBaseKey('login_screen');
     var theme = Theme.of(context);
     var os = Platform.isAndroid
         ? SocialAuthOS.Android
@@ -63,9 +63,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: FittedBox(
                   fit: BoxFit.cover,
                   child: SizedBox(
-                    width: _controller.value.size?.width ?? 0,
-                    height: _controller.value.size?.height ?? 0,
-                    child: VideoPlayer(_controller),
+                    width: _controller?.value.size.width ?? 0,
+                    height: _controller?.value.size.height ?? 0,
+                    child: VideoPlayer(_controller!),
                   ),
                 )),
                 Container(
@@ -87,14 +87,14 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                                 margin: EdgeInsets.only(bottom: Indents.md),
                                 child: Text(
-                                  loc.translate('header'),
+                                  loc!.translate('header'),
                                   textAlign: TextAlign.center,
-                                  style: theme.textTheme.headline5.merge(
+                                  style: theme.textTheme.headline5?.merge(
                                       TextStyle(fontWeight: FontWeight.w500)),
                                 )),
-                            Text(loc.translate('description'),
+                            Text(loc!.translate('description'),
                                 textAlign: TextAlign.center,
-                                style: theme.textTheme.subtitle1.merge(
+                                style: theme.textTheme.subtitle1?.merge(
                                     TextStyle(fontWeight: FontWeight.w400)))
                           ],
                         ),
@@ -112,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   onPressed: () async {
                                     var token = await item.getToken();
                                     await _authWithSocial(
-                                        context, item.socialAccount, token);
+                                        context, item.socialAccount, token!);
                                   },
                                 ),
                               // if (!Platform.isIOS)
@@ -182,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Models.SocialAccountProvider provider, String token) async {
     if (token == null) {
       var socialName =
-          provider.name[0].toUpperCase() + provider.name.substring(1);
+          provider.name![0].toUpperCase() + provider.name!.substring(1);
       Scaffold.of(context).showSnackBar(SnackBarExtension.error(
           'Ошибка при получении данных от $socialName'));
       return;
@@ -196,14 +196,14 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     store.dispatch(SetUser(user));
-    store.dispatch(SetSettings(culture: user.culture, currency: user.currency));
+    store.dispatch(SetSettings(culture: user.culture!, currency: user.currency!));
     Navigator.of(context, rootNavigator: true).pushNamed('/main');
   }
 }
 
 class AuthMethodTypeButton extends StatelessWidget {
   const AuthMethodTypeButton(
-      {Key key,
+      {Key? key,
       this.iconSize,
       this.icon,
       this.onPressed,
@@ -213,13 +213,13 @@ class AuthMethodTypeButton extends StatelessWidget {
       this.bottomIndent = true})
       : super(key: key);
 
-  final bool bottomIndent;
-  final double iconSize;
-  final IconData icon;
-  final VoidCallback onPressed;
-  final SocialAuthService service;
-  final Color color;
-  final String name;
+  final bool? bottomIndent;
+  final double? iconSize;
+  final IconData? icon;
+  final VoidCallback? onPressed;
+  final SocialAuthService? service;
+  final Color? color;
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -228,19 +228,19 @@ class AuthMethodTypeButton extends StatelessWidget {
         : Platform.isIOS
             ? SocialAuthOS.IOS
             : null;
-    if (service?.hideFor?.contains(os) ?? false) return Container();
+    if (service?.hideFor.contains(os) ?? false) return Container();
 
-    var loc = AppLocalizations.of(context).withBaseKey('login_screen');
-    var _name = service?.socialAccount?.displayName ?? name;
+    var loc = AppLocalizations.of(context)?.withBaseKey('login_screen');
+    var _name = service?.socialAccount.displayName ?? name;
     var _color = service?.color ?? color;
-    var svgPath = service?.socialAccount?.iconPath;
-    var prependText = loc.translate('sign_in', [_name]);
-    var _iconSize = service?.socialAccount?.iconSize ?? iconSize;
+    var svgPath = service?.socialAccount.iconPath;
+    var prependText = loc!.translate('sign_in', [_name ?? '']);
+    var _iconSize = service?.socialAccount.iconSize ?? iconSize;
 
     var theme = Theme.of(context);
 
     return Container(
-      margin: EdgeInsets.only(bottom: !bottomIndent ? 0 : Indents.sm),
+      margin: EdgeInsets.only(bottom: !(bottomIndent ?? true) ? 0 : Indents.sm),
       child: FlatButton(
         splashColor: (_color == Color(0xffffffff) ? Colors.grey : Colors.white)
             .withOpacity(0.2),
@@ -255,7 +255,7 @@ class AuthMethodTypeButton extends StatelessWidget {
               margin: EdgeInsets.only(right: Indents.md),
               child: icon == null
                   ? SvgPicture.asset(
-                      svgPath,
+                      svgPath ?? '',
                       height: _iconSize,
                     )
                   : Icon(
@@ -271,7 +271,7 @@ class AuthMethodTypeButton extends StatelessWidget {
                   overflow: TextOverflow.fade,
                   maxLines: 1,
                   softWrap: false,
-                  style: theme.textTheme.subtitle1.merge(TextStyle(
+                  style: theme.textTheme.subtitle1?.merge(TextStyle(
                       color: _color == Color(0xffffffff)
                           ? Colors.grey[600]
                           : Colors.white))),
@@ -279,7 +279,7 @@ class AuthMethodTypeButton extends StatelessWidget {
           ],
         ),
         onPressed: () {
-          onPressed();
+          onPressed?.call();
         },
         color: _color,
       ),

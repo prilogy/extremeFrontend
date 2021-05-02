@@ -1,7 +1,7 @@
 part of api;
 
 class Subscription {
-  static Future<String> getPaymentUrl(int id) async {
+  static Future<String?> getPaymentUrl(int id) async {
     try {
       var response = await dio.get('/subscription/$id');
       return response.data.toString();
@@ -10,10 +10,10 @@ class Subscription {
     }
   }
 
-  static Future<List<Models.SubscriptionPlan>> getPlans() async {
+  static Future<List<Models.SubscriptionPlan>?> getPlans() async {
     try {
       var response = await dio.get('/subscription');
-      var entities = List<Models.SubscriptionPlan>();
+      List<Models.SubscriptionPlan> entities = [];
       response.data.forEach((v) {
         entities.add(Models.SubscriptionPlan.fromJson(v));
       });

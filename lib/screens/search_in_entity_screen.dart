@@ -19,7 +19,7 @@ class SearchInEntityScreen extends StatefulWidget {
   /// если не спорт, то плейлист
   final bool isSport; 
   const SearchInEntityScreen(
-      {Key key, this.query, @required this.isSport, @required this.id})
+      {Key? key, this.query, @required this.isSport, @required this.id})
       : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class _SearchInEntityScreen extends State<SearchInEntityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('search_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('search_screen');
     // _searchController.text = widget.query;
     return ScreenBaseWidget(
         appBar: AppBar(
@@ -71,7 +71,7 @@ class _SearchInEntityScreen extends State<SearchInEntityScreen> {
                   });
                 } else {
                   Fluttertoast.showToast(
-                      msg: loc.translate("few_symbols"),
+                      msg: loc!.translate("few_symbols"),
                       backgroundColor: Colors.black.withOpacity(0.5));
                 }
               },
@@ -119,19 +119,19 @@ class _SearchInEntityScreen extends State<SearchInEntityScreen> {
                         mass = [
                           _videos?.isNotEmpty ?? false
                               ? CategoryBlock(
-                                  header: loc.translate("videos"),
+                                  header: loc!.translate("videos"),
                                   cards: [..._videos],
                                 )
                               : Container(),
                           _playlists?.isNotEmpty ?? false
                               ? CategoryBlock(
-                                  header: loc.translate("playlists"),
+                                  header: loc!.translate("playlists"),
                                   cards: [..._playlists],
                                 )
                               : Container(),
                           _movies?.isNotEmpty ?? false
                               ? CategoryBlock(
-                                  header: loc.translate("movies"),
+                                  header: loc!.translate("movies"),
                                   cards: [..._movies],
                                 )
                               : Container(),
@@ -150,7 +150,7 @@ class CategoryBlock extends StatelessWidget {
   final String header;
   final bool grid;
 
-  const CategoryBlock({Key key, this.cards, this.header, this.grid = false})
+  const CategoryBlock({Key? key, this.cards, this.header, this.grid = false})
       : super(key: key);
 
   @override

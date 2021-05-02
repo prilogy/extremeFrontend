@@ -23,15 +23,15 @@ class _PromoScreenState extends State<PromoScreen> {
   final _promoCodeFocusNode = FocusNode();
 
   bool _promoCodeSuccess = false;
-  Models.PromoCode _promoCode;
-  String _promoCodeValue;
+  Models.PromoCode? _promoCode;
+  String? _promoCodeValue;
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context).withBaseKey('promo_screen');
+    var loc = AppLocalizations.of(context)?.withBaseKey('promo_screen');
 
     void onSubmit() async {
-      if (_formKey.currentState.validate()) {
+      if (_formKey.currentState!.validate()) {
         var promoCode = await Api.PromoCode.info(_promoCodeController.text);
         if (promoCode != null) {
           _promoCodeValue = _promoCodeController.text;
@@ -42,14 +42,14 @@ class _PromoScreenState extends State<PromoScreen> {
           });
         } else {
           SnackBarExtension.show(
-              SnackBarExtension.error(loc.translate('code_error')));
+              SnackBarExtension.error(loc!.translate('code_error')));
         }
       }
     }
 
     return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text(loc.translate('app_bar')),
+          title: Text(loc!.translate('app_bar')),
         ),
         builder: (context) => [
               BlockBaseWidget(
@@ -61,7 +61,7 @@ class _PromoScreenState extends State<PromoScreen> {
                             Container(
                                 margin: EdgeInsets.only(left: Indents.md),
                                 child: Text(
-                                  loc.translate('code_success'),
+                                  loc!.translate('code_success'),
                                   style:
                                       TextStyle(color: ExtremeColors.success),
                                 ))
@@ -77,7 +77,7 @@ class _PromoScreenState extends State<PromoScreen> {
                                   focusNode: _promoCodeFocusNode,
                                   controller: _promoCodeController,
                                   validator: (value) {
-                                    if (value.isEmpty) {
+                                    if (value?.isEmpty ?? false) {
                                       return 'Введите текст самфинг';
                                     }
                                     return null;
@@ -87,7 +87,7 @@ class _PromoScreenState extends State<PromoScreen> {
                                           icon: Icon(Icons.arrow_forward),
                                           onPressed: onSubmit),
                                       icon: Icon(Icons.local_activity),
-                                      labelText: loc.translate('enter_code')),
+                                      labelText: loc!.translate('enter_code')),
                                 )
                               ]))),
               _promoCodeSuccess
@@ -95,22 +95,22 @@ class _PromoScreenState extends State<PromoScreen> {
                       header: loc.translate('you_get'),
                       child: Column(
                         children: <Widget>[
-                          _promoCode.subscriptionPlan != null
+                          _promoCode!.subscriptionPlan != null
                               ? Container(
                                   margin: EdgeInsets.only(bottom: Indents.md),
                                   child: SubscriptionCard(
-                                    model: _promoCode.subscriptionPlan,
+                                    model: _promoCode!.subscriptionPlan,
                                     isForFree: true,
                                   ),
                                 )
                               : Container(),
                           () {
                             var type = _promoCode?.entitySaleable != null
-                                ? _promoCode.entitySaleable['entityType']
+                                ? _promoCode?.entitySaleable!['entityType'] ?? null
                                 : null;
                             if (type == null) return Container();
                             var typeName = HelperMethods.capitalizeString(
-                                AppLocalizations.of(context)
+                                AppLocalizations.of(context)!
                                     .translate('base.$type'));
                             String title;
                             Models.Price price;
@@ -118,24 +118,24 @@ class _PromoScreenState extends State<PromoScreen> {
                             switch (type) {
                               case Entities.video:
                                 var entity = Models.Video.fromJson(
-                                    _promoCode.entitySaleable);
-                                title = entity.content.name;
-                                price = entity.price;
-                                image = entity.content.image;
+                                    _promoCode!.entitySaleable!);
+                                title = entity.content!.name!;
+                                price = entity.price!;
+                                image = entity.content!.image!;
                                 break;
                               case Entities.movie:
                                 var entity = Models.Movie.fromJson(
-                                    _promoCode.entitySaleable);
-                                title = entity.content.name;
-                                price = entity.price;
-                                image = entity.content.image;
+                                    _promoCode!.entitySaleable!);
+                                title = entity.content!.name!;
+                                price = entity.price!;
+                                image = entity.content!.image!;
                                 break;
                               case Entities.playlist:
                                 var entity = Models.Playlist.fromJson(
-                                    _promoCode.entitySaleable);
-                                title = entity.content.name;
-                                price = entity.price;
-                                image = entity.content.image;
+                                    _promoCode!.entitySaleable!);
+                                title = entity.content!.name!;
+                                price = entity.price!;
+                                image = entity.content!.image!;
                                 break;
                               default:
                                 return Container();
@@ -156,7 +156,7 @@ class _PromoScreenState extends State<PromoScreen> {
                                 color: Theme.of(context).primaryColor,
                                 onPressed: () async {
                                   var res = await Api.PromoCode.confirm(
-                                      _promoCodeValue);
+                                      _promoCodeValue!);
                                   if (res == true) {
                                     await Api.User.refresh(true, true);
                                     SnackBarExtension.show(

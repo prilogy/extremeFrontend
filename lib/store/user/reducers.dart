@@ -11,27 +11,27 @@ final userReducer = combineReducers<User>([
 
 User _setUser(User user, Actions.SetUser action) {
   User.saveToLocalStorage(action.user);
-  return action.user;
+  return action.user as User;
 }
 
 
 User _toggleFavorite(User user, Actions.ToggleFavorite action) {
   switch (action.userAction.entityType) {
     case Entities.video:
-      user.favoriteIds.videos = _processFavoriteIdByUserAction(
-          user.favoriteIds.videos, action.userAction);
+      user.favoriteIds?.videos = _processFavoriteIdByUserAction(
+          user.favoriteIds?.videos, action.userAction);
       break;
     case Entities.movie:
-      user.favoriteIds.movies = _processFavoriteIdByUserAction(
-          user.favoriteIds.movies, action.userAction);
+      user.favoriteIds?.movies = _processFavoriteIdByUserAction(
+          user.favoriteIds?.movies, action.userAction);
       break;
     case Entities.playlist:
-      user.favoriteIds.playlists = _processFavoriteIdByUserAction(
-          user.favoriteIds.playlists, action.userAction);
+      user.favoriteIds?.playlists = _processFavoriteIdByUserAction(
+          user.favoriteIds?.playlists, action.userAction);
       break;
     case Entities.sport:
-      user.favoriteIds.sports = _processFavoriteIdByUserAction(
-          user.favoriteIds.sports, action.userAction);
+      user.favoriteIds?.sports = _processFavoriteIdByUserAction(
+          user.favoriteIds?.sports, action.userAction);
       break;
   }
 
@@ -40,24 +40,24 @@ User _toggleFavorite(User user, Actions.ToggleFavorite action) {
   return user;
 }
 
-List<EntityIdItem> _processFavoriteIdByUserAction(
-    List<EntityIdItem> list, UserAction userAction) {
+List<EntityIdItem>? _processFavoriteIdByUserAction(
+    List<EntityIdItem>? list, UserAction userAction) {
   if (userAction.status == true)
-    list.add(userAction.entityIdItem);
+    list?.add(userAction.entityIdItem!);
   else
-    list.remove(userAction.entityIdItem);
+    list?.remove(userAction.entityIdItem);
   return list;
 }
 
 User _toggleLike(User user, Actions.ToggleLike action) {
   switch (action.userAction.entityType) {
     case Entities.video:
-      user.likeIds.videos =
-          _processLikeIdByUserAction(user.likeIds.videos, action.userAction);
+      user.likeIds?.videos =
+          _processLikeIdByUserAction(user.likeIds?.videos, action.userAction);
       break;
     case Entities.movie:
-      user.likeIds.movies =
-          _processLikeIdByUserAction(user.likeIds.movies, action.userAction);
+      user.likeIds?.movies =
+          _processLikeIdByUserAction(user.likeIds?.movies, action.userAction);
       break;
   }
 
@@ -66,10 +66,10 @@ User _toggleLike(User user, Actions.ToggleLike action) {
   return user;
 }
 
-List<EntityIdItem> _processLikeIdByUserAction(List<EntityIdItem> list, UserAction userAction) {
+List<EntityIdItem>? _processLikeIdByUserAction(List<EntityIdItem>? list, UserAction userAction) {
   if (userAction.status == true)
-    list.add(userAction.entityIdItem);
+    list?.add(userAction.entityIdItem!);
   else
-    list.remove(userAction.entityIdItem);
+    list?.remove(userAction.entityIdItem);
   return list;
 }

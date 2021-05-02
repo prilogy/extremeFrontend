@@ -6,8 +6,8 @@ const _defaultDuration = Duration(seconds: 1, milliseconds: 500);
 
 extension SnackBarExtension on SnackBar {
   static void show(SnackBar snackBar) {
-    rootScaffold.currentState.hideCurrentSnackBar();
-    rootScaffold.currentState.showSnackBar(snackBar);
+    rootScaffold.currentState?.hideCurrentSnackBar();
+    rootScaffold.currentState?.showSnackBar(snackBar);
   }
 
   static SnackBar error(String text, [Duration duration = _defaultDuration]) {

@@ -22,11 +22,11 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 class SportScreen extends StatelessWidget {
   final Models.Sport model;
 
-  const SportScreen({Key key, @required this.model}) : super(key: key);
+  const SportScreen({Key? key, @required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('sport_screen');
+    final loc = AppLocalizations.of(context)?.withBaseKey('sport_screen');
     var theme = Theme.of(context);
 
     return ScreenBaseWidget(
@@ -82,8 +82,8 @@ class SportScreen extends StatelessWidget {
                       children: [
                         Text(
                           model?.content?.name ??
-                              loc.translate('no_data.sport_name'),
-                          style: theme.textTheme.headline5.merge(TextStyle(
+                              loc!.translate('no_data.sport_name'),
+                          style: theme.textTheme.headline5?.merge(TextStyle(
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.25)),
                         ),
@@ -141,8 +141,8 @@ class SportScreen extends StatelessWidget {
                             aspectRatio: 16 / 9,
                           ))),
               BlockBaseWidget(
-                  header: loc.translate('recommended',
-                      [AppLocalizations.of(context).translate('base.video')]),
+                  header: loc!.translate('recommended',
+                      [AppLocalizations.of(context)?.translate('base.video')]),
                   child: CustomFutureBuilder<Models.Video>(
                       future:
                           Api.Entities.getById<Models.Video>(model.bestVideoId),
@@ -154,7 +154,7 @@ class SportScreen extends StatelessWidget {
               BlockBaseWidget(
                   margin: EdgeInsets.all(0),
                   header: HelperMethods.capitalizeString(
-                      AppLocalizations.of(context).translate('base.playlists')),
+                      AppLocalizations.of(context)?.translate('base.playlists')),
                   child: CustomFutureBuilder<List<Models.Playlist>>(
                     future: Api.Entities.getByIds<Models.Playlist>(
                         model.playlistsIds),

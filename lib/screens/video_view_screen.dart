@@ -29,13 +29,31 @@ import 'package:vimeoplayer/vimeoplayer.dart';
 class VideoViewScreen extends StatefulWidget {
   final Models.Video model;
 
-  VideoViewScreen({Key key, @required this.model}) : super(key: key);
+  VideoViewScreen({Key? key, @required this.model}) : super(key: key);
 
   @override
   _VideoViewScreenState createState() => _VideoViewScreenState();
 }
 
 class _VideoViewScreenState extends State<VideoViewScreen> {
+  VimeoPlayerController? _controller;
+  String? _id;
+
+  String getVimeoIdFromLink(String link) {
+    var splits = widget.model.content?.url?.split('/') ?? null;
+    return splits != null ? splits[splits.length - 1] : null;
+  }
+
+  @override
+  void initState() {
+
+
+    VimeoPlayerController.vimeo(_id).then((value) {
+      _controller = value;
+    });
+
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -47,9 +65,8 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final loc = AppLocalizations.of(context).withBaseKey('video_view_screen');
-    var splits = widget.model.content?.url?.split('/') ?? null;
-    final id = splits != null ? splits[splits.length - 1] : "242373845";
+    final loc = AppLocalizations.of(context)?.withBaseKey('video_view_screen');
+
     final isInOwnedPlaylist = widget.model.isInPaidPlaylist
         ? store.state.user.saleIds.playlists
             .any((x) => x.entityId == widget.model.playlistId)
@@ -65,7 +82,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                 if (!widget.model.isPaid && !widget.model.isInPaidPlaylist ||
                     isInOwnedPlaylist ||
                     widget.model.isBought)
-                   VimeoPlayer(autoPlay: true, id: id)
+                  VimeoPlayer(autoPlay: true, controller: _controller)
                 else if (widget.model.isPaid && !widget.model.isBought)
                   BlockBaseWidget(
                     margin: EdgeInsets.only(top: Indents.md),
@@ -139,7 +156,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                                 )),
                             Flexible(
                               child: Text(
-                                loc.translate('is_in_paid_playlist'),
+                                loc!.translate('is_in_paid_playlist'),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 3,
                               ),
@@ -203,7 +220,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                       child: Row(
                         children: [
                           ActionIcon(
-                            signText: loc.translate('like'),
+                            signText: loc!.translate('like'),
                             //model?.likesAmount.toString() ?? '224''',
                             icon: Icons.thumb_up,
                             iconColor: widget.model.isLiked
@@ -234,11 +251,11 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                                   margin: EdgeInsets.only(top: Indents.sm),
                                   // Sign below like icon margin
                                   child: Text(
-                                    loc.translate('favorite'), //signText,
+                                    loc!.translate('favorite'), //signText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .caption
-                                        .merge(TextStyle(
+                                        ?.merge(TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
                                               .onPrimary,
@@ -249,10 +266,11 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                             ),
                           ),
                           /*ActionIcon(
-                              signText: loc.translate("share"),
+                              signText: loc!.translate("share"),
                               icon: Icons.share,
                               iconColor: ExtremeColors.base[200]),
-                        */],
+                        */
+                        ],
                       ),
                     ),
                     BlockBaseWidget(
@@ -261,31 +279,34 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                               'No description provided',
                           style: Theme.of(context).textTheme.bodyText2),
                     ),
-                    BlockBaseWidget(
-                        header: loc.translate("other_videos"),
-                        child: CustomFutureBuilder(
-                            future: Api.Entities.getById<Models.Playlist>(
-                                widget.model.playlistId),
-                            builder: (Models.Playlist data) {
-                              List videosIds = data.videosIds;
-                              // Исключение этого же видео из выдачи
-                              videosIds.remove(widget.model.id);
-                              // Случайная перемешка видео для исключения выдачи одних и тех же видео
-                              if (videosIds.length >= 3) {
-                                videosIds.shuffle();
-                                videosIds = videosIds.sublist(0, 3);
-                              }
+                    CustomFutureBuilder(
+                        future: Api.Entities.getById<Models.Playlist>(
+                            widget.model.playlistId),
+                        builder: (Models.Playlist data) {
+                          List videosIds = data.videosIds;
+                          // Исключение этого же видео из выдачи
+                          videosIds.remove(widget.model.id);
+                          // Случайная перемешка видео для исключения выдачи одних и тех же видео
+                          if (videosIds.length >= 3) {
+                            videosIds.shuffle();
+                            videosIds = videosIds.sublist(0, 3);
+                          }
 
-                              return CustomFutureBuilder(
-                                  future: Api.Entities.getByIds<Models.Video>(
-                                      videosIds),
-                                  builder: (data) => CustomListBuilder(
-                                      items: data,
-                                      itemBuilder: (item) => VideoCard(
-                                            model: item,
-                                            aspectRatio: 16 / 9,
-                                          )));
-                            }))
+                          return videosIds?.length == 0
+                              ? Container()
+                              : BlockBaseWidget(
+                                  header: loc!.translate("other_videos"),
+                                  child: CustomFutureBuilder(
+                                      future:
+                                          Api.Entities.getByIds<Models.Video>(
+                                              videosIds),
+                                      builder: (data) => CustomListBuilder(
+                                          items: data,
+                                          itemBuilder: (item) => VideoCard(
+                                                model: item,
+                                                aspectRatio: 16 / 9,
+                                              ))));
+                        })
                   ],
                 ),
               ],
@@ -323,7 +344,7 @@ class ActionIcon extends StatelessWidget {
                 EdgeInsets.only(top: Indents.sm), // Sign below like icon margin
             child: Text(
               signText, //signText,
-              style: Theme.of(context).textTheme.caption.merge(TextStyle(
+              style: Theme.of(context).textTheme.caption?.merge(TextStyle(
                     color: Theme.of(context).colorScheme.onPrimary,
                   )),
             ),
@@ -337,7 +358,7 @@ class ActionIcon extends StatelessWidget {
 /// Создаёт виджет описания видео
 class VideoDescription extends StatelessWidget {
   final String text; // текст описания
-  const VideoDescription({Key key, this.text}) : super(key: key);
+  const VideoDescription({Key? key, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

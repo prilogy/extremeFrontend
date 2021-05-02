@@ -9,14 +9,14 @@ import 'package:extreme/models/main.dart' as Models;
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SubscriptionCard extends StatelessWidget {
-  final int price;
-  final String title;
-  final String description;
+  final int? price;
+  final String? title;
+  final String? description;
 
-  final double aspectRatio;
-  final VoidCallback onPressed;
-  final Models.SubscriptionPlan model;
-  final bool isForFree;
+  final double? aspectRatio;
+  final VoidCallback? onPressed;
+  final Models.SubscriptionPlan? model;
+  final bool? isForFree;
 
   SubscriptionCard(
       {this.description,
@@ -29,15 +29,15 @@ class SubscriptionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = HexColor.fromHex(model.color);
+    var color = HexColor.fromHex(model!.color!);
     var discount =
-        model.price.discountValue != 0 ? model.price.discountToString() : 0;
-    var price = model.price.toString();
-    var title = model.content?.name ?? '';
-    var desc = model.content?.description ?? '';
-    var loc = AppLocalizations.of(context).withBaseKey('subscription');
+        model!.price!.discountValue != 0 ? model!.price!.discountToString() : 0;
+    var price = model!.price.toString();
+    var title = model!.content?.name ?? '';
+    var desc = model!.content?.description ?? '';
+    var loc = AppLocalizations.of(context)?.withBaseKey('subscription');
     var isSubscribed =
-        StoreProvider.of<AppState>(context).state.user.isSubscribed;
+        StoreProvider.of<AppState>(context).state.user!.isSubscribed;
 
     return Container(
       decoration: BoxDecoration(
@@ -45,10 +45,10 @@ class SubscriptionCard extends StatelessWidget {
           border: Border.all(color: color, width: 2)),
       child: Stack(
         children: <Widget>[
-          discount != 0 && !isForFree
+          discount != 0 && isForFree != true
               ? Saving(
                   color: color,
-                  text: '${loc.translate('discount', [discount])}')
+                  text: '${loc!.translate('discount', [discount.toString()])}')
               : Container(),
           Padding(
             padding: const EdgeInsets.all(Indents.md),
@@ -66,7 +66,7 @@ class SubscriptionCard extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6
-                                .merge(TextStyle(color: color)),
+                                ?.merge(TextStyle(color: color)),
                           ),
                         ),
                         Row(
@@ -90,27 +90,27 @@ class SubscriptionCard extends StatelessWidget {
                     children: <Widget>[
                       Text(
                         price,
-                        style: Theme.of(context).textTheme.subtitle2.merge(
+                        style: Theme.of(context).textTheme.subtitle2?.merge(
                             TextStyle(
                                 fontSize: 24,
-                                decoration: isForFree
+                                decoration: isForFree!
                                     ? TextDecoration.lineThrough
                                     : null)),
                       ),
                       RaisedButton(
-                          color: isForFree ? ExtremeColors.success : color,
+                          color: isForFree! ? ExtremeColors.success : color,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5),
                           ),
                           onPressed: () {
-                            if (!isForFree) onPressed();
+                            if (!isForFree!) onPressed?.call();
                           },
                           child: Row(
                             children: <Widget>[
-                              isForFree ? Icon(Icons.check) : Container(),
+                              isForFree! ? Icon(Icons.check) : Container(),
                               Container(
                                 margin: EdgeInsets.only(left: Indents.sm),
-                                child: Text(loc.translate(isForFree
+                                child: Text(loc!.translate(isForFree!
                                     ? 'is_free'
                                     : (isSubscribed ? 'extend' : 'subscribe'))),
                               ),
@@ -130,10 +130,10 @@ class SubscriptionCard extends StatelessWidget {
 
 /// Создаёт плашку с указанием экономии
 class Saving extends StatelessWidget {
-  final Color color;
-  final String text;
+  final Color? color;
+  final String? text;
 
-  const Saving({Key key, this.color, this.text}) : super(key: key);
+  const Saving({Key? key, this.color, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -159,7 +159,7 @@ class Saving extends StatelessWidget {
               Baseline(
                 baseline: 10,
                 baselineType: TextBaseline.alphabetic,
-                child: Text(text.toUpperCase(),
+                child: Text((text ?? '').toUpperCase(),
                     style: Theme.of(context).textTheme.overline),
               ),
             ],

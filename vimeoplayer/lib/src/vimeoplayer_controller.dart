@@ -1,7 +1,7 @@
 part of vimeoplayer;
 
 class VimeoPlayerController extends VideoPlayerController {
-  Map? qualityValues;
+  Map<String, String>? qualityValues;
   String? qualityValue;
 
   static Future<VimeoPlayerController?> vimeo(String id,
@@ -23,6 +23,19 @@ class VimeoPlayerController extends VideoPlayerController {
     controller.qualityValue = qualityValue;
     return controller;
   }
+
+  VimeoPlayerController.fromVimeo(
+      VimeoPlayerController controller, String dataSource)
+      : qualityValues = controller.qualityValues,
+        qualityValue =
+            controller.qualityValues?.containsValue(dataSource) ?? false
+                ? dataSource
+                : null,
+        super.network(dataSource,
+            videoPlayerOptions: controller.videoPlayerOptions,
+            closedCaptionFile: controller.closedCaptionFile,
+            httpHeaders: controller.httpHeaders,
+            formatHint: controller.formatHint);
 
   VimeoPlayerController.file(File file,
       {Future<ClosedCaptionFile>? closedCaptionFile,
@@ -50,32 +63,4 @@ class VimeoPlayerController extends VideoPlayerController {
             closedCaptionFile: closedCaptionFile,
             videoPlayerOptions: videoPlayerOptions,
             httpHeaders: httpHeaders);
-
-// VimeoPlayerController.vimeo(String id,
-//     {Future<ClosedCaptionFile>? closedCaptionFile,
-//     VideoPlayerOptions? videoPlayerOptions})
-//     : _qualityValues = QualityLinks(id).getQualitiesSync(),
-//       super.network(_qualityValues[_qualityValues.keys.last])
-//   QualityLinks(id).getQualitiesSync().then((v) {
-//   _qualityValues = v;
-//   _qualityValue = value[value.lastKey()];
-//   dataSource = _qualityValue;
-//
-//   return v[v.lastKey()];
-// }));
-
-// VideoPlayerController.asset(this.dataSource,
-//     {this.package, this.closedCaptionFile, this.videoPlayerOptions})
-//
-// VideoPlayerController.network(
-//     this.dataSource, {
-//       this.formatHint,
-//       this.closedCaptionFile,
-//       this.videoPlayerOptions,
-//       this.httpHeaders = const {},
-//     })
-//
-// VideoPlayerController.file(File file,
-//     {this.closedCaptionFile, this.videoPlayerOptions})
-
 }

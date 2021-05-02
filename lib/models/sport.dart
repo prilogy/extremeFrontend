@@ -1,20 +1,20 @@
 part of models;
 
 class Sport {
-  List<int> playlistsIds;
-  List<int> moviesIds;
-  Content content;
-  int id;
-  DateTime dateCreated;
-  int bestPlaylistId;
-  int bestVideoId;
+  List<int>? playlistsIds;
+  List<int>? moviesIds;
+  Content? content;
+  int? id;
+  DateTime? dateCreated;
+  int? bestPlaylistId;
+  int? bestVideoId;
 
   bool get isFavorite {
-    return store.state.user?.favoriteIds?.sports?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.favoriteIds?.sports?.any((x) => x.entityId == id) ?? false;
   }
 
   bool get isInPreferredLanguage {
-    return store.state?.settings?.culture == content.culture ?? false;
+    return store.state.settings!.culture == content?.culture;
   }
 
   Sport(
@@ -40,7 +40,7 @@ class Sport {
     data['playlistsIds'] = this.playlistsIds;
     data['moviesIds'] = this.moviesIds;
     if (this.content != null) {
-      data['content'] = this.content.toJson();
+      data['content'] = this.content?.toJson();
     }
     data['id'] = this.id;
     data['dateCreated'] = this.dateCreated.toString();
