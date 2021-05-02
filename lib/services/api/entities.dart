@@ -2,10 +2,10 @@ part of api;
 
 class Entities {
   /// Возвращает все доступные объекты выбранной модели
-  static Future<List<T>?> getAll<T>(
+  static Future<List<T>> getAll<T>(
       [int? page, int? pageSize, String? sortByDate]) async {
     var entityName = _entityNameFromType(T);
-    if (entityName == null) return null;
+    if (entityName == null) return [];
 
     try {
       var params = _generateParams(page, pageSize, sortByDate);
@@ -18,7 +18,7 @@ class Entities {
 
       return entities;
     } on DioError catch (e) {
-      return null;
+      return [];
     }
   }
 

@@ -59,8 +59,9 @@ class User {
   }
 
   /// Переключатель favorite
-  static Future<Models.UserAction?> toggleFavorite(int id) async {
+  static Future<Models.UserAction?> toggleFavorite(int? id) async {
     try {
+      if(id == null) return null;
       var response = await dio.get('/user/favorite/$id');
       return Models.UserAction.fromJson(response.data);
     } on DioError catch (e) {
@@ -69,8 +70,9 @@ class User {
   }
 
   /// Переключатель like
-  static Future<Models.UserAction?> toggleLike(int id) async {
+  static Future<Models.UserAction?> toggleLike(int? id) async {
     try {
+      if(id == null) return null;
       var response = await dio.get('/user/like/$id');
       return Models.UserAction.fromJson(response.data);
     } on DioError catch (e) {

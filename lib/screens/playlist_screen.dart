@@ -2,6 +2,7 @@ import 'package:extreme/helpers/helper_methods.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
+import 'package:extreme/models/main.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
@@ -26,7 +27,7 @@ import 'package:extreme/models/main.dart' as Models;
 /// Создаёт экран просмотра плейлиста
 
 class PlaylistScreen extends StatelessWidget {
-  final Models.Playlist model;
+  final Models.Playlist? model;
 
   PlaylistScreen({Key? key, @required this.model}) : super(key: key);
 
@@ -35,7 +36,7 @@ class PlaylistScreen extends StatelessWidget {
     final loc = AppLocalizations.of(context)?.withBaseKey('playlist_screen');
 
     return StoreConnector<AppState, Models.User>(
-        converter: (store) => store.state.user,
+        converter: (store) => store.state.user!,
         builder: (context, state) => ScreenBaseWidget(
               padding:
                   EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
@@ -53,34 +54,34 @@ class PlaylistScreen extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context, rootNavigator: true).pushNamed(
                           '/search_in_entity',
-                          arguments: [model.id, false]);
+                          arguments: [model!.id, false]);
                     },
                   ),
                 ],
               ),
               builder: (context) => <Widget>[
-                HeaderPlaylist(model: model),
-                model.isPaid
+                HeaderPlaylist(model: model!),
+                model != null && model!.isPaid == true
                     ? BlockBaseWidget(
                         child: PayCard(
-                          price: model.price,
-                          isBought: model.isBought,
+                          price: model!.price,
+                          isBought: model!.isBought,
                           onBuy: () async {
-                            var url = await Api.Sale.getPaymentUrl(model.id);
+                            var url = await Api.Sale.getPaymentUrl(model!.id!);
 
                             if (url == null) {
                               SnackBarExtension.show(SnackBarExtension.error(
-                                  AppLocalizations.of(context)
+                                  AppLocalizations.of(context)!
                                       .translate('payment.error')));
                             } else {
                               Navigator.of(context, rootNavigator: true)
                                   .push(MaterialPageRoute(
                                       builder: (ctx) => PaymentScreen(
-                                            title: AppLocalizations.of(context)
+                                            title: AppLocalizations.of(context)!
                                                 .translate(
                                                     'payment.app_bar_content', [
                                               HelperMethods.capitalizeString(
-                                                  AppLocalizations.of(context)
+                                                  AppLocalizations.of(context)!
                                                       .translate(
                                                           'base.playlist'))
                                             ]),
@@ -90,7 +91,7 @@ class PlaylistScreen extends StatelessWidget {
                                                   true, true);
                                               var playlist = await Api.Entities
                                                   .getById<Models.Playlist>(
-                                                      model.id);
+                                                      model!.id);
                                               Navigator.of(context)
                                                   .pushReplacement(
                                                       MaterialPageRoute(
@@ -101,12 +102,12 @@ class PlaylistScreen extends StatelessWidget {
                                               SnackBarExtension.show(
                                                   SnackBarExtension.success(
                                                       AppLocalizations.of(
-                                                              context)
+                                                              context)!
                                                           .translate(
                                                               'payment.success_for',
                                                               [
                                                             AppLocalizations.of(
-                                                                    context)
+                                                                    context)!
                                                                 .translate(
                                                                     'base.playlist')
                                                           ]),
@@ -123,35 +124,35 @@ class PlaylistScreen extends StatelessWidget {
                       )
                     : Container(),
                 BlockBaseWidget(
-                    header: AppLocalizations.of(context)
+                    header: AppLocalizations.of(context)!
                         .translate('helper.users_choice'),
-                    child: CustomFutureBuilder<Models.Video>(
+                    child: CustomFutureBuilder<Models.Video?>(
                         future: Api.Entities.getById<Models.Video>(
-                            model.bestVideoId),
+                            model!.bestVideoId),
                         builder: (data) => VideoCard(
                               model: data,
                               aspectRatio: 16 / 9,
                             ))),
                 BlockBaseWidget(
                   header: loc!.translate("videos"),
-                  child: CustomFutureBuilder<List<Models.Video>>(
+                  child: CustomFutureBuilder<List<Models.Video>?>(
                       future:
-                          Api.Entities.getByIds<Models.Video>(model.videosIds),
+                          Api.Entities.getByIds<Models.Video>(model!.videosIds!),
                       builder: (data) => CustomListBuilder(
                           items: data,
                           itemBuilder: (item) =>
-                              VideoCard(aspectRatio: 16 / 9, model: item))),
+                              VideoCard(aspectRatio: 16 / 9, model: item as Video))),
                 ),
                 BlockBaseWidget.forScrollingViews(
-                  header: loc!.translate("see_also"),
-                  child: CustomFutureBuilder<List<Models.Playlist>>(
+                  header: loc.translate("see_also"),
+                  child: CustomFutureBuilder<List<Models.Playlist>?>(
                       future: Api.Entities.recommended<Models.Playlist>(1, 6),
                       builder: (data) => CustomListBuilder(
                           type: CustomListBuilderTypes.horizontalList,
                           height: 100,
                           items: data,
                           itemBuilder: (item) => PlayListCard(
-                                model: item,
+                                model: item as Playlist,
                                 aspectRatio: 16 / 9,
                                 small: true,
                               ))),
@@ -163,7 +164,7 @@ class PlaylistScreen extends StatelessWidget {
 
 /// Карточка плейлиста в самом верху страницы
 class HeaderPlaylist extends StatelessWidget {
-  final Models.Playlist model;
+  final Models.Playlist? model;
 
   HeaderPlaylist({this.model});
 
@@ -234,12 +235,12 @@ class HeaderPlaylist extends StatelessWidget {
                     children: <Widget>[
                       Stats(
                         icon: Icons.thumb_up,
-                        text: model.likesAmount.toString(),
+                        text: model!.likesAmount.toString(),
                         marginBetween: 5,
                       ),
                       Stats(
                         icon: Icons.local_movies,
-                        text: (model.videosIds?.length ?? 0).toString(),
+                        text: (model!.videosIds?.length ?? 0).toString(),
                       ),
                     ],
                   ),
@@ -248,7 +249,7 @@ class HeaderPlaylist extends StatelessWidget {
             ),
           ),
         ),
-        model.isInPreferredLanguage
+        model!.isInPreferredLanguage
             ? Container()
             : HintChip.noLocalization(margin: EdgeInsets.only(left: Indents.sm))
       ],

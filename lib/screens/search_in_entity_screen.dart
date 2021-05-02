@@ -14,10 +14,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 /// Создаёт окно поиска контента внутри плейлиста или спорт
 class SearchInEntityScreen extends StatefulWidget {
-  final String query;
-  final int id;
+  final String? query;
+  final int? id;
   /// если не спорт, то плейлист
-  final bool isSport; 
+  final bool? isSport;
   const SearchInEntityScreen(
       {Key? key, this.query, @required this.isSport, @required this.id})
       : super(key: key);
@@ -27,9 +27,9 @@ class SearchInEntityScreen extends StatefulWidget {
 }
 
 class _SearchInEntityScreen extends State<SearchInEntityScreen> {
-  List<Widget> mass;
-  String hintText;
-  String _query;
+  List<Widget>? mass;
+  String? hintText;
+  String? _query;
   bool isSearch = false;
   TextEditingController _searchController = TextEditingController();
 
@@ -80,25 +80,25 @@ class _SearchInEntityScreen extends State<SearchInEntityScreen> {
         ),
         builder: (context) => [
               isSearch
-                  ? CustomFutureBuilder<Models.SearchResult>(
-                      future: widget.isSport
-                          ? Api.Search.inSport(widget.id, query: _query)
-                          : Api.Search.inPlaylist(widget.id, query: _query),
+                  ? CustomFutureBuilder<Models.SearchResult?>(
+                      future: widget.isSport == true
+                          ? Api.Search.inSport(widget.id!, query: _query)
+                          : Api.Search.inPlaylist(widget.id!, query: _query),
                       builder: (data) {
                         var _movies;
                         var _videos;
                         var _playlists;
-                        if (widget.isSport) {
-                          _playlists = data.playlists
+                        if (widget.isSport == true) {
+                          _playlists = data!.playlists!
                               .map<Widget>((e) => PlayListCard(
                                   aspectRatio: 16 / 9,
                                   padding: EdgeInsets.symmetric(
                                       vertical: Indents.sm),
                                   model: e))
                               .toList();
-                          _movies = widget.isSport
+                          _movies = widget.isSport == true
                               ? null
-                              : data.movies
+                              : data.movies!
                                   .map<Widget>((e) => MovieCard(
                                       aspectRatio: 16 / 9,
                                       padding: EdgeInsets.symmetric(
@@ -107,7 +107,7 @@ class _SearchInEntityScreen extends State<SearchInEntityScreen> {
                                   .toList();
                         }
 
-                        _videos = data.videos
+                        _videos = data!.videos!
                             .map<Widget>((e) => VideoCard(
                                   aspectRatio: 16 / 9,
                                   padding: EdgeInsets.symmetric(
@@ -137,7 +137,7 @@ class _SearchInEntityScreen extends State<SearchInEntityScreen> {
                               : Container(),
                         ];
                         return Column(
-                          children: mass,
+                          children: mass!,
                         );
                       })
                   : Container()
@@ -146,19 +146,19 @@ class _SearchInEntityScreen extends State<SearchInEntityScreen> {
 }
 
 class CategoryBlock extends StatelessWidget {
-  final List<Widget> cards;
-  final String header;
-  final bool grid;
+  final List<Widget>? cards;
+  final String? header;
+  final bool? grid;
 
   const CategoryBlock({Key? key, this.cards, this.header, this.grid = false})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (!grid)
+    if (grid == false)
       return BlockBaseWidget(
         header: header,
-        child: Column(children: cards),
+        child: Column(children: cards!),
       );
     else {
       return BlockBaseWidget(
@@ -170,7 +170,7 @@ class CategoryBlock extends StatelessWidget {
           childAspectRatio: 16 / 9,
           shrinkWrap: true,
           crossAxisCount: 2,
-          children: cards,
+          children: cards!,
         ),
       );
     }

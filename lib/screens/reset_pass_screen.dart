@@ -21,8 +21,9 @@ class ResetPassScreen extends StatefulWidget {
 
 class _ResetPassScreenState extends State<ResetPassScreen> {
   bool isVerified = false;
-  String code;
-  var email;
+  String? code;
+  String? email;
+
   @override
   Widget build(BuildContext context) {
     var user = StoreProvider.of<AppState>(context).state.user;
@@ -50,8 +51,8 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                           decoration:
                               InputDecoration(hintText: 'example@gmail.com'),
                           validator: (value) {
-                            if (value.isEmpty) {
-                              return loc!.translate('error.empty');
+                            if (value!.isEmpty) {
+                              return loc.translate('error.empty');
                             } else if (!RegExp(
                                     r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                                 .hasMatch(value))
@@ -61,9 +62,9 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                         ),
                       ),
                       RaisedButton(
-                        child: Text(loc!.translate('next')),
+                        child: Text(loc.translate('next')),
                         onPressed: () => setState(() {
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             email = _controller.text;
                           }
                         }),
@@ -73,7 +74,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                 )
               ]);
     } else if (!isVerified) {
-      Api.User.resetPasswordRequest(email);
+      Api.User.resetPasswordRequest(email!);
       return ScreenBaseWidget(
         appBar: AppBar(
           title: Text(loc!.translate('title')),
@@ -90,7 +91,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                     padding: EdgeInsets.symmetric(vertical: Indents.md),
                     child: Center(
                         child: Text(
-                      loc!.translate('instruction.reset', [email]),
+                      loc!.translate('instruction.reset', [email!]),
                       style: Theme.of(context).textTheme.bodyText2,
                       textAlign: TextAlign.center,
                     )),
@@ -112,13 +113,13 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                       ),
                       validator: (value) {
                         if (int.tryParse(value) == null && value.length > 0) {
-                          return loc!.translate('validation.NaN');
+                          return loc.translate('validation.NaN');
                         }
                         return null;
                       },
                       onChanged: null,
                       onCompleted: (text) async {
-                        if (_formKey.currentState.validate()) {
+                        if (_formKey.currentState!.validate()) {
                           var response = await Api.User.verify(text);
                           if (response == true) {
                             setState(() {
@@ -147,8 +148,8 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
 }
 
 class SetNewPassword extends StatelessWidget {
-  final User user;
-  final String code;
+  final User? user;
+  final String? code;
   const SetNewPassword({Key? key, this.user, this.code}) : super(key: key);
 
   @override
@@ -172,14 +173,14 @@ class SetNewPassword extends StatelessWidget {
                   controller: _passController,
                   obscureText: true,
                   decoration:
-                      InputDecoration(labelText: loc!.translate('new_pass')),
+                      InputDecoration(labelText: loc.translate('new_pass')),
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return loc!.translate("error.empty");
+                    if (value!.isEmpty) {
+                      return loc.translate("error.empty");
                     } else if (value != _verifyController.text) {
-                      return loc!.translate("error.dont_match");
+                      return loc.translate("error.dont_match");
                     } else if (value.length < 6) {
-                      return loc!.translate("error.few_symbols");
+                      return loc.translate("error.few_symbols");
                     } else
                       return null;
                   },
@@ -188,41 +189,41 @@ class SetNewPassword extends StatelessWidget {
                   controller: _verifyController,
                   obscureText: true,
                   decoration: InputDecoration(
-                      labelText: loc!.translate('conf_new_pass')),
+                      labelText: loc.translate('conf_new_pass')),
                   validator: (value) {
                     if (_passController.text.length >= 6) {
-                      if (value.isEmpty) {
-                        return loc!.translate("error.empty");
+                      if (value!.isEmpty) {
+                        return loc.translate("error.empty");
                       } else if (value != _passController.text) {
-                        return loc!.translate("error.dont_match");
+                        return loc.translate("error.dont_match");
                       } else if (value.length < 6) {
-                        return loc!.translate("error.few_symbols");
+                        return loc.translate("error.few_symbols");
                       } else
                         return null;
                     }
                     return null;
                   },
                   onEditingComplete: () {
-                    _formKey.currentState.validate();
+                    _formKey.currentState!.validate();
                   },
                 ),
                 RaisedButton(
-                    child: Text(loc!.translate('change_pass')),
+                    child: Text(loc.translate('change_pass')),
                     onPressed: () async {
-                      if (_formKey.currentState.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         var response = await Api.User.resetPasswordAttempt(
-                            code, _passController.text);
+                            code!, _passController.text);
 
                         if(store.state.user != null)
                           await Api.User.refresh(true, true);
 
                         Scaffold.of(context).showSnackBar(response
                             ? SnackBarExtension.success(
-                                loc!.translate('snackbar.success'))
+                                loc.translate('snackbar.success'))
                             : SnackBarExtension.error(
-                                loc!.translate('snackbar.error')));
+                                loc.translate('snackbar.error')));
                         Navigator.popUntil(
-                            context, ((route) => !route.navigator.canPop()));
+                            context, ((route) => !route.navigator!.canPop()));
                       }
                     }),
               ],

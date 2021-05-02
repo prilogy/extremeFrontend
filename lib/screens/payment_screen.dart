@@ -13,11 +13,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class PaymentScreen extends StatefulWidget {
-  final String url;
-  final String title;
-  final Future Function() onPaymentDone;
-  final bool closeOnDone;
-  final Future Function() onBrowserClose;
+  final String? url;
+  final String? title;
+  final Future Function()? onPaymentDone;
+  final bool? closeOnDone;
+  final Future Function()? onBrowserClose;
 
   PaymentScreen(
       {this.url,
@@ -31,7 +31,7 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  bool progressIsActive;
+  bool progressIsActive = true;
   final browser = MyInAppBrowser();
   bool paymentSuccess = false;
   bool browserOpened = false;
@@ -59,9 +59,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
       setState(() {
         progressIsActive = false;
       });
-      if (widget.closeOnDone) Navigator.of(context).pop();
+      if (widget.closeOnDone!) Navigator.of(context).pop();
     };
-    browser.openUrlRequest(urlRequest: URLRequest(url: Uri.parse(widget.url)));
+    browser.openUrlRequest(urlRequest: URLRequest(url: Uri.parse(widget.url!)));
     super.didChangeDependencies();
   }
 
@@ -69,7 +69,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)?.withBaseKey('payment');
     var store = StoreProvider.of<AppState>(context).state;
-    if(!browserOpened && store.settings.currency != Currency.RUB) {
+    if(!browserOpened && store.settings!.currency != Currency.RUB) {
       Fluttertoast.showToast(
           toastLength: Toast.LENGTH_LONG,
           msg: loc!.translate("warning"),
@@ -78,7 +78,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
     return ScreenBaseWidget(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title!),
       ),
       builderChild: (context) => BlockBaseWidget(
         padding: EdgeInsets.symmetric(vertical: Indents.xl),
@@ -100,14 +100,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
 }
 
 class MyInAppBrowser extends InAppBrowser {
-  void Function(MyInAppBrowser ctx, Uri url) onUrlLoadStart;
-  VoidCallback onBrowserClose;
+  void Function(MyInAppBrowser ctx, Uri url)? onUrlLoadStart;
+  VoidCallback? onBrowserClose;
 
   MyInAppBrowser({this.onUrlLoadStart, this.onBrowserClose});
 
   @override
-  Future onLoadStart(Uri url) async {
-    onUrlLoadStart?.call(this, url);
+  void onLoadStart(Uri? url) {
+    onUrlLoadStart?.call(this, url!);
   }
 
   @override

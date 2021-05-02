@@ -35,7 +35,7 @@ class EmailConfirmationScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: Indents.md),
                   child: Center(
                       child: Text(
-                    loc!.translate('instruction', [store.state.user.email]),
+                    loc!.translate('instruction', [store.state.user!.email!]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
@@ -63,7 +63,7 @@ class EmailConfirmationScreen extends StatelessWidget {
                     },
                     onChanged: (text) {},
                     onCompleted: (text) async {
-                      if (_formKey.currentState.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         var res = await Api.User.confirmEmailAttempt(
                             _controller.text);
                         if (res == true) {

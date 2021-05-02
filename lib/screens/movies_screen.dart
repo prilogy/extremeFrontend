@@ -27,20 +27,19 @@ class MoviesList extends StatelessWidget {
       padding: EdgeInsets.all(0),
       appBar: AppBar(title: Text(loc!.translate("playlists"))),
       builderChild: (context) => PaginatedScreenTabView(
-        itemListCallback: CustomPaginatedListCallback<Movie>(
-          pageSize: 6,
-          itemsGetter: (page, pageSize) async {
-            return await Api.Entities.getAll<Movie>(page, pageSize, "desc");
-          },
-          modelListSize: 3,
-          itemBuilder: (data) => CustomListBuilder(
-              childAspectRatio: 9 / 16,
-              type: CustomListBuilderTypes.grid,
-              crossAxisCount: 3,
-              items: data,
-              itemBuilder: (item) => MovieCard(model: item)),
-        )
-      ),
+          itemListCallback: CustomPaginatedListCallback<Movie>(
+        pageSize: 6,
+        itemsGetter: (page, pageSize) async {
+          return (await Api.Entities.getAll<Movie>(page, pageSize, "desc"))!;
+        },
+        modelListSize: 3,
+        itemBuilder: (data) => CustomListBuilder(
+            childAspectRatio: 9 / 16,
+            type: CustomListBuilderTypes.grid,
+            crossAxisCount: 3,
+            items: data,
+            itemBuilder: (item) => MovieCard(model: item as Movie)),
+      )),
     );
   }
 }

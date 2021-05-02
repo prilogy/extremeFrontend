@@ -22,7 +22,7 @@ import 'package:scroll_app_bar/scroll_app_bar.dart';
 class SportScreen extends StatelessWidget {
   final Models.Sport model;
 
-  const SportScreen({Key? key, @required this.model}) : super(key: key);
+  const SportScreen({Key? key, required this.model}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +35,10 @@ class SportScreen extends StatelessWidget {
               controller: c,
               actions: <Widget>[
                 StoreConnector<AppState, Models.User>(
-                  converter: (store) => store.state.user,
+                  converter: (store) => store.state.user!,
                   builder: (ctx, state) => FavoriteToggler(
-                    id: model?.id,
-                    status: model?.isFavorite,
+                    id: model.id,
+                    status: model.isFavorite,
                     noAlign: true,
                     size: 24,
                   ),
@@ -59,7 +59,7 @@ class SportScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(model.content.image.path),
+                    image: NetworkImage(model.content?.image?.path ?? ''),
                   )),
                   child: Container(
                     padding: EdgeInsets.all(Indents.md),
@@ -112,28 +112,27 @@ class SportScreen extends StatelessWidget {
                       ],
                     ),
                   )),
-              CustomFutureBuilder<List<Models.Movie>>(
-                future: Api.Entities.getByIds<Models.Movie>(model.moviesIds),
-                builder: (data) => data.length > 0
+              CustomFutureBuilder<List<Models.Movie>?>(
+                future: Api.Entities.getByIds<Models.Movie>(model.moviesIds!),
+                builder: (data) => (data?.length ?? 0) > 0
                     ? BlockBaseWidget.forScrollingViews(
                         header: HelperMethods.capitalizeString(
-                            AppLocalizations.of(context)
-                                .translate('base.movies')),
+                            AppLocalizations.of(context)!.translate('base.movies')),
                         child: CustomListBuilder(
                             type: CustomListBuilderTypes.horizontalList,
                             connectToStore: true,
                             items: data,
                             height: 200,
                             itemBuilder: (item) => MovieCard(
-                                  model: item,
+                                  model: item as Models.Movie,
                                   aspectRatio: 9 / 16,
                                 )))
                     : Container(),
               ),
               BlockBaseWidget(
-                  header: AppLocalizations.of(context)
+                  header: AppLocalizations.of(context)!
                       .translate('helper.users_choice'),
-                  child: CustomFutureBuilder<Models.Playlist>(
+                  child: CustomFutureBuilder<Models.Playlist?>(
                       future: Api.Entities.getById<Models.Playlist>(
                           model.bestPlaylistId),
                       builder: (data) => PlayListCard(
@@ -142,10 +141,9 @@ class SportScreen extends StatelessWidget {
                           ))),
               BlockBaseWidget(
                   header: loc!.translate('recommended',
-                      [AppLocalizations.of(context)?.translate('base.video')]),
-                  child: CustomFutureBuilder<Models.Video>(
-                      future:
-                          Api.Entities.getById<Models.Video>(model.bestVideoId),
+                      [AppLocalizations.of(context)!.translate('base.video')]),
+                  child: CustomFutureBuilder<Models.Video?>(
+                      future: Api.Entities.getById<Models.Video>(model.bestVideoId),
                       builder: (data) {
                         return data != null ? VideoCard(
                           model: data,
@@ -154,17 +152,17 @@ class SportScreen extends StatelessWidget {
               BlockBaseWidget(
                   margin: EdgeInsets.all(0),
                   header: HelperMethods.capitalizeString(
-                      AppLocalizations.of(context)?.translate('base.playlists')),
-                  child: CustomFutureBuilder<List<Models.Playlist>>(
+                      AppLocalizations.of(context)!.translate('base.playlists')),
+                  child: CustomFutureBuilder<List<Models.Playlist>?>(
                     future: Api.Entities.getByIds<Models.Playlist>(
-                        model.playlistsIds),
+                        model.playlistsIds!),
                     builder: (data) => CustomListBuilder(
                         type: CustomListBuilderTypes.verticalList,
                         connectToStore: true,
                         items: data,
                         itemBuilder: (item) => PlayListCard(
                               aspectRatio: 16 / 9,
-                              model: item,
+                              model: item as Models.Playlist,
                             )),
                   )),
             ]);

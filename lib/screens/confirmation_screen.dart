@@ -36,7 +36,7 @@ class Confirmation extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: Indents.md),
                   child: Center(
                       child: Text(
-                    loc!.translate('instruction', [store.state.user.email]),
+                    loc!.translate('instruction', [store.state.user!.email!]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
@@ -64,12 +64,12 @@ class Confirmation extends StatelessWidget {
                     },
                     onChanged: (text) {},
                     onCompleted: (text) async {
-                      if (_formKey.currentState.validate()) {
+                      if (_formKey.currentState!.validate()) {
                         var response = await Api.User.confirmEmailAttempt(
                             _controller.text);
                         if (response == true) {
                           Navigator.popUntil(
-                              context, ((route) => !route.navigator.canPop()));
+                              context, ((route) => !route.navigator!.canPop()));
                         } else {
                           Scaffold.of(context).showSnackBar(
                               SnackBarExtension.error(
