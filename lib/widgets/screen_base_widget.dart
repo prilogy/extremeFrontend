@@ -65,7 +65,7 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
                     return forceDefaultAppBar
                         ? AppBar(title: ab.title, actions: ab.actions)
                         : ab;
-                  }()
+                  } ()
                 : EmptyAppBar(),
         body: Builder(
           builder: (context) {
@@ -91,7 +91,7 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
                             header: MaterialClassicHeader(),
                             child: ListView(
                               controller: _scrollController,
-                              padding: widget.padding,
+                              padding: EdgeInsets.zero,
                               children: res as dynamic,
                             ),
                           )

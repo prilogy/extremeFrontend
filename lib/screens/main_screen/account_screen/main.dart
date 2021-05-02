@@ -55,7 +55,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                     MaterialPageRoute(builder: (context) => SaleScreen()));
               },
             ),
-          if (user!.isSubscribed)
+          if (user.isSubscribed)
             IconButton(
               icon: Icon(Icons.favorite),
               onPressed: () {
@@ -116,7 +116,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
                                           builder: (ctx) => PaymentScreen(
-                                                title: loc!.translate(
+                                                title: loc.translate(
                                                     'subscription_payment_app_bar'),
                                                 url: url,
                                                 onPaymentDone: () async {
@@ -124,7 +124,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                                       true, true);
                                                   SnackBarExtension.show(
                                                       SnackBarExtension.success(
-                                                          loc!.translate(
+                                                          loc.translate(
                                                               'subscription_payment_success'),
                                                           Duration(
                                                               seconds: 7)));
@@ -142,7 +142,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                 Container(
                   width: double.infinity,
                   child: Text(
-                    loc!.translate("hint"),
+                    loc.translate("hint"),
                     style: Theme.of(context).textTheme.caption,
                     textAlign: TextAlign.center,
                   ),
@@ -152,7 +152,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
           ),
           BlockBaseWidget(
             margin: EdgeInsets.all(0),
-            header: loc!.translate("connected_accounts"),
+            header: loc.translate("connected_accounts"),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

@@ -35,7 +35,7 @@ class EmailConfirmationScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: Indents.md),
                   child: Center(
                       child: Text(
-                    loc!.translate('instruction', [store.state.user!.email!]),
+                    loc.translate('instruction', [store.state.user!.email!]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
@@ -44,8 +44,9 @@ class EmailConfirmationScreen extends StatelessWidget {
                   width: 285,
                   child: PinCodeTextField(
                     length: 5,
-                    autoValidate: true,
-                    textInputType: TextInputType.number,
+                    appContext: context,
+                    autovalidateMode: AutovalidateMode.always,
+                    keyboardType: TextInputType.number,
                     backgroundColor: theme.colorScheme.background,
                     textStyle: theme.textTheme.headline3?.merge(
                         TextStyle(color: theme.colorScheme.onBackground)),
@@ -56,8 +57,8 @@ class EmailConfirmationScreen extends StatelessWidget {
                       activeColor: theme.colorScheme.onBackground,
                     ),
                     validator: (value) {
-                      if (int.tryParse(value) == null && value.length > 0) {
-                        return loc!.translate('validation.NaN');
+                      if (int.tryParse(value!) == null && value.length > 0) {
+                        return loc.translate('validation.NaN');
                       }
                       return null;
                     },
@@ -72,7 +73,7 @@ class EmailConfirmationScreen extends StatelessWidget {
                         } else {
                           Scaffold.of(context).showSnackBar(
                               SnackBarExtension.error(
-                                  loc!.translate('snackbar.wrong_code')));
+                                  loc.translate('snackbar.wrong_code')));
                         }
                       }
                     },

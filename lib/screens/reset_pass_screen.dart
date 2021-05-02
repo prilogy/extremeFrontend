@@ -43,7 +43,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                   child: Form(
                     key: _formKey,
                     child: Column(children: <Widget>[
-                      Text(loc!.translate('instruction.email')),
+                      Text(loc.translate('instruction.email')),
                       Padding(
                         padding: EdgeInsets.symmetric(vertical: Indents.md),
                         child: TextFormField(
@@ -56,7 +56,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                             } else if (!RegExp(
                                     r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
                                 .hasMatch(value))
-                              return loc!.translate('error.invalid');
+                              return loc.translate('error.invalid');
                             return null;
                           },
                         ),
@@ -91,7 +91,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                     padding: EdgeInsets.symmetric(vertical: Indents.md),
                     child: Center(
                         child: Text(
-                      loc!.translate('instruction.reset', [email!]),
+                      loc.translate('instruction.reset', [email!]),
                       style: Theme.of(context).textTheme.bodyText2,
                       textAlign: TextAlign.center,
                     )),
@@ -100,8 +100,9 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                     width: 285,
                     child: PinCodeTextField(
                       length: 5,
-                      autoValidate: true,
-                      textInputType: TextInputType.number,
+                      appContext: context,
+                      autovalidateMode: AutovalidateMode.always,
+                      keyboardType: TextInputType.number,
                       backgroundColor: theme.colorScheme.background,
                       textStyle: theme.textTheme.headline3?.merge(
                           TextStyle(color: theme.colorScheme.onBackground)),
@@ -112,12 +113,12 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                         activeColor: theme.colorScheme.onBackground,
                       ),
                       validator: (value) {
-                        if (int.tryParse(value) == null && value.length > 0) {
+                        if (int.tryParse(value!) == null && value.length > 0) {
                           return loc.translate('validation.NaN');
                         }
                         return null;
                       },
-                      onChanged: null,
+                      onChanged: (x) {},
                       onCompleted: (text) async {
                         if (_formKey.currentState!.validate()) {
                           var response = await Api.User.verify(text);
@@ -129,7 +130,7 @@ class _ResetPassScreenState extends State<ResetPassScreen> {
                           } else {
                             Scaffold.of(context).showSnackBar(
                                 SnackBarExtension.error(
-                                    loc!.translate('snackbar.error')));
+                                    loc.translate('snackbar.error')));
                           }
                         }
                       },

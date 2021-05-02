@@ -1,10 +1,5 @@
-import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
-import 'package:extreme/screens/movie_view_screen.dart';
-import 'package:extreme/screens/playlist_screen.dart';
-import 'package:extreme/screens/sport_screen.dart';
-import 'package:extreme/screens/video_view_screen.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -18,8 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
-import 'package:scroll_app_bar/scroll_app_bar.dart';
-import 'dart:io';
 
 /// Домашняя страница пользователя - Главная
 
@@ -35,8 +28,7 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
 
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-      appBarComplex: (ctx, c) => ScrollAppBar(
-        controller: c,
+      appBarComplex: (ctx, c) => AppBar(
         title: Text('Extreme Insiders'),
         actions: <Widget>[
           IconButton(
@@ -171,76 +163,76 @@ class _HeadBannerState extends State<HeadBanner> {
       height: MediaQuery.of(context).size.height / 2.5,
       child: Stack(
         children: [
-          Carousel(
-            images: banners!
-                .map((e) => NetworkImage(e.entityContent?.image?.path ??
-                    'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'))
-                .toList(),
-            dotSize: Indents.md / 2,
-            dotSpacing: Indents.lg,
-            dotColor: Theme.of(context).backgroundColor,
-            dotBgColor: Colors.white.withOpacity(0),
-            indicatorBgPadding: 10.0,
-            borderRadius: false,
-            moveIndicatorFromBottom: 180.0,
-            noRadiusForIndicator: true,
-            overlayShadow: true,
-            overlayShadowColors: Theme.of(context).colorScheme.background,
-            overlayShadowSize: 1,
-            onImageTap: (index) async {
-              switch (banners![index].entityType) {
-                case 'video':
-                  var model = await Api.Entities.getById<Models.Video>(
-                      banners![index].entityId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => VideoViewScreen(
-                          model: model as Models.Video,
-                        ),
-                      ));
-                  break;
-                case 'playlist':
-                  var model = await Api.Entities.getById<Models.Playlist>(
-                      banners![index].entityId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PlaylistScreen(
-                          model: model as Models.Playlist,
-                        ),
-                      ));
-                  break;
-                case 'movie':
-                  var model = await Api.Entities.getById<Models.Movie>(
-                      banners![index].entityId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MovieViewScreen(
-                          model: model as Models.Movie,
-                        ),
-                      ));
-                  break;
-                case 'sport':
-                  var model = await Api.Entities.getById<Models.Sport>(
-                      banners![index].entityId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SportScreen(
-                          model: model as Models.Sport,
-                        ),
-                      ));
-                  break;
-              }
-            },
-            onImageChange: (previous, current) {
-              setState(() {
-                index = current;
-              });
-            },
-          ),
+          // Carousel(
+          //   images: banners!
+          //       .map((e) => NetworkImage(e.entityContent?.image?.path ??
+          //           'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'))
+          //       .toList(),
+          //   dotSize: Indents.md / 2,
+          //   dotSpacing: Indents.lg,
+          //   dotColor: Theme.of(context).backgroundColor,
+          //   dotBgColor: Colors.white.withOpacity(0),
+          //   indicatorBgPadding: 10.0,
+          //   borderRadius: false,
+          //   moveIndicatorFromBottom: 180.0,
+          //   noRadiusForIndicator: true,
+          //   overlayShadow: true,
+          //   overlayShadowColors: Theme.of(context).colorScheme.background,
+          //   overlayShadowSize: 1,
+          //   onImageTap: (index) async {
+          //     switch (banners![index].entityType) {
+          //       case 'video':
+          //         var model = await Api.Entities.getById<Models.Video>(
+          //             banners![index].entityId);
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //               builder: (context) => VideoViewScreen(
+          //                 model: model as Models.Video,
+          //               ),
+          //             ));
+          //         break;
+          //       case 'playlist':
+          //         var model = await Api.Entities.getById<Models.Playlist>(
+          //             banners![index].entityId);
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //               builder: (context) => PlaylistScreen(
+          //                 model: model as Models.Playlist,
+          //               ),
+          //             ));
+          //         break;
+          //       case 'movie':
+          //         var model = await Api.Entities.getById<Models.Movie>(
+          //             banners![index].entityId);
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //               builder: (context) => MovieViewScreen(
+          //                 model: model as Models.Movie,
+          //               ),
+          //             ));
+          //         break;
+          //       case 'sport':
+          //         var model = await Api.Entities.getById<Models.Sport>(
+          //             banners![index].entityId);
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //               builder: (context) => SportScreen(
+          //                 model: model as Models.Sport,
+          //               ),
+          //             ));
+          //         break;
+          //     }
+          //   },
+          //   onImageChange: (previous, current) {
+          //     setState(() {
+          //       index = current;
+          //     });
+          //   },
+          // ),
           BannerInformation(
             id: index,
             banner: banners![index],

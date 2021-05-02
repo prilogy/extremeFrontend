@@ -79,7 +79,7 @@ class _AccountInfoState extends State<AccountInfo> {
                             ),
                           ),
                           Text(
-                            loc!.translate("no_email_hint"),
+                            loc.translate("no_email_hint"),
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             softWrap: false,
@@ -111,7 +111,7 @@ class _AccountInfoState extends State<AccountInfo> {
                             ),
                           ),
                           Text(
-                            loc!.translate("no_password_hint"),
+                            loc.translate("no_password_hint"),
                             overflow: TextOverflow.fade,
                             maxLines: 1,
                             softWrap: false,
@@ -164,10 +164,10 @@ class _AccountInfoState extends State<AccountInfo> {
               controller: _emailController,
               validator: (value) {
                 if (value!.isEmpty) {
-                  return loc!.translate("field_is_empty");
+                  return loc.translate("field_is_empty");
                 }
                 if (!RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$')
-                    .hasMatch(value)) return loc!.translate("incorrect_email");
+                    .hasMatch(value)) return loc.translate("incorrect_email");
                 return null;
               },
               decoration: const InputDecoration(
@@ -183,7 +183,7 @@ class _AccountInfoState extends State<AccountInfo> {
                   child: FlatButton(
                     color: Colors.transparent,
                     child: Text(
-                      loc!.translate("cancel"),
+                      loc.translate("cancel"),
                     ),
                     onPressed: () {
                       setState(() {
@@ -210,7 +210,7 @@ class _AccountInfoState extends State<AccountInfo> {
                     if (res == null) {
                       _emailController.clear();
                       SnackBarExtension.show(SnackBarExtension.error(
-                          loc!.translate('edit_email_error')));
+                          loc.translate('edit_email_error')));
                       return;
                     }
 

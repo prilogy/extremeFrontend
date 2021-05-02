@@ -16,7 +16,6 @@ import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/models/main.dart' as Models;
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 /// Создаёт экран вида спорта
 class SportScreen extends StatelessWidget {
@@ -31,8 +30,7 @@ class SportScreen extends StatelessWidget {
 
     return ScreenBaseWidget(
         padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-        appBarComplex: (ctx, c) => ScrollAppBar(
-              controller: c,
+        appBarComplex: (ctx, c) => AppBar(
               actions: <Widget>[
                 StoreConnector<AppState, Models.User>(
                   converter: (store) => store.state.user!,
@@ -81,14 +79,14 @@ class SportScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Text(
-                          model?.content?.name ??
+                          model.content?.name ??
                               loc!.translate('no_data.sport_name'),
                           style: theme.textTheme.headline5?.merge(TextStyle(
                               fontWeight: FontWeight.bold,
                               letterSpacing: 0.25)),
                         ),
                         Text(
-                          model?.content?.description ?? '',
+                          model.content?.description ?? '',
                           style: Theme.of(context).textTheme.bodyText2,
                           textAlign: TextAlign.center,
                         ),
@@ -99,12 +97,12 @@ class SportScreen extends StatelessWidget {
                             children: [
                               Stats(
                                   icon: Icons.local_movies,
-                                  text: model?.moviesIds?.length?.toString() ??
+                                  text: model.moviesIds?.length.toString() ??
                                       '222'),
                               Stats(
                                   icon: Icons.playlist_play,
                                   text:
-                                      model?.playlistsIds?.length?.toString() ??
+                                      model.playlistsIds?.length.toString() ??
                                           '233'),
                             ],
                           ),

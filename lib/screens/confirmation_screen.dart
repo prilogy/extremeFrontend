@@ -45,8 +45,9 @@ class Confirmation extends StatelessWidget {
                   width: 285,
                   child: PinCodeTextField(
                     length: 5,
-                    autoValidate: true,
-                    textInputType: TextInputType.number,
+                    appContext: context,
+                    autovalidateMode: AutovalidateMode.always,
+                    keyboardType: TextInputType.number,
                     backgroundColor: theme.colorScheme.background,
                     textStyle: theme.textTheme.headline3?.merge(
                         TextStyle(color: theme.colorScheme.onBackground)),
@@ -57,8 +58,8 @@ class Confirmation extends StatelessWidget {
                       activeColor: theme.colorScheme.onBackground,
                     ),
                     validator: (value) {
-                      if (int.tryParse(value) == null && value.length > 0) {
-                        return loc!.translate('validation.NaN');
+                      if (int.tryParse(value!) == null && value.length > 0) {
+                        return loc.translate('validation.NaN');
                       }
                       return null;
                     },

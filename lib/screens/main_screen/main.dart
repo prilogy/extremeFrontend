@@ -70,7 +70,7 @@ class _MainScreenState extends State<MainScreen>
               _currentBackPressTime = now;
             });
             Fluttertoast.showToast(
-                msg: AppLocalizations.of(context)?.translate('helper.exit_hint'),
+                msg: AppLocalizations.of(context)!.translate('helper.exit_hint'),
                 backgroundColor: Colors.black.withOpacity(0.5));
             return false;
           }

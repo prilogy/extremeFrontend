@@ -12,7 +12,6 @@ import 'package:extreme/widgets/sport_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/models/main.dart' as Models;
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 
 /// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
@@ -26,8 +25,7 @@ class BrowseScreen extends StatelessWidget {
     var loc = AppLocalizations.of(context)?.withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
-        appBarComplex: (ctx, c) => ScrollAppBar(
-              controller: c,
+        appBarComplex: (ctx, c) => AppBar(
               title: Text(loc!.translate("browse")),
               actions: <Widget>[
                 IconButton(
@@ -51,7 +49,7 @@ class BrowseScreen extends StatelessWidget {
                         icon: Icons.playlist_play,
                         pushTo: Playlists()),
                     CategoryButton(
-                        text: loc!.translate('movies'),
+                        text: loc.translate('movies'),
                         icon: Icons.movie,
                         pushTo: MoviesList())
                   ],

@@ -128,7 +128,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       TextFormField(
                         controller: _passwordController,
                         validator: (value) {
-                          if (value!.isEmpty ?? false) {
+                          if (value!.isEmpty) {
                             return loc.translate('error.empty');
                           }
                           if (value.length < 6)
@@ -138,7 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         decoration: InputDecoration(
                             icon: Icon(Icons.lock_open),
-                            labelText: loc!.translate('password')),
+                            labelText: loc.translate('password')),
                       ),
                       TextFormField(
                         controller: _rePasswordController,
@@ -153,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         obscureText: true,
                         decoration: InputDecoration(
                             icon: Icon(Icons.lock),
-                            labelText: loc!.translate('repeat_password')),
+                            labelText: loc.translate('repeat_password')),
                       ),
                       // TextFormField(
                       //   controller: _phoneNumberController,
@@ -210,7 +210,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 onPressed: () {
                                   Navigator.pushNamed(context, '/auth');
                                 },
-                                child: Text(loc!.translate('sign_in')),
+                                child: Text(loc.translate('sign_in')),
                               ),
                             ),
                             RaisedButton(
@@ -233,7 +233,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   );
                                   if (result == true) {
                                     scf.showSnackBar(SnackBar(
-                                      content: Text(loc!.translate('success')),
+                                      content: Text(loc.translate('success')),
                                     ));
                                     Navigator.of(context).pop();
                                   } else {
@@ -241,12 +241,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       backgroundColor:
                                           Theme.of(context).colorScheme.error,
                                       content:
-                                          Text(loc!.translate('error.already_exists')),
+                                          Text(loc.translate('error.already_exists')),
                                     ));
                                   }
                                 }
                               },
-                              child: Text(loc!.translate('continue'))
+                              child: Text(loc.translate('continue'))
                             ),
                           ],
                         ),

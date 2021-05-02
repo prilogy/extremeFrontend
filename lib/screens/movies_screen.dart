@@ -30,7 +30,7 @@ class MoviesList extends StatelessWidget {
           itemListCallback: CustomPaginatedListCallback<Movie>(
         pageSize: 6,
         itemsGetter: (page, pageSize) async {
-          return (await Api.Entities.getAll<Movie>(page, pageSize, "desc"))!;
+          return await Api.Entities.getAll<Movie>(page, pageSize, "desc");
         },
         modelListSize: 3,
         itemBuilder: (data) => CustomListBuilder(

@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: theme.textTheme.headline5?.merge(
                                       TextStyle(fontWeight: FontWeight.w500)),
                                 )),
-                            Text(loc!.translate('description'),
+                            Text(loc.translate('description'),
                                 textAlign: TextAlign.center,
                                 style: theme.textTheme.subtitle1?.merge(
                                     TextStyle(fontWeight: FontWeight.w400)))
@@ -111,6 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   service: item,
                                   onPressed: () async {
                                     var token = await item.getToken();
+                                    print(token);
                                     await _authWithSocial(
                                         context, item.socialAccount, token!);
                                   },

@@ -30,61 +30,61 @@ String dateTimeToStringInAgoFormat(DateTime date, BuildContext context) {
   String result = 'Somewhen in the Universe';
   if (years > 0) {
     if (years == 1) {
-      result = loc!.translate('year.one');
+      result = loc.translate('year.one');
     } else if (years > 1 && years < 5 ||
         (years > 20 && years % 10 > 1 && years % 10 < 5)) {
-      result = loc!.translate('year.two_four', [years.toString()]);
+      result = loc.translate('year.two_four', [years.toString()]);
     } else {
-      result = loc!.translate('year.more', [years.toString()]);
+      result = loc.translate('year.more', [years.toString()]);
     }
   } else {
     int months = days ~/ 30;
     if (months > 0) {
       if (months == 1) {
-        result = loc!.translate('month.one');
+        result = loc.translate('month.one');
       } else if (months >= 2 && months <= 4) {
-        result = loc!.translate('month.two_four', [months.toString()]);
+        result = loc.translate('month.two_four', [months.toString()]);
       } else
-        result = loc!.translate('month.more', [months.toString()]);
+        result = loc.translate('month.more', [months.toString()]);
     } else {
       int weeks = days ~/ 7;
       if (weeks > 0) {
         if (weeks == 1) {
-          result = loc!.translate('week.one');
+          result = loc.translate('week.one');
         } else if (weeks >= 2 && weeks <= 4) {
-          result = loc!.translate('week.two_four', [weeks.toString()]);
+          result = loc.translate('week.two_four', [weeks.toString()]);
         }
       } else if (days > 0) {
         if (days == 1) {
-          result = loc!.translate('day.one');
+          result = loc.translate('day.one');
         } else if (days >= 2 && days <= 4) {
-          result = loc!.translate('day.two_four', [days.toString()]);
+          result = loc.translate('day.two_four', [days.toString()]);
         } else {
-          result = loc!.translate('day.more', [days.toString()]);
+          result = loc.translate('day.more', [days.toString()]);
         }
       } else {
         int hours = difference.inHours;
         if (hours > 0) {
           if (hours == 1) {
-            result = loc!.translate('hour.one');
+            result = loc.translate('hour.one');
           } else if (hours >= 2 && hours <= 4) {
-            result = loc!.translate('hour.two_four', [hours.toString()]);
+            result = loc.translate('hour.two_four', [hours.toString()]);
           } else {
-            result = loc!.translate('hour.more', [hours.toString()]);
+            result = loc.translate('hour.more', [hours.toString()]);
           }
         } else {
           int minutes = difference.inMinutes;
           if (minutes > 0) {
             if (minutes == 1) {
-              result = loc!.translate('minute.one');
+              result = loc.translate('minute.one');
             } else if (minutes >= 2 && minutes <= 4 ||
                 (minutes > 20 && minutes % 10 >= 2 && minutes % 10 <= 4)) {
-              result = loc!.translate('minute.two_four', [minutes.toString()]);
+              result = loc.translate('minute.two_four', [minutes.toString()]);
             } else {
-              result = loc!.translate('minute.more', [minutes.toString()]);
+              result = loc.translate('minute.more', [minutes.toString()]);
             }
           } else {
-            result = loc!.translate('minute.less_than_one');
+            result = loc.translate('minute.less_than_one');
           }
         }
       }

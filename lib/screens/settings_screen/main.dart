@@ -50,13 +50,14 @@ class SettingsScreen extends StatelessWidget {
                 children: [
                   SettingsWidget(
                     margin: EdgeInsets.all(0),
-                    title: loc!.translate('language'),
+                    title: loc.translate('language'),
                     append: DropdownButton<Culture>(
                       value: store.state.settings!.culture,
                       onChanged: (val) async {
                         store.dispatch(SetSettings(culture: val));
                         await Api.User.refresh(true, true);
-                        AppLocalizations.of(context)?.load(Locale(val!.key!, ''));
+                        AppLocalizations.of(context)
+                            ?.load(Locale(val!.key!, ''));
                         _toastRestart();
                       },
                       items: Culture.all.map((val) {
@@ -89,19 +90,21 @@ class SettingsScreen extends StatelessWidget {
               )),
             ),
             BlockBaseWidget(
-                header: loc!.translate('other'),
+                header: loc.translate('other'),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SettingsWidget(
-                      title: loc!.translate('policy'),
+                      title: loc.translate('policy'),
                       onPressed: () {
                         browser.openUrlRequest(
-                            urlRequest: URLRequest(url: Uri.parse(config!.API_BASE_URL + '/policy.html')) );
+                            urlRequest: URLRequest(
+                                url: Uri.parse(
+                                    config!.API_BASE_URL + '/policy.html')));
                       },
                     ),
                     SettingsWidget(
-                      title: loc!.translate('about'),
+                      title: loc.translate('about'),
                       onPressed: () {
                         Navigator.of(context, rootNavigator: true).push(
                             MaterialPageRoute(builder: (ctx) => AboutScreen()));
@@ -116,7 +119,7 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     SettingsWidget(
-                      title: loc!.translate('exit'),
+                      title: loc.translate('exit'),
                       onPressed: () {
                         store.dispatch(SetUser(null));
                         Navigator.of(context, rootNavigator: true)
@@ -124,7 +127,7 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      loc!.translate('version', ["1.1"]),
+                      loc.translate('version', ["1.1"]),
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1
@@ -133,11 +136,9 @@ class SettingsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: Indents.sm),
                       child: Text(
-                        loc!.translate('by'),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.merge(TextStyle(color: ExtremeColors.base70[200])),
+                        loc.translate('by'),
+                        style: Theme.of(context).textTheme.bodyText1?.merge(
+                            TextStyle(color: ExtremeColors.base70[200])),
                       ),
                     )
                   ],

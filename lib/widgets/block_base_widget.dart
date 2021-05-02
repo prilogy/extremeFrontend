@@ -37,7 +37,7 @@ class BlockBaseWidget extends StatelessWidget with IndentsMixin {
       child: Column(
         crossAxisAlignment: crossAxisAlignment,
         children: <Widget>[
-          if (header != null)
+          if (header != null && header != '')
             Container(
                 alignment: Alignment.topLeft,
                 padding: headerPadding,

@@ -36,20 +36,6 @@ class MovieViewScreen extends StatefulWidget {
 }
 
 class _MovieViewScreenState extends State<MovieViewScreen> {
-  VimeoPlayerController? _controller;
-  String? _id;
-
-  @override
-  void initState() {
-    _id = VimeoHelpers.getVimeoIdFromLink(widget.model!.content?.url ?? '');
-
-    VimeoPlayerController.vimeo(_id!).then((value) {
-      _controller = value;
-    });
-
-    super.initState();
-  }
-
   @override
   void dispose() {
     SystemChrome.restoreSystemUIOverlays();
@@ -61,8 +47,6 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)?.withBaseKey('video_view_screen');
-    var splits = widget.model!.content?.url?.split('/') ?? null;
-    final id = splits != null ? splits[splits.length - 1] : "242373845";
 
     return StoreConnector<AppState, Models.User>(
         converter: (store) => store.state.user!,
@@ -72,10 +56,10 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
               children: <Widget>[
                 if (widget.model!.isPaid == false ||
                     widget.model!.isBought == true)
-                  VimeoPlayer(
-                    autoPlay: true,
-                    controller: _controller,
-                  )
+                      VimeoPlayer(
+                          autoPlay: true,
+                          id: VimeoHelpers.getVimeoIdFromLink(widget.model?.content?.url) ?? ''
+                        )
                 else if (widget.model!.isPaid == true &&
                     widget.model!.isBought == false)
                   BlockBaseWidget(
@@ -195,7 +179,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                                   margin: EdgeInsets.only(top: Indents.sm),
                                   // Sign below like icon margin
                                   child: Text(
-                                    loc!.translate('favorite'), //signText,
+                                    loc.translate('favorite'), //signText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .caption

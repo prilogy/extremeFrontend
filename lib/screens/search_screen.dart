@@ -90,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   });
                 } else {
                   Fluttertoast.showToast(
-                      msg: loc!.translate("few_symbols"),
+                      msg: loc.translate("few_symbols"),
                       backgroundColor: Colors.black.withOpacity(0.5));
                 }
               },
@@ -146,19 +146,19 @@ class _SearchScreenState extends State<SearchScreen> {
                       : Container(),
                   _playlists.isNotEmpty
                       ? CategoryBlock(
-                    header: loc!.translate("playlists"),
+                    header: loc.translate("playlists"),
                     cards: [..._playlists],
                   )
                       : Container(),
                   _movies.isNotEmpty
                       ? CategoryBlock(
-                    header: loc!.translate("movies"),
+                    header: loc.translate("movies"),
                     cards: [..._movies],
                   )
                       : Container(),
                   _sports.isNotEmpty
                       ? CategoryBlock(
-                    header: loc!.translate("sports"),
+                    header: loc.translate("sports"),
                     cards: [..._sports],
                     grid: true,
                   )

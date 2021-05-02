@@ -1,42 +1,58 @@
-part of vimeoplayer;
+library vimeoplayer;
+
+import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
+import 'package:flutter/services.dart';
+import 'quality_links.dart';
+import 'dart:async';
 
 //Класс видео плеера во весь экран
-class FullScreenPlayer extends StatefulWidget {
+class FullscreenPlayer extends StatefulWidget {
+  final String id;
   final bool? autoPlay;
   final bool? looping;
-  final VimeoPlayerController? controller;
+  final VideoPlayerController? controller;
   final position;
   final Future<void>? initFuture;
+  final String? qualityValue;
 
-  FullScreenPlayer({
+  FullscreenPlayer({
+    required this.id,
     this.autoPlay,
     this.looping,
     this.controller,
     this.position,
     this.initFuture,
+    this.qualityValue,
     Key? key,
   }) : super(key: key);
 
   @override
-  _FullScreenPlayerState createState() =>
-      _FullScreenPlayerState(autoPlay, looping, position, initFuture);
+  _FullscreenPlayerState createState() => _FullscreenPlayerState(
+      id, autoPlay, looping, controller, position, initFuture, qualityValue);
 }
 
-class _FullScreenPlayerState extends State<FullScreenPlayer> {
+class _FullscreenPlayerState extends State<FullscreenPlayer> {
+  String _id;
   bool? autoPlay = false;
   bool? looping = false;
   bool _overlay = true;
   bool fullScreen = true;
 
-  VimeoPlayerController? _controller;
+  VideoPlayerController? controller;
+  VideoPlayerController? _controller;
 
   int? position;
 
   Future<void>? initFuture;
   var qualityValue;
 
-  _FullScreenPlayerState(
-      this.autoPlay, this.looping, this.position, this.initFuture);
+  _FullscreenPlayerState(this._id, this.autoPlay, this.looping, this.controller,
+      this.position, this.initFuture, this.qualityValue);
+
+  // Quality Class
+  late QualityLinks _quality;
+  late Map _qualityValues;
 
   //Переменная перемотки
   bool _seek = true;
@@ -57,8 +73,14 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
   @override
   void initState() {
     //Инициализация контроллеров видео при получении данных из Vimeo
-    _controller = widget.controller;
+    _controller = controller;
     if (autoPlay!) _controller!.play();
+
+    // Подгрузка списка качеств видео
+    _quality = QualityLinks(_id); //Create class
+    _quality.getQualitiesSync().then((value) {
+      _qualityValues = value;
+    });
 
     setState(() {
       SystemChrome.setPreferredOrientations(
@@ -67,20 +89,6 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
     });
 
     super.initState();
-  }
-
-  Future<void> _changeQuality(String v) async {
-    if (_controller == null) return;
-    var position = await _controller!.position;
-
-    setState(() {
-      _controller!.pause();
-      _controller = VimeoPlayerController.fromVimeo(_controller!, v);
-      _controller?.setLooping(looping ?? false);
-      _controller!.seekTo(position!);
-      _seek = true;
-      _controller?.play();
-    });
   }
 
   //Ослеживаем пользовательского нажатие назад и переводим
@@ -104,144 +112,164 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
         child: Scaffold(
             body: Center(
                 child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: <Widget>[
-            GestureDetector(
-              child: Builder(builder: (ctx) {
-                //Управление шириной и высотой видео
-                double delta = MediaQuery.of(context).size.width -
-                    MediaQuery.of(context).size.height *
-                        _controller!.value.aspectRatio;
-                if (MediaQuery.of(context).orientation ==
-                        Orientation.portrait ||
-                    delta < 0) {
-                  videoHeight = MediaQuery.of(context).size.width /
-                      _controller!.value.aspectRatio;
-                  videoWidth = MediaQuery.of(context).size.width;
-                  videoMargin = 0;
-                } else {
-                  videoHeight = MediaQuery.of(context).size.height;
-                  videoWidth = videoHeight! * _controller!.value.aspectRatio;
-                  videoMargin =
-                      (MediaQuery.of(context).size.width - videoWidth!) / 2;
-                }
-                //Переменные дабл тапа, зависимые от размеров видео
-                doubleTapRWidthFS = videoWidth;
-                doubleTapRHeightFS = videoHeight! - 36;
-                doubleTapLWidthFS = videoWidth;
-                doubleTapLHeightFS = videoHeight;
-
-                //Переходи на нужное место при смене качества
-                if (_seek && _controller!.value.duration.inSeconds > 2) {
-                  _controller!.seekTo(Duration(seconds: position!));
-                  _seek = false;
-                }
-
-                SystemChrome.setEnabledSystemUIOverlays(
-                    [SystemUiOverlay.bottom]);
-
-                //Отрисовка элементов плеера
-                return Stack(
+                  alignment: AlignmentDirectional.center,
                   children: <Widget>[
-                    Container(
-                      height: videoHeight,
-                      width: videoWidth,
-                      margin: EdgeInsets.only(left: videoMargin),
-                      child: VideoPlayer(_controller!),
+                    GestureDetector(
+                      child: FutureBuilder(
+                          future: initFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.done) {
+                              //Управление шириной и высотой видео
+                              double delta = MediaQuery.of(context).size.width -
+                                  MediaQuery.of(context).size.height *
+                                      _controller!.value.aspectRatio;
+                              if (MediaQuery.of(context).orientation ==
+                                  Orientation.portrait ||
+                                  delta < 0) {
+                                videoHeight = MediaQuery.of(context).size.width /
+                                    _controller!.value.aspectRatio;
+                                videoWidth = MediaQuery.of(context).size.width;
+                                videoMargin = 0;
+                              } else {
+                                videoHeight = MediaQuery.of(context).size.height;
+                                videoWidth =
+                                    videoHeight! * _controller!.value.aspectRatio;
+                                videoMargin =
+                                    (MediaQuery.of(context).size.width - videoWidth!) /
+                                        2;
+                              }
+                              //Переменные дабл тапа, зависимые от размеров видео
+                              doubleTapRWidthFS = videoWidth;
+                              doubleTapRHeightFS = videoHeight! - 36;
+                              doubleTapLWidthFS = videoWidth;
+                              doubleTapLHeightFS = videoHeight;
+
+                              //Сразу при входе в режим фуллскрин перематываем
+                              // на нужное место
+                              if (_seek && fullScreen) {
+                                _controller!.seekTo(Duration(seconds: position!));
+                                _seek = false;
+                              }
+
+                              //Переходи на нужное место при смене качества
+                              if (_seek && _controller!.value.duration.inSeconds > 2) {
+                                _controller!.seekTo(Duration(seconds: position!));
+                                _seek = false;
+                              }
+                              SystemChrome.setEnabledSystemUIOverlays(
+                                  [SystemUiOverlay.bottom]);
+
+                              //Отрисовка элементов плеера
+                              return Stack(
+                                children: <Widget>[
+                                  Container(
+                                    height: videoHeight,
+                                    width: videoWidth,
+                                    margin: EdgeInsets.only(left: videoMargin),
+                                    child: VideoPlayer(_controller!),
+                                  ),
+                                  _videoOverlay(),
+                                ],
+                              );
+                            } else {
+                              return Center(
+                                  heightFactor: 6,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 4,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        Color(0xFF22A3D2)),
+                                  ));
+                            }
+                          }),
+                      //Редактируем размер области дабл тапа при показе оверлея.
+                      // Сделано для открытия кнопок "Во весь экран" и "Качество"
+                      onTap: () {
+                        setState(() {
+                          _overlay = !_overlay;
+                          if (_overlay) {
+                            doubleTapRHeightFS = videoHeight! - 36;
+                            doubleTapLHeightFS = videoHeight! - 10;
+                            doubleTapRMarginFS = 36;
+                            doubleTapLMarginFS = 10;
+                          } else if (!_overlay) {
+                            doubleTapRHeightFS = videoHeight! + 36;
+                            doubleTapLHeightFS = videoHeight;
+                            doubleTapRMarginFS = 0;
+                            doubleTapLMarginFS = 0;
+                          }
+                        });
+                      },
                     ),
-                    _videoOverlay(),
+                    GestureDetector(
+                        child: Container(
+                          width: doubleTapLWidthFS! / 2 - 30,
+                          height: doubleTapLHeightFS! - 44,
+                          margin:
+                          EdgeInsets.fromLTRB(0, 0, doubleTapLWidthFS! / 2 + 30, 40),
+                          decoration: BoxDecoration(
+                            //color: Colors.red,
+                          ),
+                        ),
+                        //Редактируем размер области дабл тапа при показе оверлея.
+                        // Сделано для открытия кнопок "Во весь экран" и "Качество"
+                        onTap: () {
+                          setState(() {
+                            _overlay = !_overlay;
+                            if (_overlay) {
+                              doubleTapRHeightFS = videoHeight! - 36;
+                              doubleTapLHeightFS = videoHeight! - 10;
+                              doubleTapRMarginFS = 36;
+                              doubleTapLMarginFS = 10;
+                            } else if (!_overlay) {
+                              doubleTapRHeightFS = videoHeight! + 36;
+                              doubleTapLHeightFS = videoHeight;
+                              doubleTapRMarginFS = 0;
+                              doubleTapLMarginFS = 0;
+                            }
+                          });
+                        },
+                        onDoubleTap: () {
+                          setState(() {
+                            _controller!.seekTo(Duration(
+                                seconds: _controller!.value.position.inSeconds - 10));
+                          });
+                        }),
+                    GestureDetector(
+                        child: Container(
+                          width: doubleTapRWidthFS! / 2 - 45,
+                          height: doubleTapRHeightFS - 80,
+                          margin: EdgeInsets.fromLTRB(doubleTapRWidthFS! / 2 + 45, 0, 0,
+                              doubleTapLMarginFS + 20),
+                          decoration: BoxDecoration(
+                            //color: Colors.red,
+                          ),
+                        ),
+                        //Редактируем размер области дабл тапа при показе оверлея.
+                        // Сделано для открытия кнопок "Во весь экран" и "Качество"
+                        onTap: () {
+                          setState(() {
+                            _overlay = !_overlay;
+                            if (_overlay) {
+                              doubleTapRHeightFS = videoHeight! - 36;
+                              doubleTapLHeightFS = videoHeight! - 10;
+                              doubleTapRMarginFS = 36;
+                              doubleTapLMarginFS = 10;
+                            } else if (!_overlay) {
+                              doubleTapRHeightFS = videoHeight! + 36;
+                              doubleTapLHeightFS = videoHeight;
+                              doubleTapRMarginFS = 0;
+                              doubleTapLMarginFS = 0;
+                            }
+                          });
+                        },
+                        onDoubleTap: () {
+                          setState(() {
+                            _controller!.seekTo(Duration(
+                                seconds: _controller!.value.position.inSeconds + 10));
+                          });
+                        }),
                   ],
-                );
-              }),
-              //Редактируем размер области дабл тапа при показе оверлея.
-              // Сделано для открытия кнопок "Во весь экран" и "Качество"
-              onTap: () {
-                setState(() {
-                  _overlay = !_overlay;
-                  if (_overlay) {
-                    doubleTapRHeightFS = videoHeight! - 36;
-                    doubleTapLHeightFS = videoHeight! - 10;
-                    doubleTapRMarginFS = 36;
-                    doubleTapLMarginFS = 10;
-                  } else if (!_overlay) {
-                    doubleTapRHeightFS = videoHeight! + 36;
-                    doubleTapLHeightFS = videoHeight;
-                    doubleTapRMarginFS = 0;
-                    doubleTapLMarginFS = 0;
-                  }
-                });
-              },
-            ),
-            GestureDetector(
-                child: Container(
-                  width: doubleTapLWidthFS! / 2 - 30,
-                  height: doubleTapLHeightFS! - 44,
-                  margin: EdgeInsets.fromLTRB(
-                      0, 0, doubleTapLWidthFS! / 2 + 30, 40),
-                  decoration: BoxDecoration(
-                      //color: Colors.red,
-                      ),
-                ),
-                //Редактируем размер области дабл тапа при показе оверлея.
-                // Сделано для открытия кнопок "Во весь экран" и "Качество"
-                onTap: () {
-                  setState(() {
-                    _overlay = !_overlay;
-                    if (_overlay) {
-                      doubleTapRHeightFS = videoHeight! - 36;
-                      doubleTapLHeightFS = videoHeight! - 10;
-                      doubleTapRMarginFS = 36;
-                      doubleTapLMarginFS = 10;
-                    } else if (!_overlay) {
-                      doubleTapRHeightFS = videoHeight! + 36;
-                      doubleTapLHeightFS = videoHeight;
-                      doubleTapRMarginFS = 0;
-                      doubleTapLMarginFS = 0;
-                    }
-                  });
-                },
-                onDoubleTap: () {
-                  setState(() {
-                    _controller!.seekTo(Duration(
-                        seconds: _controller!.value.position.inSeconds - 10));
-                  });
-                }),
-            GestureDetector(
-                child: Container(
-                  width: doubleTapRWidthFS! / 2 - 45,
-                  height: doubleTapRHeightFS - 80,
-                  margin: EdgeInsets.fromLTRB(doubleTapRWidthFS! / 2 + 45, 0, 0,
-                      doubleTapLMarginFS + 20),
-                  decoration: BoxDecoration(
-                      //color: Colors.red,
-                      ),
-                ),
-                //Редактируем размер области дабл тапа при показе оверлея.
-                // Сделано для открытия кнопок "Во весь экран" и "Качество"
-                onTap: () {
-                  setState(() {
-                    _overlay = !_overlay;
-                    if (_overlay) {
-                      doubleTapRHeightFS = videoHeight! - 36;
-                      doubleTapLHeightFS = videoHeight! - 10;
-                      doubleTapRMarginFS = 36;
-                      doubleTapLMarginFS = 10;
-                    } else if (!_overlay) {
-                      doubleTapRHeightFS = videoHeight! + 36;
-                      doubleTapLHeightFS = videoHeight;
-                      doubleTapRMarginFS = 0;
-                      doubleTapLMarginFS = 0;
-                    }
-                  });
-                },
-                onDoubleTap: () {
-                  setState(() {
-                    _controller!.seekTo(Duration(
-                        seconds: _controller!.value.position.inSeconds + 10));
-                  });
-                }),
-          ],
-        ))));
+                ))));
   }
 
   //================================ Quality ================================//
@@ -250,13 +278,19 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
         context: context,
         builder: (BuildContext bc) {
           final children = <Widget>[];
-          _controller?.qualityValues
-              ?.forEach((elem, value) => (children.add(new ListTile(
-                  title: new Text(" ${elem.toString()} fps"),
-                  onTap: () async {
-                    //Обновление состояние приложения и перерисовка
-                    await _changeQuality(value);
-                  }))));
+          _qualityValues.forEach((elem, value) => (children.add(new ListTile(
+              title: new Text(" ${elem.toString()} fps"),
+              onTap: () => {
+                //Обновление состояние приложения и перерисовка
+                setState(() {
+                  _controller!.pause();
+                  _controller = VideoPlayerController.network(value);
+                  _controller!.setLooping(true);
+                  _seek = true;
+                  initFuture = _controller!.initialize();
+                  _controller!.play();
+                }),
+              }))));
 
           return Container(
             height: videoHeight,
@@ -271,82 +305,81 @@ class _FullScreenPlayerState extends State<FullScreenPlayer> {
   Widget _videoOverlay() {
     return _overlay
         ? Stack(
-            children: <Widget>[
-              GestureDetector(
-                child: Center(
-                  child: Container(
-                    width: videoWidth,
-                    height: videoHeight,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.centerRight,
-                        end: Alignment.centerLeft,
-                        colors: [
-                          const Color(0x662F2C47),
-                          const Color(0x662F2C47)
-                        ],
-                      ),
-                    ),
-                  ),
+      children: <Widget>[
+        GestureDetector(
+          child: Center(
+            child: Container(
+              width: videoWidth,
+              height: videoHeight,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                  colors: [
+                    const Color(0x662F2C47),
+                    const Color(0x662F2C47)
+                  ],
                 ),
               ),
-              Center(
-                child: IconButton(
-                    padding: EdgeInsets.only(
-                      top: videoHeight! / 2 - 50,
-                      bottom: videoHeight! / 2 - 30,
-                    ),
-                    icon: _controller!.value.isPlaying
-                        ? Icon(Icons.pause, size: 60.0)
-                        : Icon(Icons.play_arrow, size: 60.0),
-                    onPressed: () {
-                      setState(() {
-                        _controller!.value.isPlaying
-                            ? _controller!.pause()
-                            : _controller!.play();
-                      });
-                    }),
+            ),
+          ),
+        ),
+        Center(
+          child: IconButton(
+              padding: EdgeInsets.only(
+                top: videoHeight! / 2 - 50,
+                bottom: videoHeight! / 2 - 30,
               ),
-              Container(
-                margin: EdgeInsets.only(
-                    top: videoHeight! - 80,
-                    left: videoWidth! + videoMargin - 50),
-                child: IconButton(
-                    alignment: AlignmentDirectional.center,
-                    icon: Icon(Icons.fullscreen, size: 30.0),
-                    onPressed: () {
-                      setState(() {
-                        _controller!.pause();
-                        SystemChrome.setPreferredOrientations([
-                          DeviceOrientation.portraitDown,
-                          DeviceOrientation.portraitUp
-                        ]);
-                        SystemChrome.setEnabledSystemUIOverlays(
-                            [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-                      });
-                      Navigator.pop(
-                          context, _controller!.value.position.inSeconds);
-                    }),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: videoWidth! + videoMargin - 48),
-                child: IconButton(
-                    icon: Icon(Icons.settings, size: 26.0),
-                    onPressed: () {
-                      position = _controller!.value.position.inSeconds;
-                      _seek = true;
-                      _settingModalBottomSheet(context);
-                      setState(() {});
-                    }),
-              ),
-              Container(
-                //===== Ползунок =====//
-                margin: EdgeInsets.only(
-                    top: videoHeight! - 40, left: videoMargin), //CHECK IT
-                child: _videoOverlaySlider(),
-              )
-            ],
-          )
+              icon: _controller!.value.isPlaying
+                  ? Icon(Icons.pause, size: 60.0)
+                  : Icon(Icons.play_arrow, size: 60.0),
+              onPressed: () {
+                setState(() {
+                  _controller!.value.isPlaying
+                      ? _controller!.pause()
+                      : _controller!.play();
+                });
+              }),
+        ),
+        Container(
+          margin: EdgeInsets.only(
+              top: videoHeight! - 80, left: videoWidth! + videoMargin - 50),
+          child: IconButton(
+              alignment: AlignmentDirectional.center,
+              icon: Icon(Icons.fullscreen, size: 30.0),
+              onPressed: () {
+                setState(() {
+                  _controller!.pause();
+                  SystemChrome.setPreferredOrientations([
+                    DeviceOrientation.portraitDown,
+                    DeviceOrientation.portraitUp
+                  ]);
+                  SystemChrome.setEnabledSystemUIOverlays(
+                      [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+                });
+                Navigator.pop(
+                    context, _controller!.value.position.inSeconds);
+              }),
+        ),
+        Container(
+          margin: EdgeInsets.only(left: videoWidth! + videoMargin - 48),
+          child: IconButton(
+              icon: Icon(Icons.settings, size: 26.0),
+              onPressed: () {
+                position = _controller!.value.position.inSeconds;
+                _seek = true;
+                _settingModalBottomSheet(context);
+                setState(() {});
+              }),
+        ),
+        Container(
+          //===== Ползунок =====//
+          margin: EdgeInsets.only(
+              top: videoHeight! - 40, left: videoMargin), //CHECK IT
+          child: _videoOverlaySlider(),
+        )
+      ],
+    )
         : Center();
   }
 

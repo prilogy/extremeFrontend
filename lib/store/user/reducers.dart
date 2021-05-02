@@ -3,19 +3,21 @@ import 'package:extreme/models/main.dart';
 import 'package:redux/redux.dart';
 import 'actions.dart' as Actions;
 
-final userReducer = combineReducers<User>([
-  TypedReducer<User, Actions.SetUser>(_setUser),
-  TypedReducer<User, Actions.ToggleFavorite>(_toggleFavorite),
-  TypedReducer<User, Actions.ToggleLike>(_toggleLike)
+final userReducer = combineReducers<User?>([
+  TypedReducer<User?, Actions.SetUser>(_setUser),
+  TypedReducer<User?, Actions.ToggleFavorite>(_toggleFavorite),
+  TypedReducer<User?, Actions.ToggleLike>(_toggleLike)
 ]);
 
-User _setUser(User user, Actions.SetUser action) {
+User? _setUser(User? user, Actions.SetUser action) {
   User.saveToLocalStorage(action.user);
-  return action.user as User;
+  return action.user;
 }
 
 
-User _toggleFavorite(User user, Actions.ToggleFavorite action) {
+User? _toggleFavorite(User? user, Actions.ToggleFavorite action) {
+  if(user == null) return user;
+
   switch (action.userAction.entityType) {
     case Entities.video:
       user.favoriteIds?.videos = _processFavoriteIdByUserAction(
@@ -49,7 +51,8 @@ List<EntityIdItem>? _processFavoriteIdByUserAction(
   return list;
 }
 
-User _toggleLike(User user, Actions.ToggleLike action) {
+User? _toggleLike(User? user, Actions.ToggleLike action) {
+  if(user == null) return user;
   switch (action.userAction.entityType) {
     case Entities.video:
       user.likeIds?.videos =

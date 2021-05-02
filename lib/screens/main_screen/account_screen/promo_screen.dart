@@ -12,6 +12,7 @@ import 'package:extreme/widgets/subsciption_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/services/api/main.dart' as Api;
+
 class PromoScreen extends StatefulWidget {
   @override
   _PromoScreenState createState() => _PromoScreenState();
@@ -28,7 +29,7 @@ class _PromoScreenState extends State<PromoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var loc = AppLocalizations.of(context)?.withBaseKey('promo_screen');
+    var loc = AppLocalizations.of(context)!.withBaseKey('promo_screen');
 
     void onSubmit() async {
       if (_formKey.currentState!.validate()) {
@@ -42,17 +43,18 @@ class _PromoScreenState extends State<PromoScreen> {
           });
         } else {
           SnackBarExtension.show(
-              SnackBarExtension.error(loc!.translate('code_error')));
+              SnackBarExtension.error(loc.translate('code_error')));
         }
       }
     }
 
     return ScreenBaseWidget(
         appBar: AppBar(
-          title: Text(loc!.translate('app_bar')),
+          title: Text(loc.translate('app_bar')),
         ),
         builder: (context) => [
               BlockBaseWidget(
+                  margin: EdgeInsets.zero,
                   child: _promoCodeSuccess
                       ? Row(
                           children: <Widget>[
@@ -61,7 +63,7 @@ class _PromoScreenState extends State<PromoScreen> {
                             Container(
                                 margin: EdgeInsets.only(left: Indents.md),
                                 child: Text(
-                                  loc!.translate('code_success'),
+                                  loc.translate('code_success'),
                                   style:
                                       TextStyle(color: ExtremeColors.success),
                                 ))
@@ -87,7 +89,7 @@ class _PromoScreenState extends State<PromoScreen> {
                                           icon: Icon(Icons.arrow_forward),
                                           onPressed: onSubmit),
                                       icon: Icon(Icons.local_activity),
-                                      labelText: loc!.translate('enter_code')),
+                                      labelText: loc.translate('enter_code')),
                                 )
                               ]))),
               _promoCodeSuccess
@@ -106,7 +108,8 @@ class _PromoScreenState extends State<PromoScreen> {
                               : Container(),
                           () {
                             var type = _promoCode?.entitySaleable != null
-                                ? _promoCode?.entitySaleable!['entityType'] ?? null
+                                ? _promoCode?.entitySaleable!['entityType'] ??
+                                    null
                                 : null;
                             if (type == null) return Container();
                             var typeName = HelperMethods.capitalizeString(

@@ -19,7 +19,7 @@ class AppState {
 
 AppState appStateReducer(AppState state, action) {
   return AppState(
-    user: userReducer(state.user!, action),
+    user: userReducer(state.user, action),
     settings: settingsReducer(state.settings!, action)
   );
 }

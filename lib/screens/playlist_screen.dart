@@ -18,7 +18,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:scroll_app_bar/scroll_app_bar.dart';
 import '../widgets/stats.dart';
 import '../widgets/video_card.dart';
 import 'package:extreme/services/api/main.dart' as Api;
@@ -40,8 +39,7 @@ class PlaylistScreen extends StatelessWidget {
         builder: (context, state) => ScreenBaseWidget(
               padding:
                   EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-              appBarComplex: (ctx, c) => ScrollAppBar(
-                controller: c,
+              appBarComplex: (ctx, c) => AppBar(
                 actions: <Widget>[
                   FavoriteToggler(
                     id: model?.id,
@@ -223,8 +221,7 @@ class HeaderPlaylist extends StatelessWidget {
                     margin: EdgeInsets.only(bottom: Indents.sm),
                     padding: EdgeInsets.symmetric(horizontal: Indents.lg),
                     child: description != '' ? Text(
-                      description ??
-                          "Описание данного плейлиста",
+                      description,
                       style: Theme.of(context).textTheme.bodyText2,
                       textAlign: TextAlign.center,
                     ): Container(),

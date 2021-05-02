@@ -45,7 +45,7 @@ class AppLocalizations {
     var str = _localizedStrings![key] ?? key;
     if (args != null)
       for (var i = 0; i < args.length; i++) {
-        str = str.replaceFirst('{$i}', args[i] ?? '');
+        str = str.replaceFirst('{$i}', args[i]);
       }
     return str;
   }

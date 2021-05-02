@@ -42,6 +42,6 @@ class Settings {
   }
 
   static void saveToLocalStorage(Settings settings) {
-    localStorage.setItem(localStorageKey, settings?.toJson() ?? null);
+    localStorage.setItem(localStorageKey, settings.toJson() );
   }
 }

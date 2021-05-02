@@ -37,20 +37,6 @@ class VideoViewScreen extends StatefulWidget {
 }
 
 class _VideoViewScreenState extends State<VideoViewScreen> {
-  VimeoPlayerController? _controller;
-  String? _id;
-
-  @override
-  void initState() {
-    _id = VimeoHelpers.getVimeoIdFromLink(widget.model.content?.url ?? '');
-
-    VimeoPlayerController.vimeo(_id!).then((value) {
-      _controller = value;
-    });
-
-    super.initState();
-  }
-
   @override
   void dispose() {
     SystemChrome.restoreSystemUIOverlays();
@@ -78,7 +64,10 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                 if (!widget.model.isPaid! && !widget.model.isInPaidPlaylist! ||
                     isInOwnedPlaylist ||
                     widget.model.isBought)
-                  VimeoPlayer(autoPlay: true, controller: _controller)
+                  VimeoPlayer(
+                      autoPlay: true,
+                      id: VimeoHelpers.getVimeoIdFromLink(
+                              widget.model.content?.url) ?? '')
                 else if (widget.model.isPaid! && !widget.model.isBought)
                   BlockBaseWidget(
                     margin: EdgeInsets.only(top: Indents.md),
@@ -114,7 +103,8 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                                               MaterialPageRoute(
                                                   builder: (ctx) =>
                                                       VideoViewScreen(
-                                                          model: video as Models.Video)));
+                                                          model: video as Models
+                                                              .Video)));
                                           SnackBarExtension.show(
                                               SnackBarExtension.success(
                                                   AppLocalizations.of(context)!
@@ -181,7 +171,8 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                                     return Row(
                                       children: <Widget>[
                                         InkWell(
-                                          child: Text(sportData!.content!.name!),
+                                          child:
+                                              Text(sportData!.content!.name!),
                                           onTap: () {
                                             Navigator.of(context)
                                                 .push(MaterialPageRoute(
@@ -224,8 +215,8 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                                 ? Theme.of(context).colorScheme.secondary
                                 : ExtremeColors.base[200]!,
                             onPressed: () async {
-                              var userAction = await Api.User.toggleLike(
-                                  widget.model.id);
+                              var userAction =
+                                  await Api.User.toggleLike(widget.model.id);
                               if (userAction != null) {
                                 StoreProvider.of<AppState>(context)
                                     .dispatch(ToggleLike(userAction));
@@ -248,7 +239,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                                   margin: EdgeInsets.only(top: Indents.sm),
                                   // Sign below like icon margin
                                   child: Text(
-                                    loc!.translate('favorite'), //signText,
+                                    loc.translate('favorite'), //signText,
                                     style: Theme.of(context)
                                         .textTheme
                                         .caption
@@ -280,7 +271,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                         future: Api.Entities.getById<Models.Playlist>(
                             widget.model.playlistId),
                         builder: (data) {
-                          if(data == null) return Container();
+                          if (data == null) return Container();
                           List<int> videosIds = data.videosIds!;
                           // Исключение этого же видео из выдачи
                           videosIds.remove(widget.model.id);
@@ -294,16 +285,16 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                               ? Container()
                               : BlockBaseWidget(
                                   header: loc.translate("other_videos"),
-                                  child: CustomFutureBuilder<List<Models.Video>?>(
-                                      future:
-                                          Api.Entities.getByIds<Models.Video>(
-                                              videosIds),
-                                      builder: (data) => CustomListBuilder(
-                                          items: data,
-                                          itemBuilder: (item) => VideoCard(
-                                                model: item as Models.Video,
-                                                aspectRatio: 16 / 9,
-                                              ))));
+                                  child:
+                                      CustomFutureBuilder<List<Models.Video>?>(
+                                          future: Api.Entities.getByIds<
+                                              Models.Video>(videosIds),
+                                          builder: (data) => CustomListBuilder(
+                                              items: data,
+                                              itemBuilder: (item) => VideoCard(
+                                                    model: item as Models.Video,
+                                                    aspectRatio: 16 / 9,
+                                                  ))));
                         })
                   ],
                 ),
