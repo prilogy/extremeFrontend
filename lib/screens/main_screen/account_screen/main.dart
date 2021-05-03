@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:extreme/containers/subscription_plans_container.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
@@ -8,6 +11,7 @@ import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/services/social_auth.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/models/main.dart' as Models;
+import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/account_info.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -19,7 +23,6 @@ import 'package:extreme/widgets/subsciption_card.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:extreme/services/api/main.dart' as Api;
 
 class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
   final Key? navigatorKey;
@@ -31,6 +34,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
     final loc = AppLocalizations.of(context)?.withBaseKey('account_screen');
     var store = StoreProvider.of<AppState>(context);
     var user = store.state.user;
+    var platform = Platform.isIOS ? SocialAuthOS.IOS : SocialAuthOS.Android;
 
     return ScreenBaseWidget(
       onRefresh: () async {
@@ -97,52 +101,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                         return Text(text);
                       }()),
                 ),
-                CustomFutureBuilder<List<Models.SubscriptionPlan>?>(
-                  future: Api.Subscription.getPlans(),
-                  builder: (data) {
-                    data?.sort(
-                        (a, b) => a.price!.value!.compareTo(b.price!.value!));
-                    return CustomListBuilder(
-                        lastItemHasGap: true,
-                        items: data,
-                        itemBuilder: (item) => SubscriptionCard(
-                              model: item as Models.SubscriptionPlan,
-                              onPressed: () async {
-                                var url = await Api.Subscription.getPaymentUrl(
-                                    item.id!);
-
-                                if (url == null) {
-                                  SnackBarExtension.show(
-                                      SnackBarExtension.error(
-                                          AppLocalizations.of(context)!
-                                              .translate('payment.error')));
-                                } else {
-                                  Navigator.of(context, rootNavigator: true)
-                                      .push(MaterialPageRoute(
-                                          builder: (ctx) => PaymentScreen(
-                                                title: loc.translate(
-                                                    'subscription_payment_app_bar'),
-                                                url: url,
-                                                onPaymentDone: () async {
-                                                  await Api.User.refresh(
-                                                      true, true);
-                                                  SnackBarExtension.show(
-                                                      SnackBarExtension.success(
-                                                          loc.translate(
-                                                              'subscription_payment_success'),
-                                                          Duration(
-                                                              seconds: 7)));
-                                                },
-                                                onBrowserClose: () async {
-                                                  await Api.User.refresh(
-                                                      true, true);
-                                                },
-                                              )));
-                                }
-                              },
-                            ));
-                  },
-                ),
+                SubscriptionPlansContainer(),
                 Container(
                   width: double.infinity,
                   child: Text(
@@ -155,7 +114,7 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
             ),
           ),
           SocialAuthService.all
-                  .any((x) => !x.hideFor.contains(SocialAuthOS.IOS))
+                  .any((x) => !x.hideFor.contains(platform))
               ? BlockBaseWidget(
                   margin: EdgeInsets.all(0),
                   header: loc.translate("connected_accounts"),

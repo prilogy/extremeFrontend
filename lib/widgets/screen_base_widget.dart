@@ -53,6 +53,7 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
 
   @override
   Widget build(BuildContext context) {
+
     var forceDefaultAppBar = true;
     Widget content(BuildContext ctx) {
       return Scaffold(
@@ -91,7 +92,7 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
                             header: MaterialClassicHeader(),
                             child: ListView(
                               controller: _scrollController,
-                              padding: EdgeInsets.zero,
+                              padding: widget.padding,
                               children: res as dynamic,
                             ),
                           )

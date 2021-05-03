@@ -1,6 +1,6 @@
 part of models;
 
-class SubscriptionPlan {
+class SubscriptionPlan extends IsWithInAppPurchaseKeys {
   int? id;
   int? duration;
   Content? content;
