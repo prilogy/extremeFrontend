@@ -18,14 +18,19 @@ class Price {
   @override
   String toString() {
     var cur = Currency.all.firstWhereOrNull((x) => x == currency);
-    var val =  value?.toStringAsFixed(value! / value! == 1.0 ? 0 : 2);
-    return cur?.pattern != null ? cur?.pattern?.replaceFirst('{0}', val ?? '') ?? '' : 'Error';
+    var val = value?.toStringAsFixed(value! / value! == 1.0 ? 0 : 2);
+    return cur?.pattern != null
+        ? cur?.pattern?.replaceFirst('{0}', val ?? '') ?? ''
+        : 'Error';
   }
 
   String? discountToString() {
     var cur = Currency.all.firstWhereOrNull((x) => x == currency);
-    var val =  discountValue?.toStringAsFixed(discountValue! / discountValue! == 1.0 ? 0 : 2);
-    return cur?.pattern != null ? cur?.pattern?.replaceFirst('{0}', val!) ?? '' : 'Error';
+    var val = discountValue
+        ?.toStringAsFixed(discountValue! / discountValue! == 1.0 ? 0 : 2);
+    return cur?.pattern != null
+        ? cur?.pattern?.replaceFirst('{0}', val!) ?? ''
+        : 'Error';
   }
 
   Map<String, dynamic> toJson() {
