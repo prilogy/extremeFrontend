@@ -4,22 +4,28 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - FBSDKCoreKit (5.15.1):
-    - FBSDKCoreKit/Basics (= 5.15.1)
-    - FBSDKCoreKit/Core (= 5.15.1)
-  - FBSDKCoreKit/Basics (5.15.1)
-  - FBSDKCoreKit/Core (5.15.1):
+  - FBSDKCoreKit (9.2.0):
+    - FBSDKCoreKit/Basics (= 9.2.0)
+    - FBSDKCoreKit/Core (= 9.2.0)
+  - FBSDKCoreKit/Basics (9.2.0)
+  - FBSDKCoreKit/Core (9.2.0):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (5.15.1):
-    - FBSDKLoginKit/Login (= 5.15.1)
-  - FBSDKLoginKit/Login (5.15.1):
-    - FBSDKCoreKit (~> 5.0)
+  - FBSDKLoginKit (9.2.0):
+    - FBSDKLoginKit/Login (= 9.2.0)
+  - FBSDKLoginKit/Login (9.2.0):
+    - FBSDKCoreKit (~> 9.2.0)
   - Flutter (1.0.0)
-  - flutter_facebook_login (0.0.1):
-    - FBSDKCoreKit (~> 5.5)
-    - FBSDKLoginKit (~> 5.5)
+  - flutter_inapp_purchase (0.0.1):
     - Flutter
   - flutter_inappwebview (0.0.1):
+    - Flutter
+    - flutter_inappwebview/Core (= 0.0.1)
+    - OrderedSet (~> 5.0)
+  - flutter_inappwebview/Core (0.0.1):
+    - Flutter
+    - OrderedSet (~> 5.0)
+  - flutter_login_facebook (0.5.0):
+    - FBSDKLoginKit (~> 9.1)
     - Flutter
   - flutter_login_vk (0.1.0):
     - Flutter
@@ -40,6 +46,7 @@ PODS:
   - GTMSessionFetcher/Core (1.5.0)
   - image_picker (0.0.1):
     - Flutter
+  - OrderedSet (5.0.0)
   - path_provider (0.0.1):
     - Flutter
   - Toast (4.0.0)
@@ -49,8 +56,9 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
+  - flutter_inapp_purchase (from `.symlinks/plugins/flutter_inapp_purchase/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
+  - flutter_login_facebook (from `.symlinks/plugins/flutter_login_facebook/ios`)
   - flutter_login_vk (from `.symlinks/plugins/flutter_login_vk/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
@@ -66,16 +74,19 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
+    - OrderedSet
     - Toast
     - VK-ios-sdk
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  flutter_facebook_login:
-    :path: ".symlinks/plugins/flutter_facebook_login/ios"
+  flutter_inapp_purchase:
+    :path: ".symlinks/plugins/flutter_inapp_purchase/ios"
   flutter_inappwebview:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
+  flutter_login_facebook:
+    :path: ".symlinks/plugins/flutter_login_facebook/ios"
   flutter_login_vk:
     :path: ".symlinks/plugins/flutter_login_vk/ios"
   fluttertoast:
@@ -91,18 +102,20 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  FBSDKCoreKit: 1d5acf7c9d7a2f92bb1a242dc60cae5b7adb91df
-  FBSDKLoginKit: f1ea8026a58b52d30c9f2e6a58ca7d813619fb83
-  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
-  flutter_inappwebview: 69dfbac46157b336ffbec19ca6dfd4638c7bf189
+  FBSDKCoreKit: dace5abafc2fd9272733e6d027bcf18102712117
+  FBSDKLoginKit: 43f377b451d391f5bc9dd774f51a391db1072029
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_inapp_purchase: 5c6a1ac3f11b11d0c8c0321c0c41c1f05805e4c8
+  flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
+  flutter_login_facebook: 41fcf15687d2ce7a75bb89aa3476df54a00845a3
   flutter_login_vk: 9dad26a328a4f2e3fa28347d10ab13afe26f0999
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
   GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-  image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
+  image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
+  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e

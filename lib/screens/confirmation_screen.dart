@@ -19,7 +19,8 @@ class Confirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var store = StoreProvider.of<AppState>(context);
-    final loc = AppLocalizations.of(context)?.withBaseKey('confirmation_screen');
+    final loc =
+        AppLocalizations.of(context)?.withBaseKey('confirmation_screen');
     var theme = Theme.of(context);
     final _formKey = GlobalKey<FormState>();
     TextEditingController _controller = TextEditingController();
@@ -36,7 +37,7 @@ class Confirmation extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: Indents.md),
                   child: Center(
                       child: Text(
-                    loc!.translate('instruction', [store.state.user!.email!]),
+                    loc.translate('instruction', [store.state.user!.email!]),
                     style: Theme.of(context).textTheme.bodyText2,
                     textAlign: TextAlign.center,
                   )),
@@ -74,7 +75,7 @@ class Confirmation extends StatelessWidget {
                         } else {
                           Scaffold.of(context).showSnackBar(
                               SnackBarExtension.error(
-                                  loc!.translate('snackbaar.wrong_code')));
+                                  loc.translate('snackbaar.wrong_code')));
                           Navigator.of(context, rootNavigator: true)
                               .pushNamed('/main');
                         }

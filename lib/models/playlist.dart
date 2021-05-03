@@ -14,11 +14,15 @@ class Playlist {
   int? bestVideoId;
 
   bool get isBought {
-    return isPaid == true && (store.state.user!.saleIds?.playlists?.any((x) => x.entityId == id) ?? false);
+    return isPaid == true &&
+        (store.state.user!.saleIds?.playlists?.any((x) => x.entityId == id) ??
+            false);
   }
 
   bool get isFavorite {
-    return store.state.user!.favoriteIds?.playlists?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.favoriteIds?.playlists
+            ?.any((x) => x.entityId == id) ??
+        false;
   }
 
   bool get isInPreferredLanguage {
@@ -48,7 +52,7 @@ class Playlist {
     id = json['id'];
     dateCreated = DateTime.parse(json['dateCreated']).toLocal();
     likesAmount = json['likesAmount'] ?? 0;
-    entityType = json['entityType']?.toString()?.toLowerCase() ?? '';
+    entityType = json['entityType']?.toString().toLowerCase() ?? '';
     bestVideoId = json['bestVideoId'];
   }
 
