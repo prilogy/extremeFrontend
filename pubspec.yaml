@@ -31,6 +31,7 @@ dependencies:
   vimeoplayer:
     path: ./vimeoplayer
   flutter_inapp_purchase: ^5.0.1
+  in_app_purchase: ^0.5.2
 
 dev_dependencies:
   flutter_test:
