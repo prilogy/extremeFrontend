@@ -6,6 +6,7 @@ import 'package:extreme/lang/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
+import 'package:collection/collection.dart';
 
 class PaymentInAppScreen extends StatefulWidget {
   final IsWithInAppPurchaseKeys keys;
@@ -17,7 +18,7 @@ class PaymentInAppScreen extends StatefulWidget {
 }
 
 class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
-  List<IAPItem> _products = [];
+  IAPItem? _product;
 
   String? get key => Platform.isIOS
       ? widget.keys.appleInAppPurchaseKey
@@ -32,7 +33,9 @@ class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
   void asyncInitState() async {
     if (key == null) return;
     await FlutterInappPurchase.instance.initConnection;
-    _products = await FlutterInappPurchase.instance.getProducts([key!]);
+    var products = await FlutterInappPurchase.instance.getProducts([key!]);
+    _product = products.firstWhereOrNull((x) => x.productId == key);
+    if(_product != null) purchase(_product!);
   }
 
   @override
@@ -41,9 +44,13 @@ class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
     super.dispose();
   }
 
+  void purchase(IAPItem item) {
+    FlutterInappPurchase.instance.requestPurchase(item.productId!);
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (key == null)
+    if (key == null || _product == null)
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         SnackBarExtension.show(SnackBarExtension.error(
             AppLocalizations.of(context)!.translate('payment.error')));
