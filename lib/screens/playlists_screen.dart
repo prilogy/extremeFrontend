@@ -24,8 +24,12 @@ class Playlists extends StatelessWidget {
       appBar: AppBar(title: Text(loc!.translate("playlists"))),
       builderChild: (context) => PaginatedScreenTabView(
         itemListCallback: CustomPaginatedListCallback<Playlist>(
+            pageSize: 15,
             itemsGetter: (page, pageSize) async {
-              return await Api.Entities.getAll<Playlist>(page, pageSize, "desc");
+              var v =
+                  await Api.Entities.getAll<Playlist>(page, pageSize, "desc");
+              print(v.length);
+              return v;
             },
             itemBuilder: (model) => PlayListCard(
                   aspectRatio: 16 / 9,

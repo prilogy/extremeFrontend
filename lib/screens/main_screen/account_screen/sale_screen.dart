@@ -18,7 +18,7 @@ final _config = <PaginatedScreenTab>[
     localizationKey: 'videos',
     itemListCallback: CustomPaginatedListCallback<Video>(
         itemsGetter: (page, pageSize) async {
-          return await processIds<Video>(store.state.user!.saleIds!.videos, page, pageSize, (id, e) => id == e.id);
+          return await processIds<Video>(store.state.user?.saleIds?.videos ?? [], page, pageSize, (id, e) => id == e.id);
         },
         itemBuilder: (model) => VideoCard(
           model: model[0],
@@ -29,7 +29,7 @@ final _config = <PaginatedScreenTab>[
       itemListCallback: CustomPaginatedListCallback<Movie>(
         pageSize: 6,
         itemsGetter: (page, pageSize) async {
-          return await processIds<Movie>(store.state.user!.saleIds!.movies, page, pageSize, (id, e) => id == e.id);
+          return await processIds<Movie>(store.state.user?.saleIds?.movies ?? [], page, pageSize, (id, e) => id == e.id);
         },
         modelListSize: 3,
         itemBuilder: (data) => CustomListBuilder(
@@ -43,7 +43,7 @@ final _config = <PaginatedScreenTab>[
       localizationKey: 'playlists',
       itemListCallback: CustomPaginatedListCallback<Playlist>(
           itemsGetter: (page, pageSize) async {
-            return await processIds<Playlist>(store.state.user!.saleIds!.playlists, page, pageSize, (id, e) => id == e.id);
+            return await processIds<Playlist>(store.state.user?.saleIds?.playlists ?? [], page, pageSize, (id, e) => id == e.id);
           },
           itemBuilder: (model) => PlayListCard(
             aspectRatio: 16 / 9,
@@ -75,7 +75,7 @@ class SaleScreen extends StatelessWidget {
           ),
         ),
         builderChild: (context) => TabBarView(
-          children: <Widget>[for (var item in _config) item.view!],
+          children: <Widget>[for (var item in _config) item.view],
         ),
       ),
     );

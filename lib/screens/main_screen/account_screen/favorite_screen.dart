@@ -13,13 +13,14 @@ import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_pagination_helper/pagination_helper.dart';
 
 final _config = <PaginatedScreenTab>[
   PaginatedScreenTab(
     localizationKey: 'videos',
     itemListCallback: CustomPaginatedListCallback<Video>(
         itemsGetter: (page, pageSize) async {
-          return await processIds<Video>(store.state.user?.favoriteIds?.videos, page, pageSize, (id, e) => id == e.id);
+          return await processIds<Video>(store.state.user?.favoriteIds?.videos ?? [], page, pageSize, (id, e) => id == e.id);
         },
         itemBuilder: (model) => VideoCard(
               model: model[0],
@@ -30,7 +31,7 @@ final _config = <PaginatedScreenTab>[
       itemListCallback: CustomPaginatedListCallback<Movie>(
         pageSize: 6,
         itemsGetter: (page, pageSize) async {
-          return await processIds<Movie>(store.state.user?.favoriteIds?.movies, page, pageSize, (id, e) => id == e.id);
+          return await processIds<Movie>(store.state.user?.favoriteIds?.movies ?? [], page, pageSize, (id, e) => id == e.id);
         },
         modelListSize: 3,
         itemBuilder: (data) => CustomListBuilder(
@@ -44,7 +45,7 @@ final _config = <PaginatedScreenTab>[
       localizationKey: 'playlists',
       itemListCallback: CustomPaginatedListCallback<Playlist>(
           itemsGetter: (page, pageSize) async {
-            return await processIds<Playlist>(store.state.user?.favoriteIds?.playlists, page, pageSize, (id, e) => id == e.id);
+            return await processIds<Playlist>(store.state.user?.favoriteIds?.playlists ?? [], page, pageSize, (id, e) => id == e.id);
           },
           itemBuilder: (model) => PlayListCard(
                 aspectRatio: 16 / 9,
@@ -55,7 +56,7 @@ final _config = <PaginatedScreenTab>[
       itemListCallback: CustomPaginatedListCallback<Sport>(
         modelListSize: 2,
         itemsGetter: (page, pageSize) async {
-          return await processIds<Sport>(store.state.user?.favoriteIds!.sports, page, pageSize, (id, e) => id == e.id);
+          return await processIds<Sport>(store.state.user?.favoriteIds!.sports ?? [], page, pageSize, (id, e) => id == e.id);
         },
         itemBuilder: (data) => CustomListBuilder(
             childAspectRatio: 16 / 9,

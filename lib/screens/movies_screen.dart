@@ -25,7 +25,7 @@ class MoviesList extends StatelessWidget {
 
     return ScreenBaseWidget(
       padding: EdgeInsets.all(0),
-      appBar: AppBar(title: Text(loc!.translate("playlists"))),
+      appBar: AppBar(title: Text(loc!.translate("movies"))),
       builderChild: (context) => PaginatedScreenTabView(
           itemListCallback: CustomPaginatedListCallback<Movie>(
         pageSize: 6,

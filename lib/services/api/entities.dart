@@ -10,14 +10,17 @@ class Entities {
     try {
       var params = _generateParams(page, pageSize, sortByDate);
       var response = await dio.get('/$entityName', queryParameters: params);
+      print(T.toString() + ": " + pageSize.toString() + "->" + (response.data as List<dynamic>).length.toString());
       List<T> entities = [];
       response.data.forEach((v) {
         var toAdd = _entityFromJson<T>(v);
         if(toAdd != null) entities.add(toAdd);
       });
 
+
       return entities;
     } on DioError catch (e) {
+      print(e);
       return [];
     }
   }
@@ -44,16 +47,19 @@ class Entities {
 
     try {
       var body = json.encode(ids);
+      print(body);
       var params = _generateParams(page, pageSize, sortByDate);
       var response =
           await dio.post('/$entityName', queryParameters: params, data: body);
       List<T> entities = [];
+      print(T.toString() + ": " + pageSize.toString() + "->" + (response.data as List<dynamic>).length.toString());
       response.data.forEach((v) {
         var toAdd = _entityFromJson<T>(v);
         if(toAdd != null) entities.add(toAdd);
       });
       return entities;
     } on DioError catch (e) {
+      print(e);
       return null;
     }
   }

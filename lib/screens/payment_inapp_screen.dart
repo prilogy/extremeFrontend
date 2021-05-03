@@ -1,17 +1,14 @@
 import 'dart:io';
 
 import 'package:extreme/classes/is_with_inapp_purchase_keys.dart';
-import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:collection/collection.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 
 class PaymentInAppScreen extends StatefulWidget {
   final IsWithInAppPurchaseKeys keys;
@@ -32,21 +29,7 @@ class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
   @override
   void initState() {
     super.initState();
-    // initState2();
     asyncInitState();
-  }
-
-  final InAppPurchaseConnection _connection = InAppPurchaseConnection.instance;
-
-  void initState2() async {
-    var r = await _connection.isAvailable();
-    if (!r) return;
-    var s = [key!].toSet();
-    print(s.toString());
-    ProductDetailsResponse productDetailResponse =
-        await _connection.queryProductDetails(s);
-
-    print(productDetailResponse.productDetails.toString());
   }
 
   void asyncInitState() async {
@@ -67,7 +50,7 @@ class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
 
   void purchase(IAPItem item) {
     print(item.toString());
-    //FlutterInappPurchase.instance.requestPurchase(item.productId!);
+    FlutterInappPurchase.instance.requestPurchase(item.productId!);
   }
 
   @override

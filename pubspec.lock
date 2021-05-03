@@ -29,6 +29,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
+  carousel_pro:
+    dependency: "direct main"
+    description:
+      path: "packages/flutter-carousel-pro"
+      relative: true
+    source: path
+    version: "2.0.0"
   characters:
     dependency: transitive
     description:
@@ -158,6 +165,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  flutter_pagination_helper:
+    dependency: "direct main"
+    description:
+      path: "packages/flutter-pagination-helper"
+      relative: true
+    source: path
+    version: "2.0.1+2"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -259,13 +273,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  in_app_purchase:
-    dependency: "direct main"
-    description:
-      name: in_app_purchase
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.2"
   intl:
     dependency: transitive
     description:
@@ -280,13 +287,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "4.0.1"
   list_ext:
     dependency: transitive
     description:
@@ -526,7 +526,7 @@ packages:
   vimeoplayer:
     dependency: "direct main"
     description:
-      path: vimeoplayer
+      path: "packages/vimeoplayer"
       relative: true
     source: path
     version: "1.0.0"

@@ -3,38 +3,38 @@ import 'package:extreme/models/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/services/api/main.dart' as Api;
-import 'package:loadmore/loadmore.dart';
+import 'package:flutter_pagination_helper/pagination_helper.dart';
 
 typedef LinqForT<T> = bool Function(int, T);
 
-Future<List<T>> processIds<T>(
-    List<EntityIdItem>? ids, int page, int pageSize, LinqForT<T> linq) async {
-  if(ids == null) return [];
+Future<List<T>> processIds<T>(List<EntityIdItem> ids, int page, int pageSize, LinqForT<T> linq) async {
   ids.sort((a, b) => a.id!.compareTo(b.id!));
   ids = ids.reversed.toList();
   var idsInt = ids.map<int>((e) => e.entityId!).toList();
   var data = await Api.Entities.getByIds<T>(idsInt, page, pageSize);
-  return idsInt.map<T>((e) => data!.firstWhere((y) => linq(e, y))).toList();
+  return data?.toList() ?? [];
+  return idsInt.map<T>((e) => data!.firstWhere((y) => linq(e,y))).toList();
 }
+
 
 class PaginatedScreenTab {
   final String? localizationKey;
-  final PaginatedScreenTabView? view;
-  final CustomPaginatedListCallback? itemListCallback;
+  final PaginatedScreenTabView view;
+  final ItemListCallback itemListCallback;
 
-  PaginatedScreenTab({this.localizationKey, this.itemListCallback})
+  PaginatedScreenTab({this.localizationKey, required this.itemListCallback})
       : view = PaginatedScreenTabView(
-          itemListCallback: itemListCallback!,
-        );
+    itemListCallback: itemListCallback,
+  );
 }
 
 class PaginatedScreenTabView extends StatefulWidget {
-  final CustomPaginatedListCallback? itemListCallback;
+  final ItemListCallback itemListCallback;
 
-  PaginatedScreenTabView({this.itemListCallback});
+  PaginatedScreenTabView({required this.itemListCallback});
 
   @override
-  _PaginatedScreenTabViewState createState() => _PaginatedScreenTabViewState();
+  _PaginatedScreenTabViewState createState() => _PaginatedScreenTabViewState(this.itemListCallback as CustomPaginatedListCallback);
 }
 
 class _PaginatedScreenTabViewState extends State<PaginatedScreenTabView>
@@ -42,17 +42,13 @@ class _PaginatedScreenTabViewState extends State<PaginatedScreenTabView>
   @override
   bool get wantKeepAlive => true;
 
-  CustomPaginatedListCallback? itemListCallback;
+  CustomPaginatedListCallback itemListCallback;
 
-  @override
-  void initState() {
-    super.initState();
-    itemListCallback = widget.itemListCallback;
-  }
+  _PaginatedScreenTabViewState(this.itemListCallback);
 
   @override
   void dispose() {
-    itemListCallback?.page = 1;
+    itemListCallback.page = 1;
     super.dispose();
   }
 
@@ -60,31 +56,14 @@ class _PaginatedScreenTabViewState extends State<PaginatedScreenTabView>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return RefreshIndicator(
-      child: LoadMore(
-        isFinish: itemListCallback?.isFinished ?? true,
-        onLoadMore: itemListCallback!.load,
-        child: ListView.builder(
-          itemBuilder: (BuildContext context, int index) => Container(
-              child:
-                  itemListCallback!.itemBuilder?.call(itemListCallback!.items[index])),
-          itemCount: itemListCallback!.items.length,
+    return PaginatedListWidget(
+      progressWidget: Container(
+        padding: EdgeInsets.symmetric(vertical: Indents.lg),
+        child: Center(
+          child: CircularProgressIndicator(),
         ),
-        whenEmptyLoad: false,
-        delegate: DefaultLoadMoreDelegate(),
-        textBuilder: DefaultLoadMoreTextBuilder.chinese,
       ),
-      onRefresh: itemListCallback!.refresh,
+      itemListCallback: widget.itemListCallback,
     );
-
-    // return PaginatedListWidget(
-    //   progressWidget: Container(
-    //     padding: EdgeInsets.symmetric(vertical: Indents.lg),
-    //     child: Center(
-    //       child: CircularProgressIndicator(),
-    //     ),
-    //   ),
-    //   itemListCallback: widget.itemListCallback,
-    // );
   }
 }
