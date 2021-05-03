@@ -87,9 +87,11 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                         var isSubscribed = user!.isSubscribed;
                         var text = isSubscribed
                             ? loc.translate("expiration", [
-                                state.subscription!.dateEnd?.difference(DateTime.now())
+                                state.subscription!.dateEnd
+                                        ?.difference(DateTime.now())
                                         .inDays
-                                        .toString() ?? ''
+                                        .toString() ??
+                                    ''
                               ])
                             : loc.translate("no_sub");
                         return Text(text);
@@ -98,7 +100,8 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                 CustomFutureBuilder<List<Models.SubscriptionPlan>?>(
                   future: Api.Subscription.getPlans(),
                   builder: (data) {
-                    data?.sort((a, b) => a.price!.value!.compareTo(b.price!.value!));
+                    data?.sort(
+                        (a, b) => a.price!.value!.compareTo(b.price!.value!));
                     return CustomListBuilder(
                         lastItemHasGap: true,
                         items: data,
@@ -111,7 +114,8 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
                                 if (url == null) {
                                   SnackBarExtension.show(
                                       SnackBarExtension.error(
-                                          AppLocalizations.of(context)!.translate('payment.error')));
+                                          AppLocalizations.of(context)!
+                                              .translate('payment.error')));
                                 } else {
                                   Navigator.of(context, rootNavigator: true)
                                       .push(MaterialPageRoute(
@@ -150,19 +154,22 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
               ],
             ),
           ),
-          BlockBaseWidget(
-            margin: EdgeInsets.all(0),
-            header: loc.translate("connected_accounts"),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                for (var item in SocialAuthService.all)
-                  SocialAccount(
-                    service: item,
-                  )
-              ],
-            ),
-          )
+          SocialAuthService.all
+                  .any((x) => !x.hideFor.contains(SocialAuthOS.IOS))
+              ? BlockBaseWidget(
+                  margin: EdgeInsets.all(0),
+                  header: loc.translate("connected_accounts"),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      for (var item in SocialAuthService.all)
+                        SocialAccount(
+                          service: item,
+                        )
+                    ],
+                  ),
+                )
+              : Container()
         ]),
       ],
     );
