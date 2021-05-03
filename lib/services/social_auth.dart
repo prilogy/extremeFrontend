@@ -46,7 +46,7 @@ class FacebookAuthService implements SocialAuthService {
   Color get color => Color(0xff4267B2);
   final FacebookLogin facebookLogin;
 
-  List<SocialAuthOS> get hideFor => [];
+  List<SocialAuthOS> get hideFor => [SocialAuthOS.IOS];
 
   SocialAccountProvider get socialAccount => SocialAccountProvider.facebook;
 

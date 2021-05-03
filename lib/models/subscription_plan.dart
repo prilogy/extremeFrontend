@@ -6,6 +6,8 @@ class SubscriptionPlan {
   Content? content;
   Price? price;
   String? color;
+  String? appleInAppPurchaseKey;
+  String? googleInAppPurchaseKey;
 
   SubscriptionPlan.fromJson(Map<String, dynamic> json) {
     price = json['price'] != null ? new Price.fromJson(json['price']) : null;
@@ -13,6 +15,8 @@ class SubscriptionPlan {
         json['content'] != null ? new Content.fromJson(json['content']) : null;
     color = json['color'];
     id = json['id'];
+    appleInAppPurchaseKey = json['appleInAppPurchaseKey'];
+    googleInAppPurchaseKey = json['googleInAppPurchaseKey'];
   }
 
   Map<String, dynamic> toJson() {
@@ -24,6 +28,8 @@ class SubscriptionPlan {
     data['id'] = this.id;
     data['price'] = this.price.toString();
     data['color'] = this.color;
+    data['appleInAppPurchaseKey'] = appleInAppPurchaseKey;
+    data['googleInAppPurchaseKey'] = googleInAppPurchaseKey;
     return data;
   }
 }
