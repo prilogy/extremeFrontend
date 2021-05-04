@@ -20,9 +20,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
+import 'package:url_launcher/url_launcher.dart';
 import 'package:vimeoplayer/vimeoplayer.dart';
 
 /// Создаёт экран просмотра видео
@@ -36,7 +38,11 @@ class VideoViewScreen extends StatefulWidget {
   _VideoViewScreenState createState() => _VideoViewScreenState();
 }
 
-class _VideoViewScreenState extends State<VideoViewScreen> {
+class _VideoViewScreenState extends State<VideoViewScreen> with AutomaticKeepAliveClientMixin<VideoViewScreen> {
+  @override
+  bool get wantKeepAlive => true;
+
+
   @override
   void dispose() {
     SystemChrome.restoreSystemUIOverlays();
@@ -47,8 +53,9 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final loc = AppLocalizations.of(context)?.withBaseKey('video_view_screen');
-
+    final theme = Theme.of(context);
     final isInOwnedPlaylist = widget.model.isInPaidPlaylist!
         ? store.state.user!.saleIds!.playlists!
             .any((x) => x.entityId == widget.model.playlistId)
@@ -67,7 +74,8 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                   VimeoPlayer(
                       autoPlay: true,
                       id: VimeoHelpers.getVimeoIdFromLink(
-                              widget.model.content?.url) ?? '')
+                              widget.model.content?.url) ??
+                          '')
                 else if (widget.model.isPaid! && !widget.model.isBought)
                   BlockBaseWidget(
                     margin: EdgeInsets.only(top: Indents.md),
@@ -262,10 +270,24 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                       ),
                     ),
                     BlockBaseWidget(
-                      child: Text(
-                          widget.model.content?.description ??
-                              'No description provided',
-                          style: Theme.of(context).textTheme.bodyText2),
+                      // TODO: to custom plugin
+                      child: Linkify(
+                        onOpen: (link) async {
+                          if (await canLaunch(link.url)) {
+                            await launch(link.url);
+                          } else {
+                            throw 'Could not launch $link';
+                          }
+                        },
+                        text: widget.model.content?.description ?? '',
+                        style: theme.textTheme.bodyText2,
+                        linkStyle: theme.textTheme.bodyText2!
+                            .merge(TextStyle(color: theme.colorScheme.primary, decoration: TextDecoration.underline)),
+                      ),
+                      // child: Text(
+                      // widget.model.content?.description ??
+                      //     '',
+                      // style: Theme.of(context).textTheme.bodyText2),
                     ),
                     CustomFutureBuilder<Models.Playlist?>(
                         future: Api.Entities.getById<Models.Playlist>(

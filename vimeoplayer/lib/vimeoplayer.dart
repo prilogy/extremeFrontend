@@ -27,13 +27,16 @@ class VimeoPlayer extends StatefulWidget {
       _VimeoPlayerState(id, autoPlay, looping, position);
 }
 
-class _VimeoPlayerState extends State<VimeoPlayer> {
+class _VimeoPlayerState extends State<VimeoPlayer> with AutomaticKeepAliveClientMixin<VimeoPlayer> {
   String _id;
   bool? autoPlay = false;
   bool? looping = false;
   bool _overlay = true;
   bool fullScreen = false;
   int? position;
+
+  @override
+  bool get wantKeepAlive => true;
 
   _VimeoPlayerState(this._id, this.autoPlay, this.looping, this.position);
 

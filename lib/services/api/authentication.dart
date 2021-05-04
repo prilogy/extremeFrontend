@@ -10,7 +10,7 @@ class Authentication {
     try {
       var response = await dio.post('/auth/login',
           data: {"email": email, "password": password},
-          // options: Options(headers: headers)
+          options: Options(headers: headers)
       );
 
       var user = Models.User.fromJson(response.data);

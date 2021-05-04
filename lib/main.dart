@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:extreme/config/env.dart' as Env;
+import 'package:extreme/helpers/DevHttpOverrides.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/router/main.dart';
@@ -18,6 +21,9 @@ final rootScaffold = GlobalKey<ScaffoldState>();
 final rootNavigator = GlobalKey<NavigatorState>();
 
 void main() async {
+  // for accessing localhost at dev ONLY
+  // HttpOverrides.global = new DevHttpOverrides();
+
   await Env.init("./.env");
   Dio.init();
   await localStorage.ready;
