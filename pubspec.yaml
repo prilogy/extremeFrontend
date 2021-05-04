@@ -29,11 +29,11 @@ dependencies:
   flutter_login_vk: ^1.0.0
   pin_code_fields: ^7.0.0
   vimeoplayer:
-    path: ./packages/vimeoplayer
+    path: ./vimeoplayer
   carousel_pro:
-    path: ./packages/flutter-carousel-pro
+    path: ./flutter-carousel-pro
   flutter_pagination_helper:
-    path: ./packages/flutter-pagination-helper
+    path: ./flutter-pagination-helper
   flutter_inapp_purchase: ^5.0.1
 
 dev_dependencies:
