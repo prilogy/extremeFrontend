@@ -35,7 +35,6 @@ dependencies:
   flutter_pagination_helper:
     path: ./flutter-pagination-helper
   flutter_inapp_purchase: ^5.0.1
-  in_app_purchase: ^0.5.2
   flutter_linkify: ^5.0.2
   url_launcher: ^6.0.3
 

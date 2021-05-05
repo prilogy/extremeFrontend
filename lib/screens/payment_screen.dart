@@ -8,7 +8,6 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -70,7 +69,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)?.withBaseKey('payment');
     var store = StoreProvider.of<AppState>(context).state;
-    if(!browserOpened && store.settings!.currency != Currency.RUB) {
+    if (!browserOpened && store.settings!.currency != Currency.RUB) {
       Fluttertoast.showToast(
           toastLength: Toast.LENGTH_LONG,
           msg: loc!.translate("warning"),

@@ -1,0 +1,34 @@
+{
+  "products" : [
+    {
+      "displayPrice" : "200",
+      "familyShareable" : false,
+      "internalID" : "F360200F",
+      "localizations" : [
+        {
+          "description" : "dffd",
+          "displayName" : "dfdsf",
+          "locale" : "en_US"
+        },
+        {
+          "description" : "Месяц крутого контента!",
+          "displayName" : "План \"Минимум\"",
+          "locale" : "ru"
+        }
+      ],
+      "productID" : "P_MINIMUM",
+      "referenceName" : "План минимум",
+      "type" : "Consumable"
+    }
+  ],
+  "settings" : {
+
+  },
+  "subscriptionGroups" : [
+
+  ],
+  "version" : {
+    "major" : 1,
+    "minor" : 0
+  }
+}

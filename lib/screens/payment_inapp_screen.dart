@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:collection/collection.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
 
 class PaymentInAppScreen extends StatefulWidget {
   final IsWithInAppPurchaseKeys keys;
@@ -30,36 +29,25 @@ class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
   @override
   void initState() {
     super.initState();
-    // asyncInitState();
-    asyncInitState2();
-  }
-
-  void asyncInitState2() async {
-    final bool a = await InAppPurchaseConnection.instance.isAvailable();
-    // Set literals require Dart 2.2. Alternatively, use
-// `Set<String> _kIds = <String>['product1', 'product2'].toSet()`.
-    const Set<String> _kIds = <String>{'product1', 'product2'};
-    final ProductDetailsResponse response =
-        await InAppPurchaseConnection.instance.queryProductDetails(_kIds);
-    if (response.notFoundIDs.isNotEmpty) {
-      // Handle the error.
-      print("NOT EWOKRIN");
-    }
-    List<ProductDetails> products = response.productDetails;
-    print(InAppPurchaseConnection.instance.refreshPurchaseVerificationData());
+    asyncInitState();
   }
 
   void asyncInitState() async {
     if (key == null) return;
-    print(key);
-    print(await FlutterInappPurchase.instance.initConnection);
-    print("xxx" +
-        (await FlutterInappPurchase.instance.clearTransactionIOS() ?? ""));
-    // print(FlutterInappPurchase.instance.getAvailablePurchases());
+    await FlutterInappPurchase.instance.initConnection;
+    setupListeners();
+    print(await FlutterInappPurchase.instance.clearTransactionIOS() ?? "");
     var products = await FlutterInappPurchase.instance.getProducts([key!]);
-    print(products.toString());
     _product = products.firstWhereOrNull((x) => x.productId == key);
     if (_product != null) purchase(_product!);
+  }
+
+  void setupListeners() {
+    var _purchaseUpdatedSubscription =
+        FlutterInappPurchase.purchaseUpdated.listen((item) {
+      print(item.toString());
+      Navigator.of(context).pop();
+    });
   }
 
   @override
