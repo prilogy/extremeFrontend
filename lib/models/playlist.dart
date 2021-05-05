@@ -13,6 +13,9 @@ class Playlist {
   DateTime? dateCreated;
   int? bestVideoId;
 
+  String? appleInAppPurchaseKey;
+  String? googleInAppPurchaseKey;
+
   bool get isBought {
     return isPaid == true &&
         (store.state.user!.saleIds?.playlists?.any((x) => x.entityId == id) ??
@@ -54,6 +57,8 @@ class Playlist {
     likesAmount = json['likesAmount'] ?? 0;
     entityType = json['entityType']?.toString().toLowerCase() ?? '';
     bestVideoId = json['bestVideoId'];
+    appleInAppPurchaseKey = json['appleInAppPurchaseKey'];
+    googleInAppPurchaseKey = json['googleInAppPurchaseKey'];
   }
 
   Map<String, dynamic> toJson() {
@@ -73,6 +78,8 @@ class Playlist {
     data['likesAmount'] = this.likesAmount.toString();
     data['entityType'] = this.entityType.toString();
     data['bestVideoId'] = this.bestVideoId;
+    data['appleInAppPurchaseKey'] = appleInAppPurchaseKey;
+    data['googleInAppPurchaseKey'] = googleInAppPurchaseKey;
     return data;
   }
 }

@@ -30,7 +30,7 @@ class SportScreen extends StatelessWidget {
 
     return ScreenBaseWidget(
         padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-        appBarComplex: (ctx, c) => AppBar(
+        appBar: AppBar(
               actions: <Widget>[
                 StoreConnector<AppState, Models.User>(
                   converter: (store) => store.state.user!,

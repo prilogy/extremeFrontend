@@ -9,6 +9,8 @@ class Movie {
   int? salesAmount;
   int? id;
   DateTime? dateCreated;
+  String? appleInAppPurchaseKey;
+  String? googleInAppPurchaseKey;
 
   bool get isBought {
     return isPaid == true && (store.state.user?.saleIds?.movies?.any((x) => x.entityId == id) ?? false);
@@ -46,6 +48,8 @@ class Movie {
     salesAmount = json['salesAmount'];
     id = json['id'];
     dateCreated = DateTime.parse(json['dateCreated']).toLocal();
+    appleInAppPurchaseKey = json['appleInAppPurchaseKey'];
+    googleInAppPurchaseKey = json['googleInAppPurchaseKey'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +66,8 @@ class Movie {
     data['salesAmount'] = this.salesAmount;
     data['id'] = this.id;
     data['dateCreated'] = this.dateCreated.toString();
+    data['appleInAppPurchaseKey'] = appleInAppPurchaseKey;
+    data['googleInAppPurchaseKey'] = googleInAppPurchaseKey;
     return data;
   }
 }

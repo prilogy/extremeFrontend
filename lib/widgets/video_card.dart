@@ -4,6 +4,7 @@ import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
+import 'package:extreme/widgets/DurationChip.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:flutter_redux/flutter_redux.dart';
@@ -153,54 +154,19 @@ class VideoCardWithoutCaption extends StatelessWidget {
                             id: model?.id,
                           ),
                         ]),
-//Removed as of current state
-//                    Row(
-//                      mainAxisAlignment: MainAxisAlignment.end,
-//                      children: <Widget>[
-//                        VideoDuration(minutes: 7, seconds: 34),
-//                      ],
-//                    ),
+                    if (model?.content?.duration != null)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          DurationChip(content: model!.content!.duration!),
+                        ],
+                      ),
                   ],
                 ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class VideoDuration extends StatelessWidget {
-  final int? hours;
-  final int? minutes;
-  final int? seconds;
-
-  VideoDuration({this.hours = 0, this.minutes, this.seconds});
-
-  String _time(int hours, int minutes, int seconds) {
-    if (hours == 0) {
-      return minutes.toString() + ':' + seconds.toString();
-    } else {
-      return hours.toString() +
-          ':' +
-          minutes.toString() +
-          ':' +
-          seconds.toString();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(Indents.sm / 2),
-      decoration: BoxDecoration(
-        color: Colors.black.withOpacity(0.7),
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
-      child: Text(
-        _time(hours!, minutes!, seconds!),
-        style: Theme.of(context).textTheme.overline,
       ),
     );
   }

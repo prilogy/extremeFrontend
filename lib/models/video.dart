@@ -11,6 +11,9 @@ class Video {
   int? id;
   DateTime? dateCreated;
 
+  String? appleInAppPurchaseKey;
+  String? googleInAppPurchaseKey;
+
   bool get isBought {
     return isPaid == true && (store.state.user!.saleIds?.videos?.any((x) => x.entityId == id) ?? false);
   }
@@ -49,6 +52,8 @@ class Video {
     salesAmount = json['salesAmount'];
     id = json['id'];
     dateCreated = DateTime.parse(json['dateCreated']);
+    appleInAppPurchaseKey = json['appleInAppPurchaseKey'];
+    googleInAppPurchaseKey = json['googleInAppPurchaseKey'];
   }
 
   Map<String, dynamic> toJson() {
@@ -66,6 +71,8 @@ class Video {
     data['salesAmount'] = this.salesAmount;
     data['id'] = this.id;
     data['dateCreated'] = this.dateCreated.toString();
+    data['appleInAppPurchaseKey'] = appleInAppPurchaseKey;
+    data['googleInAppPurchaseKey'] = googleInAppPurchaseKey;
     return data;
   }
 }

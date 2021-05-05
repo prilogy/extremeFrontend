@@ -6,6 +6,7 @@ class Content {
   String? name;
   String? description;
   String? url;
+  String? duration;
 
   Content({this.image, this.culture, this.name, this.description, this.url});
 
@@ -16,6 +17,7 @@ class Content {
     name = json['name'];
     description = json['description'];
     url = json['url'];
+    duration = json['duration'];
   }
 
   Map<String, dynamic> toJson() {
@@ -32,6 +34,7 @@ class Content {
     data['name'] = this.name;
     data['description'] = this.description;
     data['url'] = this.url;
+    data['duration'] = this.duration;
     return data;
   }
 }

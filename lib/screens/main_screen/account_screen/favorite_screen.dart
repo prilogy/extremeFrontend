@@ -13,7 +13,6 @@ import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:flutter/painting.dart';
-import 'package:flutter_pagination_helper/pagination_helper.dart';
 
 final _config = <PaginatedScreenTab>[
   PaginatedScreenTab(

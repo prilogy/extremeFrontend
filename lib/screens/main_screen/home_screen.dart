@@ -1,3 +1,4 @@
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
@@ -17,7 +18,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
-import 'package:carousel_pro/carousel_pro.dart';
 
 /// Домашняя страница пользователя - Главная
 
@@ -164,13 +164,14 @@ class _HeadBannerState extends State<HeadBanner> {
   @override
   Widget build(BuildContext context) {
     banners = widget.banners;
+
     return SizedBox(
       height: MediaQuery.of(context).size.height / 2.5,
       child: Stack(
         children: [
           Carousel(
             images: banners!
-                .map((e) => NetworkImage(e.entityContent?.image?.path ??
+                .map((e) => NetworkImage(e.content?.image?.path ??
                     'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'))
                 .toList(),
             dotSize: Indents.md / 2,

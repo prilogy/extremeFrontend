@@ -37,11 +37,14 @@ dependencies:
   flutter_inapp_purchase: ^5.0.1
   flutter_linkify: ^5.0.2
   url_launcher: ^6.0.3
+  openapi_generator_annotations: ^3.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.9.0
+  openapi_generator: ^3.1.2
+  build_runner: ^2.0.2
 
 flutter_icons:
   android: "launcher_icon"

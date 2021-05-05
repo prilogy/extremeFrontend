@@ -1,0 +1,2304 @@
+openapi: 3.0.1
+info:
+  title: ExtremeInsiders
+  version: '1.0'
+paths:
+  /api/AppleNotification/Payment:
+    post:
+      tags:
+        - AppleNotification
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/ApplePayment'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApplePayment'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/ApplePayment'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/ApplePayment'
+      responses:
+        '200':
+          description: Success
+  /api/Auth/signUp:
+    put:
+      tags:
+        - Auth
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - Email
+                - Password
+              type: object
+              properties:
+                Email:
+                  type: string
+                  format: email
+                Password:
+                  minLength: 6
+                  type: string
+                Name:
+                  type: string
+            encoding:
+              Email:
+                style: form
+              Password:
+                style: form
+              Name:
+                style: form
+      responses:
+        '200':
+          description: Success
+  /api/Auth/logIn:
+    post:
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/LogIn'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogIn'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/LogIn'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/LogIn'
+      responses:
+        '200':
+          description: Success
+  '/api/Auth/logIn/{type}':
+    post:
+      tags:
+        - Auth
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/SocialLogIn'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialLogIn'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/SocialLogIn'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/SocialLogIn'
+      responses:
+        '200':
+          description: Success
+  /api/Auth/refresh:
+    get:
+      tags:
+        - Auth
+      parameters:
+        - name: token
+          in: query
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Success
+  /api/Helper/Banner:
+    get:
+      tags:
+        - Helper
+      responses:
+        '200':
+          description: Success
+  /api/Movie:
+    get:
+      tags:
+        - Movie
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+    post:
+      tags:
+        - Movie
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          text/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/*+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+  /api/Movie/recommended:
+    get:
+      tags:
+        - Movie
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movie'
+  '/api/Movie/{id}':
+    get:
+      tags:
+        - Movie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  '/api/Movie/{id}/search':
+    post:
+      tags:
+        - Movie
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+  /api/Payment/Notification:
+    post:
+      tags:
+        - Payment
+      responses:
+        '200':
+          description: Success
+  /api/Playlist/popular:
+    get:
+      tags:
+        - Playlist
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+  '/api/Playlist/{id}/search':
+    post:
+      tags:
+        - Playlist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+  /api/Playlist:
+    get:
+      tags:
+        - Playlist
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+    post:
+      tags:
+        - Playlist
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          text/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/*+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+  /api/Playlist/recommended:
+    get:
+      tags:
+        - Playlist
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Playlist'
+  '/api/Playlist/{id}':
+    get:
+      tags:
+        - Playlist
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/PromoCode:
+    post:
+      tags:
+        - PromoCode
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+    put:
+      tags:
+        - PromoCode
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+  '/api/Sale/{id}':
+    get:
+      tags:
+        - Sale
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/Search:
+    post:
+      tags:
+        - Search
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+  /api/Search/predict:
+    post:
+      tags:
+        - Search
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+  '/api/Sport/{id}/search':
+    post:
+      tags:
+        - Sport
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+  /api/Sport:
+    get:
+      tags:
+        - Sport
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+    post:
+      tags:
+        - Sport
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          text/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/*+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+  /api/Sport/recommended:
+    get:
+      tags:
+        - Sport
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sport'
+  '/api/Sport/{id}':
+    get:
+      tags:
+        - Sport
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/Subscription:
+    get:
+      tags:
+        - Subscription
+      responses:
+        '200':
+          description: Success
+  '/api/Subscription/{id}':
+    get:
+      tags:
+        - Subscription
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  '/api/User/SocialAccount/{type}':
+    put:
+      tags:
+        - User
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/SocialLogIn'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialLogIn'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/SocialLogIn'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/SocialLogIn'
+      responses:
+        '200':
+          description: Success
+    delete:
+      tags:
+        - User
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+  '/api/User/Like/{id}':
+    get:
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  '/api/User/Favorite/{id}':
+    get:
+      tags:
+        - User
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  /api/User/VerifyEmail:
+    get:
+      tags:
+        - User
+      responses:
+        '200':
+          description: Success
+    post:
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+  /api/User/ResetPassword:
+    post:
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+    patch:
+      tags:
+        - User
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+          text/json:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+          application/*+json:
+            schema:
+              $ref: '#/components/schemas/PasswordReset'
+      responses:
+        '200':
+          description: Success
+  /api/User/ResetPassword/verify:
+    post:
+      tags:
+        - User
+      parameters:
+        - name: verify
+          in: query
+          schema:
+            type: boolean
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+  /api/User/Edit:
+    patch:
+      tags:
+        - User
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                Email:
+                  type: string
+                Name:
+                  type: string
+                AvatarSrc:
+                  type: string
+                  format: binary
+                PhoneNumber:
+                  type: string
+            encoding:
+              Email:
+                style: form
+              Name:
+                style: form
+              AvatarSrc:
+                style: form
+              PhoneNumber:
+                style: form
+      responses:
+        '200':
+          description: Success
+  /api/Video:
+    get:
+      tags:
+        - Video
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+    post:
+      tags:
+        - Video
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          text/json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+          application/*+json:
+            schema:
+              type: array
+              items:
+                type: integer
+                format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+  /api/Video/recommended:
+    get:
+      tags:
+        - Video
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+        - name: orderByDate
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+            text/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Video'
+  '/api/Video/{id}':
+    get:
+      tags:
+        - Video
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+  '/api/Video/{id}/search':
+    post:
+      tags:
+        - Video
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: string
+          application/json:
+            schema:
+              type: string
+          text/json:
+            schema:
+              type: string
+          application/*+json:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Success
+components:
+  schemas:
+    ApplePayment:
+      type: object
+      properties:
+        transactionReceipt:
+          type: string
+          nullable: true
+        entityId:
+          type: integer
+          format: int32
+          nullable: true
+        planId:
+          type: integer
+          format: int32
+          nullable: true
+      additionalProperties: false
+    ConfirmationCode:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        code:
+          type: string
+          nullable: true
+        type:
+          $ref: '#/components/schemas/Types'
+        isConfirmed:
+          type: boolean
+        userId:
+          type: integer
+          format: int32
+        user:
+          $ref: '#/components/schemas/User'
+        dateValidUntil:
+          type: string
+          format: date-time
+      additionalProperties: false
+    Culture:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        key:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Currency:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        key:
+          type: string
+          nullable: true
+      additionalProperties: false
+    EntityBase:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dateCreated:
+          type: string
+          format: date-time
+        entityType:
+          type: string
+          nullable: true
+          readOnly: true
+      additionalProperties: false
+    EntityIdItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        entityId:
+          type: integer
+          format: int32
+      additionalProperties: false
+    EntityIdLists:
+      type: object
+      properties:
+        sports:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityIdItem'
+          nullable: true
+        playlists:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityIdItem'
+          nullable: true
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityIdItem'
+          nullable: true
+        movies:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntityIdItem'
+          nullable: true
+      additionalProperties: false
+    EntityLikeable:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dateCreated:
+          type: string
+          format: date-time
+        entityType:
+          type: string
+          nullable: true
+          readOnly: true
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+          nullable: true
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitySaleablePrice'
+          nullable: true
+        appleInAppPurchaseKey:
+          type: string
+          nullable: true
+        googleInAppPurchaseKey:
+          type: string
+          nullable: true
+        price:
+          $ref: '#/components/schemas/EntitySaleablePrice'
+        isPaid:
+          type: boolean
+          readOnly: true
+        salesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Like'
+          nullable: true
+        likesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+      additionalProperties: false
+    EntitySaleable:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dateCreated:
+          type: string
+          format: date-time
+        entityType:
+          type: string
+          nullable: true
+          readOnly: true
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+          nullable: true
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitySaleablePrice'
+          nullable: true
+        appleInAppPurchaseKey:
+          type: string
+          nullable: true
+        googleInAppPurchaseKey:
+          type: string
+          nullable: true
+        price:
+          $ref: '#/components/schemas/EntitySaleablePrice'
+        isPaid:
+          type: boolean
+          readOnly: true
+        salesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+      additionalProperties: false
+    EntitySaleablePrice:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        value:
+          type: number
+          format: double
+        currencyId:
+          type: integer
+          format: int32
+        currency:
+          $ref: '#/components/schemas/Currency'
+        entityId:
+          type: integer
+          format: int32
+        entity:
+          $ref: '#/components/schemas/EntitySaleable'
+      additionalProperties: false
+    Favorite:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        userId:
+          type: integer
+          format: int32
+        user:
+          $ref: '#/components/schemas/User'
+        entityId:
+          type: integer
+          format: int32
+        entity:
+          $ref: '#/components/schemas/EntityBase'
+      additionalProperties: false
+    Image:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        path:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Like:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        userId:
+          type: integer
+          format: int32
+        user:
+          $ref: '#/components/schemas/User'
+        entityId:
+          type: integer
+          format: int32
+        entity:
+          $ref: '#/components/schemas/EntityLikeable'
+      additionalProperties: false
+    LogIn:
+      required:
+        - email
+        - password
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      additionalProperties: false
+    Movie:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dateCreated:
+          type: string
+          format: date-time
+        entityType:
+          type: string
+          nullable: true
+          readOnly: true
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+          nullable: true
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitySaleablePrice'
+          nullable: true
+        appleInAppPurchaseKey:
+          type: string
+          nullable: true
+        googleInAppPurchaseKey:
+          type: string
+          nullable: true
+        price:
+          $ref: '#/components/schemas/EntitySaleablePrice'
+        isPaid:
+          type: boolean
+          readOnly: true
+        salesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Like'
+          nullable: true
+        likesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        sportId:
+          type: integer
+          format: int32
+        sport:
+          $ref: '#/components/schemas/Sport'
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/MovieTranslation'
+          nullable: true
+        content:
+          $ref: '#/components/schemas/MovieTranslation'
+      additionalProperties: false
+    MovieTranslation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        baseEntityId:
+          type: integer
+          format: int32
+        baseEntity:
+          $ref: '#/components/schemas/Movie'
+        cultureId:
+          type: integer
+          format: int32
+        culture:
+          $ref: '#/components/schemas/Culture'
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        imageId:
+          type: integer
+          format: int32
+          nullable: true
+        image:
+          $ref: '#/components/schemas/Image'
+        duration:
+          type: string
+          nullable: true
+        url:
+          type: string
+          nullable: true
+      additionalProperties: false
+    PasswordReset:
+      required:
+        - code
+        - password
+      type: object
+      properties:
+        code:
+          type: string
+        password:
+          type: string
+      additionalProperties: false
+    Payment:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        key:
+          type: string
+          nullable: true
+        value:
+          type: number
+          format: double
+        status:
+          $ref: '#/components/schemas/PaymentStatus'
+        dateCreated:
+          type: string
+          format: date-time
+        type:
+          $ref: '#/components/schemas/PaymentTypes'
+        providerType:
+          $ref: '#/components/schemas/PaymentProviderTypes'
+        userId:
+          type: integer
+          format: int32
+        user:
+          $ref: '#/components/schemas/User'
+        currencyId:
+          type: integer
+          format: int32
+        currency:
+          $ref: '#/components/schemas/Currency'
+        metadata:
+          type: object
+          additionalProperties:
+            type: string
+          nullable: true
+      additionalProperties: false
+    PaymentProviderTypes:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+    PaymentStatus:
+      enum:
+        - 0
+        - 1
+        - 2
+        - 3
+      type: integer
+      format: int32
+    PaymentTypes:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+    Playlist:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dateCreated:
+          type: string
+          format: date-time
+        entityType:
+          type: string
+          nullable: true
+          readOnly: true
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+          nullable: true
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitySaleablePrice'
+          nullable: true
+        appleInAppPurchaseKey:
+          type: string
+          nullable: true
+        googleInAppPurchaseKey:
+          type: string
+          nullable: true
+        price:
+          $ref: '#/components/schemas/EntitySaleablePrice'
+        isPaid:
+          type: boolean
+          readOnly: true
+        salesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        sportId:
+          type: integer
+          format: int32
+        sport:
+          $ref: '#/components/schemas/Sport'
+        videos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Video'
+          nullable: true
+        videosIds:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+          readOnly: true
+        bestVideoId:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlaylistTranslation'
+          nullable: true
+        content:
+          $ref: '#/components/schemas/PlaylistTranslation'
+        likesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        onlyLocalization:
+          $ref: '#/components/schemas/Culture'
+      additionalProperties: false
+    PlaylistTranslation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        baseEntityId:
+          type: integer
+          format: int32
+        baseEntity:
+          $ref: '#/components/schemas/Playlist'
+        cultureId:
+          type: integer
+          format: int32
+        culture:
+          $ref: '#/components/schemas/Culture'
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        imageId:
+          type: integer
+          format: int32
+          nullable: true
+        image:
+          $ref: '#/components/schemas/Image'
+      additionalProperties: false
+    PromoCode:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        code:
+          type: string
+          nullable: true
+        subscriptionPlanId:
+          type: integer
+          format: int32
+          nullable: true
+        subscriptionPlan:
+          $ref: '#/components/schemas/SubscriptionPlan'
+        entitySaleableId:
+          type: integer
+          format: int32
+          nullable: true
+        entitySaleable:
+          $ref: '#/components/schemas/EntitySaleable'
+        isInfinite:
+          type: boolean
+        isValid:
+          type: boolean
+      additionalProperties: false
+    PromoCodeUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        userId:
+          type: integer
+          format: int32
+        user:
+          $ref: '#/components/schemas/User'
+        promoCodeId:
+          type: integer
+          format: int32
+        promoCode:
+          $ref: '#/components/schemas/PromoCode'
+      additionalProperties: false
+    Role:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        userId:
+          type: integer
+          format: int32
+        user:
+          $ref: '#/components/schemas/User'
+        paymentId:
+          type: integer
+          format: int32
+          nullable: true
+        payment:
+          $ref: '#/components/schemas/Payment'
+        entityId:
+          type: integer
+          format: int32
+        entity:
+          $ref: '#/components/schemas/EntitySaleable'
+      additionalProperties: false
+    SocialAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        key:
+          type: string
+          nullable: true
+        providerId:
+          type: integer
+          format: int32
+        provider:
+          $ref: '#/components/schemas/SocialAccountProvider'
+        userId:
+          type: integer
+          format: int32
+          nullable: true
+        user:
+          $ref: '#/components/schemas/User'
+      additionalProperties: false
+    SocialAccountProvider:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        name:
+          type: string
+          nullable: true
+      additionalProperties: false
+    SocialLogIn:
+      required:
+        - token
+      type: object
+      properties:
+        token:
+          type: string
+      additionalProperties: false
+    Sport:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dateCreated:
+          type: string
+          format: date-time
+        entityType:
+          type: string
+          nullable: true
+          readOnly: true
+        playlists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Playlist'
+          nullable: true
+        movies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Movie'
+          nullable: true
+        bestPlaylistId:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        bestVideoId:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        playlistsIds:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+          readOnly: true
+        moviesIds:
+          type: array
+          items:
+            type: integer
+            format: int32
+          nullable: true
+          readOnly: true
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/SportTranslation'
+          nullable: true
+        content:
+          $ref: '#/components/schemas/SportTranslation'
+      additionalProperties: false
+    SportTranslation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        baseEntityId:
+          type: integer
+          format: int32
+        baseEntity:
+          $ref: '#/components/schemas/Sport'
+        cultureId:
+          type: integer
+          format: int32
+        culture:
+          $ref: '#/components/schemas/Culture'
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        imageId:
+          type: integer
+          format: int32
+          nullable: true
+        image:
+          $ref: '#/components/schemas/Image'
+      additionalProperties: false
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        userId:
+          type: integer
+          format: int32
+        user:
+          $ref: '#/components/schemas/User'
+        dateStart:
+          type: string
+          format: date-time
+        dateEnd:
+          type: string
+          format: date-time
+        planId:
+          type: integer
+          format: int32
+          nullable: true
+        plan:
+          $ref: '#/components/schemas/SubscriptionPlan'
+        paymentId:
+          type: integer
+          format: int32
+          nullable: true
+        payment:
+          $ref: '#/components/schemas/Payment'
+      additionalProperties: false
+    SubscriptionPlan:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        duration:
+          $ref: '#/components/schemas/TimeSpan'
+        appleInAppPurchaseKey:
+          type: string
+          nullable: true
+        googleInAppPurchaseKey:
+          type: string
+          nullable: true
+        color:
+          type: string
+          nullable: true
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionPlanTranslation'
+          nullable: true
+        content:
+          $ref: '#/components/schemas/SubscriptionPlanTranslation'
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionPlanPrice'
+          nullable: true
+        price:
+          $ref: '#/components/schemas/SubscriptionPlanPrice'
+      additionalProperties: false
+    SubscriptionPlanPrice:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        value:
+          type: number
+          format: double
+        discountValue:
+          type: number
+          format: double
+        currencyId:
+          type: integer
+          format: int32
+        currency:
+          $ref: '#/components/schemas/Currency'
+        entityId:
+          type: integer
+          format: int32
+        entity:
+          $ref: '#/components/schemas/SubscriptionPlan'
+      additionalProperties: false
+    SubscriptionPlanTranslation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        baseEntityId:
+          type: integer
+          format: int32
+        baseEntity:
+          $ref: '#/components/schemas/SubscriptionPlan'
+        cultureId:
+          type: integer
+          format: int32
+        culture:
+          $ref: '#/components/schemas/Culture'
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+      additionalProperties: false
+    TimeSpan:
+      type: object
+      properties:
+        ticks:
+          type: integer
+          format: int64
+          readOnly: true
+        days:
+          type: integer
+          format: int32
+          readOnly: true
+        hours:
+          type: integer
+          format: int32
+          readOnly: true
+        milliseconds:
+          type: integer
+          format: int32
+          readOnly: true
+        minutes:
+          type: integer
+          format: int32
+          readOnly: true
+        seconds:
+          type: integer
+          format: int32
+          readOnly: true
+        totalDays:
+          type: number
+          format: double
+          readOnly: true
+        totalHours:
+          type: number
+          format: double
+          readOnly: true
+        totalMilliseconds:
+          type: number
+          format: double
+          readOnly: true
+        totalMinutes:
+          type: number
+          format: double
+          readOnly: true
+        totalSeconds:
+          type: number
+          format: double
+          readOnly: true
+      additionalProperties: false
+    Types:
+      enum:
+        - 0
+        - 1
+      type: integer
+      format: int32
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        email:
+          type: string
+          nullable: true
+        name:
+          type: string
+          nullable: true
+        password:
+          type: string
+          nullable: true
+        hasPassword:
+          type: boolean
+        avatarId:
+          type: integer
+          format: int32
+          nullable: true
+        avatar:
+          $ref: '#/components/schemas/Image'
+        dateBirthday:
+          type: string
+          format: date-time
+        dateSignUp:
+          type: string
+          format: date-time
+        phoneNumber:
+          type: string
+          nullable: true
+        roleId:
+          type: integer
+          format: int32
+        role:
+          $ref: '#/components/schemas/Role'
+        socialAccounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialAccount'
+          nullable: true
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Like'
+          nullable: true
+        favorites:
+          type: array
+          items:
+            $ref: '#/components/schemas/Favorite'
+          nullable: true
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+          nullable: true
+        confirmationCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConfirmationCode'
+          nullable: true
+        subscriptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subscription'
+          nullable: true
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
+          nullable: true
+        promoCodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/PromoCodeUser'
+          nullable: true
+        subscription:
+          $ref: '#/components/schemas/Subscription'
+        cultureId:
+          type: integer
+          format: int32
+        culture:
+          $ref: '#/components/schemas/Culture'
+        currencyId:
+          type: integer
+          format: int32
+        currency:
+          $ref: '#/components/schemas/Currency'
+        emailVerified:
+          type: boolean
+          readOnly: true
+        likeIds:
+          $ref: '#/components/schemas/EntityIdLists'
+        favoriteIds:
+          $ref: '#/components/schemas/EntityIdLists'
+        saleIds:
+          $ref: '#/components/schemas/EntityIdLists'
+        token:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Video:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        dateCreated:
+          type: string
+          format: date-time
+        entityType:
+          type: string
+          nullable: true
+          readOnly: true
+        sales:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sale'
+          nullable: true
+        prices:
+          type: array
+          items:
+            $ref: '#/components/schemas/EntitySaleablePrice'
+          nullable: true
+        appleInAppPurchaseKey:
+          type: string
+          nullable: true
+        googleInAppPurchaseKey:
+          type: string
+          nullable: true
+        price:
+          $ref: '#/components/schemas/EntitySaleablePrice'
+        isPaid:
+          type: boolean
+          readOnly: true
+        salesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        likes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Like'
+          nullable: true
+        likesAmount:
+          type: integer
+          format: int32
+          nullable: true
+          readOnly: true
+        playlistId:
+          type: integer
+          format: int32
+        playlist:
+          $ref: '#/components/schemas/Playlist'
+        isInPaidPlaylist:
+          type: boolean
+          readOnly: true
+        translations:
+          type: array
+          items:
+            $ref: '#/components/schemas/VideoTranslation'
+          nullable: true
+        content:
+          $ref: '#/components/schemas/VideoTranslation'
+      additionalProperties: false
+    VideoTranslation:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        baseEntityId:
+          type: integer
+          format: int32
+        baseEntity:
+          $ref: '#/components/schemas/Video'
+        cultureId:
+          type: integer
+          format: int32
+        culture:
+          $ref: '#/components/schemas/Culture'
+        name:
+          type: string
+          nullable: true
+        description:
+          type: string
+          nullable: true
+        imageId:
+          type: integer
+          format: int32
+          nullable: true
+        image:
+          $ref: '#/components/schemas/Image'
+        duration:
+          type: string
+          nullable: true
+        url:
+          type: string
+          nullable: true
+      additionalProperties: false
