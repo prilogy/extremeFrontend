@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:extreme/config/env.dart' as Env;
-import 'package:extreme/helpers/DevHttpOverrides.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/router/main.dart';
@@ -63,7 +60,9 @@ class App extends StatelessWidget {
                     culture: culture,
                     currency: culture.key == 'en'
                         ? Currency.USD
-                        : culture.key == 'ru' ? Currency.RUB : Currency.USD));
+                        : culture.key == 'ru'
+                            ? Currency.RUB
+                            : Currency.USD));
                 return supp;
               }
             }

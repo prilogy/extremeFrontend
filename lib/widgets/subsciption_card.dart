@@ -6,6 +6,7 @@ import 'package:extreme/styles/intents.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/models/main.dart' as Models;
+import 'package:flutter_inapp_purchase/modules.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SubscriptionCard extends StatelessWidget {
@@ -16,12 +17,14 @@ class SubscriptionCard extends StatelessWidget {
   final double? aspectRatio;
   final VoidCallback? onPressed;
   final Models.SubscriptionPlan? model;
+  final IAPItem? iapItem;
   final bool? isForFree;
 
   SubscriptionCard(
       {this.description,
       this.title,
       this.price,
+      this.iapItem,
       this.aspectRatio,
       this.onPressed,
       this.isForFree = false,
@@ -32,7 +35,7 @@ class SubscriptionCard extends StatelessWidget {
     var color = HexColor.fromHex(model!.color!);
     var discount =
         model!.price!.discountValue != 0 ? model!.price!.discountToString() : 0;
-    var price = model!.price.toString();
+    var price = iapItem?.localizedPrice ?? model!.price.toString();
     var title = model!.content?.name ?? '';
     var desc = model!.content?.description ?? '';
     var loc = AppLocalizations.of(context)?.withBaseKey('subscription');
@@ -92,7 +95,7 @@ class SubscriptionCard extends StatelessWidget {
                         price,
                         style: Theme.of(context).textTheme.subtitle2?.merge(
                             TextStyle(
-                                fontSize: 24,
+                                fontSize: 20,
                                 decoration: isForFree!
                                     ? TextDecoration.lineThrough
                                     : null)),
@@ -109,7 +112,6 @@ class SubscriptionCard extends StatelessWidget {
                             children: <Widget>[
                               isForFree! ? Icon(Icons.check) : Container(),
                               Container(
-                                margin: EdgeInsets.only(left: Indents.sm),
                                 child: Text(loc!.translate(isForFree!
                                     ? 'is_free'
                                     : (isSubscribed ? 'extend' : 'subscribe'))),

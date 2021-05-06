@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:collection/collection.dart';
 import 'package:extreme/classes/is_with_inapp_purchase_keys.dart';
@@ -6,29 +7,41 @@ import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_inapp_purchase/modules.dart';
 
 class IAppPurchaseManager {
-  List<IAPItem>? _iapProducts;
+  IsWithInAppPurchaseKeys? _purchaseModel;
+
+  bool get isAvailable => Platform.isIOS;
+
+  List<IAPItem>? products;
   StreamSubscription<PurchasedItem?>? _purchaseUpdatedSubscription;
   StreamSubscription<PurchaseResult?>? _purchaseErrorSubscription;
 
   List<String>? productKeys;
-  void Function(PurchasedItem?)? onUpdated;
-  void Function(PurchaseResult?)? onError;
+  void Function(PurchasedItem?, IsWithInAppPurchaseKeys?)? onUpdated;
+  void Function(PurchaseResult?, IsWithInAppPurchaseKeys?)? onError;
 
   IAppPurchaseManager({this.productKeys, this.onError, this.onUpdated});
 
   Future init(List<String> productKeys) async {
+    if (!isAvailable) {
+      print("[ In app purchases disabled on current platform ]");
+      return;
+    }
     await FlutterInappPurchase.instance.initConnection;
     _setupListeners();
     print(await FlutterInappPurchase.instance.clearTransactionIOS() ?? "");
-    _iapProducts = await FlutterInappPurchase.instance.getProducts(productKeys);
-    var product =
-        _iapProducts?.firstWhereOrNull((x) => x.productId == 'P_MINIMUM');
-    if (product != null) requestPurchase(product);
+    products = await FlutterInappPurchase.instance.getProducts(productKeys);
   }
 
   void _setupListeners() {
-    _purchaseUpdatedSubscription = FlutterInappPurchase.purchaseUpdated.listen(onUpdated);
-    _purchaseErrorSubscription = FlutterInappPurchase.purchaseError.listen(onError);
+    _purchaseUpdatedSubscription =
+        FlutterInappPurchase.purchaseUpdated.listen((x) {
+      onUpdated?.call(x, _purchaseModel);
+      _purchaseModel = null;
+    });
+    _purchaseErrorSubscription = FlutterInappPurchase.purchaseError.listen((x) {
+      onError?.call(x, _purchaseModel);
+      _purchaseModel = null;
+    });
   }
 
   bool requestPurchase(IAPItem item) {
@@ -41,14 +54,16 @@ class IAppPurchaseManager {
   }
 
   bool requestPurchaseByKey(String key) {
-    var item = _iapProducts?.firstWhereOrNull((x) => x.productId == key);
+    var item = products?.firstWhereOrNull((x) => x.productId == key);
     if (item == null) return false;
     return requestPurchase(item);
   }
 
-  bool requestPurchaseBy(IsWithInAppPurchaseKeys item) {
-    var key = item.getPlatformKey();
-    return key == null ? false : requestPurchaseByKey(key);
+  bool requestPurchaseByModel(IsWithInAppPurchaseKeys item) {
+    var key = item.productId;
+    if (key == null) return false;
+    _purchaseModel = item;
+    return requestPurchaseByKey(key);
   }
 
   Future dispose() async {

@@ -28,7 +28,7 @@ class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
       ? widget.keys.appleInAppPurchaseKey
       : widget.keys.googleInAppPurchaseKey;
 
-@override
+  @override
   void initState() {
     super.initState();
     _iapManager.init(['P_MINIMUM']);
@@ -37,7 +37,7 @@ class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
   @override
   void dispose() async {
     super.dispose();
-    await _iapManager?.dispose();
+    await _iapManager.dispose();
   }
 
   @override
