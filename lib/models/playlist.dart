@@ -1,6 +1,6 @@
 part of models;
 
-class Playlist {
+class Playlist extends IsWithInAppPurchaseKeys {
   int? sportId;
   List<int>? videosIds;
   Content? content;
@@ -12,9 +12,6 @@ class Playlist {
   String? entityType;
   DateTime? dateCreated;
   int? bestVideoId;
-
-  String? appleInAppPurchaseKey;
-  String? googleInAppPurchaseKey;
 
   bool get isBought {
     return isPaid == true &&

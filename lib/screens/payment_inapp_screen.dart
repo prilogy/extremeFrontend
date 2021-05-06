@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:extreme/classes/is_with_inapp_purchase_keys.dart';
+import 'package:extreme/helpers/i_app_purchase_manager.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -21,44 +22,22 @@ class PaymentInAppScreen extends StatefulWidget {
 
 class _PaymentInAppScreenState extends State<PaymentInAppScreen> {
   IAPItem? _product;
+  IAppPurchaseManager _iapManager = new IAppPurchaseManager();
 
   String? get key => Platform.isIOS
       ? widget.keys.appleInAppPurchaseKey
       : widget.keys.googleInAppPurchaseKey;
 
-  @override
+@override
   void initState() {
     super.initState();
-    asyncInitState();
-  }
-
-  void asyncInitState() async {
-    if (key == null) return;
-    await FlutterInappPurchase.instance.initConnection;
-    setupListeners();
-    print(await FlutterInappPurchase.instance.clearTransactionIOS() ?? "");
-    var products = await FlutterInappPurchase.instance.getProducts([key!]);
-    _product = products.firstWhereOrNull((x) => x.productId == key);
-    if (_product != null) purchase(_product!);
-  }
-
-  void setupListeners() {
-    var _purchaseUpdatedSubscription =
-        FlutterInappPurchase.purchaseUpdated.listen((item) {
-      print(item.toString());
-      Navigator.of(context).pop();
-    });
+    _iapManager.init(['P_MINIMUM']);
   }
 
   @override
   void dispose() async {
     super.dispose();
-    await FlutterInappPurchase.instance.endConnection;
-  }
-
-  void purchase(IAPItem item) {
-    print(item.toString());
-    FlutterInappPurchase.instance.requestPurchase(item.productId!);
+    await _iapManager?.dispose();
   }
 
   @override

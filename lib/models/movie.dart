@@ -1,6 +1,6 @@
 part of models;
 
-class Movie {
+class Movie extends IsWithInAppPurchaseKeys {
   int? sportId;
   Content? content;
   int? likesAmount;
@@ -9,8 +9,6 @@ class Movie {
   int? salesAmount;
   int? id;
   DateTime? dateCreated;
-  String? appleInAppPurchaseKey;
-  String? googleInAppPurchaseKey;
 
   bool get isBought {
     return isPaid == true && (store.state.user?.saleIds?.movies?.any((x) => x.entityId == id) ?? false);

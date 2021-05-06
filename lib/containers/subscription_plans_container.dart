@@ -14,7 +14,15 @@ import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/services/api/main.dart' as Api;
 
-class SubscriptionPlansContainer extends StatelessWidget {
+class SubscriptionPlansContainer extends StatefulWidget {
+  @override
+  _SubscriptionPlansContainerState createState() => _SubscriptionPlansContainerState();
+}
+
+
+
+class _SubscriptionPlansContainerState extends State<SubscriptionPlansContainer> {
+
   @override
   Widget build(BuildContext context) {
     return CustomFutureBuilder<List<SubscriptionPlan>?>(
