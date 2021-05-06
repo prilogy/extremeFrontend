@@ -1,4 +1,5 @@
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:extreme/helpers/interfaces.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
@@ -10,6 +11,7 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
+import 'package:extreme/widgets/head_banner.dart';
 import 'package:extreme/widgets/playlist_card.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/sport_card.dart';
@@ -29,11 +31,10 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context)?.withBaseKey('home_screen');
-    // var store = StoreProvider.of<AppState>(context);
 
     return ScreenBaseWidget(
       padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
-      appBarComplex: (ctx, c) => AppBar(
+      appBar: AppBar(
         title: Text('Extreme Insiders'),
         actions: <Widget>[
           IconButton(
@@ -49,12 +50,11 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
         CustomFutureBuilder<List<Models.Banner>?>(
           future: Api.Helper.getBanner(),
           builder: (data) {
+            // print(data![0].entityContent?.image?.path.toString());
             if ((data?.length ?? 0) > 0)
               return Container(
-                margin: EdgeInsets.only(bottom: Indents.md),
-                child: HeadBanner(
-                  banners: data!,
-                ),
+                  margin: EdgeInsets.only(bottom: Indents.md),
+                  child: HeadBanner(data!)
               );
             else {
               return Container();
@@ -70,10 +70,13 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
                   height: 60,
                   items: data,
                   itemBuilder: (item) => SportCard(
-                      model: item as Models.Sport, aspectRatio: 2.5 / 1, small: true))),
+                      model: item as Models.Sport,
+                      aspectRatio: 2.5 / 1,
+                      small: true))),
         ),
         BlockBaseWidget(
-          header: AppLocalizations.of(context)?.translate('helper.users_choice'),
+          header:
+              AppLocalizations.of(context)?.translate('helper.users_choice'),
           child: CustomFutureBuilder<List<Models.Video>?>(
             future: Api.Entities.recommended<Models.Video>(1, 2),
             builder: (data) {
@@ -102,149 +105,6 @@ class HomeScreen extends StatelessWidget implements IWithNavigatorKey {
           ),
         ),
       ],
-    );
-  }
-}
-
-class BannerInformation extends StatelessWidget {
-  final int? id;
-  final Models.Banner? banner;
-
-  const BannerInformation({Key? key, this.id, this.banner}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-              banner?.content?.name ?? banner?.entityContent?.name ?? 'No name',
-              style: Theme.of(context).textTheme.headline6),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: Indents.sm, horizontal: Indents.xl),
-            child: Text(
-              banner?.content?.description ??
-                  banner?.entityContent?.description ??
-                  'No description',
-              maxLines: 4,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          // Text(content?.description ?? 'No description provided',
-          //     style: Theme.of(context).textTheme.bodyText2?.merge(TextStyle(
-          //         color: Theme.of(context)
-          //             .colorScheme
-          //             .onPrimary
-          //             .withOpacity(0.7)))),
-          Container(
-            height: 25,
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class HeadBanner extends StatefulWidget {
-  final List<Models.Banner>? banners;
-
-  HeadBanner({this.banners});
-
-  @override
-  _HeadBannerState createState() => _HeadBannerState();
-}
-
-class _HeadBannerState extends State<HeadBanner> {
-  int index = 0;
-  List<Models.Banner>? banners;
-
-  @override
-  Widget build(BuildContext context) {
-    banners = widget.banners;
-
-    return SizedBox(
-      height: MediaQuery.of(context).size.height / 2.5,
-      child: Stack(
-        children: [
-          Carousel(
-            images: banners!
-                .map((e) => NetworkImage(e.content?.image?.path ??
-                    'https://img3.akspic.ru/image/20093-parashyut-kaskader-kuala_lumpur-vozdushnye_vidy_sporta-ekstremalnyj_vid_sporta-1920x1080.jpg'))
-                .toList(),
-            dotSize: Indents.md / 2,
-            dotSpacing: Indents.lg,
-            dotColor: Theme.of(context).backgroundColor,
-            dotBgColor: Colors.white.withOpacity(0),
-            indicatorBgPadding: 10.0,
-            borderRadius: false,
-            moveIndicatorFromBottom: 180.0,
-            noRadiusForIndicator: true,
-            overlayShadow: true,
-            overlayShadowColors: Theme.of(context).colorScheme.background,
-            overlayShadowSize: 1,
-            onImageTap: (index) async {
-              switch (banners![index].entityType) {
-                case 'video':
-                  var model = await Api.Entities.getById<Models.Video>(
-                      banners![index].entityId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => VideoViewScreen(
-                          model: model as Models.Video,
-                        ),
-                      ));
-                  break;
-                case 'playlist':
-                  var model = await Api.Entities.getById<Models.Playlist>(
-                      banners![index].entityId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PlaylistScreen(
-                          model: model as Models.Playlist,
-                        ),
-                      ));
-                  break;
-                case 'movie':
-                  var model = await Api.Entities.getById<Models.Movie>(
-                      banners![index].entityId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MovieViewScreen(
-                          model: model as Models.Movie,
-                        ),
-                      ));
-                  break;
-                case 'sport':
-                  var model = await Api.Entities.getById<Models.Sport>(
-                      banners![index].entityId);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SportScreen(
-                          model: model as Models.Sport,
-                        ),
-                      ));
-                  break;
-              }
-            },
-            onImageChange: (previous, current) {
-              setState(() {
-                index = current;
-              });
-            },
-          ),
-          BannerInformation(
-            id: index,
-            banner: banners![index],
-          ),
-        ],
-      ),
     );
   }
 }

@@ -6,12 +6,17 @@ import 'package:extreme/classes/is_with_inapp_purchase_keys.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:flutter_inapp_purchase/modules.dart';
 
-class IAppPurchaseManager {
+class IAPManager {
   IsWithInAppPurchaseKeys? _purchaseModel;
 
   bool get isAvailable => Platform.isIOS;
 
   List<IAPItem>? products;
+
+  IAPItem? productById(String? key) => key == null || !isAvailable
+      ? null
+      : products?.firstWhereOrNull((e) => e.productId == key);
+
   StreamSubscription<PurchasedItem?>? _purchaseUpdatedSubscription;
   StreamSubscription<PurchaseResult?>? _purchaseErrorSubscription;
 
@@ -19,17 +24,22 @@ class IAppPurchaseManager {
   void Function(PurchasedItem?, IsWithInAppPurchaseKeys?)? onUpdated;
   void Function(PurchaseResult?, IsWithInAppPurchaseKeys?)? onError;
 
-  IAppPurchaseManager({this.productKeys, this.onError, this.onUpdated});
+  IAPManager({this.productKeys, this.onError, this.onUpdated});
 
-  Future init(List<String> productKeys) async {
+  Future init({List<String>? productKeys}) async {
     if (!isAvailable) {
       print("[ In app purchases disabled on current platform ]");
       return;
     }
+
+    if (productKeys != null) this.productKeys = productKeys;
+
     await FlutterInappPurchase.instance.initConnection;
     _setupListeners();
     print(await FlutterInappPurchase.instance.clearTransactionIOS() ?? "");
-    products = await FlutterInappPurchase.instance.getProducts(productKeys);
+    products = this.productKeys == null
+        ? null
+        : await FlutterInappPurchase.instance.getProducts(this.productKeys!);
   }
 
   void _setupListeners() {

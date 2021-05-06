@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:extreme/helpers/i_app_purchase_manager.dart';
+import 'package:extreme/helpers/purchase_manager.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/apple_payment.dart';
 import 'package:extreme/models/main.dart';
-import 'package:extreme/screens/payment_inapp_screen.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/services/api/main.dart';
 import 'package:collection/collection.dart';
@@ -26,15 +26,19 @@ class _SubscriptionPlansContainerState
     extends State<SubscriptionPlansContainer> {
   bool _isLoaded = false;
   List<SubscriptionPlan>? _plans;
-  final IAppPurchaseManager _iapManager =
-      IAppPurchaseManager(onError: (res, m) {
-    print("IAP Error");
-  }, onUpdated: (item, m) async {
-    print(m.toString());
-    var r = await AppleNotification.payment(ApplePayment(
-        entityId: m?.id, transactionReceipt: item?.transactionReceipt));
-    print(r);
-  });
+
+  final PurchaseManager _purchaseManager = PurchaseManager(
+    urlGetter: (item) => Subscription.getPaymentUrl(item.id!)
+  );
+
+  //     IAppPurchaseManager(onError: (res, m) {
+  //   print("IAP Error");
+  // }, onUpdated: (item, m) async {
+  //   print(m.toString());
+  //   var r = await AppleNotification.payment(ApplePayment(
+  //       entityId: m?.id, transactionReceipt: item?.transactionReceipt));
+  //   print(r);
+  // });
 
   @override
   void initState() {
@@ -46,7 +50,9 @@ class _SubscriptionPlansContainerState
     _plans = (await Subscription.getPlans())
         ?.sorted((a, b) => a.id?.compareTo(b.id ?? 0) ?? -1)
         .toList();
-    await _iapManager.init(_plans!.productKeys);
+
+    await _purchaseManager.init(productKeys: _plans?.productKeys);
+
     setState(() {
       _isLoaded = true;
     });
@@ -60,51 +66,12 @@ class _SubscriptionPlansContainerState
             lastItemHasGap: true,
             items: _plans,
             itemBuilder: (item) => SubscriptionCard(
-                  iapItem: _iapManager.products
-                      ?.firstWhereOrNull((e) => e.productId == item.productId),
+                  iapItem:
+                      _purchaseManager.iapManager?.productById(item.productId),
                   model: item,
                   onPressed: () async {
-                    await processPayment(context, _iapManager, item);
+                    await _purchaseManager.purchase(item, context: context);
                   },
                 ));
   }
-}
-
-Future processPayment(BuildContext context, IAppPurchaseManager iapManager,
-    SubscriptionPlan item) async {
-  if (Platform.isIOS)
-    await processPaymentIOS(iapManager, item);
-  else
-    await processPaymentKassa(context, item);
-}
-
-Future processPaymentIOS(
-    IAppPurchaseManager iapManager, SubscriptionPlan item) async {
-  iapManager.requestPurchaseByModel(item);
-}
-
-Future processPaymentKassa(BuildContext context, SubscriptionPlan item) async {
-  final loc = AppLocalizations.of(context)!.withBaseKey('account_screen');
-  var url = await Subscription.getPaymentUrl(item.id!);
-
-  if (url == null) {
-    SnackBarExtension.show(SnackBarExtension.error(
-        AppLocalizations.of(context)!.translate('payment.error')));
-    return;
-  }
-
-  Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(
-      builder: (ctx) => PaymentScreen(
-            title: loc.translate('subscription_payment_app_bar'),
-            url: url,
-            onPaymentDone: () async {
-              await Api.User.refresh(true, true);
-              SnackBarExtension.show(SnackBarExtension.success(
-                  loc.translate('subscription_payment_success'),
-                  Duration(seconds: 7)));
-            },
-            onBrowserClose: () async {
-              await Api.User.refresh(true, true);
-            },
-          )));
 }

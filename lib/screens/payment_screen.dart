@@ -36,31 +36,36 @@ class _PaymentScreenState extends State<PaymentScreen> {
   bool paymentSuccess = false;
   bool browserOpened = false;
 
+  Future onSuccessScenario() async {
+    setState(() {
+      progressIsActive = true;
+    });
+    await Future.delayed(Duration(seconds: 5));
+    if (paymentSuccess) {
+      await widget.onPaymentDone?.call();
+    } else
+      await widget.onBrowserClose?.call();
+    setState(() {
+      progressIsActive = false;
+    });
+    if (widget.closeOnDone!) Navigator.of(context).pop();
+  }
+
   @override
   void didChangeDependencies() {
     browser.onUrlLoadStart = (ctx, url) async {
-      browserOpened = true;
-      if (url.path.contains('localhost')) {
-        setState(() {
-          paymentSuccess = true;
-        });
+      if(!browserOpened) browserOpened = true;
+      var path = url.toString();
+
+      if (path.contains('success'))
+        setState(() { paymentSuccess = true; });
+      else if(path.contains('localhost')) {
         ctx.close();
       }
     };
-    browser.onBrowserClose = () async {
-      setState(() {
-        progressIsActive = true;
-      });
-      await Future.delayed(Duration(seconds: 5));
-      if (paymentSuccess) {
-        await widget.onPaymentDone?.call();
-      } else
-        await widget.onBrowserClose?.call();
-      setState(() {
-        progressIsActive = false;
-      });
-      if (widget.closeOnDone!) Navigator.of(context).pop();
-    };
+
+    browser.onBrowserClose = onSuccessScenario;
+
     browser.openUrlRequest(urlRequest: URLRequest(url: Uri.parse(widget.url!)));
     super.didChangeDependencies();
   }
