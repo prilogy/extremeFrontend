@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:extreme/classes/is_with_inapp_purchase_keys.dart';
+import 'package:extreme/enums/payment_status.dart';
 import 'package:extreme/helpers/i_app_purchase_manager.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/screens/payment_screen.dart';
+import 'package:extreme/services/api/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
@@ -19,10 +21,11 @@ class PurchaseManager {
 
   void Function(IsWithInAppPurchaseKeys?, PurchasedItem?)? onIapSuccess;
   void Function(IsWithInAppPurchaseKeys?, PurchaseResult?)? onIapError;
+  void Function(PaymentStatus)? onUpdate;
 
   Future<String?> Function(IsWithInAppPurchaseKeys)? urlGetter;
 
-  PurchaseManager({this.iapManager, this.onIapSuccess, this.onIapError, this.urlGetter});
+  PurchaseManager({this.iapManager, this.onIapSuccess, this.onIapError, this.urlGetter, this.onUpdate, this.onRefresh});
 
   Future init({List<String>? productKeys}) async {
     if (iapIsUsed) {
@@ -65,12 +68,9 @@ class PurchaseManager {
         builder: (ctx) => PaymentScreen(
               title: loc.translate('subscription_payment_app_bar'),
               url: url,
-              onPaymentDone: () async {
+              onPaymentDone: (r) async {
                 await onRefresh?.call();
-                SnackBarExtension.show(SnackBarExtension.success(
-                    loc.translate('subscription_payment_success'),
-                    Duration(seconds: 7)));
-                // TODO: implement status checker
+                onUpdate?.call(r);
               },
               onBrowserClose: () async {
                 await onRefresh?.call();

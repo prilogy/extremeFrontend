@@ -45,6 +45,7 @@ class HeadBanner extends StatelessWidget {
         ),
       ),
     );
+
     Widget contentBuilder(Models.Banner e) {
       final heading = e.content?.name ?? e.entityContent?.name;
       final description =
@@ -59,7 +60,7 @@ class HeadBanner extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: Indents.sm),
                 child: Text(heading,
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.headline5
+                    style: theme.textTheme.headline6
                         ?.merge(TextStyle(fontWeight: FontWeight.w600))
                         .merge(_spacedText)),
               ),

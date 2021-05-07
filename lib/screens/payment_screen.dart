@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:extreme/enums/payment_status.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/models/main.dart';
+import 'package:extreme/services/api/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
@@ -15,7 +17,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 class PaymentScreen extends StatefulWidget {
   final String? url;
   final String? title;
-  final Future Function()? onPaymentDone;
+  final Future Function(PaymentStatus)? onPaymentDone;
   final bool? closeOnDone;
   final Future Function()? onBrowserClose;
 
@@ -33,33 +35,50 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   bool progressIsActive = true;
   final browser = MyInAppBrowser();
-  bool paymentSuccess = false;
   bool browserOpened = false;
 
   Future onSuccessScenario() async {
     setState(() {
       progressIsActive = true;
     });
-    await Future.delayed(Duration(seconds: 5));
-    if (paymentSuccess) {
-      await widget.onPaymentDone?.call();
+
+    var result = await validateKassaPayment(widget.url!);
+
+    if (result == PaymentStatus.Success) {
+      await widget.onPaymentDone?.call(result);
     } else
       await widget.onBrowserClose?.call();
+
     setState(() {
       progressIsActive = false;
     });
+
     if (widget.closeOnDone!) Navigator.of(context).pop();
+  }
+
+  final _maxIterations = 7;
+
+  Future<PaymentStatus> validateKassaPayment(String url,
+      [int iteration = 1]) async {
+    var r = await Helper.paymentCheckStatus(url);
+    print('I: ' + iteration.toString() + ", status: " + r.toString());
+    iteration++;
+
+    if (r != PaymentStatus.UpdateRequired || iteration >= _maxIterations)
+      return r;
+    else {
+      await Future.delayed(Duration(seconds: 5));
+      return await validateKassaPayment(url);
+    }
   }
 
   @override
   void didChangeDependencies() {
     browser.onUrlLoadStart = (ctx, url) async {
-      if(!browserOpened) browserOpened = true;
+      if (!browserOpened) browserOpened = true;
       var path = url.toString();
 
-      if (path.contains('success'))
-        setState(() { paymentSuccess = true; });
-      else if(path.contains('localhost')) {
+      if (path.contains('localhost')) {
         ctx.close();
       }
     };

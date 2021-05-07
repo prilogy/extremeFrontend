@@ -84,7 +84,7 @@ class PlaylistScreen extends StatelessWidget {
                                                           'base.playlist'))
                                             ]),
                                             url: url,
-                                            onPaymentDone: () async {
+                                            onPaymentDone: (r) async {
                                               await Api.User.refresh(
                                                   true, true);
                                               var playlist = await Api.Entities

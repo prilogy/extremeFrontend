@@ -6,6 +6,7 @@ class User {
   static Future<Models.User?> refresh(
       [bool token = false, bool updateStore = false]) async {
     try {
+      print('wwewewwee');
       var headers = {
         'Culture': store.state.settings?.culture?.key,
         'Currency': store.state.settings?.currency?.key
@@ -17,7 +18,9 @@ class User {
           },
           options: Options(headers: headers));
 
+      print(store.state.user?.subscription?.dateEnd?.toString());
       var user = Models.User.fromJson(response.data);
+      print(user.subscription?.dateEnd?.toString());
       if (updateStore) store.dispatch(SetUser(user));
       return user;
     } on DioError catch (e) {

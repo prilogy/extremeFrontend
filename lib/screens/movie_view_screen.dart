@@ -87,7 +87,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                                                   .translate('base.movie'))
                                         ]),
                                         url: url,
-                                        onPaymentDone: () async {
+                                        onPaymentDone: (r) async {
                                           await Api.User.refresh(true, true);
                                           var movie = await Api.Entities
                                               .getById<Models.Movie>(

@@ -102,7 +102,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> with AutomaticKeepAli
                                                   .translate('base.video'))
                                         ]),
                                         url: url,
-                                        onPaymentDone: () async {
+                                        onPaymentDone: (r) async {
                                           await Api.User.refresh(true, true);
                                           var video = await Api.Entities
                                               .getById<Models.Video>(

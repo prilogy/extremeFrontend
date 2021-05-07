@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:extreme/enums/payment_status.dart';
 import 'package:extreme/helpers/i_app_purchase_manager.dart';
 import 'package:extreme/helpers/purchase_manager.dart';
 import 'package:extreme/helpers/snack_bar_extension.dart';
@@ -28,17 +29,14 @@ class _SubscriptionPlansContainerState
   List<SubscriptionPlan>? _plans;
 
   final PurchaseManager _purchaseManager = PurchaseManager(
-    urlGetter: (item) => Subscription.getPaymentUrl(item.id!)
-  );
-
-  //     IAppPurchaseManager(onError: (res, m) {
-  //   print("IAP Error");
-  // }, onUpdated: (item, m) async {
-  //   print(m.toString());
-  //   var r = await AppleNotification.payment(ApplePayment(
-  //       entityId: m?.id, transactionReceipt: item?.transactionReceipt));
-  //   print(r);
-  // });
+      urlGetter: (item) => Subscription.getPaymentUrl(item.id!),
+      onRefresh: () async {
+        await Api.User.refresh(true, true);
+      },
+      onIapSuccess: (model, iap) async {
+        await AppleNotification.payment(ApplePayment(
+            entityId: model?.id, transactionReceipt: iap?.transactionReceipt));
+      });
 
   @override
   void initState() {
@@ -60,6 +58,14 @@ class _SubscriptionPlansContainerState
 
   @override
   Widget build(BuildContext context) {
+    _purchaseManager.onUpdate ??= (status) {
+      if (status == PaymentStatus.Success)
+        SnackBarExtension.show(SnackBarExtension.success(
+            AppLocalizations.of(context)!
+                .translate('account_screen.subscription_payment_success'),
+            Duration(seconds: 7)));
+    };
+
     return !_isLoaded
         ? CircularProgressIndicator()
         : CustomListBuilder<SubscriptionPlan>(

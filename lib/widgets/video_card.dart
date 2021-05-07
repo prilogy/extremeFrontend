@@ -4,7 +4,7 @@ import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/styles/intents.dart';
-import 'package:extreme/widgets/DurationChip.dart';
+import 'package:extreme/widgets/duration_chip.dart';
 import 'package:flutter/material.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:flutter_redux/flutter_redux.dart';

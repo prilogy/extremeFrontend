@@ -1,0 +1,1 @@
+enum PaymentStatus { UpdateRequired, Success, Failed }
