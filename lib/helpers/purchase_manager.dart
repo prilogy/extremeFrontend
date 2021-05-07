@@ -12,7 +12,7 @@ import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 
 class PurchaseManager {
-  bool get iapIsUsed => false; //Platform.isIOS;
+  bool get iapIsUsed => Platform.isIOS;
 
   IAPManager? iapManager;
 
