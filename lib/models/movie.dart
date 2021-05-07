@@ -1,25 +1,30 @@
 part of models;
 
-class Movie extends IsWithInAppPurchaseKeys {
+class Movie extends IsSalable {
   int? sportId;
   Content? content;
   int? likesAmount;
-  Price? price;
   bool? isPaid;
   int? salesAmount;
   int? id;
   DateTime? dateCreated;
 
+  @override
   bool get isBought {
-    return isPaid == true && (store.state.user?.saleIds?.movies?.any((x) => x.entityId == id) ?? false);
+    return isPaid == true &&
+        (store.state.user?.saleIds?.movies?.any((x) => x.entityId == id) ??
+            false);
   }
 
   bool get isLiked {
-    return store.state.user!.likeIds?.movies?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.likeIds?.movies?.any((x) => x.entityId == id) ??
+        false;
   }
 
   bool get isFavorite {
-    return store.state.user!.favoriteIds?.movies?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.favoriteIds?.movies
+            ?.any((x) => x.entityId == id) ??
+        false;
   }
 
   bool get isInPreferredLanguage {
@@ -30,7 +35,6 @@ class Movie extends IsWithInAppPurchaseKeys {
       {this.sportId,
       this.content,
       this.likesAmount,
-      this.price,
       this.isPaid,
       this.salesAmount,
       this.id,

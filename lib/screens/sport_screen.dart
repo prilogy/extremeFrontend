@@ -31,26 +31,26 @@ class SportScreen extends StatelessWidget {
     return ScreenBaseWidget(
         padding: EdgeInsets.only(bottom: ScreenBaseWidget.screenBottomIndent),
         appBar: AppBar(
-              actions: <Widget>[
-                StoreConnector<AppState, Models.User>(
-                  converter: (store) => store.state.user!,
-                  builder: (ctx, state) => FavoriteToggler(
-                    id: model.id,
-                    status: model.isFavorite,
-                    noAlign: true,
-                    size: 24,
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true).pushNamed(
-                        '/search_in_entity',
-                        arguments: [model.id, true]);
-                  },
-                ),
-              ],
+          actions: <Widget>[
+            StoreConnector<AppState, Models.User>(
+              converter: (store) => store.state.user!,
+              builder: (ctx, state) => FavoriteToggler(
+                id: model.id,
+                status: model.isFavorite,
+                noAlign: true,
+                size: 24,
+              ),
             ),
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(
+                    '/search_in_entity',
+                    arguments: [model.id, true]);
+              },
+            ),
+          ],
+        ),
         builder: (context) => <Widget>[
               Container(
                   height: MediaQuery.of(context).size.height / 3,
@@ -101,9 +101,8 @@ class SportScreen extends StatelessWidget {
                                       '222'),
                               Stats(
                                   icon: Icons.playlist_play,
-                                  text:
-                                      model.playlistsIds?.length.toString() ??
-                                          '233'),
+                                  text: model.playlistsIds?.length.toString() ??
+                                      '233'),
                             ],
                           ),
                         ),
@@ -115,7 +114,8 @@ class SportScreen extends StatelessWidget {
                 builder: (data) => (data?.length ?? 0) > 0
                     ? BlockBaseWidget.forScrollingViews(
                         header: HelperMethods.capitalizeString(
-                            AppLocalizations.of(context)!.translate('base.movies')),
+                            AppLocalizations.of(context)!
+                                .translate('base.movies')),
                         child: CustomListBuilder(
                             type: CustomListBuilderTypes.horizontalList,
                             connectToStore: true,
@@ -141,16 +141,20 @@ class SportScreen extends StatelessWidget {
                   header: loc!.translate('recommended',
                       [AppLocalizations.of(context)!.translate('base.video')]),
                   child: CustomFutureBuilder<Models.Video?>(
-                      future: Api.Entities.getById<Models.Video>(model.bestVideoId),
+                      future:
+                          Api.Entities.getById<Models.Video>(model.bestVideoId),
                       builder: (data) {
-                        return data != null ? VideoCard(
-                          model: data,
-                        ) : Container();
+                        return data != null
+                            ? VideoCard(
+                                model: data,
+                              )
+                            : Container();
                       })),
               BlockBaseWidget(
                   margin: EdgeInsets.all(0),
                   header: HelperMethods.capitalizeString(
-                      AppLocalizations.of(context)!.translate('base.playlists')),
+                      AppLocalizations.of(context)!
+                          .translate('base.playlists')),
                   child: CustomFutureBuilder<List<Models.Playlist>?>(
                     future: Api.Entities.getByIds<Models.Playlist>(
                         model.playlistsIds!),

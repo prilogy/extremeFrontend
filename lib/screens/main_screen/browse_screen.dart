@@ -25,18 +25,17 @@ class BrowseScreen extends StatelessWidget {
     var loc = AppLocalizations.of(context)?.withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
-        appBarComplex: (ctx, c) => AppBar(
-              title: Text(loc!.translate("browse")),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .pushNamed('/search');
-                  },
-                ),
-              ],
+        appBar: AppBar(
+          title: Text(loc!.translate("browse")),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Navigator.of(context, rootNavigator: true).pushNamed('/search');
+              },
             ),
+          ],
+        ),
         navigatorKey: navigatorKey,
         builder: (context) => [
               Container(
@@ -45,7 +44,7 @@ class BrowseScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CategoryButton(
-                        text: loc!.translate('playlists'),
+                        text: loc.translate('playlists'),
                         icon: Icons.playlist_play,
                         pushTo: Playlists()),
                     CategoryButton(
@@ -59,13 +58,17 @@ class BrowseScreen extends StatelessWidget {
                   child: CustomFutureBuilder<List<Models.Sport>?>(
                       future: Api.Entities.getAll<Models.Sport>(),
                       builder: (data) {
-                        data?.sort((a,b) => a.content!.name!.compareTo(b.content!.name!));
+                        data?.sort((a, b) =>
+                            a.content!.name!.compareTo(b.content!.name!));
                         return CustomListBuilder(
-                            childAspectRatio: 16/9,
+                            childAspectRatio: 16 / 9,
                             type: CustomListBuilderTypes.grid,
                             crossAxisCount: 2,
                             items: data,
-                            itemBuilder: (item) => SportCard(model: item as Models.Sport, margin: EdgeInsets.only(bottom: Indents.sm),));
+                            itemBuilder: (item) => SportCard(
+                                  model: item as Models.Sport,
+                                  margin: EdgeInsets.only(bottom: Indents.sm),
+                                ));
                       })),
               BlockBaseWidget(
                 header: loc.translate('popular_playlists'),

@@ -14,7 +14,7 @@ import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/favorite_toggler.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
-import 'package:extreme/widgets/pay_card.dart';
+import 'package:extreme/widgets/is_salable_pay_card.dart';
 import 'package:extreme/widgets/video_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,11 +38,7 @@ class VideoViewScreen extends StatefulWidget {
   _VideoViewScreenState createState() => _VideoViewScreenState();
 }
 
-class _VideoViewScreenState extends State<VideoViewScreen> with AutomaticKeepAliveClientMixin<VideoViewScreen> {
-  @override
-  bool get wantKeepAlive => true;
-
-
+class _VideoViewScreenState extends State<VideoViewScreen> {
   @override
   void dispose() {
     SystemChrome.restoreSystemUIOverlays();
@@ -53,7 +49,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> with AutomaticKeepAli
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // TODO: отрефакторить UI покупки в апп бар
     final loc = AppLocalizations.of(context)?.withBaseKey('video_view_screen');
     final theme = Theme.of(context);
     final isInOwnedPlaylist = widget.model.isInPaidPlaylist!
@@ -79,60 +75,17 @@ class _VideoViewScreenState extends State<VideoViewScreen> with AutomaticKeepAli
                 else if (widget.model.isPaid! && !widget.model.isBought)
                   BlockBaseWidget(
                     margin: EdgeInsets.only(top: Indents.md),
-                    child: PayCard(
-                      price: widget.model.price,
-                      isBought: widget.model.isBought,
-                      onBuy: () async {
-                        var url =
-                            await Api.Sale.getPaymentUrl(widget.model.id!);
+                    child: IsSalablePayCard(
+                        model: widget.model,
+                        onBuySuccess: () async {
+                          var video = await Api.Entities.getById<Models.Video>(
+                              widget.model.id);
 
-                        if (url == null) {
-                          SnackBarExtension.show(SnackBarExtension.error(
-                              AppLocalizations.of(context)!
-                                  .translate('payment.error')));
-                        } else {
-                          Navigator.of(context, rootNavigator: true)
-                              .push(MaterialPageRoute(
-                                  builder: (ctx) => PaymentScreen(
-                                        title: AppLocalizations.of(context)!
-                                            .translate(
-                                                'payment.app_bar_content', [
-                                          HelperMethods.capitalizeString(
-                                              AppLocalizations.of(context)!
-                                                  .translate('base.video'))
-                                        ]),
-                                        url: url,
-                                        onPaymentDone: (r) async {
-                                          await Api.User.refresh(true, true);
-                                          var video = await Api.Entities
-                                              .getById<Models.Video>(
-                                                  widget.model.id);
-                                          Navigator.of(context).pushReplacement(
-                                              MaterialPageRoute(
-                                                  builder: (ctx) =>
-                                                      VideoViewScreen(
-                                                          model: video as Models
-                                                              .Video)));
-                                          SnackBarExtension.show(
-                                              SnackBarExtension.success(
-                                                  AppLocalizations.of(context)!
-                                                      .translate(
-                                                          'payment.success_for',
-                                                          [
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .translate(
-                                                                'base.video')
-                                                      ]),
-                                                  Duration(seconds: 7)));
-                                        },
-                                        onBrowserClose: () async {
-                                          await Api.User.refresh(true, true);
-                                        },
-                                      )));
-                        }
-                      },
-                    ),
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (ctx) =>
+                                      VideoViewScreen(model: video!)));
+                        }),
                   )
                 else if (widget.model.isInPaidPlaylist!)
                   Flexible(
@@ -206,9 +159,8 @@ class _VideoViewScreenState extends State<VideoViewScreen> with AutomaticKeepAli
                             })),
                     if (widget.model.isBought && widget.model.isPaid!)
                       BlockBaseWidget(
-                        child: PayCard(
-                          isBought: widget.model.isBought,
-                          price: widget.model.price,
+                        child: IsSalablePayCard(
+                          model: widget.model,
                           alignment: MainAxisAlignment.start,
                         ),
                       ),
@@ -281,8 +233,9 @@ class _VideoViewScreenState extends State<VideoViewScreen> with AutomaticKeepAli
                         },
                         text: widget.model.content?.description ?? '',
                         style: theme.textTheme.bodyText2,
-                        linkStyle: theme.textTheme.bodyText2!
-                            .merge(TextStyle(color: theme.colorScheme.primary, decoration: TextDecoration.underline)),
+                        linkStyle: theme.textTheme.bodyText2!.merge(TextStyle(
+                            color: theme.colorScheme.primary,
+                            decoration: TextDecoration.underline)),
                       ),
                       // child: Text(
                       // widget.model.content?.description ??

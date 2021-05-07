@@ -1,6 +1,6 @@
 library models;
 
-
+import 'package:extreme/classes/is_salable.dart';
 import 'package:extreme/classes/is_with_inapp_purchase_keys.dart';
 import 'package:extreme/config/env.dart' as Env;
 import 'package:extreme/services/localstorage.dart';

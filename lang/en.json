@@ -87,6 +87,7 @@
     "account_disconnect_success": "{0} account successfully disconnected",
     "subscription_payment_app_bar": "Subscription payment",
     "subscription_payment_success": "Payment for subscription was successful. Subscription status update might take a few of minutes. You can always refresh status on account screen by pulling it up",
+    
     "edit_email_error": "This email is already in use",
     "no_email_hint": "Enter email so as not to lose your account",
     "no_password_hint": "Enter password to access your account at any time"
@@ -208,7 +209,7 @@
     "exit_hint": "Repeat the action to exit Extreme Insiders"
   },
   "payment": {
-    "error": "Payment service error... Try again later",
+    "error": "Payment service error... Please, try again later",
     "success_for": "Payment for {0} was successful. If purchased content isn't available - wait a few of minutes and update account screen by pulling it up.",
     "app_bar_content": "Content payment",
     "processing": "Processing payment",
@@ -255,7 +256,8 @@
   "pay_card": {
     "buy": "Purchase",
     "owned": "Already purchased",
-    "info": "This content requires addition payment"
+    "info": "This content requires addition payment",
+    "payment_success": "Paid content successfully purchased. Thank you!"
   },
   "about_screen": {
     "description": "The whole world of extreme sports in one app in from riders to riders style.\n\nSnowboarding, FreeSki, Mountain Bike, Motocross, FMX, Skateboarding, in-line skates, BMX and many other extreme sports through the eyes of Extreme insiders are exclusive for you.\n\nAnnouncements, news and reports from the best extreme sports events from all over the world. News and stories about activities, training and performances from the best riders. \n\nExtreme movies, short videos, live broadcasts, edits from riders, interviews, and more. You could find all of this in the Extreme insiders app. \n\nWelcome to the world of extreme sports with Extreme insiders. \n\nNo one rides better than you.",

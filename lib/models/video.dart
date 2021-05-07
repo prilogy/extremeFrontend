@@ -1,42 +1,36 @@
 part of models;
 
-class Video extends IsWithInAppPurchaseKeys {
+class Video extends IsSalable {
   int? playlistId;
   bool? isInPaidPlaylist;
   Content? content;
   int? likesAmount;
-  Price? price;
   bool? isPaid;
   int? salesAmount;
   int? id;
   DateTime? dateCreated;
 
+  @override
   bool get isBought {
-    return isPaid == true && (store.state.user!.saleIds?.videos?.any((x) => x.entityId == id) ?? false);
+    return isPaid == true &&
+        (store.state.user!.saleIds?.videos?.any((x) => x.entityId == id) ??
+            false);
   }
 
   bool get isLiked {
-    return store.state.user!.likeIds?.videos?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.likeIds?.videos?.any((x) => x.entityId == id) ??
+        false;
   }
 
   bool get isFavorite {
-    return store.state.user!.favoriteIds?.videos?.any((x) => x.entityId == id) ?? false;
+    return store.state.user!.favoriteIds?.videos
+            ?.any((x) => x.entityId == id) ??
+        false;
   }
 
   bool get isInPreferredLanguage {
     return store.state.settings!.culture == content?.culture;
   }
-
-  Video(
-      {this.playlistId,
-      this.isInPaidPlaylist,
-      this.content,
-      this.likesAmount,
-      this.price,
-      this.isPaid,
-      this.salesAmount,
-      this.id,
-      this.dateCreated});
 
   Video.fromJson(Map<String, dynamic> json) {
     playlistId = json['playlistId'];

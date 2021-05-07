@@ -12,8 +12,7 @@ class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
 
-  final Widget? appBar;
-  final AppBarBuilderComplex? appBarComplex;
+  final AppBar? appBar;
   final WidgetBuilderChildren? builder;
   final WidgetBuilder? builderChild;
   final Key? navigatorKey;
@@ -33,7 +32,6 @@ class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
       this.builder,
       this.builderChild,
       this.navigatorKey,
-      this.appBarComplex,
       this.onRefresh});
 
   @override
@@ -53,21 +51,9 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-    var forceDefaultAppBar = true;
     Widget content(BuildContext ctx) {
       return Scaffold(
-        appBar: widget.appBar != null
-            ? widget.appBar
-            : widget.appBarComplex != null
-                ? () {
-                    var ab = widget.appBarComplex?.call(ctx, _scrollController)
-                        as dynamic;
-                    return forceDefaultAppBar
-                        ? AppBar(title: ab.title, actions: ab.actions)
-                        : ab;
-                  } ()
-                : EmptyAppBar(),
+        appBar: widget.appBar ?? EmptyAppBar(),
         body: Builder(
           builder: (context) {
             var res = widget.builder == null

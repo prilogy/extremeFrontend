@@ -6,8 +6,6 @@ class SubscriptionPlan extends IsWithInAppPurchaseKeys {
   Content? content;
   Price? price;
   String? color;
-  String? appleInAppPurchaseKey;
-  String? googleInAppPurchaseKey;
 
   SubscriptionPlan.fromJson(Map<String, dynamic> json) {
     price = json['price'] != null ? new Price.fromJson(json['price']) : null;

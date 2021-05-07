@@ -1,10 +1,9 @@
 part of models;
 
-class Playlist extends IsWithInAppPurchaseKeys {
+class Playlist extends IsSalable {
   int? sportId;
   List<int>? videosIds;
   Content? content;
-  Price? price;
   bool? isPaid;
   int? salesAmount;
   int? id;
@@ -33,7 +32,6 @@ class Playlist extends IsWithInAppPurchaseKeys {
       {this.sportId,
       this.videosIds,
       this.content,
-      this.price,
       this.isPaid,
       this.salesAmount,
       this.id,

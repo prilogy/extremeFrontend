@@ -6,7 +6,6 @@ class User {
   static Future<Models.User?> refresh(
       [bool token = false, bool updateStore = false]) async {
     try {
-      print('wwewewwee');
       var headers = {
         'Culture': store.state.settings?.culture?.key,
         'Currency': store.state.settings?.currency?.key
@@ -18,9 +17,7 @@ class User {
           },
           options: Options(headers: headers));
 
-      print(store.state.user?.subscription?.dateEnd?.toString());
       var user = Models.User.fromJson(response.data);
-      print(user.subscription?.dateEnd?.toString());
       if (updateStore) store.dispatch(SetUser(user));
       return user;
     } on DioError catch (e) {
@@ -40,7 +37,7 @@ class User {
   static Future<bool> confirmEmailAttempt(String code) async {
     try {
       var body = json.encode(code);
-      var response = await dio.post('/user/verifyEmail', data: body);
+      await dio.post('/user/verifyEmail', data: body);
       return true;
     } on DioError catch (e) {
       return false;
@@ -56,7 +53,6 @@ class User {
       var response = await dio.patch('/user/edit', data: FormData.fromMap(map));
       return Models.User.fromJson(response.data);
     } on DioError catch (e) {
-
       return null;
     }
   }
@@ -64,7 +60,7 @@ class User {
   /// Переключатель favorite
   static Future<Models.UserAction?> toggleFavorite(int? id) async {
     try {
-      if(id == null) return null;
+      if (id == null) return null;
       var response = await dio.get('/user/favorite/$id');
       return Models.UserAction.fromJson(response.data);
     } on DioError catch (e) {
@@ -75,7 +71,7 @@ class User {
   /// Переключатель like
   static Future<Models.UserAction?> toggleLike(int? id) async {
     try {
-      if(id == null) return null;
+      if (id == null) return null;
       var response = await dio.get('/user/like/$id');
       return Models.UserAction.fromJson(response.data);
     } on DioError catch (e) {
@@ -107,8 +103,7 @@ class User {
   }
 
   /// Попытка смены пароля, после верификации
-  static Future<bool> resetPasswordAttempt(
-      String code, String newPass) async {
+  static Future<bool> resetPasswordAttempt(String code, String newPass) async {
     try {
       var data = {'code': code, 'password': newPass};
       var response = await dio.patch('/user/resetPassword', data: data);

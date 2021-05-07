@@ -1,19 +1,12 @@
-import 'dart:io';
-
-import 'package:extreme/enums/payment_status.dart';
-import 'package:extreme/helpers/i_app_purchase_manager.dart';
 import 'package:extreme/helpers/purchase_manager.dart';
-import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/apple_payment.dart';
 import 'package:extreme/models/main.dart';
-import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/services/api/main.dart';
 import 'package:collection/collection.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/subsciption_card.dart';
 import 'package:flutter/material.dart';
-import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/services/api/main.dart' as Api;
 import 'package:extreme/classes/is_with_inapp_purchase_keys.dart';
 
@@ -28,15 +21,11 @@ class _SubscriptionPlansContainerState
   bool _isLoaded = false;
   List<SubscriptionPlan>? _plans;
 
-  final PurchaseManager _purchaseManager = PurchaseManager(
+  final PurchaseManager _pManager = PurchaseManager(
       urlGetter: (item) => Subscription.getPaymentUrl(item.id!),
-      onRefresh: () async {
-        await Api.User.refresh(true, true);
-      },
-      onIapSuccess: (model, iap) async {
-        await AppleNotification.payment(ApplePayment(
-            entityId: model?.id, transactionReceipt: iap?.transactionReceipt));
-      });
+      onRefresh: () => Api.User.refresh(true, true),
+      onIapSuccess: (model, iap) => AppleNotification.payment(ApplePayment(
+          planId: model?.id, transactionReceipt: iap?.transactionReceipt)));
 
   @override
   void initState() {
@@ -49,7 +38,7 @@ class _SubscriptionPlansContainerState
         ?.sorted((a, b) => a.id?.compareTo(b.id ?? 0) ?? -1)
         .toList();
 
-    await _purchaseManager.init(productKeys: _plans?.productKeys);
+    await _pManager.init(_plans?.productKeys);
 
     setState(() {
       _isLoaded = true;
@@ -58,13 +47,10 @@ class _SubscriptionPlansContainerState
 
   @override
   Widget build(BuildContext context) {
-    _purchaseManager.onUpdate ??= (status) {
-      if (status == PaymentStatus.Success)
-        SnackBarExtension.show(SnackBarExtension.success(
-            AppLocalizations.of(context)!
-                .translate('account_screen.subscription_payment_success'),
-            Duration(seconds: 7)));
-    };
+    final loc = AppLocalizations.of(context)!.translate;
+    _pManager.onSuccessMessage =
+        loc('account_screen.subscription_payment_success');
+    _pManager.onErrorMessage = loc('payment.error');
 
     return !_isLoaded
         ? CircularProgressIndicator()
@@ -72,11 +58,10 @@ class _SubscriptionPlansContainerState
             lastItemHasGap: true,
             items: _plans,
             itemBuilder: (item) => SubscriptionCard(
-                  iapItem:
-                      _purchaseManager.iapManager?.productById(item.productId),
+                  iapItem: _pManager.iapManager?.productById(item.productId),
                   model: item,
                   onPressed: () async {
-                    await _purchaseManager.purchase(item, context: context);
+                    await _pManager.purchase(item, context: context);
                   },
                 ));
   }

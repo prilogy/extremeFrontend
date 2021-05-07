@@ -14,7 +14,7 @@ import 'package:extreme/widgets/custom_list_builder.dart';
 import 'package:extreme/widgets/favorite_toggler.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/movie_card.dart';
-import 'package:extreme/widgets/pay_card.dart';
+import 'package:extreme/widgets/is_salable_pay_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
@@ -27,9 +27,9 @@ import 'package:vimeoplayer/vimeoplayer.dart';
 /// Создаёт экран просмотра видео
 
 class MovieViewScreen extends StatefulWidget {
-  final Models.Movie? model;
+  final Models.Movie model;
 
-  MovieViewScreen({Key? key, @required this.model}) : super(key: key);
+  MovieViewScreen({Key? key, required this.model}) : super(key: key);
 
   @override
   _MovieViewScreenState createState() => _MovieViewScreenState();
@@ -54,67 +54,24 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
             appBar: AppBar(),
             body: ListView(
               children: <Widget>[
-                if (widget.model!.isPaid == false ||
-                    widget.model!.isBought == true)
-                      VimeoPlayer(
-                          autoPlay: true,
-                          id: VimeoHelpers.getVimeoIdFromLink(widget.model?.content?.url) ?? ''
-                        )
-                else if (widget.model!.isPaid == true &&
-                    widget.model!.isBought == false)
+                if (widget.model.isPaid == false ||
+                    widget.model.isBought == true)
+                  VimeoPlayer(
+                      autoPlay: true,
+                      id: VimeoHelpers.getVimeoIdFromLink(
+                              widget.model.content?.url) ??
+                          '')
+                else if (widget.model.isPaid == true &&
+                    widget.model.isBought == false)
                   BlockBaseWidget(
                     margin: EdgeInsets.only(top: Indents.md),
-                    child: PayCard(
-                      price: widget.model!.price,
-                      isBought: widget.model!.isBought,
-                      onBuy: () async {
-                        var url =
-                            await Api.Sale.getPaymentUrl(widget.model!.id!);
-
-                        if (url == null) {
-                          SnackBarExtension.show(SnackBarExtension.error(
-                              AppLocalizations.of(context)!
-                                  .translate('payment.error')));
-                        } else {
-                          Navigator.of(context, rootNavigator: true)
-                              .push(MaterialPageRoute(
-                                  builder: (ctx) => PaymentScreen(
-                                        title: AppLocalizations.of(context)!
-                                            .translate(
-                                                'payment.app_bar_content', [
-                                          HelperMethods.capitalizeString(
-                                              AppLocalizations.of(context)!
-                                                  .translate('base.movie'))
-                                        ]),
-                                        url: url,
-                                        onPaymentDone: (r) async {
-                                          await Api.User.refresh(true, true);
-                                          var movie = await Api.Entities
-                                              .getById<Models.Movie>(
-                                                  widget.model!.id);
-                                          Navigator.of(context).pushReplacement(
-                                              MaterialPageRoute(
-                                                  builder: (ctx) =>
-                                                      MovieViewScreen(
-                                                          model: movie)));
-                                          SnackBarExtension.show(
-                                              SnackBarExtension.success(
-                                                  AppLocalizations.of(context)!
-                                                      .translate(
-                                                          'payment.success_for',
-                                                          [
-                                                        AppLocalizations.of(
-                                                                context)!
-                                                            .translate(
-                                                                'base.movie')
-                                                      ]),
-                                                  Duration(seconds: 7)));
-                                        },
-                                        onBrowserClose: () async {
-                                          await Api.User.refresh(true, true);
-                                        },
-                                      )));
-                        }
+                    child: IsSalablePayCard(
+                      model: widget.model,
+                      onBuySuccess: () async {
+                        var movie = await Api.Entities.getById<Models.Movie>(
+                            widget.model.id);
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: (ctx) => MovieViewScreen(model: movie!)));
                       },
                     ),
                   ),
@@ -123,7 +80,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                   children: [
                     CustomFutureBuilder<Models.Sport?>(
                         future: Api.Entities.getById<Models.Sport>(
-                            widget.model!.sportId),
+                            widget.model.sportId),
                         builder: (data) {
                           return BlockBaseWidget(
                             padding: EdgeInsets.only(
@@ -131,7 +88,7 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                                 left: Indents.md,
                                 right: Indents.md),
                             header:
-                                widget.model?.content?.name ?? 'Название видео',
+                                widget.model.content?.name ?? 'Название видео',
                             child: InkWell(
                               child: Text(data!.content!.name ?? '',
                                   style: Theme.of(context).textTheme.caption),
@@ -151,12 +108,12 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                             signText: loc!.translate('like'),
                             //widget.model?.likesAmount.toString() ?? '224''',
                             icon: Icons.thumb_up,
-                            iconColor: widget.model!.isLiked == true
+                            iconColor: widget.model.isLiked == true
                                 ? Theme.of(context).colorScheme.secondary
                                 : ExtremeColors.base[200]!,
                             onPressed: () async {
                               var userAction = await Api.User.toggleLike(
-                                  widget.model?.id ?? null);
+                                  widget.model.id ?? null);
                               if (userAction != null) {
                                 StoreProvider.of<AppState>(context)
                                     .dispatch(ToggleLike(userAction));
@@ -170,8 +127,8 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 FavoriteToggler(
-                                  id: widget.model!.id,
-                                  status: widget.model!.isFavorite,
+                                  id: widget.model.id,
+                                  status: widget.model.isFavorite,
                                   size: 45,
                                   noAlign: true,
                                 ),
@@ -201,17 +158,16 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                         ],
                       ),
                     ),
-                    if (widget.model!.isBought && widget.model!.isPaid == true)
+                    if (widget.model.isBought && widget.model.isPaid == true)
                       BlockBaseWidget(
-                        child: PayCard(
-                          isBought: widget.model!.isBought,
-                          price: widget.model!.price,
+                        child: IsSalablePayCard(
+                          model: widget.model,
                           alignment: MainAxisAlignment.start,
                         ),
                       ),
                     BlockBaseWidget(
                       child: Text(
-                          widget.model?.content?.description ??
+                          widget.model.content?.description ??
                               'No description provided',
                           style: Theme.of(context).textTheme.bodyText2),
                     ),
@@ -222,10 +178,10 @@ class _MovieViewScreenState extends State<MovieViewScreen> {
                   margin: EdgeInsets.all(0),
                   child: CustomFutureBuilder<Models.Sport?>(
                       future: Api.Entities.getById<Models.Sport>(
-                          widget.model!.sportId),
+                          widget.model.sportId),
                       builder: (data) {
                         List<int> movies = data!.moviesIds!;
-                        movies.remove(widget.model!.id);
+                        movies.remove(widget.model.id);
                         return CustomFutureBuilder<List<Models.Movie>?>(
                             future: Api.Entities.getByIds<Models.Movie>(movies),
                             builder: (moviesData) => CustomListBuilder(
