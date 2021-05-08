@@ -19,6 +19,21 @@
       "productID" : "P_MINIMUM",
       "referenceName" : "План минимум",
       "type" : "Consumable"
+    },
+    {
+      "displayPrice" : "0.99",
+      "familyShareable" : false,
+      "internalID" : "21DA0A78",
+      "localizations" : [
+        {
+          "description" : "333",
+          "displayName" : "222",
+          "locale" : "en_US"
+        }
+      ],
+      "productID" : "e.97",
+      "referenceName" : null,
+      "type" : "NonConsumable"
     }
   ],
   "settings" : {

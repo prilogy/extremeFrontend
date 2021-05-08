@@ -38,27 +38,16 @@ class _SearchScreenState extends State<SearchScreen> {
           title: Container(
             height: 40,
             child: TextField(
+              autofocus: true,
               focusNode: focusNode,
               decoration: InputDecoration(
                   filled: true,
                   fillColor:
-                  Theme
-                      .of(context)
-                      .colorScheme
-                      .background
-                      .withOpacity(0.5),
+                      Theme.of(context).colorScheme.background.withOpacity(0.5),
                   focusColor:
-                  Theme
-                      .of(context)
-                      .colorScheme
-                      .background
-                      .withOpacity(0.5),
+                      Theme.of(context).colorScheme.background.withOpacity(0.5),
                   hoverColor:
-                  Theme
-                      .of(context)
-                      .colorScheme
-                      .background
-                      .withOpacity(0.5),
+                      Theme.of(context).colorScheme.background.withOpacity(0.5),
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -68,10 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   suffixIcon: IconButton(
                     onPressed: () => _searchController.clear(),
                     icon: Icon(Icons.clear),
-                    color: Theme
-                        .of(context)
-                        .colorScheme
-                        .primary,
+                    color: Theme.of(context).colorScheme.primary,
                   )),
               controller: _searchController,
               onChanged: (query) {
@@ -97,114 +83,108 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
         ),
-        builder: (context) =>
-        [
-          isSearch
-              ? CustomFutureBuilder<Models.SearchResult?>(
-              future: Api.Search.global(query: _query),
-              builder: (data) {
-                var _movies = data!.movies!
-                    .map<Widget>((e) =>
-                    MovieCard(
-                        aspectRatio: 16 / 9,
-                        padding:
-                        EdgeInsets.symmetric(vertical: Indents.sm),
-                        model: e))
-                    .toList();
-                var _videos = data.videos!
-                    .map<Widget>((e) =>
-                    VideoCard(
-                      aspectRatio: 16 / 9,
-                      padding: EdgeInsets.symmetric(
-                          vertical: Indents.sm),
-                      model: e,
-                    ))
-                    .toList();
-                var _playlists = data.playlists!
-                    .map<Widget>((e) =>
-                    PlayListCard(
-                        aspectRatio: 16 / 9,
-                        padding:
-                        EdgeInsets.symmetric(vertical: Indents.sm),
-                        model: e))
-                    .toList();
-                var _sports = data.sports!
-                    .map<Widget>((e) =>
-                    SportCard(
-                      aspectRatio: 16 / 9,
-                      model: e,
-                      padding: EdgeInsets.symmetric(
-                          vertical: Indents.sm),
-                    ))
-                    .toList();
-                mass = [
-                  _videos.isNotEmpty
-                      ? CategoryBlock(
-                    header: loc.translate("videos"),
-                    cards: [..._videos],
-                  )
-                      : Container(),
-                  _playlists.isNotEmpty
-                      ? CategoryBlock(
-                    header: loc.translate("playlists"),
-                    cards: [..._playlists],
-                  )
-                      : Container(),
-                  _movies.isNotEmpty
-                      ? CategoryBlock(
-                    header: loc.translate("movies"),
-                    cards: [..._movies],
-                  )
-                      : Container(),
-                  _sports.isNotEmpty
-                      ? CategoryBlock(
-                    header: loc.translate("sports"),
-                    cards: [..._sports],
-                    grid: true,
-                  )
-                      : Container(),
-                ];
-                return Column(
-                  children: mass!,
-                );
-              })
-              : (_query?.length ?? 0) > 1
-              ? CustomFutureBuilder<List<dynamic>?>(
-            future: Api.Search.predict(query: _query),
-            builder: (data) =>
-                Row(children: [
-                  Flexible(
-                    child: Column(
-                      children: <Widget>[
-                        for (var item in data!)
-                          SearchHint(
-                            text: item,
-                            onPressed: () {
-                              setState(() {
-                                _searchController.text = item;
-                                _searchController.selection =
-                                    TextSelection.fromPosition(
-                                        TextPosition(
-                                            offset: _searchController
-                                                .text.length));
-                              });
-                            },
-                            onIconTap: () {
-                              setState(() {
-                                _searchController.text = item;
-                                isSearch = true;
-                                _query = item;
-                                focusNode.unfocus();
-                              });
-                            },
-                          )
-                      ],
-                    ),
-                  ),
-                ]),
-          )
-              : Container()
-        ]);
+        builder: (context) => [
+              isSearch
+                  ? CustomFutureBuilder<Models.SearchResult?>(
+                      future: Api.Search.global(query: _query),
+                      builder: (data) {
+                        var _movies = data!.movies!
+                            .map<Widget>((e) => MovieCard(
+                                aspectRatio: 16 / 9,
+                                padding:
+                                    EdgeInsets.symmetric(vertical: Indents.sm),
+                                model: e))
+                            .toList();
+                        var _videos = data.videos!
+                            .map<Widget>((e) => VideoCard(
+                                  aspectRatio: 16 / 9,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: Indents.sm),
+                                  model: e,
+                                ))
+                            .toList();
+                        var _playlists = data.playlists!
+                            .map<Widget>((e) => PlayListCard(
+                                aspectRatio: 16 / 9,
+                                padding:
+                                    EdgeInsets.symmetric(vertical: Indents.sm),
+                                model: e))
+                            .toList();
+                        var _sports = data.sports!
+                            .map<Widget>((e) => SportCard(
+                                  aspectRatio: 16 / 9,
+                                  model: e,
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: Indents.sm),
+                                ))
+                            .toList();
+                        mass = [
+                          _videos.isNotEmpty
+                              ? CategoryBlock(
+                                  header: loc.translate("videos"),
+                                  cards: [..._videos],
+                                )
+                              : Container(),
+                          _playlists.isNotEmpty
+                              ? CategoryBlock(
+                                  header: loc.translate("playlists"),
+                                  cards: [..._playlists],
+                                )
+                              : Container(),
+                          _movies.isNotEmpty
+                              ? CategoryBlock(
+                                  header: loc.translate("movies"),
+                                  cards: [..._movies],
+                                )
+                              : Container(),
+                          _sports.isNotEmpty
+                              ? CategoryBlock(
+                                  header: loc.translate("sports"),
+                                  cards: [..._sports],
+                                  grid: true,
+                                )
+                              : Container(),
+                        ];
+                        return Column(
+                          children: mass!,
+                        );
+                      })
+                  : (_query?.length ?? 0) > 1
+                      ? CustomFutureBuilder<List<dynamic>?>(
+                          future: Api.Search.predict(query: _query),
+                          builder: (data) => Row(children: [
+                            Flexible(
+                              child: Column(
+                                children: <Widget>[
+                                  for (var item in data!)
+                                    SearchHint(
+                                      text: item,
+                                      onPressed: () {
+                                        setState(() {
+                                          _searchController.text = item;
+                                          _searchController.selection =
+                                              TextSelection.fromPosition(
+                                                  TextPosition(
+                                                      offset: _searchController
+                                                          .text.length));
+                                        });
+                                      },
+                                      onIconTap: () {
+                                        setState(() {
+                                          _searchController.text = item;
+                                          isSearch = true;
+                                          _query = item;
+                                          focusNode.unfocus();
+                                        });
+                                      },
+                                    )
+                                ],
+                              ),
+                            ),
+                          ]),
+                        )
+                      : Container()
+            ]);
   }
 }
 
@@ -251,10 +231,11 @@ class SearchHint extends StatelessWidget {
   /// Функция, которая должна выполняться по нажатию на стрелку (иконка справа)
   final Function? onIconTap;
 
-  const SearchHint({Key? key,
-    @required this.text,
-    @required this.onPressed,
-    @required this.onIconTap})
+  const SearchHint(
+      {Key? key,
+      @required this.text,
+      @required this.onPressed,
+      @required this.onIconTap})
       : super(key: key);
 
   @override
@@ -279,11 +260,7 @@ class SearchHint extends StatelessWidget {
       ),
       trailing: IconButton(
         icon: Icon(Icons.arrow_upward),
-        color: Theme
-            .of(context)
-            .colorScheme
-            .onPrimary
-            .withOpacity(0.7),
+        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
         onPressed: () {
           onPressed?.call();
         },

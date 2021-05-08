@@ -12,6 +12,7 @@ import 'package:extreme/styles/intents.dart';
 import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/custom_future_builder.dart';
 import 'package:extreme/widgets/custom_list_builder.dart';
+import 'package:extreme/widgets/entity_nav_chip.dart';
 import 'package:extreme/widgets/favorite_toggler.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/widgets/is_salable_pay_card.dart';
@@ -121,42 +122,8 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                             left: Indents.md,
                             right: Indents.md),
                         header: widget.model.content?.name ?? 'Название видео',
-                        child: CustomFutureBuilder<Models.Playlist?>(
-                            future: Api.Entities.getById<Models.Playlist>(
-                                widget.model.playlistId),
-                            builder: (data) {
-                              return CustomFutureBuilder<Models.Sport?>(
-                                  future: Api.Entities.getById<Models.Sport>(
-                                      data!.sportId),
-                                  builder: (sportData) {
-                                    return Row(
-                                      children: <Widget>[
-                                        InkWell(
-                                          child:
-                                              Text(sportData!.content!.name!),
-                                          onTap: () {
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  SportScreen(model: sportData),
-                                            ));
-                                          },
-                                        ),
-                                        Text(' - '),
-                                        InkWell(
-                                          child: Text(data.content!.name!),
-                                          onTap: () {
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PlaylistScreen(model: data),
-                                            ));
-                                          },
-                                        )
-                                      ],
-                                    );
-                                  });
-                            })),
+                        child:
+                            EntityNavChip(playlistId: widget.model.playlistId)),
                     if (widget.model.isBought && widget.model.isPaid!)
                       BlockBaseWidget(
                         child: IsSalablePayCard(

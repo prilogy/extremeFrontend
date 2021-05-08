@@ -39,6 +39,8 @@ class _IsSalablePayCardState extends State<IsSalablePayCard> {
 
   void asyncInitState() async {
     final productId = widget.model.productId;
+    print(productId);
+
     await _pManager.init(productId != null ? [productId] : []);
     _pManager.onIapSuccess = (model, iap) async {
       final r = await AppleNotification.payment(ApplePayment(
@@ -48,6 +50,7 @@ class _IsSalablePayCardState extends State<IsSalablePayCard> {
     };
 
     setState(() {
+      print(_pManager.iapManager?.products.toString() ?? '');
       _iapItem = _pManager.iapManager?.productById(productId);
       _isLoaded = true;
     });
