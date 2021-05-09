@@ -1,5 +1,6 @@
 import 'package:extreme/helpers/indents_mixin.dart';
 import 'package:extreme/styles/intents.dart';
+import 'package:extreme/widgets/container_centered_with_max_width.dart';
 import 'package:extreme/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -11,6 +12,7 @@ typedef AppBarBuilderComplex = Widget Function(
 class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
+  final bool maxWidthAndCenter;
 
   final AppBar? appBar;
   final WidgetBuilderChildren? builder;
@@ -32,6 +34,7 @@ class ScreenBaseWidget extends StatefulWidget with IndentsMixin {
       this.builder,
       this.builderChild,
       this.navigatorKey,
+      this.maxWidthAndCenter = true,
       this.onRefresh});
 
   @override
@@ -56,37 +59,43 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
         appBar: widget.appBar ?? EmptyAppBar(),
         body: Builder(
           builder: (context) {
-            var res = widget.builder == null
+            var res = (widget.builder == null
                 ? widget.builderChild?.call(context)
-                : widget.builder?.call(context);
+                : widget.builder?.call(context)) as dynamic;
 
             return SafeArea(
                 top: true,
                 left: true,
                 right: true,
                 bottom: true,
-                child: widget.builder == null
-                    ? Container(padding: widget.padding, child: res as dynamic)
-                    : widget.onRefresh != null
-                        ? SmartRefresher(
-                            controller: _refreshController,
-                            enablePullUp: false,
-                            onRefresh: () async {
-                              await widget.onRefresh?.call();
-                              _refreshController.refreshCompleted();
-                            },
-                            header: MaterialClassicHeader(),
-                            child: ListView(
-                              controller: _scrollController,
-                              padding: widget.padding,
-                              children: res as dynamic,
-                            ),
-                          )
-                        : ListView(
-                            controller: _scrollController,
-                            padding: widget.padding,
-                            children: res as dynamic,
-                          ));
+                child: Center(
+                  child: ContainerCenteredWithMaxWidth(
+                      maxWidth: widget.maxWidthAndCenter == true
+                          ? ContainerCenteredWithMaxWidth.constMaxWidth
+                          : null,
+                      child: widget.builder == null
+                          ? res
+                          : widget.onRefresh != null
+                              ? SmartRefresher(
+                                  controller: _refreshController,
+                                  enablePullUp: false,
+                                  onRefresh: () async {
+                                    await widget.onRefresh?.call();
+                                    _refreshController.refreshCompleted();
+                                  },
+                                  header: MaterialClassicHeader(),
+                                  child: ListView(
+                                    controller: _scrollController,
+                                    padding: widget.padding,
+                                    children: res as dynamic,
+                                  ),
+                                )
+                              : ListView(
+                                  controller: _scrollController,
+                                  padding: widget.padding,
+                                  children: res as dynamic,
+                                )),
+                ));
           },
         ),
       );

@@ -12,6 +12,7 @@ import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/styles/intents.dart';
+import 'package:extreme/widgets/container_centered_with_max_width.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -56,6 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
             : null;
 
     return ScreenBaseWidget(
+        maxWidthAndCenter: false,
         padding: EdgeInsets.all(0),
         builderChild: (context) => Stack(
               children: [
@@ -70,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 )),
                 Container(
                   color: ExtremeColors.base.withOpacity(0.7),
-                  child: Column(
-                    children: <Widget>[
+                  child: ContainerCenteredWithMaxWidth(
+                    child: Column(children: <Widget>[
                       Container(
                           height: MediaQuery.of(context).size.height / 4,
                           alignment: Alignment.bottomCenter,
@@ -172,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       )
-                    ],
+                    ]),
                   ),
                 ),
               ],
@@ -197,7 +199,8 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     store.dispatch(SetUser(user));
-    store.dispatch(SetSettings(culture: user.culture!, currency: user.currency!));
+    store.dispatch(
+        SetSettings(culture: user.culture!, currency: user.currency!));
     Navigator.of(context, rootNavigator: true).pushNamed('/main');
   }
 }
