@@ -15,6 +15,7 @@ import 'package:extreme/widgets/block_base_widget.dart';
 import 'package:extreme/widgets/screen_base_widget.dart';
 import 'package:extreme/widgets/settings_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -127,7 +128,7 @@ class SettingsScreen extends StatelessWidget {
                       },
                     ),
                     Text(
-                      loc.translate('version', ["1.1"]),
+                      loc.translate('version', [config?.VERSION ?? '']),
                       style: Theme.of(context)
                           .textTheme
                           .bodyText1

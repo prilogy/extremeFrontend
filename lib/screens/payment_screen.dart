@@ -68,7 +68,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       return r;
     else {
       await Future.delayed(Duration(seconds: 5));
-      return await validateKassaPayment(url);
+      return await validateKassaPayment(url, iteration);
     }
   }
 

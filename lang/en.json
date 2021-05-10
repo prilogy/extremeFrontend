@@ -101,7 +101,7 @@
     "about": "About application",
     "reset_pass": "Reset password",
     "exit": "Exit",
-    "version": "Version: {0}",
+    "version": "Version {0}",
     "by": "Developed by Prilogy",
     "restart_hint": "Restart application to apply changes"
   },

@@ -39,7 +39,6 @@ class _IsSalablePayCardState extends State<IsSalablePayCard> {
 
   void asyncInitState() async {
     final productId = widget.model.productId;
-    print(productId);
 
     await _pManager.init(productId != null ? [productId] : []);
     _pManager.onIapSuccess = (model, iap) async {
