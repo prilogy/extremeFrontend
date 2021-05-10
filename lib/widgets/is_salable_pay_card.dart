@@ -44,7 +44,7 @@ class _IsSalablePayCardState extends State<IsSalablePayCard> {
     await _pManager.init(productId != null ? [productId] : []);
     _pManager.onIapSuccess = (model, iap) async {
       final r = await AppleNotification.payment(ApplePayment(
-          planId: model?.id, transactionReceipt: iap?.transactionReceipt));
+          entityId: model?.id, transactionReceipt: iap?.transactionReceipt));
       if (r) widget.onBuySuccess?.call();
       return r;
     };
