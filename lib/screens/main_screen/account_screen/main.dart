@@ -39,13 +39,14 @@ class AccountScreen extends StatelessWidget implements IWithNavigatorKey {
       appBar: AppBar(
         title: Text(loc!.translate("app_bar")),
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.local_activity),
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => PromoScreen()));
-            },
-          ),
+          if (!Platform.isIOS)
+            IconButton(
+              icon: Icon(Icons.local_activity),
+              onPressed: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => PromoScreen()));
+              },
+            ),
           if (user!.isSubscribed)
             IconButton(
               icon: Icon(Icons.attach_money),
