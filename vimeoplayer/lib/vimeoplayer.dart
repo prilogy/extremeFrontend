@@ -97,6 +97,8 @@ class _VimeoPlayerState extends State<VimeoPlayer> with AutomaticKeepAliveClient
   //Отрисовываем элементы плеера
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Center(
         child: Stack(
           alignment: AlignmentDirectional.center,
