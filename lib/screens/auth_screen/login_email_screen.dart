@@ -2,6 +2,7 @@ import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/helpers/app_localizations_helper.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
 import 'package:extreme/screens/reset_pass_screen.dart';
+import 'package:extreme/services/pusn_notifications_manager.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -144,6 +145,7 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                     store.dispatch(SetUser(user));
                                     Navigator.of(context, rootNavigator: true)
                                         .pushNamed('/main');
+                                    await PushNotificationsManager.init();
                                   }
                                 }
                               },

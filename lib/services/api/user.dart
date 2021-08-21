@@ -34,6 +34,16 @@ class User {
     }
   }
 
+  static Future<bool> fcm(FcmTokenRefreshModel model) async {
+    try {
+      var url = '/User/fcm';
+      await dio.post(url, data: model);
+      return true;
+    } on DioError catch (e) {
+      return false;
+    }
+  }
+
   static Future<bool> confirmEmailAttempt(String code) async {
     try {
       var body = json.encode(code);

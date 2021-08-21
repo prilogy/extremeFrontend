@@ -11,3 +11,14 @@ class SetSettings {
     return 'SetSettings{culture: $culture, currency: $currency}';
   }
 }
+
+class SetSettingsFcmToken {
+  final String? fcmToken;
+
+  SetSettingsFcmToken({this.fcmToken});
+
+  @override
+  String toString() {
+    return 'SetSettingsFcmToken{fcmToken: $fcmToken}';
+  }
+}

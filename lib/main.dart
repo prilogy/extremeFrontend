@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:extreme/config/env.dart' as Env;
+import 'package:extreme/helpers/dev_http_overrides.dart';
 import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/router/main.dart';
 import 'package:extreme/services/dio.dart' as Dio;
 import 'package:extreme/services/localstorage.dart';
+import 'package:extreme/services/pusn_notifications_manager.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/settings/actions.dart';
 import 'package:extreme/styles/app_theme.dart';
@@ -19,11 +23,13 @@ final rootNavigator = GlobalKey<NavigatorState>();
 
 void main() async {
   // for accessing localhost at dev ONLY
-  // HttpOverrides.global = new DevHttpOverrides();
+  HttpOverrides.global = new DevHttpOverrides();
 
   await Env.init("./.env");
   Dio.init();
   await localStorage.ready;
+  if (store.state.user != null)
+    await PushNotificationsManager.init();
   runApp(App(store: store));
 }
 

@@ -4,9 +4,9 @@ import 'package:extreme/services/localstorage.dart';
 class Settings {
   Culture? culture;
   Currency? currency;
+  String? fcmToken;
 
-
-  Settings({this.culture, this.currency});
+  Settings({this.culture, this.currency, this.fcmToken});
   
   Settings.fromJson(Map<String, dynamic> json) {
     this.culture = json['culture'] != null
@@ -16,6 +16,8 @@ class Settings {
     this.currency = json['currency'] != null
         ? new Currency.fromJson(json['currency'])
         : null;
+
+    this.fcmToken = json['fcmToken'];
   }
 
   Map<String, dynamic> toJson() {
@@ -27,7 +29,8 @@ class Settings {
     if (this.currency != null) {
       data['currency'] = this.currency?.toJson();
     }
-
+    if(this.fcmToken != null)
+      data['fcmToken'] = this.fcmToken;
     return data;
   }
 

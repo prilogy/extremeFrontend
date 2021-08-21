@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "875076079275",
+    "project_id": "extreme-db4f0",
+    "storage_bucket": "extreme-db4f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875076079275:android:34c5bc5017d9f8881431ee",
+        "android_client_info": {
+          "package_name": "com.extremeinsiders"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "875076079275-6cfadr2mf2vjrinefbm2cf76q4evdpft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4LM_tOTZKr4lZlf8tH4Qwgvw10-rYGfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "875076079275-6cfadr2mf2vjrinefbm2cf76q4evdpft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

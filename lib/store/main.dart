@@ -4,6 +4,7 @@ import 'package:extreme/store/settings/reducers.dart';
 import 'package:extreme/store/user/reducers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
+import 'package:redux_thunk/redux_thunk.dart';
 
 class AppState {
   final Models.User? user;
@@ -26,5 +27,6 @@ AppState appStateReducer(AppState state, action) {
 
 final Store<AppState> store = Store<AppState>(
   appStateReducer,
-  initialState: AppState.initialState()
+  initialState: AppState.initialState(),
+  middleware: [thunkMiddleware]
 );

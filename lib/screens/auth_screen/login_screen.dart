@@ -5,6 +5,7 @@ import 'package:extreme/lang/app_localizations.dart';
 import 'package:extreme/models/main.dart' as Models;
 import 'package:extreme/screens/auth_screen/login_email_screen.dart';
 import 'package:extreme/screens/auth_screen/signup_screen.dart';
+import 'package:extreme/services/pusn_notifications_manager.dart';
 import 'package:extreme/services/social_auth.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/settings/actions.dart';
@@ -202,6 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
     store.dispatch(
         SetSettings(culture: user.culture!, currency: user.currency!));
     Navigator.of(context, rootNavigator: true).pushNamed('/main');
+    await PushNotificationsManager.init();
   }
 }
 

@@ -1,5 +1,6 @@
 import 'package:extreme/config/env.dart';
 import 'package:extreme/lang/app_localizations.dart';
+import 'package:extreme/models/fcm_token_refresh_model.dart';
 import 'package:extreme/models/main.dart';
 import 'package:extreme/screens/payment_screen.dart';
 import 'package:extreme/screens/settings_screen/about_screen.dart';
@@ -121,7 +122,10 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     SettingsWidget(
                       title: loc.translate('exit'),
-                      onPressed: () {
+                      onPressed: () async {
+                        await Api.User.fcm(
+                            FcmTokenRefreshModel(oldToken: store.state.settings?.fcmToken));
+                        store.dispatch(SetSettingsFcmToken(fcmToken: null));
                         store.dispatch(SetUser(null));
                         Navigator.of(context, rootNavigator: true)
                             .pushNamed('/auth');
