@@ -68,13 +68,7 @@ class PushNotificationsManager {
     if (data.openType == null && data.openId == null) return;
 
     if (data.openType == PushNotificationOpenType.sport)
-      {
-        var e = await Entities.getById<Sport>(data.openId);
-        print("EEEEEEEEEEEE" + (e?.toString() ?? "NIL"));
-        if(e == null) return;
-
-        rootNavigator.currentState?.push(MaterialPageRoute(builder: (ctx) => SportScreen(model: e)));
-      }
+      await handleOpen<Sport>(data.openId!, (e) => SportScreen(model: e));
     else if (data.openType == PushNotificationOpenType.playlist)
       await handleOpen<Playlist>(data.openId!, (e) => PlaylistScreen(model: e));
     else if (data.openType == PushNotificationOpenType.movie)
@@ -85,7 +79,6 @@ class PushNotificationsManager {
 
   static Future handleOpen<T>(int id, Build<T> w) async {
     var e = await Entities.getById<T>(id);
-    print("EEEEEEEEEEEE" + (e?.toString() ?? "NIL"));
     if(e == null) return;
 
     rootNavigator.currentState?.push(MaterialPageRoute(builder: (ctx) => w(e)));

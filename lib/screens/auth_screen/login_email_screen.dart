@@ -143,9 +143,9 @@ class _LoginEmailScreenState extends State<LoginEmailScreen> {
                                       backgroundColor: ExtremeColors.success,
                                     ));
                                     store.dispatch(SetUser(user));
+                                    await PushNotificationsManager.init();
                                     Navigator.of(context, rootNavigator: true)
                                         .pushNamed('/main');
-                                    await PushNotificationsManager.init();
                                   }
                                 }
                               },
