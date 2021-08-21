@@ -1,8 +1,16 @@
+import 'package:extreme/main.dart';
+import 'package:extreme/models/main.dart';
 import 'package:extreme/models/push_notification_data.dart';
+import 'package:extreme/screens/movie_view_screen.dart';
+import 'package:extreme/screens/playlist_screen.dart';
+import 'package:extreme/screens/sport_screen.dart';
+import 'package:extreme/screens/video_view_screen.dart';
+import 'package:extreme/services/api/main.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/thunks.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 
 late PushNotificationsManager pushNotificationsManager;
 
@@ -42,6 +50,7 @@ class PushNotificationsManager {
       if (msg != null) handleMessage(msg);
       // From background state
       FirebaseMessaging.onMessageOpenedApp.listen(handleMessage);
+      FirebaseMessaging.onMessage.listen(handleMessage);
 
       var token = await firebaseMessaging?.getToken();
       await store.dispatch(Thunks.handleFcm(token));
@@ -56,15 +65,31 @@ class PushNotificationsManager {
     print(data.openId);
     print(data.openType);
 
-    if(data.openType == null && data.openId == null) return;
+    if (data.openType == null && data.openId == null) return;
 
-    // TODO push
+    if (data.openType == PushNotificationOpenType.sport)
+      {
+        var e = await Entities.getById<Sport>(data.openId);
+        print("EEEEEEEEEEEE" + (e?.toString() ?? "NIL"));
+        if(e == null) return;
 
-    // Keys.rootNavigator.currentState!.pushNamed(Routes.showTaskScreen,
-    //     arguments: {"task": task, "board": board});
+        rootNavigator.currentState?.push(MaterialPageRoute(builder: (ctx) => SportScreen(model: e)));
+      }
+    else if (data.openType == PushNotificationOpenType.playlist)
+      await handleOpen<Playlist>(data.openId!, (e) => PlaylistScreen(model: e));
+    else if (data.openType == PushNotificationOpenType.movie)
+      await handleOpen<Movie>(data.openId!, (e) => MovieViewScreen(model: e));
+    else if (data.openType == PushNotificationOpenType.video)
+      await handleOpen<Video>(data.openId!, (e) => VideoViewScreen(model: e));
   }
 
-  static void parseData(Map<String, dynamic> data) {
+  static Future handleOpen<T>(int id, Build<T> w) async {
+    var e = await Entities.getById<T>(id);
+    print("EEEEEEEEEEEE" + (e?.toString() ?? "NIL"));
+    if(e == null) return;
 
+    rootNavigator.currentState?.push(MaterialPageRoute(builder: (ctx) => w(e)));
   }
 }
+
+typedef Widget Build<T>(T);
