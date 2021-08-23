@@ -76,6 +76,6 @@ class VkAuthService implements SocialAuthService {
   Future<String?> getToken() async {
     await vkLogin.initSdk(config!.VK_APP_ID);
     var result = await vkLogin.logIn(scope: [VKScope.email]);
-    if (result.isValue) {} else return result.asValue?.value.accessToken?.token ?? null;
+    return !result.isValue ? null : result.asValue?.value.accessToken?.token ?? null;
   }
 }

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "875076079275-3celk1of25vq11o10vrqunvn2v9v0nhq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.extremeinsiders",
+            "certificate_hash": "171f5ecd4328126fe4f9d2f23e76a8960fff13fb"
+          }
+        },
+        {
           "client_id": "875076079275-6cfadr2mf2vjrinefbm2cf76q4evdpft.apps.googleusercontent.com",
           "client_type": 3
         }

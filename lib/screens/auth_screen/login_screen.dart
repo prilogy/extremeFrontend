@@ -114,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   service: item,
                                   onPressed: () async {
                                     var token = await item.getToken();
-                                    print(token);
+                                    print("TOOOOOOOOOKKKKKK" + token.toString());
                                     await _authWithSocial(
                                         context, item.socialAccount, token!);
                                   },
