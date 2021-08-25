@@ -4,16 +4,49 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
-  - FBSDKCoreKit (9.2.0):
-    - FBSDKCoreKit/Basics (= 9.2.0)
-    - FBSDKCoreKit/Core (= 9.2.0)
-  - FBSDKCoreKit/Basics (9.2.0)
-  - FBSDKCoreKit/Core (9.2.0):
+  - FBSDKCoreKit (9.3.0):
+    - FBSDKCoreKit/Basics (= 9.3.0)
+    - FBSDKCoreKit/Core (= 9.3.0)
+  - FBSDKCoreKit/Basics (9.3.0)
+  - FBSDKCoreKit/Core (9.3.0):
     - FBSDKCoreKit/Basics
-  - FBSDKLoginKit (9.2.0):
-    - FBSDKLoginKit/Login (= 9.2.0)
-  - FBSDKLoginKit/Login (9.2.0):
-    - FBSDKCoreKit (~> 9.2.0)
+  - FBSDKLoginKit (9.3.0):
+    - FBSDKLoginKit/Login (= 9.3.0)
+  - FBSDKLoginKit/Login (9.3.0):
+    - FBSDKCoreKit (~> 9.3.0)
+  - Firebase/CoreOnly (8.5.0):
+    - FirebaseCore (= 8.5.0)
+  - Firebase/Messaging (8.5.0):
+    - Firebase/CoreOnly
+    - FirebaseMessaging (~> 8.5.0)
+  - firebase_core (1.5.0):
+    - Firebase/CoreOnly (= 8.5.0)
+    - Flutter
+  - firebase_messaging (10.0.5):
+    - Firebase/Messaging (= 8.5.0)
+    - firebase_core
+    - Flutter
+  - FirebaseCore (8.5.0):
+    - FirebaseCoreDiagnostics (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Logger (~> 7.4)
+  - FirebaseCoreDiagnostics (8.6.0):
+    - GoogleDataTransport (~> 9.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Logger (~> 7.4)
+    - nanopb (~> 2.30908.0)
+  - FirebaseInstallations (8.6.0):
+    - FirebaseCore (~> 8.0)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/UserDefaults (~> 7.4)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - FirebaseMessaging (8.5.0):
+    - FirebaseCore (~> 8.0)
+    - FirebaseInstallations (~> 8.0)
+    - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
+    - GoogleUtilities/Environment (~> 7.4)
+    - GoogleUtilities/Reachability (~> 7.4)
+    - GoogleUtilities/UserDefaults (~> 7.4)
   - Flutter (1.0.0)
   - flutter_inapp_purchase (0.0.1):
     - Flutter
@@ -36,19 +69,46 @@ PODS:
   - google_sign_in (0.0.1):
     - Flutter
     - GoogleSignIn (~> 5.0)
+  - GoogleDataTransport (9.1.0):
+    - GoogleUtilities/Environment (~> 7.2)
+    - nanopb (~> 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
   - GoogleSignIn (5.0.2):
     - AppAuth (~> 1.2)
     - GTMAppAuth (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GTMAppAuth (1.2.1):
+  - GoogleUtilities/AppDelegateSwizzler (7.5.1):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Network
+  - GoogleUtilities/Environment (7.5.1):
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.5.1):
+    - GoogleUtilities/Environment
+  - GoogleUtilities/Network (7.5.1):
+    - GoogleUtilities/Logger
+    - "GoogleUtilities/NSData+zlib"
+    - GoogleUtilities/Reachability
+  - "GoogleUtilities/NSData+zlib (7.5.1)"
+  - GoogleUtilities/Reachability (7.5.1):
+    - GoogleUtilities/Logger
+  - GoogleUtilities/UserDefaults (7.5.1):
+    - GoogleUtilities/Logger
+  - GTMAppAuth (1.2.2):
     - AppAuth/Core (~> 1.4)
     - GTMSessionFetcher/Core (~> 1.5)
-  - GTMSessionFetcher/Core (1.5.0)
+  - GTMSessionFetcher/Core (1.6.1)
   - image_picker (0.0.1):
     - Flutter
+  - nanopb (2.30908.0):
+    - nanopb/decode (= 2.30908.0)
+    - nanopb/encode (= 2.30908.0)
+  - nanopb/decode (2.30908.0)
+  - nanopb/encode (2.30908.0)
   - OrderedSet (5.0.0)
   - path_provider (0.0.1):
     - Flutter
+  - PromisesObjC (2.0.0)
   - Toast (4.0.0)
   - url_launcher (0.0.1):
     - Flutter
@@ -57,6 +117,8 @@ PODS:
   - VK-ios-sdk (1.6.2)
 
 DEPENDENCIES:
+  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
   - flutter_inapp_purchase (from `.symlinks/plugins/flutter_inapp_purchase/ios`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
@@ -74,14 +136,27 @@ SPEC REPOS:
     - AppAuth
     - FBSDKCoreKit
     - FBSDKLoginKit
+    - Firebase
+    - FirebaseCore
+    - FirebaseCoreDiagnostics
+    - FirebaseInstallations
+    - FirebaseMessaging
+    - GoogleDataTransport
     - GoogleSignIn
+    - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
+    - nanopb
     - OrderedSet
+    - PromisesObjC
     - Toast
     - VK-ios-sdk
 
 EXTERNAL SOURCES:
+  firebase_core:
+    :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_messaging:
+    :path: ".symlinks/plugins/firebase_messaging/ios"
   Flutter:
     :path: Flutter
   flutter_inapp_purchase:
@@ -107,8 +182,15 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
-  FBSDKCoreKit: dace5abafc2fd9272733e6d027bcf18102712117
-  FBSDKLoginKit: 43f377b451d391f5bc9dd774f51a391db1072029
+  FBSDKCoreKit: 0d1ae58388a458b8222f72025804cdc84eb5d0c3
+  FBSDKLoginKit: aea68df6121c5e165ccae2fabfdc83c4644ee40f
+  Firebase: ff8c73105b90e33e1dc6c8e5445d7adc2ccdc7c1
+  firebase_core: 82d486a6231b636aea229bd471bceca82cbe00a6
+  firebase_messaging: 0c5342aa6d92d09429ef67c81a1345189fcb76c9
+  FirebaseCore: 1c1ca72483b59b17050f5b4cec4fb748425a3901
+  FirebaseCoreDiagnostics: 3721920bde3a9a6d5aa093c1d25e9d3e47f694af
+  FirebaseInstallations: 0ede6ffcd215b8f93c19d9b06c1c54e2d4107e98
+  FirebaseMessaging: 0705ec705c21705efc51c071fba924c8e25c63e7
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_inapp_purchase: 5c6a1ac3f11b11d0c8c0321c0c41c1f05805e4c8
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
@@ -116,17 +198,21 @@ SPEC CHECKSUMS:
   flutter_login_vk: 9dad26a328a4f2e3fa28347d10ab13afe26f0999
   fluttertoast: 6122fa75143e992b1d3470f61000f591a798cc58
   google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
+  GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GTMAppAuth: 5b53231ef6920f149ab84b2969cb0ab572da3077
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
+  GoogleUtilities: 3df19e3c24f7bbc291d8b5809aa6b0d41e642437
+  GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
+  GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   image_picker: 50e7c7ff960e5f58faa4d1f4af84a771c671bc4a
+  nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
   VK-ios-sdk: 5bcf00a2014a7323f98db9328b603d4f96635caa
 
-PODFILE CHECKSUM: 1d749050e6cbb730e4d238a3bf10672790e398af
+PODFILE CHECKSUM: 89d8ba81e3c221f10dd0bfd06915214605077f5c
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.10.2

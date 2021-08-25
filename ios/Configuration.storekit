@@ -1,4 +1,8 @@
 {
+  "identifier" : "07BF148C",
+  "nonRenewingSubscriptions" : [
+
+  ],
   "products" : [
     {
       "displayPrice" : "2.99",
@@ -44,6 +48,6 @@
   ],
   "version" : {
     "major" : 1,
-    "minor" : 0
+    "minor" : 1
   }
 }
