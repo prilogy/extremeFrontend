@@ -17,11 +17,13 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
   final EdgeInsetsGeometry? padding;
   final EdgeInsetsGeometry? margin;
   final double? aspectRatio;
+  final VoidCallback? onClick;
 
   VideoCard({
     @required this.model,
     this.margin,
     this.padding,
+    this.onClick,
     this.aspectRatio = 16 / 9,
   });
 
@@ -32,15 +34,17 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
 
     return StoreConnector<AppState, Models.User>(
         converter: (store) => store.state.user!,
-        builder: (context, state) => withIndents(
+        builder: (context, state) =>
+            withIndents(
               child: Container(
                 // padding: EdgeInsets.all(Indents.md),
                 child: Column(
                   children: <Widget>[
                     withAspectRatio(
                         child: VideoCardWithoutCaption(
-                      model: model!,
-                    )),
+                          model: model!,
+                          onClick: onClick
+                        )),
                     Container(
                       margin: EdgeInsets.only(top: Indents.md),
                       child: Row(
@@ -53,19 +57,24 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
                               children: <Widget>[
                                 Text(title,
                                     style:
-                                        Theme.of(context).textTheme.subtitle1),
+                                    Theme
+                                        .of(context)
+                                        .textTheme
+                                        .subtitle1),
                                 Text(
                                     dateTimeToStringInAgoFormat(
                                         model!.dateCreated!, context),
-                                    style: Theme.of(context)
+                                    style: Theme
+                                        .of(context)
                                         .textTheme
                                         .subtitle2
                                         ?.merge(TextStyle(
-                                            height: 1.4,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onBackground
-                                                .withOpacity(0.6))))
+                                        height: 1.4,
+                                        color: Theme
+                                            .of(context)
+                                            .colorScheme
+                                            .onBackground
+                                            .withOpacity(0.6))))
                               ],
                             ),
                           ),
@@ -92,8 +101,9 @@ class VideoCard extends StatelessWidget with IndentsMixin, AspectRatioMixin {
 
 class VideoCardWithoutCaption extends StatelessWidget {
   final Models.Video? model;
+  final VoidCallback? onClick;
 
-  VideoCardWithoutCaption({@required this.model});
+  VideoCardWithoutCaption({@required this.model, this.onClick});
 
   @override
   Widget build(BuildContext context) {
@@ -129,18 +139,20 @@ class VideoCardWithoutCaption extends StatelessWidget {
               ),
               Positioned.fill(
                   child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    Navigator.of(context, rootNavigator: true)
-                        .push(MaterialPageRoute(
-                      builder: (context) => VideoViewScreen(
-                        model: model!,
-                      ),
-                    ));
-                  },
-                ),
-              )),
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        onClick?.call();
+                        Navigator.of(context, rootNavigator: true)
+                            .push(MaterialPageRoute(
+                          builder: (context) =>
+                              VideoViewScreen(
+                                model: model!,
+                              ),
+                        ));
+                      },
+                    ),
+                  )),
               Padding(
                 padding: const EdgeInsets.all(Indents.md),
                 child: Column(

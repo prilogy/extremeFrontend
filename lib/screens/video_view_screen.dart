@@ -1,10 +1,5 @@
-import 'package:extreme/helpers/helper_methods.dart';
-import 'package:extreme/helpers/snack_bar_extension.dart';
 import 'package:extreme/helpers/vimeo_helpers.dart';
 import 'package:extreme/lang/app_localizations.dart';
-import 'package:extreme/screens/payment_screen.dart';
-import 'package:extreme/screens/playlist_screen.dart';
-import 'package:extreme/screens/sport_screen.dart';
 import 'package:extreme/store/main.dart';
 import 'package:extreme/store/user/actions.dart';
 import 'package:extreme/styles/extreme_colors.dart';
@@ -48,6 +43,9 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
     super.dispose();
   }
 
+  final GlobalKey<VimeoPlayerState> _playerState =
+      GlobalKey<VimeoPlayerState>();
+
   @override
   Widget build(BuildContext context) {
     // TODO: отрефакторить UI покупки в апп бар
@@ -69,6 +67,7 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                     isInOwnedPlaylist ||
                     widget.model.isBought)
                   VimeoPlayer(
+                      key: _playerState,
                       autoPlay: true,
                       id: VimeoHelpers.getVimeoIdFromLink(
                               widget.model.content?.url) ??
@@ -234,6 +233,9 @@ class _VideoViewScreenState extends State<VideoViewScreen> {
                                           builder: (data) => CustomListBuilder(
                                               items: data,
                                               itemBuilder: (item) => VideoCard(
+                                                    onClick: () async {
+                                                      await _playerState.currentState?.pause();
+                                                    },
                                                     model: item as Models.Video,
                                                     aspectRatio: 16 / 9,
                                                   ))));
