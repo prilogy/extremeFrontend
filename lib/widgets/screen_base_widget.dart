@@ -85,16 +85,18 @@ class _ScreenBaseWidgetState extends State<ScreenBaseWidget> {
                                   },
                                   header: MaterialClassicHeader(),
                                   child: ListView(
-                                    controller: _scrollController,
-                                    padding: widget.padding,
-                                    children: res as dynamic,
-                                  ),
+                                      controller: _scrollController,
+                                      padding: widget.padding,
+                                      children: [
+                                        Column(children: res as dynamic)
+                                      ]),
                                 )
                               : ListView(
                                   controller: _scrollController,
                                   padding: widget.padding,
-                                  children: res as dynamic,
-                                )),
+                                  children: [
+                                      Column(children: res as dynamic)
+                                    ])),
                 ));
           },
         ),

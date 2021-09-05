@@ -15,13 +15,22 @@ import 'package:extreme/models/main.dart' as Models;
 
 /// Вторая страница - Просмотр (Browse в bottomNavigationBar)
 
-class BrowseScreen extends StatelessWidget {
+class BrowseScreen extends StatefulWidget {
   final Key? navigatorKey;
 
   BrowseScreen({this.navigatorKey});
 
   @override
+  _BrowseScreenState createState() => _BrowseScreenState();
+}
+
+class _BrowseScreenState extends State<BrowseScreen> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     var loc = AppLocalizations.of(context)?.withBaseKey('browse_screen');
 
     return ScreenBaseWidget(
@@ -36,7 +45,7 @@ class BrowseScreen extends StatelessWidget {
             ),
           ],
         ),
-        navigatorKey: navigatorKey,
+        navigatorKey: widget.navigatorKey,
         builder: (context) => [
               Container(
                 margin: EdgeInsets.only(bottom: Indents.lg),
